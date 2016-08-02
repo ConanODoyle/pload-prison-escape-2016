@@ -12,7 +12,6 @@ function serverCmdAddGuard(%client, %name)
 	$Server::PrisonEscape::Guards = trim($Server::PrisonEscape::Guards SPC findclientbyname(%name));
 	messageClient(%client, '', "\c7Added " @ findclientbyname(%name).name @ " to the guard list.");
 	displayRoundLoadingInfo();
-	talk($Server::PrisonEscape::Guards);
 }
 
 function serverCmdRemoveGuard(%client, %name)

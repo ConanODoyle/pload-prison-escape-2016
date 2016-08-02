@@ -7,13 +7,26 @@ function Player::electrocute(%player, %time)
 
 	%client.camera.setMode(Corpse, %player);
 	%client.setControlObject(%client.camera);
-
-	talk(%player SPC %time);
-	talk(%client.camera.mode SPC %client.camera.getControllingClient());
-	talk(%player.getControllingClient());
+	
 	electrocute(%player, %time);
 }
 
+if (isPackage(EventElectrocute))
+	deactivatePackage(EventElectrocute);
+
+package EventElectrocute {
+	
+	function Observer::onTrigger(%this, %obj, %trig, %state) {
+		%client = %obj.getControllingClient();
+		
+		if (%client.isBeingElectrocuted)
+			return;
+		
+		Parent::onTrigger(%this, %obj, %trig, %state);
+	}
+	
+};
+activatePackage(EventElectrocute);
 
 function electrocute(%player, %time)
 {
@@ -24,7 +37,6 @@ function electrocute(%player, %time)
 		cancel(%player.electrocuteLoop);
 	if (%time <= 0)
 	{
-		talk("resetting");
 		%client.applyBodyColors();
 		%client.camera.setMode(Observer);
 		%client.setControlObject(%player);
