@@ -1,0 +1,7 @@
+Fix trays to only block from the front even if the head is turned
+	- Use getForwardVector()
+Fix spotlights to only blind if you're looking in its direction while crouched
+Decide on classic zombie tank or new bronson
+Ham shank
+Smoke grenade
+Fire Extinguisher
