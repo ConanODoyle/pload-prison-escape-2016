@@ -1,0 +1,3 @@
+Camera Control Events Advanced
+By Conan, Badspot
+Rewrite of default Camera Control events with more functionality and disabled player movement while in cam mode.

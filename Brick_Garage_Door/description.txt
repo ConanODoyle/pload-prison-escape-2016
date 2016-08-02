@@ -1,0 +1,3 @@
+Garage Door
+By Conan
+Switches between closed, half-open, and open states.

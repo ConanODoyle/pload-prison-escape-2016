@@ -82,7 +82,7 @@ function killTower(%id)
 }
 
 function saveBricks(%brickgroup, %i) //edit to use the brickgroup data later?? (NTName[id][index] + NTName[id]count)
-{
+{									//would make it easier to spawn spotlights and such
 	//talk(%brickgroup.getName() SPC %i);
 	//look for bricks with the name of tower#
 	if (%i >= %brickgroup.getCount())
