@@ -1,0 +1,4033 @@
+//-------------------------- 6/19/2016 -- 18:47:20 -----
+Processor Init:
+   Intel Pentium III, ~2.67 Ghz
+     (timed at roughly 2.66 Ghz)
+   FPU detected
+   MMX detected
+   SSE detected
+ 
+Math Init:
+   Installing Standard C extensions
+   Installing Assembly extensions
+   Installing FPU extensions
+   Installing MMX extensions
+   Installing SSE extensions
+ 
+Input Init:
+   DirectInput enabled.
+
+Blockland v21 build 1984
+Module Directory: C:/Users/Sam Conan/Desktop/Conan's Public Host
+Profile Path: C:/Users/Sam Conan/Desktop/Conan's Public Host
+Total Ram: 32766 MB
+OS: Windows Server 2008 R2 Enterprise Edition Service Pack 1 (build 7601), 64-bit
+
+--------- Parsing Arguments ---------
+argc = 5
+argv[2] = -profilePath
+argv[3] = -dedicated
+argv[4] = .
+Parsing command line arguments: -profilePath -dedicated .
+--------- Loading Common ---------
+Loading compiled script base/main.cs.
+Loading compiled script base/client/defaults.cs.
+Loading compiled script base/server/defaults.cs.
+Executing config/client/prefs.cs.
+Executing config/server/prefs.cs.
+Executing config/server/ADD_ON_LIST.cs.
+Executing config/server/musicList.cs.
+--------- Loading MODS ---------
+Executing config/main.cs.
+
+Pre-Loading Add-On: Support_Updater
+Executing Add-Ons/Support_Updater/preload.cs.
+
+
+--------- Initializing Base ---------
+Loading compiled script base/client/init.cs.
+Loading compiled script base/server/init.cs.
+Loading compiled script base/client/canvas.cs.
+Loading compiled script base/client/audio.cs.
+
+--------- Initializing Base: Server ---------------------
+Initializing steamAPI...
+  SteamAPI initialization failed.
+Loading compiled script base/server/mainServer.cs.
+Loading compiled script base/server/scripts/game.cs.
+Initializing steamAPI...
+  SteamAPI initialization failed.
+
+--------- Starting Dedicated Server ---------
+Destroying NET Server
+Exporting server prefs...
+
+Starting Internet Server
+Binding server port to default IP
+UDP initialized on port 3389
+Loading compiled script base/server/scripts/DamageTypes.cs.
+WARNING: AddDamageType() - Default file "base/client/ui/ci/skull.png" does not exist!
+WARNING: AddDamageType() - Suicide file "base/client/ui/ci/skull.png" does not exist!
+WARNING: AddDamageType() - Direct file "base/client/ui/ci/generic.png" does not exist!
+WARNING: AddDamageType() - Radius file "base/client/ui/ci/bomb.png" does not exist!
+WARNING: AddDamageType() - Impact file "base/client/ui/ci/splat.png" does not exist!
+WARNING: AddDamageType() - Fall file "base/client/ui/ci/crater.png" does not exist!
+WARNING: AddDamageType() - Vehicle file "base/client/ui/ci/car.png" does not exist!
+WARNING: AddDamageType() - VehicleExplosion file "base/client/ui/CI/carExplosion.png" does not exist!
+WARNING: AddDamageType() - Lava file "base/client/ui/ci/skull.png" does not exist!
+Loading compiled script base/server/scripts/allGameScripts.cs.
+... Shape with old version.
+WARNING: AddDamageType() - HammerDirect file "base/client/ui/ci/hammer.png" does not exist!
+Activating package: snowBallPackage
+Copying prefs to server variables
+
+Loading RTB first...
+Executing Add-Ons/System_ReturnToBlockland/server.cs.
+Executing Add-Ons/System_ReturnToBlockland/dedicated.cs.
+Executing Add-Ons/System_ReturnToBlockland/modules/client/options.cs.
+Executing config/client/rtb/prefs.cs.
+Executing Add-Ons/System_ReturnToBlockland/support/fileCache.cs.
+Executing Add-Ons/System_ReturnToBlockland/support/functions.cs.
+Executing Add-Ons/System_ReturnToBlockland/support/networking.cs.
+Executing Add-Ons/System_ReturnToBlockland/support/xmlParser.cs.
+Activating package: RTB_Support_Networking
+ERROR: ActivatePackage() - Package not found 'RTB_Support_Networking'
+Executing Add-Ons/System_ReturnToBlockland/modules/server/guiTransfer.cs.
+Executing Add-Ons/System_ReturnToBlockland/hooks/guiTransfer.cs.
+Executing Add-Ons/System_ReturnToBlockland/modules/server/serverControl.cs.
+Executing Add-Ons/System_ReturnToBlockland/hooks/serverControl.cs.
+Executing config/server/rtb/modPrefs.cs.
+Activating package: RTB_Modules_Server_GuiTransfer
+Activating package: RTB_Modules_Server_ServerControl
+Activating package: RTB_Server
+
+
+
+--------- Updating Add-On List ---------
+Executing config/server/ADD_ON_LIST.cs.
+Executing base/server/crapOns_Cache.cs.
+Checking Add-On Weapon_Sword
+Checking Add-On Weapon_StormPack
+Checking Add-On Weapon_Spear
+Checking Add-On Weapon_Sniper_Rifle
+Checking Add-On Weapon_SMG
+Checking Add-On Weapon_Shotgun
+Checking Add-On Weapon_ShortRifle_NoRecoil
+Checking Add-On Weapon_ShortRifle
+Checking Add-On Weapon_Sentry
+Checking Add-On Weapon_Rocket_Launcher
+Checking Add-On Weapon_Rifle
+Checking Add-On Weapon_RecurvedBow
+Checking Add-On Weapon_Push_Broom
+Checking Add-On Weapon_Package_Tier2A
+Checking Add-On Weapon_Package_Tier2
+Checking Add-On Weapon_Package_Tier1A
+Checking Add-On Weapon_Package_Tier1
+Checking Add-On Weapon_Package_QuakeType
+Checking Add-On Weapon_Package_Medic1
+Checking Add-On Weapon_Package_Explosive2
+Checking Add-On Weapon_Package_Explosive1
+Checking Add-On Weapon_OldSchool
+Checking Add-On Weapon_Mortar_Targeted/Weapon_Mortar_Targeted
+    nested add-on - will not execute
+Checking Add-On Weapon_Mortar_Targeted
+Checking Add-On Weapon_Mortar
+Checking Add-On Weapon_Melee_Extended_II
+Checking Add-On Weapon_Melee_Extended
+Checking Add-On Weapon_Loz_Hookshot
+Checking Add-On Weapon_Horse_Ray
+Checking Add-On Weapon_HEGrenade
+Checking Add-On Weapon_Guns_Akimbo
+Checking Add-On Weapon_Gun
+Checking Add-On Weapon_FragGrenade
+Checking Add-On Weapon_FlashGrenadeV1
+Checking Add-On Weapon_Firework_Launcher
+Checking Add-On Weapon_DoubleBarrelShotgun
+Checking Add-On Weapon_CBombs
+    Add-On has been renamed from "Weapon_Bombs" to "weapon_cbombs" - will not execute
+Checking Add-On Weapon_C4Explosive
+Checking Add-On Weapon_ButterflyKnife
+Checking Add-On Weapon_Bows_Akimbo
+Checking Add-On Weapon_Bow
+Checking Add-On Weapon_Bombs
+Checking Add-On Vehicle_X_Wing
+Checking Add-On Vehicle_WaterSports
+Checking Add-On Vehicle_TwinBladedVTOL
+Checking Add-On Vehicle_Toby
+Checking Add-On Vehicle_Tie_Fighter
+Checking Add-On Vehicle_Thor
+Checking Add-On Vehicle_Tank
+Checking Add-On Vehicle_Stunt_Plane
+Checking Add-On Vehicle_Speedboat
+Checking Add-On Vehicle_SonicBike
+Checking Add-On Vehicle_Rowboat_II
+Checking Add-On Vehicle_Rowboat
+Checking Add-On Vehicle_Rock
+Checking Add-On Vehicle_RCBiplane
+Checking Add-On Vehicle_Pirate_Cannon
+Checking Add-On Vehicle_NewJeep
+Checking Add-On Vehicle_MLRS
+Checking Add-On Vehicle_Mini_Jet
+Checking Add-On Vehicle_MAS_Transport
+Checking Add-On Vehicle_MAS_SwarmFighter
+Checking Add-On Vehicle_MAS_Interceptor
+Checking Add-On Vehicle_MAS_Gunship
+Checking Add-On Vehicle_Magic_Carpet
+Checking Add-On Vehicle_Jeep
+Checking Add-On Vehicle_Horse
+Checking Add-On Vehicle_Heavy_Machine_Gun
+Checking Add-On Vehicle_HeavyDefaultTank
+Checking Add-On Vehicle_GravityJeep
+Checking Add-On Vehicle_Funball
+Checking Add-On Vehicle_FreestyleBuggy
+Checking Add-On Vehicle_Flying_Wheeled_Jeep
+Checking Add-On Vehicle_Ferris_Wheel
+Checking Add-On Vehicle_BoxTruck
+Checking Add-On Vehicle_Blimp
+Checking Add-On Vehicle_Biplane
+Checking Add-On Vehicle_Ball
+Checking Add-On Vehicle_Archipelago/Vehicle_CivilianHeliPack
+    nested add-on - will not execute
+Checking Add-On Vehicle_Archipelago
+Checking Add-On Vehicle_AATurret
+Checking Add-On Trains_Pack1Edit
+Checking Add-On Trains_Pack1
+Checking Add-On Trains_Old
+Checking Add-On Tool_WaterFX
+Checking Add-On Tool_Penis
+Checking Add-On Tool_Ownershipper
+Checking Add-On Tool_NewDuplicator
+Checking Add-On Tool_Jumpgun
+Checking Add-On Tool_GrapplingHook
+Checking Add-On Tool_Fill_Can
+Checking Add-On Tool_Duplicator
+Checking Add-On Tool_DisguiseKit
+Checking Add-On Tool_DeleteLauncher
+Checking Add-On Tool_ColorPicker
+Checking Add-On Tool_BricknameGun
+Checking Add-On Tool_BrickgroupWand
+Checking Add-On System_ReturnToBlockland
+Checking Add-On System_ItemStorage
+Checking Add-On Support_Trains
+Checking Add-On Support_RyAssets
+Checking Add-On Support_Player_Persistence
+Checking Add-On Support_LegacyDoors
+Checking Add-On Support_HeightControl
+Checking Add-On Support_Doors
+Checking Add-On Support_DatablockAnimFix
+Checking Add-On Support_AutoSaver
+Checking Add-On Support_AdvGuns
+Checking Add-On Sound_Synth4
+Checking Add-On Sound_Phone
+Checking Add-On Sound_Insanity
+Checking Add-On Sound_Grunt
+Checking Add-On Sound_Brute/Sound_Brute
+    nested add-on - will not execute
+Checking Add-On Sound_Beeps
+Checking Add-On Sound_ArekanSpooky
+Checking Add-On Server_VignetteHealth
+Checking Add-On Server_VehicleGore
+Checking Add-On Server_TeamLifeTickets
+Checking Add-On Server_TalkingBubble
+Checking Add-On Server_SuperLoad
+Checking Add-On Server_PGDie
+Checking Add-On Server_NewBrickTool
+Checking Add-On Server_Mute
+Checking Add-On Server_Melee
+Checking Add-On Server_LogWriter
+Checking Add-On Server_Jail
+Checking Add-On Server_GoTo
+Checking Add-On Server_GhostUtils
+Checking Add-On Server_GasMod
+Checking Add-On Server_FloatingBricks
+Checking Add-On Server_DWandPlus
+Checking Add-On Server_DropInventoryOnDeath
+Checking Add-On Server_clearGhost
+Checking Add-On Server_ChatSystem
+Checking Add-On Server_ChatSystem/Server_ChatSystem
+    nested add-on - will not execute
+Checking Add-On Server_ChatChannels
+Checking Add-On Script_Wrench
+Checking Add-On Script_VisEval
+Checking Add-On Script_VehicleStereo
+Checking Add-On script_ToggleLights
+Checking Add-On Script_SMMBodies
+Checking Add-On Script_RTL
+Checking Add-On Script_ReapTempbricks
+Checking Add-On Script_Player_Persistence
+Checking Add-On Script_OrbitalBuilding
+Checking Add-On Script_Mail
+Checking Add-On Script_GenericHelpScript
+Checking Add-On Script_FilmBots_Beta
+Checking Add-On Script_Eval
+Checking Add-On Script_BuildingRights
+Checking Add-On Script_BrickGlance
+Checking Add-On Script_AssistKills
+Checking Add-On Script_AntiTroll
+Checking Add-On Script_AirSwimmer_Buildmode
+Checking Add-On Prop_GiantGears
+Checking Add-On Projectile_Radio_Wave
+Checking Add-On Projectile_Pong
+Checking Add-On Projectile_Pinball
+Checking Add-On Projectile_GravityRocket
+Checking Add-On Projectile_Fireworks
+Checking Add-On Projectile_BasicFireworks
+Checking Add-On Print_Poster_Tutorial
+Checking Add-On Print_ModTer_MoreBricks
+Checking Add-On Print_ModTer_Default
+Checking Add-On Print_ModTer_8Bit
+Checking Add-On Print_Letters_Extra
+Checking Add-On Print_Letters_Default
+Checking Add-On Print_2x2r_Monitor3
+Checking Add-On Print_2x2r_Default
+Checking Add-On Print_2x2f_Default
+Checking Add-On Print_1x2f_Default
+Checking Add-On Print_1x2f_BLPRemote
+Checking Add-On PowerUp_Shock
+Checking Add-On PowerUp_Shield
+Checking Add-On PowerUp_HopUp
+Checking Add-On PowerUp_Health
+Checking Add-On PowerUp_Double
+Checking Add-On PowerUp_Core
+Checking Add-On Player_TrenchDigging
+Checking Add-On Player_TrenchDigging/Player_TrenchDigging
+    nested add-on - will not execute
+Checking Add-On Player_Spotlight
+Checking Add-On Player_SkeleBro
+Checking Add-On Player_Quake
+Checking Add-On Player_PhysicsJump
+Checking Add-On Player_No_Jet
+Checking Add-On Player_Light
+Checking Add-On Player_Leap_Jet
+Checking Add-On Player_Laundry_Cart
+Checking Add-On Player_Laser
+Checking Add-On Player_Jump_Jet
+Checking Add-On Player_Fuel_Jet
+Checking Add-On Player_FastDM
+Checking Add-On Player_Collector
+Checking Add-On Player_7SlotPlayer
+Checking Add-On Particle_WeatherBuild
+Checking Add-On Particle_Tools
+Checking Add-On Particle_Smoke
+Checking Add-On Particle_Player
+Checking Add-On Particle_Grass
+Checking Add-On Particle_FX_Cans
+Checking Add-On Particle_FoggyBuild
+Checking Add-On Particle_Fireworks
+Checking Add-On Particle_Basic
+Checking Add-On Pack_Halloween
+Checking Add-On Music/Server_Wrench_Highlight
+    nested add-on - will not execute
+Checking Add-On Light_FireLights
+Checking Add-On Light_Basic
+Checking Add-On Light_Animated
+Checking Add-On Light_Ambient
+Checking Add-On KyuandeFile_XalEval
+Checking Add-On Item_TF2Supplies
+Checking Add-On Item_Syringes
+Checking Add-On Item_Sports
+Checking Add-On Item_Skis
+Checking Add-On Item_RPGpotions
+Checking Add-On Item_Prison/Weapon_Sniper_Rifle_Spotlight/Weapon_Sniper_Rifle_Updated
+    nested add-on - will not execute
+Checking Add-On Item_Prison/Weapon_Sniper_Rifle_Spotlight
+    nested add-on - will not execute
+Checking Add-On Item_Prison
+Checking Add-On Item_Prison/Item_Chisel
+    nested add-on - will not execute
+Checking Add-On Item_PipeWrench
+Checking Add-On Item_PillBottle
+Checking Add-On Item_Pill
+Checking Add-On Item_parachute
+Checking Add-On Item_Medpack
+Checking Add-On Item_Medipack
+Checking Add-On Item_Lantern
+Checking Add-On Item_Key
+Checking Add-On Item_HealthPickups
+Checking Add-On Item_HalloweenHeadgear
+Checking Add-On Item_Glowstick
+Checking Add-On Item_Energy_Shield
+Checking Add-On Item_Boombox
+Checking Add-On Gamemode_zombie
+Checking Add-On GameMode_Tutorial
+Checking Add-On Gamemode_TrenchDigging
+Checking Add-On GameMode_SpeedKart
+Checking Add-On Gamemode_Slayer_Territory
+Checking Add-On Gamemode_Slayer_SearchDestroy
+Checking Add-On Gamemode_Slayer_OneManArmy
+Checking Add-On Gamemode_Slayer_Infection
+Checking Add-On Gamemode_Slayer_CTF
+Checking Add-On Gamemode_Slayer_BountyHunter
+Checking Add-On Gamemode_Slayer
+Checking Add-On GameMode_Rampage
+Checking Add-On Gamemode_EndlessZombies
+Checking Add-On GameMode_Blockheads_Ruin_Xmas
+Checking Add-On Explosion_Impulse
+Checking Add-On Event_Zones
+Checking Add-On Event_VceRModVar
+Checking Add-On Event_Variables
+Checking Add-On Event_SetPrintText
+Checking Add-On Event_SaveLoadItems
+Checking Add-On Event_playSound
+Checking Add-On Event_onRelay
+Checking Add-On Event_onItemPickup
+Checking Add-On Event_mPurchase
+Checking Add-On Event_FullScale
+Checking Add-On Event_FireRelayNum
+Checking Add-On Event_FireAtBrick
+Checking Add-On Event_Elevators
+Checking Add-On Event_doPlayerTeleport
+Checking Add-On Event_Camera_Control_Advanced
+Checking Add-On Event_Camera_Control
+Checking Add-On Event_AdvVCE
+Checking Add-On Event_addItem
+Checking Add-On Emote_Love
+Checking Add-On Emote_Hate
+Checking Add-On Emote_Critical
+Checking Add-On Emote_Confusion
+Checking Add-On Emote_Alarm
+Checking Add-On duelin/Server_Dueling
+    nested add-on - will not execute
+Checking Add-On Client_Pictionary
+Checking Add-On Client_MoveInputDetect
+Checking Add-On Brick_Zones
+Checking Add-On Brick_WireFence
+Checking Add-On Brick_Window_Prints
+Checking Add-On Brick_Windows
+Checking Add-On Brick_WindowExtensions
+Checking Add-On Brick_Window1x4x3
+Checking Add-On Brick_Window
+Checking Add-On Brick_WedgeRamps
+Checking Add-On Brick_WedgePrint
+Checking Add-On Brick_WedgePlus
+Checking Add-On Brick_Wedge
+Checking Add-On Brick_VerticalPlatePack
+Checking Add-On Brick_V15
+Checking Add-On Brick_Treasure_Chest
+Checking Add-On Brick_Teledoor
+Checking Add-On Brick_Spiderwebs
+Checking Add-On Brick_SmallRampsPack
+Checking Add-On Brick_SmallBricks
+Checking Add-On Brick_Slanted
+Checking Add-On Brick_SingleChest
+Checking Add-On Brick_Security_Camera
+Checking Add-On Brick_RazorWire
+Checking Add-On Brick_Prison
+Checking Add-On Brick_Prison/Brick_Trays
+    nested add-on - will not execute
+Checking Add-On Brick_PrintPlatesCeiling
+Checking Add-On Brick_PrintBaseplatesCeiling
+Checking Add-On Brick_PrintBaseplates
+Checking Add-On Brick_Poster_8x
+Checking Add-On Brick_PoleAdapters
+Checking Add-On Brick_Pole
+Checking Add-On Brick_Plant
+Checking Add-On Brick_PineTreeInv
+Checking Add-On Brick_Other_Bricks
+Checking Add-On Brick_Octo
+Checking Add-On Brick_Mystery
+Checking Add-On Brick_ModTer_siba
+Checking Add-On Brick_ModTer_InvertedPack
+Checking Add-On Brick_ModTer_BasicPack
+Checking Add-On Brick_ModTer_4xPack
+Checking Add-On Brick_MiscellaneousPack
+Checking Add-On Brick_MiniEmpiresPack
+Checking Add-On Brick_MedievalMisc
+Checking Add-On Brick_LongRangeMusic
+Checking Add-On Brick_LLSylvanorTrees
+Checking Add-On Brick_Large_Cubes
+Checking Add-On Brick_LandOfBlocks
+Checking Add-On Brick_InvertedCorners
+Checking Add-On Brick_HorizPoles
+Checking Add-On Brick_Halloween
+Checking Add-On Brick_Halloween/2012
+    nested add-on - will not execute
+Checking Add-On Brick_Halfbrick
+Checking Add-On Brick_Garage_Door
+Checking Add-On Brick_ForestTree
+Checking Add-On Brick_Floating_Support
+Checking Add-On Brick_ExtraRamps
+Checking Add-On Brick_ExtraPrints
+Checking Add-On Brick_ExtraGrills
+Checking Add-On Brick_Doors_Frameless
+Checking Add-On Brick_Doors_Demian_Thematic
+Checking Add-On Brick_Doors_Demian_Other
+Checking Add-On Brick_Doors_Demian_Half
+Checking Add-On Brick_Doors_Demian_Eastern
+Checking Add-On Brick_Doors_Demian_Big
+Checking Add-On Brick_Doors_Demian_Arched
+Checking Add-On Brick_Doors_Demian
+Checking Add-On Brick_Doors
+Checking Add-On Brick_DnDExpansionPack
+Checking Add-On Brick_DetailTrees
+Checking Add-On Brick_DemiansBP_6x_Wide
+Checking Add-On Brick_DemiansBP_5x_Tall
+Checking Add-On Brick_DemiansBP_4x_Wide
+Checking Add-On Brick_DemiansBP_4x_Tall
+Checking Add-On Brick_DemiansBP_3x_Wide
+Checking Add-On Brick_DemiansBP_3x_Tall
+Checking Add-On Brick_DemiansBP_2x_Wide
+Checking Add-On Brick_DemiansBP_2x_Tall
+Checking Add-On Brick_DemiansBP_1x
+Checking Add-On Brick_DemiansBB3
+Checking Add-On Brick_DemiansBB2
+Checking Add-On Brick_DemiansBB
+Checking Add-On Brick_Deletion
+Checking Add-On Brick_CoffeeMug
+Checking Add-On Brick_Christmas_Tree
+Checking Add-On Brick_Checkpoint
+Checking Add-On Brick_Chair
+Checking Add-On Brick_CenteredOcto
+Checking Add-On Brick_Buttons1
+Checking Add-On Brick_Brick_Cubes
+Checking Add-On Brick_BoomBox
+Checking Add-On Brick_Books
+Checking Add-On Brick_BlackDragonIV_Filler
+Checking Add-On Brick_BlackDragonIV
+Checking Add-On Brick_Bell
+Checking Add-On Brick_BarnaWindows
+Checking Add-On Brick_Asphalt
+Checking Add-On Brick_Arch
+Checking Add-On Brick_8xHeight
+Checking Add-On Brick_4xWater
+Checking Add-On Brick_4xPillar
+Checking Add-On Brick_4xheight
+Checking Add-On Brick_4x4Round
+Checking Add-On Brick_4x4f_Print
+    Add-On is in the list of known bad add-on CRCs - will not execute
+Checking Add-On Brick_4x4fPrintPlateC
+Checking Add-On Brick_32x64
+Checking Add-On Brick_2x_Cube
+Checking Add-On Brick_2x2x1print
+Checking Add-On Brick_2x2Wedges
+Checking Add-On Brick_2x2FRoundPrint
+Checking Add-On Brick_2dMusic
+Checking Add-On Brick_1x1FRoundPrint
+Checking Add-On Brick_1RandomPack
+Checking Add-On Brick_16xArch
+Checking Add-On Bot_Zombie
+Checking Add-On Bot_V8Zombie
+Checking Add-On Bot_Shark
+Checking Add-On Bot_Horse
+Checking Add-On Bot_Hole
+Checking Add-On Bot_Dog
+Checking Add-On Bot_Dog/Bot_Zombie
+    nested add-on - will not execute
+Checking Add-On Bot_Dog/Bot_Horse
+    nested add-on - will not execute
+Checking Add-On Bot_Dog/Bot_Hole
+    nested add-on - will not execute
+Checking Add-On Bot_Blockhead
+
+---------  Loading Add-Ons ---------
+Loading Add-On: System_ReturnToBlockland (CRC:-1931546528)
+Executing Add-Ons/System_ReturnToBlockland/server.cs.
+Executing Add-Ons/System_ReturnToBlockland/dedicated.cs.
+Executing Add-Ons/System_ReturnToBlockland/modules/client/options.cs.
+Executing config/client/rtb/prefs.cs.
+Executing Add-Ons/System_ReturnToBlockland/support/fileCache.cs.
+Executing Add-Ons/System_ReturnToBlockland/support/functions.cs.
+Executing Add-Ons/System_ReturnToBlockland/support/networking.cs.
+Executing Add-Ons/System_ReturnToBlockland/support/xmlParser.cs.
+Activating package: RTB_Support_Networking
+ERROR: ActivatePackage() - Package not found 'RTB_Support_Networking'
+Executing Add-Ons/System_ReturnToBlockland/modules/server/guiTransfer.cs.
+Executing Add-Ons/System_ReturnToBlockland/modules/server/serverControl.cs.
+Executing Add-Ons/System_ReturnToBlockland/hooks/serverControl.cs.
+Activating package: RTB_Modules_Server_GuiTransfer
+ package RTB_Modules_Server_GuiTransfer is already active
+Activating package: RTB_Modules_Server_ServerControl
+ package RTB_Modules_Server_ServerControl is already active
+Activating package: RTB_Server
+ package RTB_Server is already active
+0 datablocks added.
+
+Loading Add-On: Weapon_Sword (CRC:1749475497)
+Executing Add-Ons/Weapon_Sword/server.cs.
+8 datablocks added.
+
+Loading Add-On: Weapon_StormPack
+Executing Add-Ons/Weapon_StormPack/server.cs.
+Executing Add-Ons/Weapon_StormPack/blasters.cs.
+Executing Add-Ons/Weapon_StormPack/bombers.cs.
+Activating package: Weapon_StormPack_bombers
+Executing Add-Ons/Weapon_StormPack/bomber_red.cs.
+ParticleEmitterData(StormBomberRedExplosionDotEmitter) unable to find particle datablock: StormBomberRedExplosionDotParticle
+ParticleEmitterData(StormBomberRedExplosionDotEmitter) unable to find any particle datablocks
+Add-Ons/Weapon_StormPack/bomber_red.cs (0): Register object failed for object StormBomberRedExplosionDotEmitter of class ParticleEmitterData.
+Object 'StormBomberRedExplosionDotEmitter' is not a member of the 'ParticleEmitterData' data block class
+Executing Add-Ons/Weapon_StormPack/bomber_green.cs.
+Could not locate shape: Add-Ons/Weapon_StormPack/BomberGreenBullet.dts (download failed)
+ParticleEmitterData(StormBomberGreenExplosionDotEmitter) unable to find particle datablock: StormBomberGreenExplosionDotParticle
+ParticleEmitterData(StormBomberGreenExplosionDotEmitter) unable to find any particle datablocks
+Add-Ons/Weapon_StormPack/bomber_green.cs (0): Register object failed for object StormBomberGreenExplosionDotEmitter of class ParticleEmitterData.
+Object 'StormBomberGreenExplosionDotEmitter' is not a member of the 'ParticleEmitterData' data block class
+Could not locate projectile shape: Add-Ons/Weapon_StormPack/BomberGreenBullet.dts (download failed)
+Executing Add-Ons/Weapon_StormPack/bomber_yellow.cs.
+ParticleEmitterData(StormBomberYellowExplosionDotEmitter) unable to find particle datablock: StormBomberYellowExplosionDotParticle
+ParticleEmitterData(StormBomberYellowExplosionDotEmitter) unable to find any particle datablocks
+Add-Ons/Weapon_StormPack/bomber_yellow.cs (0): Register object failed for object StormBomberYellowExplosionDotEmitter of class ParticleEmitterData.
+Object 'StormBomberYellowExplosionDotEmitter' is not a member of the 'ParticleEmitterData' data block class
+Executing Add-Ons/Weapon_StormPack/snipers.cs.
+ExplosionData(StormSniperBlueExplosion)::onAdd: ExplosionScale components must be >= 0.01
+95 datablocks added.
+
+Loading Add-On: Weapon_Spear (CRC:595440415)
+Executing Add-Ons/Weapon_Spear/server.cs.
+12 datablocks added.
+
+Loading Add-On: Weapon_Sniper_Rifle (CRC:-477488129)
+Executing Add-Ons/Weapon_Sniper_Rifle/server.cs.
+  Loading Add-On "Weapon_Gun"
+Executing Add-Ons/Weapon_Gun/server.cs.
+Executing Add-Ons/Weapon_Sniper_Rifle/Weapon_Sniper Rifle.cs.
+ProjectileData - SniperRifleProjectile(1005) - invalid value for muzzleVelocity: Must be between 0 and 200
+22 datablocks added.
+
+Loading Add-On: Weapon_Rocket_Launcher (CRC:1336716140)
+Executing Add-Ons/Weapon_Rocket_Launcher/server.cs.
+Executing Add-Ons/Weapon_Rocket_Launcher/weapon_rocket launcher.cs.
+17 datablocks added.
+
+Loading Add-On: Weapon_Push_Broom (CRC:1168941379)
+Executing Add-Ons/Weapon_Push_Broom/server.cs.
+10 datablocks added.
+
+Loading Add-On: Weapon_Mortar_Targeted
+Executing Add-Ons/Weapon_Mortar_Targeted/server.cs.
+
+ERROR: ForceRequiredAddOn() - "Item_LaserRangeFinder" is not a valid add-on
+BackTrace: ->[RTB_Modules_Server_ServerControl]onStart->[RTB_Modules_Server_ServerControl]serverPart2->[RTB_Modules_Server_ServerControl]dedicatedKeyCheck->[RTB_Modules_Server_ServerControl]initDedicated->[RTB_Modules_Server_ServerControl]createServer->[RTB_Modules_Server_ServerControl]onServerCreated->loadAddOns->ForceRequiredAddOn
+
+
+ERROR: Weapon_Mortar_Targeted - required add-on Item_LaserRangeFinder not found
+BackTrace: ->[RTB_Modules_Server_ServerControl]onStart->[RTB_Modules_Server_ServerControl]serverPart2->[RTB_Modules_Server_ServerControl]dedicatedKeyCheck->[RTB_Modules_Server_ServerControl]initDedicated->[RTB_Modules_Server_ServerControl]createServer->[RTB_Modules_Server_ServerControl]onServerCreated->loadAddOns
+
+
+Add-Ons/Weapon_Mortar_Targeted/server.cs (0): Call to error in Add-Ons/Weapon_Mortar_Targeted/server.cs uses result of void function call.
+BackTrace: ->[RTB_Modules_Server_ServerControl]onStart->[RTB_Modules_Server_ServerControl]serverPart2->[RTB_Modules_Server_ServerControl]dedicatedKeyCheck->[RTB_Modules_Server_ServerControl]initDedicated->[RTB_Modules_Server_ServerControl]createServer->[RTB_Modules_Server_ServerControl]onServerCreated->loadAddOns
+
+0 datablocks added.
+
+Loading Add-On: Weapon_Melee_Extended_II (CRC:291073204)
+Executing Add-Ons/Weapon_Melee_Extended_II/server.cs.
+  Loading Add-On "Weapon_Melee_Extended"
+Executing Add-Ons/Weapon_Melee_Extended/server.cs.
+  Loading Add-On "Emote_Critical"
+Executing Add-Ons/Emote_Critical/server.cs.
+Executing Add-Ons/Emote_Critical/Emote_Critical.cs.
+Executing Add-Ons/Weapon_Melee_Extended/Support_RaycastingWeapons.cs.
+Activating package: RaycastingFire
+Executing Add-Ons/Weapon_Melee_Extended/Support_tf2basicmelee.cs.
+Executing Add-Ons/Weapon_Melee_Extended/Weapon_L4BGuitar.cs.
+Executing Add-Ons/Weapon_Melee_Extended/Weapon_L4BFryingPan.cs.
+Executing Add-Ons/Weapon_Melee_Extended/Weapon_L4BMachete.cs.
+WARNING: AddDamageType() - L4BMachete file "Add-Ons/Weapon_TF2BasicMelee/ci_TF2Kukri.png" does not exist!
+Executing Add-Ons/Weapon_Melee_Extended/Weapon_L4BBaton.cs.
+Executing Add-Ons/Weapon_Melee_Extended/Weapon_L4BKatana.cs.
+Executing Add-Ons/Weapon_Melee_Extended/Weapon_L4BCrowbar.cs.
+Executing Add-Ons/Weapon_Melee_Extended/Weapon_L4BSpade.cs.
+Executing Add-Ons/Weapon_Melee_Extended/Weapon_Combatknife.cs.
+Executing Add-Ons/Weapon_Melee_Extended/Weapon_Pipe.cs.
+Executing Add-Ons/Weapon_Melee_Extended/Weapon_Ice_axe.cs.
+Executing Add-Ons/Weapon_Melee_Extended/Weapon_Sledgehammer.cs.
+Executing Add-Ons/Weapon_Melee_Extended_II/Support_RaycastingWeapons.cs.
+Activating package: RaycastingFire
+ package RaycastingFire is already active
+Executing Add-Ons/Weapon_Melee_Extended_II/Support_tf2basicmelee.cs.
+Executing Add-Ons/Weapon_Melee_Extended_II/Weapon_Sledgehammer.cs.
+Executing Add-Ons/Weapon_Melee_Extended_II/Weapon_L4BGuitar.cs.
+Executing Add-Ons/Weapon_Melee_Extended_II/Weapon_L4BFryingPan.cs.
+Executing Add-Ons/Weapon_Melee_Extended_II/Weapon_L4BBaton.cs.
+Executing Add-Ons/Weapon_Melee_Extended_II/Weapon_L4BCrowbar.cs.
+Executing Add-Ons/Weapon_Melee_Extended_II/Weapon_L4BSpade.cs.
+Executing Add-Ons/Weapon_Melee_Extended_II/Item_Shield.cs.
+Executing Add-Ons/Weapon_Melee_Extended_II/Support_SpecialKills.cs.
+Activating package: SpecialKills
+Add-Ons/Weapon_Melee_Extended_II/Item_Shield.cs (0): Unable to instantiate non-conobject class DecalData.
+Activating package: Shield
+83 datablocks added.
+
+Loading Add-On: Weapon_Horse_Ray (CRC:1153939519)
+Executing Add-Ons/Weapon_Horse_Ray/server.cs.
+  Loading Add-On "Vehicle_Horse"
+Executing Add-Ons/Vehicle_Horse/server.cs.
+Executing Add-Ons/Weapon_Horse_Ray/Weapon_HorseRay.cs.
+16 datablocks added.
+
+Loading Add-On: Weapon_Guns_Akimbo (CRC:4935343)
+Executing Add-Ons/Weapon_Guns_Akimbo/server.cs.
+Executing Add-Ons/Weapon_Guns_Akimbo/Weapon_AkimboGun.cs.
+4 datablocks added.
+
+Loading Add-On: Weapon_ButterflyKnife (CRC:246146911)
+Executing Add-Ons/Weapon_ButterflyKnife/server.cs.
+Object 'ButterflyknifeFireSound' is not a member of the 'AudioProfile' data block class
+Object 'ButterflyknifeFireSound' is not a member of the 'AudioProfile' data block class
+5 datablocks added.
+
+Loading Add-On: Weapon_Bow (CRC:504558410)
+Executing Add-Ons/Weapon_Bow/server.cs.
+Executing Add-Ons/Weapon_Bow/weapon_bow.cs.
+13 datablocks added.
+
+Loading Add-On: Vehicle_Tank (CRC:686436092)
+Executing Add-Ons/Vehicle_Tank/server.cs.
+  Loading Add-On "Vehicle_Jeep"
+Executing Add-Ons/Vehicle_Jeep/server.cs.
+Executing Add-Ons/Vehicle_Jeep/jeep_Tire.cs.
+Executing Add-Ons/Vehicle_Jeep/jeep_Explosion.cs.
+Executing Add-Ons/Vehicle_Jeep/jeep_FinalExplosion.cs.
+Executing Add-Ons/Vehicle_Jeep/jeep_Spring.cs.
+  Loading Add-On "Projectile_GravityRocket"
+Executing Add-Ons/Projectile_GravityRocket/server.cs.
+Executing Add-Ons/Vehicle_Tank/Vehicle_Tank.cs.
+Activating package: TankPackage
+41 datablocks added.
+
+Loading Add-On: Vehicle_Stunt_Plane (CRC:-1157523195)
+Executing Add-Ons/Vehicle_Stunt_Plane/server.cs.
+Executing Add-Ons/Vehicle_Stunt_Plane/stuntplane_TireSpring.cs.
+Executing Add-Ons/Vehicle_Stunt_Plane/stuntplane_Explosion.cs.
+Executing Add-Ons/Vehicle_Stunt_Plane/stuntplane_FinalExplosion.cs.
+Executing Add-Ons/Vehicle_Stunt_Plane/stuntplane_Contrail.cs.
+Executing Add-Ons/Vehicle_Stunt_Plane/Vehicle_StuntPlane.cs.
+13 datablocks added.
+
+Loading Add-On: Vehicle_Rowboat (CRC:1229040606)
+Executing Add-Ons/Vehicle_Rowboat/server.cs.
+Executing Add-Ons/Vehicle_Rowboat/Vehicle_rowboat.cs.
+2 datablocks added.
+
+Loading Add-On: Vehicle_Flying_Wheeled_Jeep (CRC:-1382898566)
+Executing Add-Ons/Vehicle_Flying_Wheeled_Jeep/server.cs.
+Executing Add-Ons/Vehicle_Flying_Wheeled_Jeep/Vehicle_FlyingWheeledJeep.cs.
+1 datablocks added.
+
+Loading Add-On: Tool_NewDuplicator (CRC:326932377)
+Executing Add-Ons/Tool_NewDuplicator/server.cs.
+ 
+--- Loading Server Classes ---
+Executing Add-Ons/Tool_NewDuplicator/classes/server/ghostgroup.cs.
+Executing Add-Ons/Tool_NewDuplicator/classes/server/highlightbox.cs.
+Executing Add-Ons/Tool_NewDuplicator/classes/server/selection.cs.
+Executing Add-Ons/Tool_NewDuplicator/classes/server/selectionbox.cs.
+Executing Add-Ons/Tool_NewDuplicator/classes/server/undogrouppaint.cs.
+Executing Add-Ons/Tool_NewDuplicator/classes/server/undogroupplant.cs.
+Executing Add-Ons/Tool_NewDuplicator/classes/server/undogroupwrench.cs.
+Executing Add-Ons/Tool_NewDuplicator/classes/server/duplimode/boxselect.cs.
+Executing Add-Ons/Tool_NewDuplicator/classes/server/duplimode/boxselectprogress.cs.
+Executing Add-Ons/Tool_NewDuplicator/classes/server/duplimode/cutprogress.cs.
+Executing Add-Ons/Tool_NewDuplicator/classes/server/duplimode/fillcolor.cs.
+Executing Add-Ons/Tool_NewDuplicator/classes/server/duplimode/fillcolorprogress.cs.
+Executing Add-Ons/Tool_NewDuplicator/classes/server/duplimode/loadprogress.cs.
+Executing Add-Ons/Tool_NewDuplicator/classes/server/duplimode/plantcopy.cs.
+Executing Add-Ons/Tool_NewDuplicator/classes/server/duplimode/plantcopyprogress.cs.
+Executing Add-Ons/Tool_NewDuplicator/classes/server/duplimode/saveprogress.cs.
+Executing Add-Ons/Tool_NewDuplicator/classes/server/duplimode/stackselect.cs.
+Executing Add-Ons/Tool_NewDuplicator/classes/server/duplimode/stackselectprogress.cs.
+Executing Add-Ons/Tool_NewDuplicator/classes/server/duplimode/wrenchprogress.cs.
+ 
+--- Loading Server Scripts ---
+Executing Add-Ons/Tool_NewDuplicator/scripts/server/commands.cs.
+Executing Add-Ons/Tool_NewDuplicator/scripts/server/datablocks.cs.
+Executing Add-Ons/Tool_NewDuplicator/scripts/server/functions.cs.
+Executing Add-Ons/Tool_NewDuplicator/scripts/server/handshake.cs.
+Executing Add-Ons/Tool_NewDuplicator/scripts/server/highlight.cs.
+Executing Add-Ons/Tool_NewDuplicator/scripts/server/images.cs.
+Executing Add-Ons/Tool_NewDuplicator/scripts/server/modes.cs.
+Executing Add-Ons/Tool_NewDuplicator/scripts/server/prefs.cs.
+Executing Add-Ons/Tool_NewDuplicator/scripts/server/symmetrydefinitions.cs.
+Executing Add-Ons/Tool_NewDuplicator/scripts/server/symmetrytable.cs.
+Executing Add-Ons/Tool_NewDuplicator/scripts/server/undo.cs.
+ 
+--- Initializing Server ---
+Activating package: NewDuplicator_Server
+ND: Registering duplicator modes
+ND: Registering RTB prefs
+24 datablocks added.
+
+Loading Add-On: Tool_Jumpgun (CRC:-1792793399)
+Executing Add-Ons/Tool_Jumpgun/server.cs.
+Executing Add-Ons/System_ReturnToBlockland/RTBR_ServerControl_Hook.cs.
+WARNING: RTBR_ServerControl_Hook.cs has moved. Please alter to use hooks/serverControl.cs
+Object 'jumpgunProjectile' is not a member of the 'ProjectileData' data block class
+6 datablocks added.
+
+Loading Add-On: Tool_Fill_Can (CRC:1083879196)
+Executing Add-Ons/Tool_Fill_Can/server.cs.
+Activating package: fillcan
+8 datablocks added.
+
+Loading Add-On: Support_HeightControl (CRC:-2109278017)
+Executing Add-Ons/Support_HeightControl/server.cs.
+Activating package: HeightControlServer
+0 datablocks added.
+
+Loading Add-On: Support_Doors (CRC:-1196162113)
+Executing Add-Ons/Support_Doors/server.cs.
+Executing Add-Ons/Support_Doors/doors.cs.
+Activating package: happyDoorFunTime
+0 datablocks added.
+
+Loading Add-On: Sound_Synth4 (CRC:1532231296)
+Executing Add-Ons/Sound_Synth4/server.cs.
+12 datablocks added.
+
+Loading Add-On: Sound_Phone (CRC:773839922)
+Executing Add-Ons/Sound_Phone/server.cs.
+8 datablocks added.
+
+Loading Add-On: Sound_Beeps (CRC:-1153132987)
+Executing Add-Ons/Sound_Beeps/server.cs.
+9 datablocks added.
+
+Loading Add-On: Server_NewBrickTool (CRC:-1929678334)
+Executing Add-Ons/Server_NewBrickTool/server.cs.
+Activating package: NewBrickTool
+3 datablocks added.
+
+Loading Add-On: Server_GhostUtils (CRC:-1154778007)
+Executing Add-Ons/Server_GhostUtils/server.cs.
+Activating package: GhostUtils
+0 datablocks added.
+
+Loading Add-On: Server_DWandPlus (CRC:-1027737392)
+Executing Add-Ons/Server_DWandPlus/server.cs.
+Activating package: Swol_DWandPlus
+0 datablocks added.
+
+Loading Add-On: Server_clearGhost (CRC:241123111)
+Executing Add-Ons/Server_clearGhost/server.cs.
+Activating package: GhostBrickClear
+0 datablocks added.
+
+Loading Add-On: Script_Wrench (CRC:1861102854)
+Executing Add-Ons/Script_Wrench/server.cs.
+0 datablocks added.
+
+Loading Add-On: Script_VisEval (CRC:2101176821)
+Executing Add-Ons/Script_VisEval/server.cs.
+Activating package: xalEval
+Executing config/server/PEvalCode.cs.
+Executing config/server/PEvalCompile.cs.
+0 datablocks added.
+
+Loading Add-On: Script_AirSwimmer_Buildmode (CRC:-1070439524)
+Executing Add-Ons/Script_AirSwimmer_Buildmode/server.cs.
+Activating package: AirSwimBMSupport
+2 datablocks added.
+
+Loading Add-On: Projectile_Radio_Wave (CRC:-2023194205)
+Executing Add-Ons/Projectile_Radio_Wave/server.cs.
+8 datablocks added.
+
+Loading Add-On: Projectile_Pong (CRC:-69104802)
+Executing Add-Ons/Projectile_Pong/server.cs.
+9 datablocks added.
+
+Loading Add-On: Projectile_Pinball (CRC:-544442195)
+Executing Add-Ons/Projectile_Pinball/server.cs.
+3 datablocks added.
+
+Loading Add-On: Print_ModTer_Default (CRC:1750012009)
+Executing Add-Ons/Print_ModTer_Default/server.cs.
+0 datablocks added.
+
+Loading Add-On: Print_ModTer_8Bit (CRC:1125919361)
+exec: invalid script file Add-Ons/Print_ModTer_8Bit/server.cs.
+0 datablocks added.
+
+Loading Add-On: Print_Letters_Default (CRC:-1309313723)
+Executing Add-Ons/Print_Letters_Default/server.cs.
+0 datablocks added.
+
+Loading Add-On: Print_2x2r_Monitor3 (CRC:-1236091548)
+Executing Add-Ons/Print_2x2r_Monitor3/server.cs.
+0 datablocks added.
+
+Loading Add-On: Print_2x2r_Default (CRC:1424717213)
+Executing Add-Ons/Print_2x2r_Default/server.cs.
+0 datablocks added.
+
+Loading Add-On: Print_2x2f_Default (CRC:-1613119619)
+Executing Add-Ons/Print_2x2f_Default/server.cs.
+0 datablocks added.
+
+Loading Add-On: Print_1x2f_Default (CRC:-681811991)
+Executing Add-Ons/Print_1x2f_Default/server.cs.
+0 datablocks added.
+
+Loading Add-On: Print_1x2f_BLPRemote (CRC:368889976)
+Executing Add-Ons/Print_1x2f_BLPRemote/server.cs.
+0 datablocks added.
+
+Loading Add-On: Player_Spotlight
+Executing Add-Ons/Player_Spotlight/server.cs.
+Activating package: SpotlightPackage
+4 datablocks added.
+
+Loading Add-On: Player_PhysicsJump (CRC:2032223714)
+Executing Add-Ons/Player_PhysicsJump/server.cs.
+Executing Add-Ons/Player_PhysicsJump/Player_PhysicsJump.cs.
+Activating package: PhysicsJump
+2 datablocks added.
+
+Loading Add-On: Player_No_Jet (CRC:615244099)
+Executing Add-Ons/Player_No_Jet/server.cs.
+Executing Add-Ons/Player_No_Jet/Player_NoJet.cs.
+1 datablocks added.
+
+Loading Add-On: Player_Leap_Jet (CRC:1943632399)
+Executing Add-Ons/Player_Leap_Jet/server.cs.
+Executing Add-Ons/Player_Leap_Jet/Player_LeapJet.cs.
+1 datablocks added.
+
+Loading Add-On: Player_Jump_Jet (CRC:2103200223)
+Executing Add-Ons/Player_Jump_Jet/server.cs.
+Executing Add-Ons/Player_Jump_Jet/player_jumpjet.cs.
+1 datablocks added.
+
+Loading Add-On: Player_Fuel_Jet (CRC:1117175101)
+Executing Add-Ons/Player_Fuel_Jet/server.cs.
+Executing Add-Ons/Player_Fuel_Jet/player_fueljet.cs.
+1 datablocks added.
+
+Loading Add-On: Particle_Tools (CRC:1169689259)
+Executing Add-Ons/Particle_Tools/server.cs.
+0 datablocks added.
+
+Loading Add-On: Particle_Player (CRC:1663077420)
+Executing Add-Ons/Particle_Player/server.cs.
+Executing Add-Ons/Particle_Player/Particle_Player.cs.
+0 datablocks added.
+
+Loading Add-On: Particle_Grass (CRC:1022618066)
+Executing Add-Ons/Particle_Grass/server.cs.
+2 datablocks added.
+
+Loading Add-On: Particle_FX_Cans (CRC:-1891087267)
+Executing Add-Ons/Particle_FX_Cans/server.cs.
+Executing Add-Ons/Particle_FX_Cans/Particle_FX Cans.cs.
+0 datablocks added.
+
+Loading Add-On: Particle_Basic (CRC:-1929497084)
+Executing Add-Ons/Particle_Basic/server.cs.
+Executing Add-Ons/Particle_Basic/Particle_Basic.cs.
+14 datablocks added.
+
+Loading Add-On: Light_FireLights (CRC:-1245719967)
+Executing Add-Ons/Light_FireLights/server.cs.
+Executing Add-Ons/Light_FireLights/Light_Fire.cs.
+8 datablocks added.
+
+Loading Add-On: Light_Basic (CRC:2050298561)
+Executing Add-Ons/Light_Basic/server.cs.
+Executing Add-Ons/Light_Basic/light_basic.cs.
+8 datablocks added.
+
+Loading Add-On: Light_Animated (CRC:270366660)
+Executing Add-Ons/Light_Animated/server.cs.
+Executing Add-Ons/Light_Animated/Light_animated.cs.
+4 datablocks added.
+
+Loading Add-On: Light_Ambient (CRC:-495360004)
+Executing Add-Ons/Light_Ambient/server.cs.
+28 datablocks added.
+
+Loading Add-On: Item_Skis (CRC:517673198)
+Executing Add-Ons/Item_Skis/server.cs.
+Executing Add-Ons/Item_Skis/item_skis.cs.
+19 datablocks added.
+
+Loading Add-On: Item_Prison
+Executing Add-Ons/Item_Prison/server.cs.
+Activating package: PrisonItems
+Executing Add-Ons/Item_Prison/Item_Bucket.cs.
+Executing Add-Ons/Item_Prison/Weapon_Sniper_Rifle_Spotlight/server.cs.
+Executing Add-Ons/Item_Prison/Weapon_Sniper_Rifle_Spotlight/Weapon_Sniper Rifle.cs.
+Activating package: SniperRifleSpotlight
+Executing Add-Ons/Item_Prison/Item_Chisel/server.cs.
+WARNING: AddDamageType() - chiselDirect file "add-ons/Weapon_chisel/CI_chisel.png" does not exist!
+Activating package: ChiselHit
+28 datablocks added.
+
+Loading Add-On: Item_Key (CRC:-1682392750)
+Executing Add-Ons/Item_Key/server.cs.
+Executing Add-Ons/Item_Key/yellowKey.cs.
+Executing Add-Ons/Item_Key/greenKey.cs.
+Executing Add-Ons/Item_Key/blueKey.cs.
+8 datablocks added.
+
+Loading Add-On: Item_Energy_Shield (CRC:-1107398371)
+Executing Add-Ons/Item_Energy_Shield/server.cs.
+Executing Add-Ons/Item_Energy_Shield/Support_EShields.cs.
+Activating package: DMShieldSystem
+Executing Add-Ons/Item_Energy_Shield/Shield_L100.cs.
+ParticleEmitterData(shieldLIOOEmitter) thetaMin < 0.0
+Object 'LaserPistolFlashEmitter' is not a member of the 'ParticleEmitterData' data block class
+Object 'shockDebuffExplosionEmitter' is not a member of the 'ParticleEmitterData' data block class
+Object 'electrocuteHitSound' is not a member of the 'AudioProfile' data block class
+Executing Add-Ons/Item_Energy_Shield/Shield_H400.cs.
+ParticleEmitterData(shieldHIOOEmitter) thetaMin < 0.0
+Object 'LaserPistolFlashEmitter' is not a member of the 'ParticleEmitterData' data block class
+Object 'shockDebuffExplosionEmitter' is not a member of the 'ParticleEmitterData' data block class
+Object 'electrocuteHitSound' is not a member of the 'AudioProfile' data block class
+16 datablocks added.
+
+Loading Add-On: Gamemode_Slayer_Territory (CRC:-383123984)
+Executing Add-Ons/Gamemode_Slayer_Territory/server.cs.
+  Loading Add-On "Gamemode_Slayer"
+Executing Add-Ons/Gamemode_Slayer/server.cs.
+Slayer Version 4.0.1
+ + Compatible Version: 4.0-alpha-1
+ + Platform: DedicatedServer
+ + Core Directory: Add-Ons/Gamemode_Slayer/server
+ + Config Directory: config/server/Slayer
+ + Debug Mode: 0
+Executing Add-Ons/Gamemode_Slayer/common.cs.
+Executing Add-Ons/Gamemode_Slayer/common/support/Support.cs.
+Executing Add-Ons/Gamemode_Slayer/common/support/Support_TCPClient.cs.
+Executing Add-Ons/Gamemode_Slayer/common/support/Support_SemVer.cs.
+Executing Add-Ons/Gamemode_Slayer/common/support/Support_LibStr.cs.
+Executing Add-Ons/Gamemode_Slayer/common/support/Support_HeapQueue.cs.
+Executing Add-Ons/Gamemode_Slayer/common/support/Support_DynamicObjectMethods.cs.
+Executing Add-Ons/Gamemode_Slayer/common/support/Support_CSVReader.cs.
+Executing Add-Ons/Gamemode_Slayer/common/core/Slayer_PrefSO.cs.
+Executing Add-Ons/Gamemode_Slayer/common/defaults/globals.cs.
+Executing Add-Ons/Gamemode_Slayer/common/modules/stats.cs.
+Executing Add-Ons/Gamemode_Slayer/server/support/Support.cs.
+Executing Add-Ons/Gamemode_Slayer/server/support/Support_SpecialKills.cs.
+Activating package: SpecialKills
+ package SpecialKills is already active
+Executing Add-Ons/Gamemode_Slayer/server/support/Support_RespawnTime.cs.
+Activating package: Support_RespawnTime
+Executing Add-Ons/Gamemode_Slayer/server/support/Support_Pathing/Support_Pathing.cs.
+Executing Add-Ons/Gamemode_Slayer/server/support/Support_Pathing/BaseFinder.cs.
+Executing Add-Ons/Gamemode_Slayer/server/support/Support_Pathing/finders/AStarFinder.cs.
+Executing Add-Ons/Gamemode_Slayer/server/support/Support_ObjectTransfer_Server.cs.
+Executing Add-Ons/Gamemode_Slayer/server/support/Support_MultiSourceEvents.cs.
+Activating package: Support_MultiSourceEvents
+Executing Add-Ons/Gamemode_Slayer/server/support/Support_EventTargets.cs.
+Activating package: Support_EventTargets
+Executing Add-Ons/Gamemode_Slayer/server/core/Slayer_TeamSO.cs.
+Executing Add-Ons/Gamemode_Slayer/server/core/Slayer_TeamPrefSO.cs.
+Executing Add-Ons/Gamemode_Slayer/server/core/Slayer_TeamPrefHandlerSG.cs.
+Executing Add-Ons/Gamemode_Slayer/server/core/Slayer_TeamHandlerSG.cs.
+Activating package: Slayer_TeamHandlerSG
+Executing Add-Ons/Gamemode_Slayer/server/core/Slayer_PrefSO.cs.
+Executing Add-Ons/Gamemode_Slayer/server/core/Slayer_PrefHandlerSG.cs.
+Executing Add-Ons/Gamemode_Slayer/server/core/Slayer_MiniGameSO.cs.
+Activating package: Slayer_MiniGameSO
+Executing Add-Ons/Gamemode_Slayer/server/core/Slayer_MiniGameHandlerSG.cs.
+Activating package: Slayer_MiniGameHandlerSG
+Executing Add-Ons/Gamemode_Slayer/server/core/Slayer_GameModeTemplateSG.cs.
+Executing Add-Ons/Gamemode_Slayer/server/core/Slayer_GameModeSO.cs.
+Executing Add-Ons/Gamemode_Slayer/server/core/Slayer_GameModeHandlerSG.cs.
+Executing Add-Ons/Gamemode_Slayer/server/core/Slayer_AiController.cs.
+Executing config/server/Slayer/botSkinColors.cs.
+Executing Add-Ons/Gamemode_Slayer/server/core/Slayer.cs.
+Activating package: Slayer
+Executing Add-Ons/Gamemode_Slayer/server/core/resources/sounds/Sounds.cs.
+Executing Add-Ons/Gamemode_Slayer/server/core/resources/playertypes/Player_Frozen.cs.
+Activating package: Player_Frozen
+Executing Add-Ons/Gamemode_Slayer/server/core/resources/datablocks.cs.
+Executing Add-Ons/Gamemode_Slayer/server/core/GameConnection.cs.
+Activating package: Slayer_GameConnection
+Executing Add-Ons/Gamemode_Slayer/server/core/FxDtsBrick.cs.
+Executing config/server/Slayer/restrictedEvents.cs.
+Activating package: Slayer_FxDtsBrick
+Executing Add-Ons/Gamemode_Slayer/server/core/AiPlayer.cs.
+Activating package: Slayer_AiPlayer
+Executing Add-Ons/Gamemode_Slayer/server/core/AiController.cs.
+ERROR: function declaration failed: AiController::getPlayerName
+Executing Add-Ons/Gamemode_Slayer/server/defaults/team-preferences.cs.
+Executing Add-Ons/Gamemode_Slayer/server/defaults/preferences.cs.
+Executing Add-Ons/Gamemode_Slayer/server/defaults/game-modes.cs.
+Executing Add-Ons/Gamemode_Slayer/server/modules/tutorial.cs.
+Executing Add-Ons/Gamemode_Slayer/server/modules/Module_Statistics.cs.
+Activating package: Module_Statistics
+Executing Add-Ons/Gamemode_Slayer/server/modules/FlyThroughCam.cs.
+Activating package: Slayer_Module_FlyThruCam
+Executing Add-Ons/Gamemode_Slayer/server/modules/BK.cs.
+Executing config/server/Slayer/bonusKills.cs.
+Executing Add-Ons/Gamemode_Slayer/server/compatibility/Gamemode_Zombie.cs.
+Executing Add-Ons/Gamemode_Slayer/server/compatibility/Gamemode_ZAPT.cs.
+Executing Add-Ons/Gamemode_Slayer/server/compatibility/Gamemode_TeamDeathmatch.cs.
+Executing Add-Ons/Gamemode_Slayer_Territory/TT.cs.
+Missing file: Add-ons/Gamemode_Slayer/Dependencies/Gamemodes.cs!
+WARN: Slayer_GamemodeHandlerSG::addMode is deprecated! Use the new API.
+Missing file: Add-ons/Gamemode_Slayer/Dependencies/preferences.cs!
+WARN: Slayer_PrefHandlerSG::addPref is deprecated! Use the new API.
+WARN: Slayer_PrefHandlerSG::addPref is deprecated! Use the new API.
+WARN: Slayer_PrefHandlerSG::addPref is deprecated! Use the new API.
+WARN: Slayer_PrefHandlerSG::addPref is deprecated! Use the new API.
+WARN: Slayer_PrefHandlerSG::addPref is deprecated! Use the new API.
+22 datablocks added.
+
+Loading Add-On: Gamemode_Slayer_CTF (CRC:932690361)
+Executing Add-Ons/Gamemode_Slayer_CTF/server.cs.
+Executing Add-Ons/Gamemode_Slayer_CTF/preferences.cs.
+Executing Add-Ons/Gamemode_Slayer_CTF/game-mode.cs.
+Activating package: Slayer_Gamemode_CTF
+23 datablocks added.
+
+Loading Add-On: Explosion_Impulse (CRC:145847506)
+Executing Add-Ons/Explosion_Impulse/server.cs.
+Executing Add-Ons/Explosion_Impulse/explosion_imp.cs.
+2 datablocks added.
+
+Loading Add-On: Event_Zones (CRC:-1216985570)
+Executing Add-Ons/Event_Zones/server.cs.
+Activating package: ZoneEvents
+1 datablocks added.
+
+Loading Add-On: Event_SetPrintText (CRC:923930653)
+Executing Add-Ons/Event_SetPrintText/server.cs.
+0 datablocks added.
+
+Loading Add-On: Event_playSound (CRC:1653687530)
+Executing Add-Ons/Event_playSound/server.cs.
+Executing Add-Ons/Event_playSound/Event_playSound_Player.cs.
+Executing Add-Ons/Event_playSound/Event_playSound_Client.cs.
+registerOutputEvent() - Output event "playSound" already registered on class GameConnection - overwriting.
+Executing Add-Ons/Event_playSound/Event_playSound_Minigame.cs.
+0 datablocks added.
+
+Loading Add-On: Event_onRelay (CRC:1885357803)
+Executing Add-Ons/Event_onRelay/server.cs.
+Activating package: onRelay
+0 datablocks added.
+
+Loading Add-On: Event_doPlayerTeleport (CRC:613523627)
+Executing Add-Ons/Event_doPlayerTeleport/server.cs.
+Executing Add-Ons/Event_doPlayerTeleport/Event_doPlayerTeleport.cs.
+
+WARNING: string maxLength > 200 on class:fxDTSBrick, event:doPlayerTeleport
+BackTrace: ->[ZoneEvents]onStart->[ZoneEvents]serverPart2->[ZoneEvents]dedicatedKeyCheck->[ZoneEvents]initDedicated->[ZoneEvents]createServer->[ZoneEvents]onServerCreated->loadAddOns->registerOutputEvent->verifyOutputParameterList
+
+0 datablocks added.
+
+Loading Add-On: Event_Camera_Control_Advanced (CRC:432864310)
+Executing Add-Ons/Event_Camera_Control_Advanced/server.cs.
+Activating package: CameraControlsExtended
+0 datablocks added.
+
+Loading Add-On: Event_addItem (CRC:373763807)
+Executing Add-Ons/Event_addItem/server.cs.
+0 datablocks added.
+
+Loading Add-On: Emote_Love (CRC:-925289075)
+Executing Add-Ons/Emote_Love/server.cs.
+Executing Add-Ons/Emote_Love/emote_love.cs.
+3 datablocks added.
+
+Loading Add-On: Emote_Hate (CRC:820012778)
+Executing Add-Ons/Emote_Hate/server.cs.
+Executing Add-Ons/Emote_Hate/emote_hate.cs.
+3 datablocks added.
+
+Loading Add-On: Emote_Confusion (CRC:1658702409)
+Executing Add-Ons/Emote_Confusion/server.cs.
+Executing Add-Ons/Emote_Confusion/emote_confusion.cs.
+3 datablocks added.
+
+Loading Add-On: Emote_Alarm (CRC:1385772704)
+Executing Add-Ons/Emote_Alarm/server.cs.
+Executing Add-Ons/Emote_Alarm/emote_alarm.cs.
+5 datablocks added.
+
+Loading Add-On: Brick_Zones (CRC:57066677)
+Executing Add-Ons/Brick_Zones/server.cs.
+  Loading Add-On "Brick_Large_Cubes"
+Executing Add-Ons/Brick_Large_Cubes/server.cs.
+Executing Add-Ons/Brick_Zones/Bricks.cs.
+Activating package: Zonebricks
+30 datablocks added.
+
+Loading Add-On: Brick_Windows (CRC:-716269975)
+Executing Add-Ons/Brick_Windows/server.cs.
+3 datablocks added.
+
+Loading Add-On: Brick_WindowExtensions (CRC:-1972542125)
+Executing Add-Ons/Brick_WindowExtensions/server.cs.
+3 datablocks added.
+
+Loading Add-On: Brick_Window1x4x3 (CRC:1600783324)
+Executing Add-Ons/Brick_Window1x4x3/server.cs.
+Executing Add-Ons/Brick_Window1x4x3/bricks/window_1x4x3.cs.
+2 datablocks added.
+
+Loading Add-On: Brick_Window (CRC:1785159194)
+Executing Add-Ons/Brick_Window/server.cs.
+14 datablocks added.
+
+Loading Add-On: Brick_WedgePlus (CRC:-1598367939)
+Executing Add-Ons/Brick_WedgePlus/server.cs.
+8 datablocks added.
+
+Loading Add-On: Brick_Wedge (CRC:-619997654)
+Executing Add-Ons/Brick_Wedge/server.cs.
+52 datablocks added.
+
+Loading Add-On: Brick_VerticalPlatePack (CRC:2057500675)
+Executing Add-Ons/Brick_VerticalPlatePack/server.cs.
+13 datablocks added.
+
+Loading Add-On: Brick_V15 (CRC:649242560)
+Executing Add-Ons/Brick_V15/server.cs.
+4 datablocks added.
+
+Loading Add-On: Brick_Treasure_Chest (CRC:1698237131)
+Executing Add-Ons/Brick_Treasure_Chest/server.cs.
+Activating package: TreasureChestPackage
+Activating package: TreasureChestPersistencePackage
+2 datablocks added.
+
+Loading Add-On: Brick_Teledoor (CRC:1435727724)
+Executing Add-Ons/Brick_Teledoor/server.cs.
+Activating package: TeledoorPackage
+1 datablocks added.
+
+Loading Add-On: Brick_Spiderwebs (CRC:1121366114)
+Executing Add-Ons/Brick_Spiderwebs/server.cs.
+4 datablocks added.
+
+Loading Add-On: Brick_SmallRampsPack (CRC:1818173605)
+Executing Add-Ons/Brick_SmallRampsPack/server.cs.
+28 datablocks added.
+
+Loading Add-On: Brick_SmallBricks (CRC:335220563)
+Executing Add-Ons/Brick_SmallBricks/server.cs.
+24 datablocks added.
+
+Loading Add-On: Brick_SingleChest (CRC:-955023194)
+Executing Add-Ons/Brick_SingleChest/server.cs.
+Activating package: SingleChest
+2 datablocks added.
+
+Loading Add-On: Brick_Security_Camera (CRC:-974035474)
+Executing Add-Ons/Brick_Security_Camera/server.cs.
+3 datablocks added.
+
+Loading Add-On: Brick_Prison
+Executing Add-Ons/Brick_Prison/server.cs.
+3 datablocks added.
+
+Loading Add-On: Brick_PrintPlatesCeiling (CRC:-414251856)
+Executing Add-Ons/Brick_PrintPlatesCeiling/server.cs.
+3 datablocks added.
+
+Loading Add-On: Brick_PrintBaseplatesCeiling (CRC:1524307198)
+Executing Add-Ons/Brick_PrintBaseplatesCeiling/server.cs.
+4 datablocks added.
+
+Loading Add-On: Brick_PrintBaseplates (CRC:-750071717)
+Executing Add-Ons/Brick_PrintBaseplates/server.cs.
+4 datablocks added.
+
+Loading Add-On: Brick_Poster_8x (CRC:-1324213703)
+Executing Add-Ons/Brick_Poster_8x/server.cs.
+1 datablocks added.
+
+Loading Add-On: Brick_PoleAdapters (CRC:31938351)
+Executing Add-Ons/Brick_PoleAdapters/server.cs.
+  Loading Add-On "Brick_Pole"
+Executing Add-Ons/Brick_Pole/server.cs.
+Executing Add-Ons/Brick_PoleAdapters/Adapters.cs.
+12 datablocks added.
+
+Loading Add-On: Brick_Plant (CRC:-668596529)
+Executing Add-Ons/Brick_Plant/server.cs.
+fxDTSBrickData::Preload - unknown texID '' in file Add-Ons/Brick_Plant/1x1bamboo.blb
+10 datablocks added.
+
+Loading Add-On: Brick_ModTer_BasicPack (CRC:1510757398)
+Executing Add-Ons/Brick_ModTer_BasicPack/server.cs.
+133 datablocks added.
+
+Loading Add-On: Brick_ModTer_4xPack (CRC:665835223)
+Executing Add-Ons/Brick_ModTer_4xPack/server.cs.
+12 datablocks added.
+
+Loading Add-On: Brick_MiscellaneousPack (CRC:318551270)
+Executing Add-Ons/Brick_MiscellaneousPack/server.cs.
+6 datablocks added.
+
+Loading Add-On: Brick_MedievalMisc (CRC:-1317139025)
+Executing Add-Ons/Brick_MedievalMisc/server.cs.
+27 datablocks added.
+
+Loading Add-On: Brick_HorizPoles (CRC:1955230299)
+Executing Add-Ons/Brick_HorizPoles/server.cs.
+6 datablocks added.
+
+Loading Add-On: Brick_Halloween (CRC:-613787137)
+Executing Add-Ons/Brick_Halloween/server.cs.
+Executing Add-Ons/Brick_Halloween/2012/server.cs.
+Activating package: pumpkinCarving
+21 datablocks added.
+
+Loading Add-On: Brick_Garage_Door (CRC:1516342986)
+Executing Add-Ons/Brick_Garage_Door/server.cs.
+3 datablocks added.
+
+Loading Add-On: Brick_ExtraPrints (CRC:133757135)
+Executing Add-Ons/Brick_ExtraPrints/server.cs.
+2 datablocks added.
+
+Loading Add-On: Brick_ExtraGrills (CRC:565047027)
+Executing Add-Ons/Brick_ExtraGrills/server.cs.
+2 datablocks added.
+
+Loading Add-On: Brick_Doors_Frameless (CRC:1120082214)
+Executing Add-Ons/Brick_Doors_Frameless/server.cs.
+Executing Add-Ons/Brick_Doors_Frameless/bricks/door_house.cs.
+Executing Add-Ons/Brick_Doors_Frameless/bricks/door_glass.cs.
+Executing Add-Ons/Brick_Doors_Frameless/bricks/door_houseWindow.cs.
+Executing Add-Ons/Brick_Doors_Frameless/bricks/door_jail.cs.
+Executing Add-Ons/Brick_Doors_Frameless/bricks/door_jailPole.cs.
+Executing Add-Ons/Brick_Doors_Frameless/bricks/door_plain.cs.
+19 datablocks added.
+
+Loading Add-On: Brick_Doors_Demian_Thematic (CRC:595553544)
+Executing Add-Ons/Brick_Doors_Demian_Thematic/server.cs.
+Executing Add-Ons/Brick_Doors_Demian_Thematic/bricks/CleanRoom.cs.
+Executing Add-Ons/Brick_Doors_Demian_Thematic/bricks/Curtain.cs.
+Executing Add-Ons/Brick_Doors_Demian_Thematic/bricks/DoubleCurtains.cs.
+Executing Add-Ons/Brick_Doors_Demian_Thematic/bricks/Lab.cs.
+Executing Add-Ons/Brick_Doors_Demian_Thematic/bricks/Lab2.cs.
+Executing Add-Ons/Brick_Doors_Demian_Thematic/bricks/Locker.cs.
+18 datablocks added.
+
+Loading Add-On: Brick_Doors_Demian_Other (CRC:2027915026)
+Executing Add-Ons/Brick_Doors_Demian_Other/server.cs.
+Executing Add-Ons/Brick_Doors_Demian_Other/bricks/VentFrameless.cs.
+3 datablocks added.
+
+Loading Add-On: Brick_Doors_Demian_Half (CRC:-1095535802)
+Executing Add-Ons/Brick_Doors_Demian_Half/server.cs.
+Executing Add-Ons/Brick_Doors_Demian_Half/bricks/HalfGlass.cs.
+Executing Add-Ons/Brick_Doors_Demian_Half/bricks/HalfHouse.cs.
+Executing Add-Ons/Brick_Doors_Demian_Half/bricks/HalfPaneled.cs.
+Executing Add-Ons/Brick_Doors_Demian_Half/bricks/HalfPlain.cs.
+12 datablocks added.
+
+Loading Add-On: Brick_Doors_Demian_Eastern (CRC:826543926)
+Executing Add-Ons/Brick_Doors_Demian_Eastern/server.cs.
+Executing Add-Ons/Brick_Doors_Demian_Eastern/bricks/ShojiDouble.cs.
+Executing Add-Ons/Brick_Doors_Demian_Eastern/bricks/ShojiDouble2.cs.
+6 datablocks added.
+
+Loading Add-On: Brick_Doors_Demian_Big (CRC:-1132489300)
+Executing Add-Ons/Brick_Doors_Demian_Big/server.cs.
+Executing Add-Ons/Brick_Doors_Demian_Big/bricks/Castle.cs.
+Executing Add-Ons/Brick_Doors_Demian_Big/bricks/Castle2.cs.
+Executing Add-Ons/Brick_Doors_Demian_Big/bricks/Castle3.cs.
+8 datablocks added.
+
+Loading Add-On: Brick_Doors_Demian_Arched (CRC:132149930)
+Executing Add-Ons/Brick_Doors_Demian_Arched/server.cs.
+Executing Add-Ons/Brick_Doors_Demian_Arched/bricks/ArchFrenchScreen.cs.
+Executing Add-Ons/Brick_Doors_Demian_Arched/bricks/ArchFrenchScreenCCW.cs.
+4 datablocks added.
+
+Loading Add-On: Brick_Doors_Demian (CRC:169925650)
+Executing Add-Ons/Brick_Doors_Demian/server.cs.
+Executing Add-Ons/Brick_Doors_Demian/bricks/3PaneGlass.cs.
+Executing Add-Ons/Brick_Doors_Demian/bricks/3StripeWindow.cs.
+Executing Add-Ons/Brick_Doors_Demian/bricks/FrenchScreen.cs.
+Executing Add-Ons/Brick_Doors_Demian/bricks/GlassPane.cs.
+Executing Add-Ons/Brick_Doors_Demian/bricks/LargeWindow.cs.
+Executing Add-Ons/Brick_Doors_Demian/bricks/SlidingDouble.cs.
+Executing Add-Ons/Brick_Doors_Demian/bricks/SlidingDouble2.cs.
+Executing Add-Ons/Brick_Doors_Demian/bricks/StripeWindow.cs.
+Executing Add-Ons/Brick_Doors_Demian/bricks/Wood.cs.
+27 datablocks added.
+
+Loading Add-On: Brick_Doors (CRC:-1479130114)
+Executing Add-Ons/Brick_Doors/server.cs.
+Executing Add-Ons/Brick_Doors/bricks/door_house.cs.
+Executing Add-Ons/Brick_Doors/bricks/door_glass.cs.
+Executing Add-Ons/Brick_Doors/bricks/door_houseWindow.cs.
+Executing Add-Ons/Brick_Doors/bricks/door_jail.cs.
+Executing Add-Ons/Brick_Doors/bricks/door_plain.cs.
+16 datablocks added.
+
+Loading Add-On: Brick_DetailTrees (CRC:-182594125)
+Executing Add-Ons/Brick_DetailTrees/server.cs.
+10 datablocks added.
+
+Loading Add-On: Brick_DemiansBP_6x_Wide (CRC:-880884819)
+Executing Add-Ons/Brick_DemiansBP_6x_Wide/server.cs.
+18 datablocks added.
+
+Loading Add-On: Brick_DemiansBP_5x_Tall (CRC:689351934)
+Executing Add-Ons/Brick_DemiansBP_5x_Tall/server.cs.
+26 datablocks added.
+
+Loading Add-On: Brick_DemiansBP_4x_Wide (CRC:1077751929)
+Executing Add-Ons/Brick_DemiansBP_4x_Wide/server.cs.
+10 datablocks added.
+
+Loading Add-On: Brick_DemiansBP_4x_Tall (CRC:-529944411)
+Executing Add-Ons/Brick_DemiansBP_4x_Tall/server.cs.
+29 datablocks added.
+
+Loading Add-On: Brick_DemiansBP_3x_Wide (CRC:-157448608)
+Executing Add-Ons/Brick_DemiansBP_3x_Wide/server.cs.
+26 datablocks added.
+
+Loading Add-On: Brick_DemiansBP_3x_Tall (CRC:259964247)
+Executing Add-Ons/Brick_DemiansBP_3x_Tall/server.cs.
+26 datablocks added.
+
+Loading Add-On: Brick_DemiansBP_2x_Wide (CRC:-843967036)
+Executing Add-Ons/Brick_DemiansBP_2x_Wide/server.cs.
+16 datablocks added.
+
+Loading Add-On: Brick_DemiansBP_2x_Tall (CRC:-1668678495)
+Executing Add-Ons/Brick_DemiansBP_2x_Tall/server.cs.
+29 datablocks added.
+
+Loading Add-On: Brick_DemiansBP_1x (CRC:2101720186)
+Executing Add-Ons/Brick_DemiansBP_1x/server.cs.
+20 datablocks added.
+
+Loading Add-On: Brick_Christmas_Tree (CRC:-2133731237)
+Executing Add-Ons/Brick_Christmas_Tree/server.cs.
+1 datablocks added.
+
+Loading Add-On: Brick_Checkpoint (CRC:1865703626)
+Executing Add-Ons/Brick_Checkpoint/server.cs.
+Activating package: CheckpointPackage
+1 datablocks added.
+
+Loading Add-On: Brick_CenteredOcto (CRC:1534815045)
+Executing Add-Ons/Brick_CenteredOcto/server.cs.
+ERROR: Invalid brick size in Add-Ons/Brick_CenteredOcto/1x1OctoCentered.blb
+ERROR: Invalid brick size in Add-Ons/Brick_CenteredOcto/1x1fOctoCentered.blb
+ERROR: Invalid brick size in Add-Ons/Brick_CenteredOcto/5xheightcenteredocto.blb
+3 datablocks added.
+
+Loading Add-On: Brick_Brick_Cubes (CRC:1378059833)
+Executing Add-Ons/Brick_Brick_Cubes/server.cs.
+22 datablocks added.
+
+Loading Add-On: Brick_Books (CRC:-1003657220)
+Executing Add-Ons/Brick_Books/server.cs.
+4 datablocks added.
+
+Loading Add-On: Brick_Arch (CRC:262362025)
+Executing Add-Ons/Brick_Arch/server.cs.
+12 datablocks added.
+
+Loading Add-On: Brick_4xheight (CRC:-792967825)
+Executing Add-Ons/Brick_4xheight/server.cs.
+0 datablocks added.
+
+Loading Add-On: Brick_4x4fPrintPlateC (CRC:-780703153)
+Executing Add-Ons/Brick_4x4fPrintPlateC/server.cs.
+1 datablocks added.
+
+Loading Add-On: Brick_32x64 (CRC:1032161037)
+Executing Add-Ons/Brick_32x64/server.cs.
+4 datablocks added.
+
+Loading Add-On: Brick_2x2x1print (CRC:-730897464)
+Executing Add-Ons/Brick_2x2x1print/server.cs.
+1 datablocks added.
+
+Loading Add-On: Brick_2x2FRoundPrint (CRC:66537807)
+Executing Add-Ons/Brick_2x2FRoundPrint/server.cs.
+1 datablocks added.
+
+Loading Add-On: Brick_1RandomPack (CRC:-1865285776)
+Executing Add-Ons/Brick_1RandomPack/server.cs.
+123 datablocks added.
+
+Loading Add-On: Brick_16xArch (CRC:351561320)
+Executing Add-Ons/Brick_16xArch/server.cs.
+1 datablocks added.
+
+Loading Add-On: Bot_Zombie (CRC:917902898)
+Executing Add-Ons/Bot_Zombie/server.cs.
+  Loading Add-On "Bot_Hole"
+Executing Add-Ons/Bot_Hole/server.cs.
+Executing Add-Ons/Bot_Hole/support.cs.
+Executing Add-Ons/Bot_Hole/holes.cs.
+Executing Add-Ons/Bot_Hole/events.cs.
+Executing Add-Ons/Bot_Hole/packages.cs.
+Activating package: BotHolePackage
+Executing Add-Ons/Bot_Zombie/bot_zombie.cs.
+Activating package: holeZombiePackage
+4 datablocks added.
+
+Loading Add-On: Bot_Shark (CRC:347434692)
+Executing Add-Ons/Bot_Shark/server.cs.
+Executing Add-Ons/Bot_Shark/bot_base.cs.
+Activating package: holeSharkPackage
+Executing Add-Ons/Bot_Shark/support.cs.
+4 datablocks added.
+
+Loading Add-On: Bot_Horse (CRC:-2047078495)
+Executing Add-Ons/Bot_Horse/server.cs.
+Executing Add-Ons/Bot_Horse/bot_base.cs.
+2 datablocks added.
+
+Loading Add-On: Bot_Dog
+Executing Add-Ons/Bot_Dog/server.cs.
+Executing Add-Ons/Bot_Dog/Player_Dog.cs.
+Executing Add-Ons/Bot_Dog/bot_base.cs.
+Activating package: BotHole_Dogs
+9 datablocks added.
+
+Loading Add-On: Bot_Blockhead (CRC:44945505)
+Executing Add-Ons/Bot_Blockhead/server.cs.
+Executing Add-Ons/Bot_Blockhead/bot_base.cs.
+2 datablocks added.
+
+
+Executing config/server/musicList.cs.
+
+
+Datablock Report: 
+  Base:    424
+  Paint:   441
+  Add-Ons: 1601
+  Music:   38
+  Total:   2504
+
+Starting server authentication...
+
+*** CREATING MISSION
+*** Stage 1 create
+361 environmental resource files found
+Regenerating file manifest
+Got 4724 items in manifest, 0 files hashed
+
+ERROR: WebCom_PostServer() - mission is not running
+BackTrace: ->[BotHolePackage]onStart->[BotHolePackage]serverPart2->[BotHolePackage]dedicatedKeyCheck->[BotHolePackage]initDedicated->[BotHolePackage]createServer->createMission->[Slayer_FxDtsBrick]onMissionLoaded->[Slayer_MiniGameHandlerSG]onMissionLoaded->onMissionLoaded->WebCom_PostServer
+
+Engine initialized...
+Activating package: NewDuplicator_Server_Final
+Authentication: Connected...
+Dedicated server is now running.
+Authentication: Sending Response...
+Authentication: Connected...
+Authentication: SUCCESS
+Posting to master server
+Got Connect challenge Request from 148.74.17.176:28000
+Got connect request from 148.74.17.176:28000
+  net name = Dark X-rane
+AUTHCHECK: Dark X-rane = internet client -> internet server, regular auth
+Auth Init Successfull: Dark X-rane
+CADD: 9051 148.74.17.176:28000
+ +- bl_id = 12307
+ +- AUTO SUPER ADMIN (List)
+*** Sending mission load to client: 
+Posting to master server
+Slayer (Server): Sending Handshake: Dark X-rane
+Slayer (Server): Slayer client registered: Dark X-rane has version 4.0.1
+Dark X-rane spawned.
+Activating package: Server_Autosaver
+Dark X-rane is attempting to load bricks from the last autosave file.
+Posting to master server
+AUTHCHECK: Dark X-rane = internet client -> internet server, regular auth
+Auth Continue Successfull: Dark X-rane
+server setting daycycle to Add-Ons/DayCycle_youse/youse.daycycle
+Direct load saves/Autosaver/Autosave 06-16-16 at 190245.bls, 3, , 1, 
+LOADING BRICKS: saves/Autosaver/Autosave 06-16-16 at 190245.bls (ColorMethod 3)
+Posting to master server
+AUTHCHECK: Dark X-rane = internet client -> internet server, regular auth
+Auth Continue Successfull: Dark X-rane
+Activating package: ChatEval
+Posting to master server
+AUTHCHECK: Dark X-rane = internet client -> internet server, regular auth
+Auth Continue Successfull: Dark X-rane
+Posting to master server
+AUTHCHECK: Dark X-rane = internet client -> internet server, regular auth
+Auth Continue Successfull: Dark X-rane
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: t
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: t
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: t
+[AutoSaver] - Attempting to autosave bricks...
+  - Ownership
+  - Events
+[AutoSaver] - Autosaved 60690 bricks in 6.35 seconds. Saved as Autosave 06-19-16 at 191253.
+   - Saved 142 events and 3 groups.
+Posting to master server
+AUTHCHECK: Dark X-rane = internet client -> internet server, regular auth
+Auth Continue Successfull: Dark X-rane
+Got Connect challenge Request from 107.223.210.72:55867
+Got connect request from 107.223.210.72:55867
+  net name = Conan
+AUTHCHECK: Conan = internet client -> internet server, regular auth
+Auth Init Successfull: Conan
+CADD: 69962 107.223.210.72:55867
+ +- bl_id = 4928
+ +- AUTO SUPER ADMIN (ID same as host)
+*** Sending mission load to client: 
+Posting to master server
+Slayer (Server): Sending Handshake: Conan
+Slayer (Server): Slayer client registered: Conan has version 4.0.1
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: any progress?
+Conan spawned.
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: I think so
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: was on ravens
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: the build's done
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: just finished the banana challenge
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: brb
+Activating package: PrisonChatSystem
+<input> (0): Unable to find function getRegion
+<input> (0): Unable to find function getRegion
+<input> (0): Unable to find function getRegion
+<input> (0): Unable to find function getRegion
+<input> (0): Unable to find function getRegion
+<input> (0): Unable to find function getRegion
+AUTHCHECK: Dark X-rane = internet client -> internet server, regular auth
+Auth Continue Successfull: Dark X-rane
+De-activating package: ChatEval
+Activating package: ChatEval
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: seem to have broken things
+
+Add-Ons/Script_VisEval/server.cs (85): Unable to find object: '0' attempting to call function 'getMountNodeObject'
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->servercmdEval
+
+Syntax error in input.
+eval error >> areturn 1;
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->servercmdEval->frameBreakEval
+
+Eval (Conan) -X> a
+Activating package: PrisonChatSystem
+ package PrisonChatSystem is already active
+Posting to master server
+AUTHCHECK: Conan = internet client -> internet server, regular auth
+Auth Continue Successfull: Conan
+AUTHCHECK: Dark X-rane = internet client -> internet server, regular auth
+Auth Continue Successfull: Dark X-rane
+Syntax error in input.
+eval error >> %result=back btw
+;%success=1;
+BackTrace: ->[ChatEval]serverCmdMessageSent
+
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: turned it off for now
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: .
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: so -1 is off state, 0 is pre-round
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: ok
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: 1-3 is startround, round in session, endround/winphase
+Posting to master server
+AUTHCHECK: Conan = internet client -> internet server, regular auth
+Auth Continue Successfull: Conan
+[AutoSaver] - Attempting to autosave bricks...
+  - Ownership
+  - Events
+[AutoSaver] - Autosaved 60689 bricks in 6.09 seconds. Saved as Autosave 06-19-16 at 192804.
+   - Saved 142 events and 3 groups.
+Activating package: PrisonChatSystem
+ package PrisonChatSystem is already active
+Activating package: PrisonChatSystem
+ package PrisonChatSystem is already active
+AUTHCHECK: Dark X-rane = internet client -> internet server, regular auth
+Auth Continue Successfull: Dark X-rane
+Activating package: PrisonChatSystem
+ package PrisonChatSystem is already active
+Client 9051 disconnected.
+Issuing Disconnect packet.
+CDROP: 9051 - Dark X-rane - 148.74.17.176:28000
+Posting to master server
+Activating package: PrisonChatSystem
+ package PrisonChatSystem is already active
+Activating package: PrisonChatSystem
+ package PrisonChatSystem is already active
+Activating package: PrisonChatSystem
+ package PrisonChatSystem is already active
+Got Connect challenge Request from 148.74.17.176:28000
+Got connect request from 148.74.17.176:28000
+  net name = Dark X-rane
+AUTHCHECK: Dark X-rane = internet client -> internet server, regular auth
+Auth Init Successfull: Dark X-rane
+CADD: 69998 148.74.17.176:28000
+ +- bl_id = 12307
+ +- AUTO SUPER ADMIN (List)
+*** Sending mission load to client: 
+Posting to master server
+Slayer (Server): Sending Handshake: Dark X-rane
+Slayer (Server): Slayer client registered: Dark X-rane has version 4.0.1
+Dark X-rane spawned.
+AUTHCHECK: Conan = internet client -> internet server, regular auth
+Auth Continue Successfull: Conan
+Got Connect challenge Request from 72.220.28.90:28000
+Issuing Disconnect packet.
+Got Connect challenge Request from 72.220.28.90:28000
+Issuing Disconnect packet.
+Got Connect challenge Request from 72.220.28.90:28000
+Issuing Disconnect packet.
+Got Connect challenge Request from 72.220.28.90:28000
+Issuing Disconnect packet.
+Got Connect challenge Request from 72.220.28.90:28000
+Issuing Disconnect packet.
+Got Connect challenge Request from 72.220.28.90:28000
+Issuing Disconnect packet.
+Got Connect challenge Request from 72.220.28.90:28000
+Got connect request from 72.220.28.90:28000
+  net name = Profitman
+AUTHCHECK: Profitman = internet client -> internet server, regular auth
+Auth Init Successfull: Profitman
+CADD: 70027 72.220.28.90:28000
+ +- bl_id = 41072
+ +- no auto admin
+*** Sending mission load to client: 
+Posting to master server
+Slayer (Server): Sending Handshake: Profitman
+Slayer (Server): Slayer client registered: Profitman has version 4.0.1
+Profitman spawned.
+Activating package: PrisonChatSystem
+ package PrisonChatSystem is already active
+Syntax error in input.
+eval error >> %result=okay so the outside/inside thing is running now
+;%success=1;
+BackTrace: ->[ChatEval]serverCmdMessageSent
+
+Syntax error in input.
+eval error >> %result=or at least it should be
+;%success=1;
+BackTrace: ->[ChatEval]serverCmdMessageSent
+
+Syntax error in input.
+eval error >> %result=clearly not working entirely
+;%success=1;
+BackTrace: ->[ChatEval]serverCmdMessageSent
+
+Syntax error in input.
+eval error >> %result=did you hear me?
+;%success=1;
+BackTrace: ->[ChatEval]serverCmdMessageSent
+
+Syntax error in input.
+eval error >> %result=do you hear me from outside
+;%success=1;
+BackTrace: ->[ChatEval]serverCmdMessageSent
+
+Admin attempt by Profitman BL_ID:41072 IP:72.220.28.90
+--Success! - SUPER ADMIN
+Syntax error in input.
+eval error >> %result=did you hear that?
+;%success=1;
+BackTrace: ->[ChatEval]serverCmdMessageSent
+
+Activating package: PrisonChatSystem
+ package PrisonChatSystem is already active
+AUTHCHECK: Dark X-rane = internet client -> internet server, regular auth
+Auth Continue Successfull: Dark X-rane
+Activating package: PrisonChatSystem
+ package PrisonChatSystem is already active
+AUTHCHECK: Conan = internet client -> internet server, regular auth
+Auth Continue Successfull: Conan
+Syntax error in input.
+eval error >> %result=extra : at the end
+;%success=1;
+BackTrace: ->[ChatEval]serverCmdMessageSent
+
+Syntax error in input.
+eval error >> %result=lol woops
+;%success=1;
+BackTrace: ->[ChatEval]serverCmdMessageSent
+
+Activating package: PrisonChatSystem
+ package PrisonChatSystem is already active
+Syntax error in input.
+eval error >> %result=there we go
+;%success=1;
+BackTrace: ->[ChatEval]serverCmdMessageSent
+
+Posting to master server
+AUTHCHECK: Profitman = internet client -> internet server, regular auth
+Auth Continue Successfull: Profitman
+Activating package: PrisonChatSystem
+ package PrisonChatSystem is already active
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: no
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: k
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: Have I ever told you that the real Badspot joined my server a year ago
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: yes
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: well, now no
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: did he stay
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: yeah
+AUTHCHECK: Dark X-rane = internet client -> internet server, regular auth
+Auth Continue Successfull: Dark X-rane
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: i know he joined my server but only lasted past the manifest
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: but he left as soon as I said you had to crtl k and stuff
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: probably expanding the blf cache
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: rip
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: yeah he was doing the same for you then
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: and he never went back to my servers
+AUTHCHECK: Conan = internet client -> internet server, regular auth
+Auth Continue Successfull: Conan
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: no he legit left as soon as I said that
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: he serverhopped a while ago to get a list of commonly used addons
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Profitman: "NewPlayerListGui".update("Badspot",-1,"1","1","666","2","0"); yeah badspot joined mine too
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: eg download all the addons
+[AutoSaver] - Attempting to autosave bricks...
+  - Ownership
+  - Events
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: like I thought it was the bot and all
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: then put them on blockland.us/some domain
+[AutoSaver] - Saved no bricks because it was a duplicate file.
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: wait
+Posting to master server
+AUTHCHECK: Profitman = internet client -> internet server, regular auth
+Auth Continue Successfull: Profitman
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: so he wasn't just there for like half a minute cause he went afk while it was loading
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: and actually looked around
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Profitman: badspot likes your server
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: he didn't spawn
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: okay then its the bot
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Profitman: BadBot
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: he left after I said you had to ctrl k
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: could be coincidence
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: it's kinda odd
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: almost certainly coincidence
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: it was a challenge server
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: and if I recall he does like those
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: oh that one
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: He made the save checkpoints because of cogs challenge
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: dam
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: and I was hosting a hang glider challenge at the time
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: which btw was hell tbh
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: lol
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Profitman: i remember that
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: hang gliders and vehicles in general tbh
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: stunt plane challenges are the best
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: i have two
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: one medium hard but hard as fuck the first time around
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: the second actually not completed before yet but it seems possible
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: the Hang gliders weren't the problem
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: how I did it was that the first level you had to cross the other side
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: sounds easy right?
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: same height?
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: yep
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: no wonder
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: that filter out a shit ton of new players
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: i had a grapple challenge up for a bit
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Profitman: like me
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: but I had this vent thing
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: same
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: using the new grapple that hata had
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: with actual physics
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: yeah
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: I was on
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: first challenge was grapple to the other side ye
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: I was one of the first to complete it
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: that and #2 lol
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: remember?
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: i think so now
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: #2 tho
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: so many people had trouble with it
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: and some people had 0 trouble with it
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: it was weird
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: tbh I've improved on making challenges that have a good difficulty cruve
+AUTHCHECK: Dark X-rane = internet client -> internet server, regular auth
+Auth Continue Successfull: Dark X-rane
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: compared to ones I've made in 2008
+AUTHCHECK: Conan = internet client -> internet server, regular auth
+Auth Continue Successfull: Conan
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: which like 3/4ths of the levels weren't tested
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: wrop
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: and turned out to be impossible
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: rop
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: but I said oh it's ok
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: and it had on checkpoints
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: no*
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: r i p
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: and it was very long
+Posting to master server
+AUTHCHECK: Profitman = internet client -> internet server, regular auth
+Auth Continue Successfull: Profitman
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Profitman: wasn't it blades or skill4life that easily completed the challenges
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: so I did the most retarded thing and gave everyone admin
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Profitman: like the hang glider challenge
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: skill4life, winner
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: Skill4Life
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: and winner
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: yeah
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: he's the one to go to for challenge testing
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: he'll do it real quick like
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: and me
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: :^)
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: i can do anything he can do but it takes me a lot longer
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: for certain types of jump
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: one example is the jump on centhra's server
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: there's an island in the bottom where the lobby is
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: you can get down to it if you jump just right
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: even with fall damage on
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: yeah
+Add-Ons/Item_Prison/Weapon_Sniper_Rifle_Spotlight/Weapon_Sniper Rifle.cs (356): Unknown command getDataBlock.
+  Object groundPlane(9023) fxPlane -> SceneObject -> NetObject -> SimObject -> SimObject -> SimObject -> SimObject
+
+Add-Ons/Item_Prison/Weapon_Sniper_Rifle_Spotlight/Weapon_Sniper Rifle.cs (356): Unable to find object: '' attempting to call function 'getName'
+BackTrace: ->[SniperRifleSpotlight]SniperRifleSpotlightProjectile::onCollision
+
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: it took me an hour and a half to confirm its possible, and when i challenged skill to do it
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: he did it in 5 min
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Profitman: lol
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: r o p
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: lol
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: brb
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Dark X-rane: have to eat
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Profitman: rip 1 1/2 hour
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: to be fair
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: i had to modify some of the star positioning
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: so it was possible when he started trying
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: but still wtf
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Profitman: skill4life really does own up to his name
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Profitman: :P
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: plays rocket league, enjoys dark souls series games
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: yep, skill
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: also interestingly enough is an outdoorsman
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Profitman: probably plays blockland outside
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: wanted to do a three month hike from like delaware to south carolina
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Profitman: he lives in delaware?
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: somewhere arond there
+AUTHCHECK: Dark X-rane = internet client -> internet server, regular auth
+Auth Continue Successfull: Dark X-rane
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: was gonna take the appalachian trail
+AUTHCHECK: Conan = internet client -> internet server, regular auth
+Auth Continue Successfull: Conan
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: had a bud to go with him
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: bailed after the first few days cause food issues despite months of planning rip :(
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Profitman: aw
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: i gtg in like 3 min
+Posting to master server
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: so idk what i can do now
+AUTHCHECK: Profitman = internet client -> internet server, regular auth
+Auth Continue Successfull: Profitman
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: what should i work on next
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: after i get back
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Profitman: are you going to eat?
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: ye
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: but eat out
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Profitman: wat restaurant
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: idk yet
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: anyways
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: what should i do next
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Profitman: hmmm
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Profitman: playtest
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Profitman: obviously
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Profitman: we have 40 people
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: i mean code wise
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: for the minigame code
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Profitman: idk
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: i did the easy shit eg the chat code
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: hm i guess i can try to do the stats phase
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: stats gathering stuff
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: and then after that do the centerprint info
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Profitman: what about the towers tho
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: for chat?
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: meh i'll do that later
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Profitman: nonono
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Profitman: like destroying the towers
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: o fuck collapsing towers
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: yeah uh
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: that's also on the to do list
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: i guess i could do that first but that's not super ez :(
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Profitman: yeah
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Profitman: what about replanting it?
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: just gonna reload the bricks
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Profitman: repload the bricks
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: lol
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: anyways i gtg now
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Conan: cya
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Profitman: cya
+Client 69962 disconnected.
+Issuing Disconnect packet.
+CDROP: 69962 - Conan - 107.223.210.72:55867
+Posting to master server
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Profitman: c ya
+Client 70027 disconnected.
+Issuing Disconnect packet.
+CDROP: 70027 - Profitman - 72.220.28.90:28000
+AUTHCHECK: Dark X-rane = internet client -> internet server, regular auth
+Auth Continue Successfull: Dark X-rane
+[AutoSaver] - Attempting to autosave bricks...
+  - Ownership
+  - Events
+[AutoSaver] - Saved no bricks because it was a duplicate file.
+Posting to master server
+AUTHCHECK: Dark X-rane = internet client -> internet server, regular auth
+Auth Continue Successfull: Dark X-rane
+Posting to master server
+AUTHCHECK: Dark X-rane = internet client -> internet server, regular auth
+Auth Continue Successfull: Dark X-rane
+Posting to master server
+AUTHCHECK: Dark X-rane = internet client -> internet server, regular auth
+Auth Continue Successfull: Dark X-rane
+[AutoSaver] - Attempting to autosave bricks...
+  - Ownership
+  - Events
+[AutoSaver] - Saved no bricks because it was a duplicate file.
+Posting to master server
+AUTHCHECK: Dark X-rane = internet client -> internet server, regular auth
+Auth Continue Successfull: Dark X-rane
+Client 69998 disconnected.
+Issuing Disconnect packet.
+CDROP: 69998 - Dark X-rane - 148.74.17.176:28000
+Posting to master server
+Posting to master server
+Posting to master server
+[AutoSaver] - Attempting to autosave bricks...
+  - Ownership
+  - Events
+[AutoSaver] - Saved no bricks because it was a duplicate file.
+Posting to master server
+Posting to master server
+Got Connect challenge Request from 76.24.242.232:7742
+Got connect request from 76.24.242.232:7742
+  net name = Crown
+AUTHCHECK: Crown = internet client -> internet server, regular auth
+Auth Init Successfull: Crown
+CADD: 70182 76.24.242.232:7742
+ +- bl_id = 2143
+ +- no auto admin
+Posting to master server
+Slayer (Server): Sending Handshake: Crown
+Crown spawned.
+Got Connect challenge Request from 50.186.144.229:1024
+Got connect request from 50.186.144.229:1024
+  net name = Niblic
+AUTHCHECK: Niblic = internet client -> internet server, regular auth
+Auth Init Successfull: Niblic
+CADD: 70193 50.186.144.229:1024
+ +- bl_id = 8289
+ +- no auto admin
+*** Sending mission load to client: 
+Posting to master server
+Slayer (Server): Sending Handshake: Niblic
+Slayer (Server): Slayer client registered: Niblic has version 4.0.1
+[AutoSaver] - Attempting to autosave bricks...
+  - Ownership
+  - Events
+[AutoSaver] - Saved no bricks because it was a duplicate file.
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Crown: Very similar build
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Niblic: wtf ..........................
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Niblic: wtf r u talking about noob its nothing like ours
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Crown: Did you ever play Pload's?
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Niblic: no
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Crown: No I mean it's similar to pload's build
+Niblic spawned.
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Niblic: r u sure its not
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Niblic: it
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Crown: it's better than pload's build
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Niblic: smh
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Crown: Looks pretty much done, must just be the coding left.
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Crown: Wasn't even that complicated of a gamemode either
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Niblic: is it just
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Niblic: prison escape
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Niblic: like tezunis
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Niblic: but without the meme weapons
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Crown: No basically all the guards are in the towers and the prisoners work together to dig out with spoons
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Niblic: wtf
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Crown: Prisoners get like helmets and cafe trays to hold to hide from the snipers.
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Crown: It's really good for teamwork
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Niblic: ur a team work
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Niblic: wtf
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Niblic: ok lets leave a message
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Crown: No lol
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Niblic: WTF
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Niblic: y not
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Crown: Oh heres the spoon
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Crown: Oh it was a chisel
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Niblic: our names r already in the clear bricks message were already busted
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Niblic: wtf does this do its just a light ?
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Crown: lol look at this message someone left
+AUTHCHECK: Crown = internet client -> internet server, regular auth
+Auth Continue Successfull: Crown
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Niblic: these r all conans...
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Niblic: o
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Crown: The lamp bricks are neat
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Niblic: ok i will leave a message
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Crown: No don't
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Niblic: it needs to be a bible verse
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Niblic: what shold it  be
+Posting to master server
+AUTHCHECK: Niblic = internet client -> internet server, regular auth
+Auth Continue Successfull: Niblic
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Niblic: omg
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Crown: Are all the items just white for you?
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Niblic: no
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Niblic: thats racist
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Crown: Oh I have DL textures off.
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Niblic: ok this server sux im gonna go build on our server the superiorserver dot cooperation
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Niblic: u have fun looking at spoons
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Niblic: or something
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Crown: Ok
+Client 70193 disconnected.
+Issuing Disconnect packet.
+CDROP: 70193 - Niblic - 50.186.144.229:1024
+Posting to master server
+AUTHCHECK: Crown = internet client -> internet server, regular auth
+Auth Continue Successfull: Crown
+Posting to master server
+Client 70182 disconnected.
+Issuing Disconnect packet.
+CDROP: 70182 - Crown - 76.24.242.232:7742
+Posting to master server
+[AutoSaver] - Attempting to autosave bricks...
+  - Ownership
+  - Events
+[AutoSaver] - Autosaved 60690 bricks in 6.15 seconds. Saved as Autosave 06-19-16 at 205921.
+   - Saved 142 events and 4 groups.
+Posting to master server
+Got Connect challenge Request from 104.246.66.52:64817
+Got connect request from 104.246.66.52:64817
+  net name = Mr.Noßody
+AUTHCHECK: Mr.Noßody = internet client -> internet server, regular auth
+Auth Init Successfull: Mr.Noßody
+CADD: 71808 104.246.66.52:64817
+ +- bl_id = 6480
+ +- no auto admin
+*** Sending mission load to client: 
+Posting to master server
+Slayer (Server): Sending Handshake: Mr.NoBody
+Slayer (Server): Handshake DENIED (version too old): Mr.NoBody
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Mr.NoBody: Hey
+
+getSubStr(...): error, starting position and desired length must be >= 0: ("",-1, 1)
+BackTrace: ->[ChatEval]serverCmdMessageSent->[PrisonChatSystem]serverCmdMessageSent->[xalEval]serverCmdMessageSent->serverCmdMessageSent->chatFilter
+
+Mr.NoBody: ..Oh
+Mr.Noßody spawned.
+Posting to master server
+AUTHCHECK: Mr.Noßody = internet client -> internet server, regular auth
+Auth Continue Successfull: Mr.Noßody
+Client 71808 disconnected.
+Issuing Disconnect packet.
+CDROP: 71808 - Mr.Noßody - 104.246.66.52:64817
+Posting to master server
+Got Connect challenge Request from 76.24.242.232:3316
+Got connect request from 76.24.242.232:3316
+  net name = Crown
+AUTHCHECK: Crown = internet client -> internet server, regular auth
+Auth Init Successfull: Crown
+CADD: 73204 76.24.242.232:3316
+ +- bl_id = 2143
+ +- no auto admin
+Slayer (Server): Sending Handshake: Crown
+Crown spawned.
+[AutoSaver] - Attempting to autosave bricks...
+  - Ownership
+  - Events
+[AutoSaver] - Autosaved 60692 bricks in 6.13 seconds. Saved as Autosave 06-19-16 at 211432.
+   - Saved 143 events and 5 groups.
+Posting to master server
+AUTHCHECK: Crown = internet client -> internet server, regular auth
+Auth Continue Successfull: Crown
+Posting to master server
+AUTHCHECK: Crown = internet client -> internet server, regular auth
+Auth Continue Successfull: Crown
+Posting to master server
+AUTHCHECK: Crown = internet client -> internet server, regular auth
+Auth Continue Successfull: Crown
+[AutoSaver] - Attempting to autosave bricks...
+  - Ownership
+  - Events
+Posting to master server
+[AutoSaver] - Saved no bricks because it was a duplicate file.
+AUTHCHECK: Crown = internet client -> internet server, regular auth
+Auth Continue Successfull: Crown
+Posting to master server
+AUTHCHECK: Crown = internet client -> internet server, regular auth
+Auth Continue Successfull: Crown
+Posting to master server
+AUTHCHECK: Crown = internet client -> internet server, regular auth
+Auth Continue Successfull: Crown
+Posting to master server
+[AutoSaver] - Attempting to autosave bricks...
+  - Ownership
+  - Events
+[AutoSaver] - Saved no bricks because it was a duplicate file.
+AUTHCHECK: Crown = internet client -> internet server, regular auth
+Auth Continue Successfull: Crown
+Posting to master server
+AUTHCHECK: Crown = internet client -> internet server, regular auth
+Auth Continue Successfull: Crown
+Client 73204 disconnected.
+Issuing Disconnect packet.
+CDROP: 73204 - Crown - 76.24.242.232:3316
+Posting to master server
+Posting to master server
+[AutoSaver] - Attempting to autosave bricks...
+  - Ownership
+  - Events
+[AutoSaver] - Saved no bricks because it was a duplicate file.
+Posting to master server
+Posting to master server
+Posting to master server
+[AutoSaver] - Attempting to autosave bricks...
+  - Ownership
+  - Events
+[AutoSaver] - Saved no bricks because it was a duplicate file.
+Posting to master server
+Posting to master server
+Posting to master server
+[AutoSaver] - Attempting to autosave bricks...
+  - Ownership
+  - Events
+[AutoSaver] - Saved no bricks because it was a duplicate file.
+Posting to master server
+Got Connect challenge Request from 107.223.210.72:47854
+Got connect request from 107.223.210.72:47854
+  net name = Conan
+AUTHCHECK: Conan = internet client -> internet server, regular auth
+Auth Init Successfull: Conan
+CADD: 73290 107.223.210.72:47854
+ +- bl_id = 4928
+ +- AUTO SUPER ADMIN (ID same as host)
+*** Sending mission load to client: 
+Posting to master server
+Slayer (Server): Sending Handshake: Conan
+Slayer (Server): Slayer client registered: Conan has version 4.0.1
+Conan spawned.
+Posting to master server
+AUTHCHECK: Conan = internet client -> internet server, regular auth
+Auth Continue Successfull: Conan
+Member Fields:
+Tagged Fields:
+  abandonedTime = "0"
+  bl_id = "12307"
+  client = "69998"
+  isPublicDomain = "0"
+  name = "Dark X-rane"
+  NTName0 = "_door"
+  NTName1 = "_sink"
+  NTName10 = "_cam_6"
+  NTName11 = "_l"
+  NTName12 = "_cam_9"
+  NTName13 = "_cam_4"
+  NTName14 = "_cam_3"
+  NTName15 = "_cam_10"
+  NTName16 = "_cam_8"
+  NTName17 = "_cam_7"
+  NTName18 = "_cam_2"
+  NTName19 = "_cam_1"
+  NTName2 = "_tower1"
+  NTName20 = "_tower1_base"
+  NTName3 = "_kitchen_GarageDoor1"
+  NTName4 = "_kitchen_GarageDoor"
+  NTName5 = "_unbreakable"
+  NTName6 = "_w"
+  NTName7 = "_light"
+  NTName8 = "_cameraBrick"
+  NTName9 = "_cam_5"
+  NTNameCount = "21"
+  NTObject_cam_10_0 = "60280"
+  NTObject_cam_1_0 = "68250"
+  NTObject_cam_2_0 = "68136"
+  NTObject_cam_3_0 = "59746"
+  NTObject_cam_4_0 = "58911"
+  NTObject_cam_5_0 = "51417"
+  NTObject_cam_5_1 = "59695"
+  NTObject_cam_6_0 = "57409"
+  NTObject_cam_7_0 = "67615"
+  NTObject_cam_8_0 = "63886"
+  NTObject_cam_9_0 = "58811"
+  NTObject_cameraBrick_0 = "48297"
+  NTObject_cameraBrick_1 = "55230"
+  NTObject_cameraBrick_2 = "57438"
+  NTObject_cameraBrick_3 = "58176"
+  NTObject_cameraBrick_4 = "58671"
+  NTObject_cameraBrick_5 = "61624"
+  NTObject_cameraBrick_6 = "66515"
+  NTObject_door_0 = "11905"
+  NTObject_door_1 = "11976"
+  NTObject_door_10 = "13330"
+  NTObject_door_11 = "13423"
+  NTObject_door_12 = "15079"
+  NTObject_door_13 = "17279"
+  NTObject_door_14 = "17281"
+  NTObject_door_15 = "17592"
+  NTObject_door_16 = "17902"
+  NTObject_door_17 = "17904"
+  NTObject_door_18 = "18201"
+  NTObject_door_19 = "18231"
+  NTObject_door_2 = "11980"
+  NTObject_door_20 = "18288"
+  NTObject_door_21 = "19282"
+  NTObject_door_22 = "19286"
+  NTObject_door_23 = "19290"
+  NTObject_door_24 = "19291"
+  NTObject_door_25 = "19935"
+  NTObject_door_26 = "19944"
+  NTObject_door_27 = "19964"
+  NTObject_door_28 = "20281"
+  NTObject_door_29 = "20301"
+  NTObject_door_3 = "11985"
+  NTObject_door_30 = "20319"
+  NTObject_door_31 = "20406"
+  NTObject_door_32 = "20649"
+  NTObject_door_33 = "22030"
+  NTObject_door_34 = "23012"
+  NTObject_door_35 = "23528"
+  NTObject_door_36 = "23788"
+  NTObject_door_37 = "23789"
+  NTObject_door_38 = "23903"
+  NTObject_door_39 = "23904"
+  NTObject_door_4 = "11994"
+  NTObject_door_40 = "23905"
+  NTObject_door_41 = "25023"
+  NTObject_door_42 = "27454"
+  NTObject_door_43 = "27681"
+  NTObject_door_44 = "29298"
+  NTObject_door_45 = "29370"
+  NTObject_door_46 = "30244"
+  NTObject_door_47 = "30493"
+  NTObject_door_48 = "30630"
+  NTObject_door_49 = "30633"
+  NTObject_door_5 = "12002"
+  NTObject_door_50 = "31016"
+  NTObject_door_51 = "31648"
+  NTObject_door_52 = "31664"
+  NTObject_door_53 = "32270"
+  NTObject_door_54 = "32305"
+  NTObject_door_55 = "32472"
+  NTObject_door_56 = "32473"
+  NTObject_door_57 = "32499"
+  NTObject_door_58 = "32500"
+  NTObject_door_59 = "32542"
+  NTObject_door_6 = "12053"
+  NTObject_door_60 = "32543"
+  NTObject_door_61 = "45590"
+  NTObject_door_62 = "45678"
+  NTObject_door_63 = "45679"
+  NTObject_door_64 = "46206"
+  NTObject_door_65 = "46993"
+  NTObject_door_66 = "46999"
+  NTObject_door_67 = "47719"
+  NTObject_door_68 = "47738"
+  NTObject_door_69 = "47747"
+  NTObject_door_7 = "12091"
+  NTObject_door_70 = "47748"
+  NTObject_door_71 = "48060"
+  NTObject_door_72 = "48071"
+  NTObject_door_73 = "50633"
+  NTObject_door_74 = "50796"
+  NTObject_door_75 = "51910"
+  NTObject_door_76 = "51931"
+  NTObject_door_77 = "55500"
+  NTObject_door_8 = "12224"
+  NTObject_door_9 = "12226"
+  NTObject_kitchen_GarageDoor1_0 = "26547"
+  NTObject_kitchen_GarageDoor_0 = "26769"
+  NTObject_l_0 = "58178"
+  NTObject_light_0 = "48121"
+  NTObject_light_1 = "48546"
+  NTObject_light_10 = "58148"
+  NTObject_light_11 = "58172"
+  NTObject_light_12 = "58185"
+  NTObject_light_13 = "58203"
+  NTObject_light_14 = "60405"
+  NTObject_light_15 = "60432"
+  NTObject_light_16 = "60738"
+  NTObject_light_17 = "60744"
+  NTObject_light_18 = "60883"
+  NTObject_light_19 = "60905"
+  NTObject_light_2 = "48683"
+  NTObject_light_20 = "60985"
+  NTObject_light_21 = "61832"
+  NTObject_light_22 = "62115"
+  NTObject_light_23 = "62331"
+  NTObject_light_24 = "62355"
+  NTObject_light_25 = "62366"
+  NTObject_light_26 = "62584"
+  NTObject_light_27 = "62599"
+  NTObject_light_28 = "62762"
+  NTObject_light_29 = "64034"
+  NTObject_light_3 = "56772"
+  NTObject_light_30 = "65497"
+  NTObject_light_31 = "65626"
+  NTObject_light_32 = "65740"
+  NTObject_light_33 = "65789"
+  NTObject_light_34 = "65939"
+  NTObject_light_35 = "67633"
+  NTObject_light_36 = "67972"
+  NTObject_light_37 = "68042"
+  NTObject_light_4 = "56815"
+  NTObject_light_5 = "56835"
+  NTObject_light_6 = "57395"
+  NTObject_light_7 = "57406"
+  NTObject_light_8 = "58088"
+  NTObject_light_9 = "58127"
+  NTObject_sink_0 = "13729"
+  NTObject_sink_1 = "13731"
+  NTObject_sink_10 = "35723"
+  NTObject_sink_11 = "35724"
+  NTObject_sink_12 = "35874"
+  NTObject_sink_13 = "35877"
+  NTObject_sink_14 = "36047"
+  NTObject_sink_15 = "36052"
+  NTObject_sink_16 = "36077"
+  NTObject_sink_17 = "36107"
+  NTObject_sink_18 = "36116"
+  NTObject_sink_19 = "36117"
+  NTObject_sink_2 = "35085"
+  NTObject_sink_20 = "36124"
+  NTObject_sink_21 = "36126"
+  NTObject_sink_22 = "36249"
+  NTObject_sink_23 = "36250"
+  NTObject_sink_24 = "36280"
+  NTObject_sink_25 = "36282"
+  NTObject_sink_26 = "50230"
+  NTObject_sink_27 = "50232"
+  NTObject_sink_28 = "50700"
+  NTObject_sink_29 = "50702"
+  NTObject_sink_3 = "35086"
+  NTObject_sink_30 = "50814"
+  NTObject_sink_31 = "50835"
+  NTObject_sink_32 = "50933"
+  NTObject_sink_33 = "50934"
+  NTObject_sink_34 = "51021"
+  NTObject_sink_35 = "51022"
+  NTObject_sink_36 = "51072"
+  NTObject_sink_37 = "51076"
+  NTObject_sink_38 = "51113"
+  NTObject_sink_39 = "51114"
+  NTObject_sink_4 = "35128"
+  NTObject_sink_40 = "51162"
+  NTObject_sink_41 = "51164"
+  NTObject_sink_42 = "51960"
+  NTObject_sink_43 = "51962"
+  NTObject_sink_44 = "51980"
+  NTObject_sink_45 = "51981"
+  NTObject_sink_46 = "52012"
+  NTObject_sink_47 = "52015"
+  NTObject_sink_48 = "52026"
+  NTObject_sink_49 = "52029"
+  NTObject_sink_5 = "35129"
+  NTObject_sink_50 = "54169"
+  NTObject_sink_51 = "54170"
+  NTObject_sink_52 = "54370"
+  NTObject_sink_53 = "54371"
+  NTObject_sink_54 = "56100"
+  NTObject_sink_55 = "56104"
+  NTObject_sink_56 = "56108"
+  NTObject_sink_57 = "56110"
+  NTObject_sink_6 = "35348"
+  NTObject_sink_7 = "35351"
+  NTObject_sink_8 = "35597"
+  NTObject_sink_9 = "35601"
+  NTObject_tower1_0 = "69810"
+  NTObject_tower1_1 = "33900"
+  NTObject_tower1_10 = "53967"
+  NTObject_tower1_100 = "63045"
+  NTObject_tower1_101 = "63051"
+  NTObject_tower1_102 = "61153"
+  NTObject_tower1_103 = "61235"
+  NTObject_tower1_104 = "61237"
+  NTObject_tower1_105 = "61239"
+  NTObject_tower1_106 = "61240"
+  NTObject_tower1_107 = "61271"
+  NTObject_tower1_108 = "61505"
+  NTObject_tower1_109 = "61507"
+  NTObject_tower1_11 = "53989"
+  NTObject_tower1_110 = "61508"
+  NTObject_tower1_111 = "61629"
+  NTObject_tower1_112 = "61720"
+  NTObject_tower1_113 = "61723"
+  NTObject_tower1_114 = "61755"
+  NTObject_tower1_115 = "61756"
+  NTObject_tower1_116 = "61759"
+  NTObject_tower1_117 = "61761"
+  NTObject_tower1_118 = "61762"
+  NTObject_tower1_119 = "61776"
+  NTObject_tower1_12 = "53991"
+  NTObject_tower1_120 = "61781"
+  NTObject_tower1_121 = "62035"
+  NTObject_tower1_122 = "62041"
+  NTObject_tower1_123 = "62057"
+  NTObject_tower1_124 = "62061"
+  NTObject_tower1_125 = "62071"
+  NTObject_tower1_126 = "62085"
+  NTObject_tower1_127 = "62094"
+  NTObject_tower1_128 = "62187"
+  NTObject_tower1_129 = "62269"
+  NTObject_tower1_13 = "54115"
+  NTObject_tower1_130 = "62504"
+  NTObject_tower1_131 = "62507"
+  NTObject_tower1_132 = "62534"
+  NTObject_tower1_133 = "62744"
+  NTObject_tower1_134 = "62752"
+  NTObject_tower1_135 = "62893"
+  NTObject_tower1_136 = "62898"
+  NTObject_tower1_137 = "62912"
+  NTObject_tower1_138 = "62980"
+  NTObject_tower1_139 = "63019"
+  NTObject_tower1_14 = "54121"
+  NTObject_tower1_140 = "63033"
+  NTObject_tower1_141 = "63044"
+  NTObject_tower1_142 = "61639"
+  NTObject_tower1_143 = "63050"
+  NTObject_tower1_144 = "62177"
+  NTObject_tower1_145 = "62194"
+  NTObject_tower1_146 = "62607"
+  NTObject_tower1_147 = "61935"
+  NTObject_tower1_148 = "61627"
+  NTObject_tower1_149 = "61274"
+  NTObject_tower1_15 = "54257"
+  NTObject_tower1_150 = "61264"
+  NTObject_tower1_151 = "61158"
+  NTObject_tower1_152 = "62161"
+  NTObject_tower1_153 = "42879"
+  NTObject_tower1_154 = "44307"
+  NTObject_tower1_155 = "43457"
+  NTObject_tower1_156 = "64464"
+  NTObject_tower1_157 = "63743"
+  NTObject_tower1_158 = "63887"
+  NTObject_tower1_159 = "63691"
+  NTObject_tower1_16 = "54276"
+  NTObject_tower1_160 = "63559"
+  NTObject_tower1_161 = "63714"
+  NTObject_tower1_162 = "63180"
+  NTObject_tower1_163 = "63322"
+  NTObject_tower1_164 = "63687"
+  NTObject_tower1_165 = "63959"
+  NTObject_tower1_166 = "63194"
+  NTObject_tower1_167 = "64496"
+  NTObject_tower1_168 = "63859"
+  NTObject_tower1_169 = "63426"
+  NTObject_tower1_17 = "54373"
+  NTObject_tower1_170 = "63328"
+  NTObject_tower1_171 = "63355"
+  NTObject_tower1_172 = "63339"
+  NTObject_tower1_173 = "63540"
+  NTObject_tower1_174 = "63792"
+  NTObject_tower1_175 = "64614"
+  NTObject_tower1_176 = "63745"
+  NTObject_tower1_177 = "63643"
+  NTObject_tower1_178 = "63215"
+  NTObject_tower1_179 = "63712"
+  NTObject_tower1_18 = "54376"
+  NTObject_tower1_180 = "63366"
+  NTObject_tower1_181 = "63371"
+  NTObject_tower1_182 = "63711"
+  NTObject_tower1_183 = "64560"
+  NTObject_tower1_184 = "63517"
+  NTObject_tower1_185 = "64003"
+  NTObject_tower1_186 = "63507"
+  NTObject_tower1_187 = "64009"
+  NTObject_tower1_188 = "63157"
+  NTObject_tower1_189 = "64271"
+  NTObject_tower1_19 = "54698"
+  NTObject_tower1_190 = "64513"
+  NTObject_tower1_191 = "63930"
+  NTObject_tower1_192 = "63810"
+  NTObject_tower1_193 = "63276"
+  NTObject_tower1_194 = "63601"
+  NTObject_tower1_195 = "64516"
+  NTObject_tower1_196 = "63110"
+  NTObject_tower1_197 = "63240"
+  NTObject_tower1_198 = "63623"
+  NTObject_tower1_199 = "63695"
+  NTObject_tower1_2 = "35073"
+  NTObject_tower1_20 = "55069"
+  NTObject_tower1_200 = "63876"
+  NTObject_tower1_201 = "64294"
+  NTObject_tower1_202 = "64228"
+  NTObject_tower1_203 = "64522"
+  NTObject_tower1_204 = "63780"
+  NTObject_tower1_205 = "41892"
+  NTObject_tower1_206 = "41440"
+  NTObject_tower1_207 = "41198"
+  NTObject_tower1_208 = "64716"
+  NTObject_tower1_209 = "64889"
+  NTObject_tower1_21 = "55380"
+  NTObject_tower1_210 = "65022"
+  NTObject_tower1_211 = "64702"
+  NTObject_tower1_212 = "65658"
+  NTObject_tower1_213 = "64654"
+  NTObject_tower1_214 = "65444"
+  NTObject_tower1_215 = "65744"
+  NTObject_tower1_216 = "65668"
+  NTObject_tower1_217 = "64682"
+  NTObject_tower1_218 = "64845"
+  NTObject_tower1_219 = "65331"
+  NTObject_tower1_22 = "55426"
+  NTObject_tower1_220 = "65928"
+  NTObject_tower1_221 = "65840"
+  NTObject_tower1_222 = "65151"
+  NTObject_tower1_223 = "65894"
+  NTObject_tower1_224 = "64708"
+  NTObject_tower1_225 = "65402"
+  NTObject_tower1_226 = "65531"
+  NTObject_tower1_227 = "64712"
+  NTObject_tower1_228 = "65691"
+  NTObject_tower1_229 = "65524"
+  NTObject_tower1_23 = "55455"
+  NTObject_tower1_230 = "65933"
+  NTObject_tower1_231 = "65689"
+  NTObject_tower1_232 = "65643"
+  NTObject_tower1_233 = "65656"
+  NTObject_tower1_234 = "65006"
+  NTObject_tower1_235 = "65338"
+  NTObject_tower1_236 = "65562"
+  NTObject_tower1_237 = "65154"
+  NTObject_tower1_238 = "65621"
+  NTObject_tower1_239 = "64843"
+  NTObject_tower1_24 = "55508"
+  NTObject_tower1_240 = "65772"
+  NTObject_tower1_241 = "64710"
+  NTObject_tower1_242 = "64684"
+  NTObject_tower1_243 = "65735"
+  NTObject_tower1_244 = "65796"
+  NTObject_tower1_245 = "65564"
+  NTObject_tower1_246 = "65743"
+  NTObject_tower1_247 = "39181"
+  NTObject_tower1_248 = "38658"
+  NTObject_tower1_249 = "39103"
+  NTObject_tower1_25 = "55665"
+  NTObject_tower1_250 = "66574"
+  NTObject_tower1_251 = "66543"
+  NTObject_tower1_252 = "66502"
+  NTObject_tower1_253 = "66580"
+  NTObject_tower1_254 = "66628"
+  NTObject_tower1_255 = "66404"
+  NTObject_tower1_256 = "66278"
+  NTObject_tower1_257 = "66250"
+  NTObject_tower1_258 = "66173"
+  NTObject_tower1_259 = "66368"
+  NTObject_tower1_26 = "55938"
+  NTObject_tower1_260 = "66744"
+  NTObject_tower1_261 = "66749"
+  NTObject_tower1_262 = "66213"
+  NTObject_tower1_263 = "66314"
+  NTObject_tower1_264 = "66223"
+  NTObject_tower1_265 = "66139"
+  NTObject_tower1_266 = "66943"
+  NTObject_tower1_267 = "66818"
+  NTObject_tower1_268 = "66330"
+  NTObject_tower1_269 = "66816"
+  NTObject_tower1_27 = "56328"
+  NTObject_tower1_270 = "66280"
+  NTObject_tower1_271 = "66593"
+  NTObject_tower1_272 = "66596"
+  NTObject_tower1_273 = "66510"
+  NTObject_tower1_274 = "66136"
+  NTObject_tower1_275 = "66221"
+  NTObject_tower1_276 = "35082"
+  NTObject_tower1_277 = "36040"
+  NTObject_tower1_278 = "36723"
+  NTObject_tower1_279 = "67270"
+  NTObject_tower1_28 = "50469"
+  NTObject_tower1_280 = "67470"
+  NTObject_tower1_281 = "67262"
+  NTObject_tower1_282 = "67527"
+  NTObject_tower1_283 = "67526"
+  NTObject_tower1_284 = "67647"
+  NTObject_tower1_285 = "67502"
+  NTObject_tower1_286 = "67257"
+  NTObject_tower1_287 = "67443"
+  NTObject_tower1_288 = "67359"
+  NTObject_tower1_289 = "67528"
+  NTObject_tower1_29 = "50678"
+  NTObject_tower1_290 = "67097"
+  NTObject_tower1_291 = "67346"
+  NTObject_tower1_292 = "67377"
+  NTObject_tower1_293 = "67362"
+  NTObject_tower1_294 = "67201"
+  NTObject_tower1_295 = "67125"
+  NTObject_tower1_296 = "67457"
+  NTObject_tower1_297 = "67509"
+  NTObject_tower1_298 = "66971"
+  NTObject_tower1_299 = "33645"
+  NTObject_tower1_3 = "37931"
+  NTObject_tower1_30 = "51832"
+  NTObject_tower1_300 = "34478"
+  NTObject_tower1_301 = "34149"
+  NTObject_tower1_302 = "67836"
+  NTObject_tower1_303 = "67725"
+  NTObject_tower1_304 = "67774"
+  NTObject_tower1_305 = "68207"
+  NTObject_tower1_306 = "67987"
+  NTObject_tower1_307 = "67838"
+  NTObject_tower1_308 = "68189"
+  NTObject_tower1_309 = "68037"
+  NTObject_tower1_31 = "56695"
+  NTObject_tower1_310 = "68376"
+  NTObject_tower1_311 = "68323"
+  NTObject_tower1_312 = "67736"
+  NTObject_tower1_313 = "67780"
+  NTObject_tower1_314 = "68192"
+  NTObject_tower1_315 = "68256"
+  NTObject_tower1_316 = "67854"
+  NTObject_tower1_317 = "67752"
+  NTObject_tower1_318 = "67744"
+  NTObject_tower1_319 = "68264"
+  NTObject_tower1_32 = "56732"
+  NTObject_tower1_320 = "68176"
+  NTObject_tower1_321 = "68094"
+  NTObject_tower1_322 = "69811"
+  NTObject_tower1_323 = "69686"
+  NTObject_tower1_324 = "69812"
+  NTObject_tower1_325 = "68645"
+  NTObject_tower1_326 = "68673"
+  NTObject_tower1_327 = "68630"
+  NTObject_tower1_328 = "68580"
+  NTObject_tower1_329 = "68626"
+  NTObject_tower1_33 = "56734"
+  NTObject_tower1_330 = "68381"
+  NTObject_tower1_331 = "68463"
+  NTObject_tower1_332 = "68688"
+  NTObject_tower1_333 = "68625"
+  NTObject_tower1_334 = "68623"
+  NTObject_tower1_335 = "68460"
+  NTObject_tower1_336 = "68627"
+  NTObject_tower1_337 = "68594"
+  NTObject_tower1_338 = "68456"
+  NTObject_tower1_339 = "68628"
+  NTObject_tower1_34 = "56729"
+  NTObject_tower1_340 = "68461"
+  NTObject_tower1_341 = "68592"
+  NTObject_tower1_342 = "68605"
+  NTObject_tower1_343 = "68593"
+  NTObject_tower1_344 = "68606"
+  NTObject_tower1_345 = "68991"
+  NTObject_tower1_346 = "68868"
+  NTObject_tower1_347 = "68892"
+  NTObject_tower1_348 = "68862"
+  NTObject_tower1_349 = "69484"
+  NTObject_tower1_35 = "56731"
+  NTObject_tower1_350 = "69485"
+  NTObject_tower1_351 = "69488"
+  NTObject_tower1_352 = "69463"
+  NTObject_tower1_353 = "69679"
+  NTObject_tower1_354 = "69530"
+  NTObject_tower1_355 = "69536"
+  NTObject_tower1_356 = "69681"
+  NTObject_tower1_36 = "56621"
+  NTObject_tower1_37 = "56589"
+  NTObject_tower1_38 = "56618"
+  NTObject_tower1_39 = "56699"
+  NTObject_tower1_4 = "40242"
+  NTObject_tower1_40 = "56620"
+  NTObject_tower1_41 = "56669"
+  NTObject_tower1_42 = "56728"
+  NTObject_tower1_43 = "56581"
+  NTObject_tower1_44 = "56691"
+  NTObject_tower1_45 = "56697"
+  NTObject_tower1_46 = "50137"
+  NTObject_tower1_47 = "49862"
+  NTObject_tower1_48 = "48938"
+  NTObject_tower1_49 = "60020"
+  NTObject_tower1_5 = "43510"
+  NTObject_tower1_50 = "59867"
+  NTObject_tower1_51 = "60024"
+  NTObject_tower1_52 = "59800"
+  NTObject_tower1_53 = "58860"
+  NTObject_tower1_54 = "59998"
+  NTObject_tower1_55 = "59170"
+  NTObject_tower1_56 = "59489"
+  NTObject_tower1_57 = "60141"
+  NTObject_tower1_58 = "60217"
+  NTObject_tower1_59 = "59752"
+  NTObject_tower1_6 = "47730"
+  NTObject_tower1_60 = "59114"
+  NTObject_tower1_61 = "59247"
+  NTObject_tower1_62 = "59431"
+  NTObject_tower1_63 = "59499"
+  NTObject_tower1_64 = "59858"
+  NTObject_tower1_65 = "58847"
+  NTObject_tower1_66 = "58873"
+  NTObject_tower1_67 = "58767"
+  NTObject_tower1_68 = "58920"
+  NTObject_tower1_69 = "59262"
+  NTObject_tower1_7 = "48439"
+  NTObject_tower1_70 = "60025"
+  NTObject_tower1_71 = "46832"
+  NTObject_tower1_72 = "47688"
+  NTObject_tower1_73 = "47703"
+  NTObject_tower1_74 = "61714"
+  NTObject_tower1_75 = "61940"
+  NTObject_tower1_76 = "61502"
+  NTObject_tower1_77 = "61506"
+  NTObject_tower1_78 = "62555"
+  NTObject_tower1_79 = "62508"
+  NTObject_tower1_8 = "50676"
+  NTObject_tower1_80 = "62510"
+  NTObject_tower1_81 = "61181"
+  NTObject_tower1_82 = "61201"
+  NTObject_tower1_83 = "61511"
+  NTObject_tower1_84 = "61628"
+  NTObject_tower1_85 = "61704"
+  NTObject_tower1_86 = "61769"
+  NTObject_tower1_87 = "61775"
+  NTObject_tower1_88 = "61782"
+  NTObject_tower1_89 = "61941"
+  NTObject_tower1_9 = "53173"
+  NTObject_tower1_90 = "62007"
+  NTObject_tower1_91 = "62038"
+  NTObject_tower1_92 = "62525"
+  NTObject_tower1_93 = "62754"
+  NTObject_tower1_94 = "62899"
+  NTObject_tower1_95 = "62910"
+  NTObject_tower1_96 = "62951"
+  NTObject_tower1_97 = "62979"
+  NTObject_tower1_98 = "62994"
+  NTObject_tower1_99 = "63031"
+  NTObject_tower1_base_0 = "29762"
+  NTObject_tower1_base_1 = "23855"
+  NTObject_tower1_base_2 = "26804"
+  NTObject_tower1_base_3 = "30944"
+  NTObject_unbreakable_0 = "32769"
+  NTObject_unbreakable_1 = "32857"
+  NTObject_unbreakable_10 = "33465"
+  NTObject_unbreakable_100 = "61219"
+  NTObject_unbreakable_101 = "61220"
+  NTObject_unbreakable_102 = "61221"
+  NTObject_unbreakable_103 = "61229"
+  NTObject_unbreakable_104 = "61230"
+  NTObject_unbreakable_105 = "61231"
+  NTObject_unbreakable_106 = "61232"
+  NTObject_unbreakable_107 = "61242"
+  NTObject_unbreakable_108 = "61258"
+  NTObject_unbreakable_109 = "61260"
+  NTObject_unbreakable_11 = "33498"
+  NTObject_unbreakable_110 = "61261"
+  NTObject_unbreakable_111 = "61438"
+  NTObject_unbreakable_112 = "61441"
+  NTObject_unbreakable_113 = "61443"
+  NTObject_unbreakable_114 = "61444"
+  NTObject_unbreakable_115 = "62320"
+  NTObject_unbreakable_116 = "62322"
+  NTObject_unbreakable_117 = "62323"
+  NTObject_unbreakable_118 = "62324"
+  NTObject_unbreakable_119 = "62326"
+  NTObject_unbreakable_12 = "33500"
+  NTObject_unbreakable_120 = "62349"
+  NTObject_unbreakable_121 = "62350"
+  NTObject_unbreakable_122 = "62352"
+  NTObject_unbreakable_123 = "62359"
+  NTObject_unbreakable_124 = "62360"
+  NTObject_unbreakable_125 = "62362"
+  NTObject_unbreakable_126 = "62363"
+  NTObject_unbreakable_127 = "68958"
+  NTObject_unbreakable_128 = "69044"
+  NTObject_unbreakable_13 = "33589"
+  NTObject_unbreakable_14 = "33621"
+  NTObject_unbreakable_15 = "33700"
+  NTObject_unbreakable_16 = "33784"
+  NTObject_unbreakable_17 = "33785"
+  NTObject_unbreakable_18 = "33852"
+  NTObject_unbreakable_19 = "33946"
+  NTObject_unbreakable_2 = "32917"
+  NTObject_unbreakable_20 = "33947"
+  NTObject_unbreakable_21 = "33959"
+  NTObject_unbreakable_22 = "34000"
+  NTObject_unbreakable_23 = "34002"
+  NTObject_unbreakable_24 = "34017"
+  NTObject_unbreakable_25 = "34073"
+  NTObject_unbreakable_26 = "34094"
+  NTObject_unbreakable_27 = "34131"
+  NTObject_unbreakable_28 = "34132"
+  NTObject_unbreakable_29 = "34213"
+  NTObject_unbreakable_3 = "33227"
+  NTObject_unbreakable_30 = "34272"
+  NTObject_unbreakable_31 = "34663"
+  NTObject_unbreakable_32 = "34937"
+  NTObject_unbreakable_33 = "34988"
+  NTObject_unbreakable_34 = "35045"
+  NTObject_unbreakable_35 = "35611"
+  NTObject_unbreakable_36 = "35636"
+  NTObject_unbreakable_37 = "35653"
+  NTObject_unbreakable_38 = "35655"
+  NTObject_unbreakable_39 = "35739"
+  NTObject_unbreakable_4 = "33237"
+  NTObject_unbreakable_40 = "35805"
+  NTObject_unbreakable_41 = "35806"
+  NTObject_unbreakable_42 = "35807"
+  NTObject_unbreakable_43 = "35809"
+  NTObject_unbreakable_44 = "35854"
+  NTObject_unbreakable_45 = "35860"
+  NTObject_unbreakable_46 = "35978"
+  NTObject_unbreakable_47 = "36005"
+  NTObject_unbreakable_48 = "36049"
+  NTObject_unbreakable_49 = "36054"
+  NTObject_unbreakable_5 = "33238"
+  NTObject_unbreakable_50 = "36130"
+  NTObject_unbreakable_51 = "36153"
+  NTObject_unbreakable_52 = "36176"
+  NTObject_unbreakable_53 = "36195"
+  NTObject_unbreakable_54 = "36215"
+  NTObject_unbreakable_55 = "36260"
+  NTObject_unbreakable_56 = "36270"
+  NTObject_unbreakable_57 = "36285"
+  NTObject_unbreakable_58 = "36299"
+  NTObject_unbreakable_59 = "36386"
+  NTObject_unbreakable_6 = "33345"
+  NTObject_unbreakable_60 = "36957"
+  NTObject_unbreakable_61 = "37650"
+  NTObject_unbreakable_62 = "37847"
+  NTObject_unbreakable_63 = "39054"
+  NTObject_unbreakable_64 = "39146"
+  NTObject_unbreakable_65 = "39475"
+  NTObject_unbreakable_66 = "43141"
+  NTObject_unbreakable_67 = "43389"
+  NTObject_unbreakable_68 = "43529"
+  NTObject_unbreakable_69 = "43616"
+  NTObject_unbreakable_7 = "33385"
+  NTObject_unbreakable_70 = "43918"
+  NTObject_unbreakable_71 = "58256"
+  NTObject_unbreakable_72 = "58257"
+  NTObject_unbreakable_73 = "58259"
+  NTObject_unbreakable_74 = "58260"
+  NTObject_unbreakable_75 = "58513"
+  NTObject_unbreakable_76 = "58514"
+  NTObject_unbreakable_77 = "58516"
+  NTObject_unbreakable_78 = "58517"
+  NTObject_unbreakable_79 = "60983"
+  NTObject_unbreakable_8 = "33405"
+  NTObject_unbreakable_80 = "60992"
+  NTObject_unbreakable_81 = "60993"
+  NTObject_unbreakable_82 = "60996"
+  NTObject_unbreakable_83 = "60998"
+  NTObject_unbreakable_84 = "61020"
+  NTObject_unbreakable_85 = "61021"
+  NTObject_unbreakable_86 = "61022"
+  NTObject_unbreakable_87 = "61079"
+  NTObject_unbreakable_88 = "61101"
+  NTObject_unbreakable_89 = "61102"
+  NTObject_unbreakable_9 = "33464"
+  NTObject_unbreakable_90 = "61112"
+  NTObject_unbreakable_91 = "61114"
+  NTObject_unbreakable_92 = "61115"
+  NTObject_unbreakable_93 = "61116"
+  NTObject_unbreakable_94 = "61117"
+  NTObject_unbreakable_95 = "61149"
+  NTObject_unbreakable_96 = "61167"
+  NTObject_unbreakable_97 = "61168"
+  NTObject_unbreakable_98 = "61169"
+  NTObject_unbreakable_99 = "61216"
+  NTObject_w_0 = "34614"
+  NTObjectCount_cam_1 = "1"
+  NTObjectCount_cam_10 = "1"
+  NTObjectCount_cam_2 = "1"
+  NTObjectCount_cam_3 = "1"
+  NTObjectCount_cam_4 = "1"
+  NTObjectCount_cam_5 = "2"
+  NTObjectCount_cam_6 = "1"
+  NTObjectCount_cam_7 = "1"
+  NTObjectCount_cam_8 = "1"
+  NTObjectCount_cam_9 = "1"
+  NTObjectCount_cameraBrick = "7"
+  NTObjectCount_door = "78"
+  NTObjectCount_kitchen_GarageDoor = "1"
+  NTObjectCount_kitchen_GarageDoor1 = "1"
+  NTObjectCount_l = "1"
+  NTObjectCount_light = "38"
+  NTObjectCount_sink = "58"
+  NTObjectCount_tower1 = "357"
+  NTObjectCount_tower1_base = "4"
+  NTObjectCount_unbreakable = "129"
+  NTObjectCount_w = "1"
+  numPhysVehicles = "0"
+  numPlayerVehicles = "5"
+  potentialTrust11426 = "2"
+  potentialTrust114300 = "2"
+  potentialTrust13271 = "2"
+  potentialTrust142546 = "2"
+  potentialTrust14912 = "2"
+  potentialTrust15420 = "1"
+  potentialTrust15740 = "1"
+  potentialTrust16362 = "2"
+  potentialTrust166247 = "2"
+  potentialTrust169132 = "2"
+  potentialTrust177375 = "2"
+  potentialTrust18701 = "2"
+  potentialTrust19562 = "2"
+  potentialTrust196624 = "2"
+  potentialTrust199997 = "2"
+  potentialTrust21017 = "2"
+  potentialTrust21549 = "2"
+  potentialTrust23722 = "2"
+  potentialTrust25351 = "2"
+  potentialTrust25717 = "1"
+  potentialTrust26586 = "2"
+  potentialTrust29131 = "2"
+  potentialTrust30966 = "2"
+  potentialTrust31008 = "2"
+  potentialTrust31325 = "2"
+  potentialTrust33688 = "2"
+  potentialTrust34963 = "2"
+  potentialTrust35965 = "2"
+  potentialTrust36274 = "1"
+  potentialTrust36825 = "1"
+  potentialTrust37468 = "2"
+  potentialTrust3824 = "1"
+  potentialTrust38451 = "2"
+  potentialTrust40148 = "2"
+  potentialTrust41072 = "2"
+  potentialTrust46426 = "2"
+  potentialTrust46795 = "2"
+  potentialTrust4701 = "2"
+  potentialTrust48980 = "2"
+  potentialTrust4928 = "2"
+  potentialTrust51861 = "2"
+  potentialTrust6138 = "2"
+  potentialTrust6911 = "2"
+  potentialTrust8326 = "2"
+  potentialTrust8727 = "2"
+  potentialTrustCount = "45"
+  potentialTrustEntry0 = "21017"
+  potentialTrustEntry1 = "169132"
+  potentialTrustEntry10 = "37468"
+  potentialTrustEntry11 = "40148"
+  potentialTrustEntry12 = "16362"
+  potentialTrustEntry13 = "31008"
+  potentialTrustEntry14 = "34963"
+  potentialTrustEntry15 = "114300"
+  potentialTrustEntry16 = "36274"
+  potentialTrustEntry17 = "15420"
+  potentialTrustEntry18 = "19562"
+  potentialTrustEntry19 = "25717"
+  potentialTrustEntry2 = "166247"
+  potentialTrustEntry20 = "29131"
+  potentialTrustEntry21 = "6138"
+  potentialTrustEntry22 = "4928"
+  potentialTrustEntry23 = "6911"
+  potentialTrustEntry24 = "46795"
+  potentialTrustEntry25 = "38451"
+  potentialTrustEntry26 = "18701"
+  potentialTrustEntry27 = "33688"
+  potentialTrustEntry28 = "48980"
+  potentialTrustEntry29 = "51861"
+  potentialTrustEntry3 = "142546"
+  potentialTrustEntry30 = "14912"
+  potentialTrustEntry31 = "8326"
+  potentialTrustEntry32 = "15740"
+  potentialTrustEntry33 = "196624"
+  potentialTrustEntry34 = "25351"
+  potentialTrustEntry35 = "199997"
+  potentialTrustEntry36 = "30966"
+  potentialTrustEntry37 = "46426"
+  potentialTrustEntry38 = "11426"
+  potentialTrustEntry39 = "8727"
+  potentialTrustEntry4 = "31325"
+  potentialTrustEntry40 = "4701"
+  potentialTrustEntry41 = "3824"
+  potentialTrustEntry42 = "13271"
+  potentialTrustEntry43 = "26586"
+  potentialTrustEntry44 = "177375"
+  potentialTrustEntry5 = "35965"
+  potentialTrustEntry6 = "21549"
+  potentialTrustEntry7 = "41072"
+  potentialTrustEntry8 = "23722"
+  potentialTrustEntry9 = "36825"
+  quitTime = "5418900"
+  QuotaObject = "13782"
+  Server_AS_stop = "59488"
+  Trust11426 = "0"
+  Trust114300 = "0"
+  Trust13271 = "0"
+  Trust142546 = "0"
+  Trust14912 = "0"
+  Trust15420 = "0"
+  Trust15740 = "0"
+  Trust16362 = "0"
+  Trust166247 = "0"
+  Trust169132 = "0"
+  Trust177375 = "0"
+  Trust18701 = "0"
+  Trust19562 = "0"
+  Trust196624 = "0"
+  Trust199997 = "0"
+  Trust21017 = "0"
+  Trust21549 = "0"
+  Trust23722 = "0"
+  Trust25351 = "0"
+  Trust25717 = "0"
+  Trust26586 = "0"
+  Trust29131 = "0"
+  Trust30966 = "0"
+  Trust31008 = "0"
+  Trust31325 = "0"
+  Trust33688 = "0"
+  Trust34963 = "0"
+  Trust35965 = "0"
+  Trust36274 = "0"
+  Trust36825 = "0"
+  Trust37468 = "0"
+  Trust3824 = "0"
+  Trust38451 = "0"
+  Trust40148 = "0"
+  Trust41072 = "2"
+  Trust46426 = "0"
+  Trust46795 = "0"
+  Trust4701 = "0"
+  Trust48980 = "0"
+  Trust4928 = "2"
+  Trust51861 = "0"
+  Trust6138 = "0"
+  Trust6911 = "0"
+  Trust8326 = "0"
+  Trust8727 = "0"
+Methods:
+  add() - set.add(obj1,...)
+  addNTName() - 
+  addPotentialTrust() - 
+  addScheduledEvent() - 
+  addSpawnBrick() - 
+  bringToFront() - set.bringToFront(object)
+  call() - 
+  cancelEvents() - 
+  chainBlink() - 
+  ChainDeleteAll() - 
+  chainMethodCall() - 
+  clear() - set.clear()
+  ClearAllNTNames() - 
+  clearAttributes() - 
+  clearEvents() - 
+  clearNTObjectName() - 
+  clientDeleteAll() - set.clientDeleteAll()
+  copyAttributes() - 
+  delete() - obj.delete()
+  deleteAll() - set.clientDeleteAll()
+  dump() - obj.dump()
+  dumpEvents() - 
+  DumpNTNames() - 
+  dumpSpawnPoints() - 
+  getAttribute() - 
+  getBottom() - 
+  getBrickSpawnPoint() - 
+  getClassName() - obj.getClassName()
+  getClient() - 
+  getCount() - set.getCount()
+  getGroup() - obj.getGroup()
+  getId() - obj.getId()
+  getIndex() - 
+  getName() - obj.getName()
+  getObject() - set.getObject(objIndex)
+  getTaggedField() - obj.getTaggedFieldCount(int idx)
+  getTop() - 
+  getTrustFailureMessage() - 
+  getType() - obj.getType()
+  hasUser() - 
+  indexOf() - 
+  isMember() - set.isMember(object)
+  listObjects() - set.listObjects();
+  ndStartUndo() - 
+  ndTickUndo() - 
+  onCameraEnterOrbit() - 
+  onCameraLeaveOrbit() - 
+  processInputEvent() - 
+  pushToBack() - set.pushToBack(object)
+  remove() - set.remove(obj1,...)
+  removeNTName() - 
+  removeSpawnBrick() - 
+  save() - obj.save(fileName, <selectedOnly>)
+  schedule() - object.schedule(time, command, <arg1...argN>);
+  scheduleNoQuota() - object.schedule(time, command, <arg1...argN>);
+  serializeEvent() - 
+  serializeEventToString() - 
+  setAttribute() - 
+  SetEventEnabled() - 
+  setName() - obj.setName(newName)
+  setNTObjectName() - 
+  swap() - 
+  ToggleEventEnabled() - 
+<input> (0): Call to dump in (null) uses result of void function call.
