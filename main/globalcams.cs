@@ -1,4 +1,4 @@
-function setAllCamerasView(%camPos, %targetPos)
+function setAllCamerasView(%camPos, %targetPos, %nocontrol)
 {
 	//calculate the position and rotation of camera
 	%pos = %camPos;
@@ -15,7 +15,7 @@ function setAllCamerasView(%camPos, %targetPos)
 	%camTransform = %pos SPC %aa;
 
 	//apply this on everyone
-	setCameraViewLoop(%camTransform, 0, 1);
+	setCameraViewLoop(%camTransform, 0, !%nocontrol);
 }
 
 function setCameraViewLoop(%transform, %i, %nocontrol)

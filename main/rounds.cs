@@ -65,6 +65,8 @@ function generateBottomPrint()
 
 function bottomprintTimerLoop(%timeLeft)
 {
+	if (isEventPending($Server::PrisonEscape::timerSchedule))
+		cancel($Server::PrisonEscape::timerSchedule);
 	//display timeleft to everyone
 	%min = mFloor(%timeLeft / 60);
 	%sec = %timeleft % 60;
@@ -98,6 +100,8 @@ function bottomprintTimerLoop(%timeLeft)
 $guardCount = 4;
 function prisonersWinLoop(%i)
 {
+	if (isEventPending($Server::PrisonEscape::prisonerWinSchedule))
+		cancel($Server::PrisonEscape::prisonerWinSchedule);
 	if (%i >= ClientGroup.getCount())
 	{
 		%i = 0;
@@ -122,48 +126,42 @@ function prisonersWinLoop(%i)
 	$Server::PrisonEscape::prisonerWinSchedule = schedule(0, 0, prisonersWinLoop, %i + 1);
 }
 
+///////////////////////////////
+//////////duringround//////////
+///////////////////////////////
+$Server::PrisonEscape::winCamPos = "";
+$Server::PrisonEscape::winCamTarget = "";
+function guardsWin() {
+	if (isEventPending($Server::PrisonEscape::prisonerWinSchedule))
+		cancel($Server::PrisonEscape::prisonerWinSchedule);
+	if (isEventPending($Server::PrisonEscape::timerSchedule))
+		cancel($Server::PrisonEscape::timerSchedule);
+
+	//set cameras up
+
+	//playsound on clients
+}
+
+
+function prisonersWin() {
+	if (isEventPending($Server::PrisonEscape::prisonerWinSchedule))
+		cancel($Server::PrisonEscape::prisonerWinSchedule);
+	if (isEventPending($Server::PrisonEscape::timerSchedule))
+		cancel($Server::PrisonEscape::timerSchedule);
+
+	//set cameras up
+
+	//playsound on clients
+}
 
 /////////////////////////////
 //////////postround//////////
 /////////////////////////////
 
-
-function setAllCamerasView(%camPos, %targetPos)
-{
-	//calculate the position and rotation of camera
-	%pos = %camPos;
-	%delta = vectorSub(%targetPos, %pos);
-	%deltaX = getWord(%delta, 0);
-	%deltaY = getWord(%delta, 1);
-	%deltaZ = getWord(%delta, 2);
-	%deltaXYHyp = vectorLen(%deltaX SPC %deltaY SPC 0);
-
-	%rotZ = mAtan(%deltaX, %deltaY) * -1; 
-	%rotX = mAtan(%deltaZ, %deltaXYHyp);
-
-	%aa = eulerRadToMatrix(%rotX SPC 0 SPC %rotZ); //this function should be called eulerToAngleAxis...
-	%camTransform = %pos SPC %aa;
-
-	//apply this on everyone
-	setCameraViewLoop(%camTransform, 0, 1);
-}
-
-function setCameraViewLoop(%transform, %i, %nocontrol)
-{
-	if (%i >= ClientGroup.getCount())
-		return;
-	%client = ClientGroup.getObject(%i);
-	%camera = %client.camera;
-	
-	%client.setControlObject(%camera);
-	%camera.setTransform(%transform);();
-
-	%camera.setFlyMode	%camera.mode = "Observer";
-	if (%nocontrol)
-		%camera.setControlObject(%client.dummyCamera);
-
-	schedule(0, 0, setCameraViewLoop, %transform, %i+1, %nocontrol);
-}
+exec("./globalcams.cs");
+//function setAllCamerasView(%camPos, %targetPos)
+//function setCameraViewLoop(%transform, %i, %nocontrol)
+//function allCameraPan(%pos1, %pos2, %speed, %targetPos)
 
 /////////////////////////////////
 ////////Generic Functions////////
@@ -264,11 +262,12 @@ function serverCmdSetPhase(%client, %phase)
 		//camera for each guard - give guards control of their body here
 
 		//autocall phase 2
+		//call through the caminations
 	}
 	else if (%phase == 2) //start round loops, like timer + win conditions check
 	{
 		//turn on all the spotlights
-		//iterate through brickgroup ntname "spotlights" and manually toggle them on.
+		//iterate through brickgroup ntname "tower[#]" and manually toggle them on.
 		//give players items
 		for (%i = 0; %i < ClientGroup.getCount(); %i++)
 		{
@@ -289,7 +288,11 @@ function serverCmdSetPhase(%client, %phase)
 	else if (%phase == 3) //end of round phase
 	{
 		//cancel timer loop, but dont override the ending time bottomprint
-
+		if (isEventPending($Server::PrisonEscape::bottomprintTimerLoop))
+			cancel($Server::PrisonEscape::bottomprintTimerLoop);
+		if (isEventPending($Server::PrisonEscape::prisonersWinLoop))
+			cancel($Server::PrisonEscape::prisonersWinLoop);
+		
 		//assign camera, but dont remove player control so everyone can climb out and run and stuff
 
 		//play round end music
@@ -299,5 +302,37 @@ function serverCmdSetPhase(%client, %phase)
 		//autostart phase 0 in 15 seconds
 
 	}
+}
+
+function giveItems(%client) 
+{
+	if (!isObject(%player = %client.player))
+		return;
+	if (%client.isGuard)
+	{
+		%player.addItem(SniperRifleSpotlightItem, %client);
+		//%player.addItem(WhistleItem, %client);
+		%player.addItem(SteakItem, %client);
+		//%player.addItem(BatonItem, %client);
+	}
+	else
+	{
+		%player.addItem(ChiselItem, %client);
+	}
+}
+
+function Player::addItem(%player,%image,%client)
+{
+   for(%i = 0; %i < %player.getDatablock().maxTools; %i++)
+   {
+      %tool = %player.tool[%i];
+      if(%tool == 0)
+      {
+         %player.tool[%i] = %image;
+         %player.weaponCount++;
+         messageClient(%client,'MsgItemPickup','',%i,%image);
+         break;
+      }
+   }
 }
 //%this.player.setShapeName(%this.player.identity,"8564862");
