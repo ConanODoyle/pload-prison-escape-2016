@@ -129,30 +129,6 @@ function prisonersWinLoop(%i)
 ///////////////////////////////
 //////////duringround//////////
 ///////////////////////////////
-$Server::PrisonEscape::winCamPos = "";
-$Server::PrisonEscape::winCamTarget = "";
-function guardsWin() {
-	if (isEventPending($Server::PrisonEscape::prisonerWinSchedule))
-		cancel($Server::PrisonEscape::prisonerWinSchedule);
-	if (isEventPending($Server::PrisonEscape::timerSchedule))
-		cancel($Server::PrisonEscape::timerSchedule);
-
-	//set cameras up
-
-	//playsound on clients
-}
-
-
-function prisonersWin() {
-	if (isEventPending($Server::PrisonEscape::prisonerWinSchedule))
-		cancel($Server::PrisonEscape::prisonerWinSchedule);
-	if (isEventPending($Server::PrisonEscape::timerSchedule))
-		cancel($Server::PrisonEscape::timerSchedule);
-
-	//set cameras up
-
-	//playsound on clients
-}
 
 /////////////////////////////
 //////////postround//////////
@@ -295,9 +271,12 @@ function serverCmdSetPhase(%client, %phase)
 		
 		//assign camera, but dont remove player control so everyone can climb out and run and stuff
 
-		//play round end music
 
-		//disable suicide (probably just disable it entirely)
+		//reset cam
+		$Server::PrisonEscape::winCamPos = "";
+		$Server::PrisonEscape::winCamTarget = "";
+
+		//play round end music
 
 		//autostart phase 0 in 15 seconds
 
