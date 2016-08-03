@@ -5,3 +5,4 @@ Decide on classic zombie tank or new bronson
 Ham shank
 Smoke grenade
 Fire Extinguisher
+Steak testing/fixes (dont path to targets within the prison)
