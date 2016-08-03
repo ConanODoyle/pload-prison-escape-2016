@@ -10,7 +10,7 @@ function assignBricks()
 
 	for (%i = 1; %i < 5; %i++)
 		if (!isObject(%towerGroup.tower[%i]))
-			%towerGroup.tower[%i]= new ScriptObject() {class = "TowerGroup"; brickCount = 0;};
+			%towerGroup.tower[%i] = new ScriptObject() {class = "TowerGroup"; brickCount = 0;};
 		else
 		{
 			%towerGroup.tower[%i].delete();
