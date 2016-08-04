@@ -72,9 +72,9 @@ $cellblock3_1	= "-62 -299.5 13.6";
 $cellblock3_2	= "3 -267.5 0";
 
 
-function getRegion(%player)
+function getRegion(%obj)
 {
-	%pos = %player.getPosition();
+	%pos = %obj.getPosition();
 	%posx = xval(%pos);
 	%posy = yval(%pos);
 	%posZ = zval(%pos);
