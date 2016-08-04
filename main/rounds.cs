@@ -158,39 +158,6 @@ function prisonersWin() {
 	//playsound on clients
 }
 
-function pickPrisonerSpawnPoint() 
-{
-	%start = getRandom(0, $Server::PrisonEscape::PrisonerSpawnPoints.count - 1);
-	for (%i = %start; %i < $Server::PrisonEscape::PrisonerSpawnPoints.count; i++)
-	{
-		%index = %i % $Server::PrisonEscape::PrisonerSpawnPoints.count;
-		%brick = $Server::PrisonEscape::PrisonerSpawnPoints.spawn[%index];
-		if (%brick.spawnCount < 2)
-			break;
-		%brick = "";
-	}
-	if (isObject(%brick))
-	{
-		%brick.spawnCount++;
-		return %brick.getSpawnPoint();
-	}
-	else
-	{
-		echo("Can't find a spawnpoint with less than 2 spawns! Resetting...");
-		resetPrisonerSpawnPointCounts();
-		return $Server::PrisonEscape::PrisonerSpawnPoints.spawn[%start].getSpawnPoint();
-	}
-}
-
-function resetPrisonerSpawnPointCounts()
-{
-	for (%i = 0; %i < $Server::PrisonEscape::PrisonerSpawnPoints.count; i++)
-	{
-		%brick = $Server::PrisonEscape::PrisonerSpawnPoints.spawn[%i]
-		%brick.spawnCount = 0;
-	}
-}
-
 function spawnDeadPrisoners()
 {
 	for (%i = 0; %i < ClientGroup.getCount(); %i++)
