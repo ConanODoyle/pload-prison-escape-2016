@@ -158,6 +158,51 @@ function prisonersWin() {
 	//playsound on clients
 }
 
+function pickPrisonerSpawnPoint() 
+{
+	%start = getRandom(0, $Server::PrisonEscape::PrisonerSpawnPoints.count - 1);
+	for (%i = %start; %i < $Server::PrisonEscape::PrisonerSpawnPoints.count; i++)
+	{
+		%index = %i % $Server::PrisonEscape::PrisonerSpawnPoints.count;
+		%brick = $Server::PrisonEscape::PrisonerSpawnPoints.spawn[%index];
+		if (%brick.spawnCount < 2)
+			break;
+		%brick = "";
+	}
+	if (isObject(%brick))
+	{
+		%brick.spawnCount++;
+		return %brick.getSpawnPoint();
+	}
+	else
+	{
+		echo("Can't find a spawnpoint with less than 2 spawns! Resetting...");
+		resetPrisonerSpawnPointCounts();
+		return $Server::PrisonEscape::PrisonerSpawnPoints.spawn[%start].getSpawnPoint();
+	}
+}
+
+function resetPrisonerSpawnPointCounts()
+{
+	for (%i = 0; %i < $Server::PrisonEscape::PrisonerSpawnPoints.count; i++)
+	{
+		%brick = $Server::PrisonEscape::PrisonerSpawnPoints.spawn[%i]
+		%brick.spawnCount = 0;
+	}
+}
+
+function spawnDeadPrisoners()
+{
+	for (%i = 0; %i < ClientGroup.getCount(); %i++)
+	{
+		if ((%client = ClientGroup.getObject(%i)).isGuard || !%client.dead())
+			continue;
+		%spawn = pickPrisonerSpawnPoint();
+		%client.createPlayer(%spawn);
+	}
+	resetPrisonerSpawnPointCounts();
+}
+
 /////////////////////////////
 //////////postround//////////
 /////////////////////////////
@@ -196,15 +241,21 @@ function swapStatistics()
 {
 	switch ($Server::PrisonEscape::currentStatistic)
 	{
-		case 0: %stat = "Sharpshooter: " 	@ $Server::PrisonEscape::SharpshooterGuard.name SPC "-" SPC $Server::PrisonEscape::TopAcc SPC "acc";
-		case 1: %stat = "Escape Artist: " 	@ $Server::PrisonEscape::MVPPrisoner.name 		SPC "-" SPC $Server::PrisonEscape::TopChisel SPC "bricks";
-		case 2: %stat = "Riot Control: "	@ $Server::PrisonEscape::MVPGuard.name			SPC "-" SPC $Server::PrisonEscape::MVPGuard.getScore() SPC "kills";
+		case 0: %stat = "Sharpshooter: " 	@ 
+			(strLen($Server::PrisonEscape::SharpshooterGuard.name) > 10 ? getSubStr($Server::PrisonEscape::SharpshooterGuard.name, 9) @ "." : $Server::PrisonEscape::SharpshooterGuard.name)
+			SPC "-" SPC $Server::PrisonEscape::TopAcc SPC "acc";
+		case 1: %stat = "Escape Artist: " 	@ 
+			(strLen($Server::PrisonEscape::MVPPrisoner.name) > 10 ? getSubStr($Server::PrisonEscape::MVPPrisoner.name, 9) @ "." : $Server::PrisonEscape::MVPPrisoner.name)
+			SPC "-" SPC $Server::PrisonEscape::TopChisel SPC "bricks";
+		case 2: %stat = "Riot Control: "	@
+			(strLen($Server::PrisonEscape::MVPGuard.name) > 10 ? getSubStr($Server::PrisonEscape::MVPGuard.name, 9) @ "." : $Server::PrisonEscape::MVPGuard.name)
+			SPC "-" SPC $Server::PrisonEscape::MVPGuard.getScore() SPC "kills";
 		case 3: %stat = "Guard Messages Sent: " @ $Server::PrisonEscape::GuardMessagesSent;
 		case 4: %stat = "Prisoner Messages Sent: " @ $Server::PrisonEscape::PrisonerMessagesSent;
 		case 5: %stat = "Prisoner Deaths: " @ $Server::PrisonEscape::PrisonerDeaths;
 		case 6: %stat = "Bricks Destroyed: " @ $Server::PrisonEscape::BricksDestroyed;
 		case 7: %stat = "Bullets Fired: " @ $Server::PrisonEscape::SniperRifleBullets;
-		case 8: %stat = "Chisel Attacks: " @ $Server::PrisonEscape::ChiselAttacks;
+		case 8: %stat = "Chisel Swings: " @ $Server::PrisonEscape::ChiselAttacks;
 		case 9: %stat = "Trays Used: " @ $Server::PrisonEscape::TraysUsed;
 		case 10: %stat = "Buckets Used: " @ $Server::PrisonEscape::BucketsUsed;
 		case 11: %stat = "Steaks Eaten: " @ $Server::PrisonEscape::SteaksEaten;
@@ -318,37 +369,5 @@ function serverCmdSetPhase(%client, %phase)
 
 		$Server::PrisonEscape::roundPhase = 3;
 	}
-}
-
-function giveItems(%client) 
-{
-	if (!isObject(%player = %client.player))
-		return;
-	if (%client.isGuard)
-	{
-		%player.addItem(SniperRifleSpotlightItem, %client);
-		//%player.addItem(WhistleItem, %client);
-		%player.addItem(SteakItem, %client);
-		//%player.addItem(BatonItem, %client);
-	}
-	else
-	{
-		%player.addItem(ChiselItem, %client);
-	}
-}
-
-function Player::addItem(%player,%image,%client)
-{
-   for(%i = 0; %i < %player.getDatablock().maxTools; %i++)
-   {
-      %tool = %player.tool[%i];
-      if(%tool == 0)
-      {
-         %player.tool[%i] = %image;
-         %player.weaponCount++;
-         messageClient(%client,'MsgItemPickup','',%i,%image);
-         break;
-      }
-   }
 }
 //%this.player.setShapeName(%this.player.identity,"8564862");

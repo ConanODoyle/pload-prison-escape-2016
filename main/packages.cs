@@ -38,7 +38,7 @@ package PrisonEscape_Base
 			%this.player.setShapeNameColor(".9 .34 .08");
 			%this.player.setShapeNameDistance(15);
 
-			//other Prisoner stuff
+			giveItems(%this);
 
 			return %parent;
 		}
@@ -47,7 +47,7 @@ package PrisonEscape_Base
 			%this.player.setShapeNameColor(".54 .7 .55");
 			%this.player.setShapeNameDistance(20);
 
-			//other Guard stuff
+			giveItems(%this);
 
 			return %parent;
 		}
@@ -171,4 +171,69 @@ function GameConnection::applyUniform(%this)
 			%player.setDecalName("Mod-Police");
 	}
 	%this.applyingUniform = false;
+}
+
+function pickPrisonerSpawnPoint() 
+{
+	%start = getRandom(0, $Server::PrisonEscape::PrisonerSpawnPoints.count - 1);
+	for (%i = %start; %i < $Server::PrisonEscape::PrisonerSpawnPoints.count; i++)
+	{
+		%index = %i % $Server::PrisonEscape::PrisonerSpawnPoints.count;
+		%brick = $Server::PrisonEscape::PrisonerSpawnPoints.spawn[%index];
+		if (%brick.spawnCount < 2)
+			break;
+		%brick = "";
+	}
+	if (isObject(%brick))
+	{
+		%brick.spawnCount++;
+		return %brick.getSpawnPoint();
+	}
+	else
+	{
+		echo("Can't find a spawnpoint with less than 2 spawns! Resetting...");
+		resetPrisonerSpawnPointCounts();
+		return $Server::PrisonEscape::PrisonerSpawnPoints.spawn[%start].getSpawnPoint();
+	}
+}
+
+function resetPrisonerSpawnPointCounts()
+{
+	for (%i = 0; %i < $Server::PrisonEscape::PrisonerSpawnPoints.count; i++)
+	{
+		%brick = $Server::PrisonEscape::PrisonerSpawnPoints.spawn[%i]
+		%brick.spawnCount = 0;
+	}
+}
+
+function giveItems(%client) 
+{
+	if (!isObject(%player = %client.player))
+		return;
+	if (%client.isGuard)
+	{
+		%player.addItem(SniperRifleSpotlightItem, %client);
+		//%player.addItem(WhistleItem, %client);
+		%player.addItem(SteakItem, %client);
+		//%player.addItem(BatonItem, %client);
+	}
+	else
+	{
+		%player.addItem(ChiselItem, %client);
+	}
+}
+
+function Player::addItem(%player,%image,%client)
+{
+   for(%i = 0; %i < %player.getDatablock().maxTools; %i++)
+   {
+      %tool = %player.tool[%i];
+      if(%tool == 0)
+      {
+         %player.tool[%i] = %image;
+         %player.weaponCount++;
+         messageClient(%client,'MsgItemPickup','',%i,%image);
+         break;
+      }
+   }
 }
