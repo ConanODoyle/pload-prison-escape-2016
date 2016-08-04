@@ -15,3 +15,4 @@ override showing viewer count in bottomprint
 check if %brick.getSpawnPoint is a valid default function (turn off slayer to check)
 make a slower-running playertype
 randomly give prisoners chisel/knife? or spawn some without chisels?
+finish roundphase 3 for observer onTrigger
