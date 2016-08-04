@@ -2,7 +2,8 @@ package PrisonEscape_Base
 {
 	function serverCmdSuicide(%client)
 	{
-		parent::serverCmdSuicide(%client);
+		if ($Server::PrisonEscape::Testing)
+			return parent::serverCmdSuicide(%client);
 		return;
 	}
 
