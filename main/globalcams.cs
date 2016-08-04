@@ -50,7 +50,7 @@ function allCameraPan(%pos1, %pos2, %speed, %targetPos)
 	setAllCamerasView(%pos1, %targetPos);
 	if (isEventPending($allCameraPan))
 		cancel($allCameraPan);
-	$allCameraPan = schedule(20, 0, allCameraPan, vectorAdd(%pos1, %moveVector), %pos2, %speed/1.005, %targetPos);
+	$allCameraPan = schedule(0, 0, allCameraPan, vectorAdd(%pos1, %moveVector), %pos2, %speed/1.005, %targetPos);
 }
 
 function returnAllPlayerControl()
@@ -61,4 +61,23 @@ function returnAllPlayerControl()
 		if (isObject(%client.player))
 			%client.setControlObject(%client.player);
 	}
+}
+
+//////Spectating cams//////
+
+function spectateNextPlayer(%client)
+{
+	for (%i = %client.spectatingClient + 1; %i < ClientGroup.getCount(); %i++)
+	{
+		if (isObject(%player = ClientGroup.getObject(%i).player)) 
+		{
+			%client.spectatingClient = %i;
+			break;
+		}
+		%i = %i % ClientGroup.getCount();
+	}
+	//centerprint controls + time till respawn
+
+	%client.camera.setMode(Corpse, %player);
+	%client.setControlObject(%client.camera)
 }

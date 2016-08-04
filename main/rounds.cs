@@ -217,6 +217,7 @@ function swapStatistics()
 	displayRoundLoadingInfo();
 }
 
+$Server::PrisonEscape::roundPhase = 0;
 function serverCmdSetPhase(%client, %phase) 
 {
 	if (!%client.isSuperAdmin)
@@ -234,14 +235,22 @@ function serverCmdSetPhase(%client, %phase)
 		messageAdmins("\c4Loading bricks...");
 		$Server::PrisonEscape::generator = 0;
 		$Server::PrisonEscape::commDish = 0;
+		//reset the spawn group
+		$Server::PrisonEscape::PrisonerSpawnPoints = new ScriptObject()
+		{
+			count = 0;
+			//spawn0 = "";
+		};
 		//$buildBLID = 4928;
 		//assignBricks();
+		//reset guard list
 		$Server::PrisonEscape::Guards = "";
 
 		//start statistics display loop
 		calculateStatistics();
 		swapStatistics();
 		displayRoundLoadingInfo();
+		$Server::PrisonEscape::roundPhase = 0;
 	} 
 	else if (%phase == 1) //start the round caminations and spawn everyone but dont give them control of their bodies yet
 	{
@@ -267,6 +276,7 @@ function serverCmdSetPhase(%client, %phase)
 
 		//autocall phase 2
 		//call through the caminations
+		$Server::PrisonEscape::roundPhase = 1;
 	}
 	else if (%phase == 2) //start round loops, like timer + win conditions check
 	{
@@ -288,6 +298,7 @@ function serverCmdSetPhase(%client, %phase)
 		//create win trigger zones
 		$guardCount = 4;
 		prisonersWinLoop(0);
+		$Server::PrisonEscape::roundPhase = 2;
 	}
 	else if (%phase == 3) //end of round phase
 	{
@@ -305,6 +316,7 @@ function serverCmdSetPhase(%client, %phase)
 
 		//autostart phase 0 in 15 seconds
 
+		$Server::PrisonEscape::roundPhase = 3;
 	}
 }
 

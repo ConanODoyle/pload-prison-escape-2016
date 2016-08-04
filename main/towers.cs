@@ -2,6 +2,11 @@
 
 $Server::PrisonEscape::Towers = new ScriptGroup()
 {};
+$Server::PrisonEscape::PrisonerSpawnPoints = new ScriptObject()
+{
+	count = 0;
+	//spawn0 = "";
+};
 
 function assignBricks()
 {
@@ -116,13 +121,18 @@ function saveBricks(%brickgroup, %i) //edit to use the brickgroup data later?? (
 		else if (%name $= "tower3") $Server::PrisonEscape::Towers.tower3.addBrick(%brick);
 		else if (%name $= "tower4") $Server::PrisonEscape::Towers.tower4.addBrick(%brick);
 	} 
-	else if (strPos(%name, "generator") > 0)
+	else if (strPos(%name, "generator") >= 0)
 	{
 		$Server::PrisonEscape::generator = %brick;
 	}
-	else if (strPos(%name, "commDish") > 0)
+	else if (strPos(%name, "commDish") >= 0)
 	{
 		$Server::PrisonEscape::commDish = %brick;
+	}
+	else if (strPos(%brick.getDatablock().getName(), "spawn") >= 0)
+	{
+		$Server::PrisonEscape::PrisonerSpawnPoints.spawn[$Server::PrisonEscape::PrisonerSpawnPoints.count] = %brick;
+		$Server::PrisonEscape::PrisonerSpawnPoints.count++;
 	}
 	//0 length schedule to run function when server can run it to not lag people
 	schedule(0, 0, saveBricks, %brickgroup, %i+1);
