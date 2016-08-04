@@ -12,3 +12,6 @@ Disable suicide
 Make camera intro a single function called on each client so new joiners see it
 	- Rewrite setAllCamera?
 override showing viewer count in bottomprint
+check if %brick.getSpawnPoint is a valid default function (turn off slayer to check)
+make a slower-running playertype
+randomly give prisoners chisel/knife? or spawn some without chisels?
