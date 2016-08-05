@@ -300,11 +300,9 @@ function serverCmdSetPhase(%client, %phase)
 	{
 		//turn on all the spotlights
 		//iterate through brickgroup ntname "tower[#]" and manually toggle them on.
-		//give players items
-		for (%i = 0; %i < ClientGroup.getCount(); %i++)
-		{
-			giveItems(ClientGroup.getObject(%i));
-		}
+
+		//disable suicide (probably just disable it entirely)
+		
 		//give players control of themselves
 		for (%i = 0; %i < ClientGroup.getCount(); %i++)
 		{
@@ -329,8 +327,6 @@ function serverCmdSetPhase(%client, %phase)
 		//assign camera, but dont remove player control so everyone can climb out and run and stuff
 
 		//play round end music
-
-		//disable suicide (probably just disable it entirely)
 
 		//autostart phase 0 in 15 seconds
 
