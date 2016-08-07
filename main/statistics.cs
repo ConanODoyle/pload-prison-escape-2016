@@ -9,7 +9,7 @@ function calculateStatistics()
 	//iterate through clients and calculate statistics
 	for (%i = 0; %i < ClientGroup.getCount(); %i++)
 	{
-		%client = ClientGroup.getObjects(%i);
+		%client = ClientGroup.getObject(%i);
 		//find mvp guard, mvp prisoner
 		//have a baseline cutoff for MVP status
 		//guard accuracy weighted based on number of kills
@@ -25,7 +25,7 @@ function calculateStatistics()
 		if (%client.isGuard && %client.weightedaccuracy > %mvpAcc) 
 		{
 			$Server::PrisonEscape::MVPGuard = %client;
-			%mvpAcc = %client.weightedaccuracy
+			%mvpAcc = %client.weightedaccuracy;
 		}
 		else if (!%client.isGuard && %client.chiselHit > %mvpChisel)
 		{

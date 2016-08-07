@@ -21,3 +21,4 @@ reset brick health on phase reset
 add damage checks for prisoners
 finish prisonerwinloopcheck
 cardboard box slide
+remove shoulder pads

@@ -164,7 +164,7 @@ function spawnDeadPrisoners()
 {
 	for (%i = 0; %i < ClientGroup.getCount(); %i++)
 	{
-		if (!%client.dead() || (%client = ClientGroup.getObject(%i)).isGuard)
+		if (isObject(%client.player) || (%client = ClientGroup.getObject(%i)).isGuard)
 			continue;
 		%spawn = pickPrisonerSpawnPoint();
 		%client.createPlayer(%spawn);
@@ -189,7 +189,7 @@ function despawnAll()
 {
 	for (%i = 0; %i < ClientGroup.getCount(); %i++)
 	{
-		if (isObject(%player = %ClientGroup.getObject(%i).player))
+		if (isObject(%player = ClientGroup.getObject(%i).player))
 		{
 			%player.delete();
 		}
@@ -249,7 +249,7 @@ function serverCmdSetPhase(%client, %phase)
 	if (%phase == 0) //pre round phase: display statistics, pick guards, load bricks
 	{
 		//despawn everyone
-		setAllCamerasView($PrisonEscape::LoadingCamBrick.getPosition(), $PrisonEscape::LoadingCamBrickTarget.getPosition());
+		setAllCamerasView($Server::PrisonEscape::LoadingCamBrick.getPosition(), $Server::PrisonEscape::LoadingCamBrickTarget.getPosition());
 		despawnAll();
 		//reload bricks
 		serverDirectSaveFileLoad("saves/Prison Escape.bls", 3, "", 0, 1); //1 for silent
@@ -277,8 +277,9 @@ function serverCmdSetPhase(%client, %phase)
 	} 
 	else if (%phase == 1) //start the round caminations and spawn everyone but dont give them control of their bodies yet
 	{
-		//reset statistics
+		//reset statistics here because alivetime matters
 		clearStatistics();
+		cancel($Server::PrisonEscape::statisticLoop);
 		clearCenterprintAll();
 		clearBottomprintAll();
 

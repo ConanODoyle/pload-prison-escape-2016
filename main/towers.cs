@@ -22,6 +22,11 @@ function assignBricks()
 			%towerGroup.tower[%i] = new ScriptObject() {class = "TowerGroup"; brickCount = 0;};
 		}
 	//iterate through and save the bricks into the scriptobjects
+	$Server::PrisonEscape::PrisonerSpawnPoints = new ScriptObject()
+	{
+		count = 0;
+		//spawn0 = "";
+	};
 	saveBricks(%brickgroup, 0);
 }
 
@@ -114,7 +119,6 @@ function saveBricks(%brickgroup, %i) //edit to use the brickgroup data later?? (
 	if (strPos(%name, "tower") >= 0)
 	{
 		%name = getSubStr(%name, 0, 6); //tower# is only 6 chars
-		echo(%name SPC (%name $= "tower1"));
 
 		if (%name $= "tower1") $Server::PrisonEscape::Towers.tower1.addBrick(%brick);
 		else if (%name $= "tower2") $Server::PrisonEscape::Towers.tower2.addBrick(%brick);
@@ -129,7 +133,7 @@ function saveBricks(%brickgroup, %i) //edit to use the brickgroup data later?? (
 	{
 		$Server::PrisonEscape::commDish = %brick;
 	}
-	else if (strPos(%brick.getDatablock().getName(), "spawn") >= 0)
+	else if (strPos(%brick.getDatablock().getName(), "Spawn") >= 0)
 	{
 		$Server::PrisonEscape::PrisonerSpawnPoints.spawn[$Server::PrisonEscape::PrisonerSpawnPoints.count] = %brick;
 		$Server::PrisonEscape::PrisonerSpawnPoints.count++;

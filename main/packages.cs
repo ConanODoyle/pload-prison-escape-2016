@@ -34,6 +34,7 @@ package PrisonEscape_Base
 	function GameConnection::createPlayer(%this, %pos)
 	{
 		%parent = parent::createPlayer(%this, %pos);
+		%this.centerPrint("");
 		if (!%this.isGuard)
 		{
 			%this.player.setShapeNameColor(".9 .34 .08");
