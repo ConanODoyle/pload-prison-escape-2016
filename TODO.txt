@@ -16,3 +16,8 @@ check if %brick.getSpawnPoint is a valid default function (turn off slayer to ch
 make a slower-running playertype
 randomly give prisoners chisel/knife? or spawn some without chisels?
 finish roundphase 3 for observer onTrigger
+test if chisel can destroy bear trap
+reset brick health on phase reset
+add damage checks for prisoners
+finish prisonerwinloopcheck
+cardboard box slide

@@ -177,7 +177,7 @@ function GameConnection::applyUniform(%this)
 function pickPrisonerSpawnPoint() 
 {
 	%start = getRandom(0, $Server::PrisonEscape::PrisonerSpawnPoints.count - 1);
-	for (%i = %start; %i < $Server::PrisonEscape::PrisonerSpawnPoints.count; i++)
+	for (%i = %start; %i < $Server::PrisonEscape::PrisonerSpawnPoints.count; %i++)
 	{
 		%index = %i % $Server::PrisonEscape::PrisonerSpawnPoints.count;
 		%brick = $Server::PrisonEscape::PrisonerSpawnPoints.spawn[%index];
@@ -200,9 +200,9 @@ function pickPrisonerSpawnPoint()
 
 function resetPrisonerSpawnPointCounts()
 {
-	for (%i = 0; %i < $Server::PrisonEscape::PrisonerSpawnPoints.count; i++)
+	for (%i = 0; %i < $Server::PrisonEscape::PrisonerSpawnPoints.count; %i++)
 	{
-		%brick = $Server::PrisonEscape::PrisonerSpawnPoints.spawn[%i]
+		%brick = $Server::PrisonEscape::PrisonerSpawnPoints.spawn[%i];
 		%brick.spawnCount = 0;
 	}
 }

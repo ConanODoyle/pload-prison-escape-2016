@@ -49,9 +49,7 @@ function displayRoundLoadingInfo()
 	%guards1 = getGuardNames();
 	%guards2 = getSubStr(%guards1, strPos(%guards1, "Guard 2 <br>") + 12, strLen(%guards1));
 	%guards1 = getSubStr(%guards1, 0, strPos(%guards1, "Guard 2 <br>") + 12);
-	echo(%guards1);
-	echo(%guards2);
-	%centerprintString = "<font:Arial Bold:20>" @ %guards1 @ "<just:center>" @ %statisticString @ " <just:right>\c6" @ %guards2;
+	%centerprintString = "<font:Arial Bold:20>" @ %guards1 @ "<just:center>\c3" @ %statisticString @ " <just:right>\c6" @ %guards2;
 	centerprintAll(%centerprintString);
 	bottomprintAll(generateBottomPrint(), -1, 1);
 }
@@ -70,7 +68,9 @@ function bottomprintTimerLoop(%timeLeft)
 	//display timeleft to everyone
 	%min = mFloor(%timeLeft / 60);
 	%sec = %timeleft % 60;
-	bottomprintAll("<font:Arial Bold:24><just:center>\c6" @ %min @ ":" @ %sec @ " ", -1, 1);
+	for (%i = 0; %i < ClientGroup.getCount(); %i++) {
+		ClientGroup.getObject(%i).bottomprint("<font:Arial Bold:34><just:center>\c6" @ %min @ ":" @ (%sec < 10 ? "0" @ %sec : %sec) @ " ", -1, 0);
+	}
 
 	if (%timeleft == 0)
 	{
@@ -85,13 +85,14 @@ function bottomprintTimerLoop(%timeLeft)
 			%client = ClientGroup.getObject(%i);
 			if (%client.isGuard)
 			{
-				bottomprint(%client, "<font:Arial Bold:24><just:center>\c2" @ %min @ ":" @ %sec @ " ", -1, 1);
+				%client.bottomprint("<font:Arial Bold:34><just:center>\c2" @ %min @ ":" @ (%sec < 10 ? "0" @ %sec : %sec) @" ", -1, 0);
 			}
 			else
 			{
-				bottomprint(%client, "<font:Arial Bold:24><just:center>" @ %min @ ":" @ %sec @ " ", -1, 1);
+				%client.bottomprint("<font:Arial Bold:34><just:center>" @ %min @ ":" @ (%sec < 10 ? "0" @ %sec : %sec) @ " ", -1, 0);
 			}
 		}
+		return;
 	}
 
 	$Server::PrisonEscape::timerSchedule = schedule(1000, 0, bottomprintTimerLoop, %timeleft-1);
@@ -107,6 +108,7 @@ function prisonersWinLoop(%i)
 		%i = 0;
 		//if guards are all dead prisoners win too!
 		if ($guardCount <= 0)
+			return;
 			//prisoners win
 		$guardCount = 0;
 	}
@@ -162,7 +164,7 @@ function spawnDeadPrisoners()
 {
 	for (%i = 0; %i < ClientGroup.getCount(); %i++)
 	{
-		if ((%client = ClientGroup.getObject(%i)).isGuard || !%client.dead())
+		if (!%client.dead() || (%client = ClientGroup.getObject(%i)).isGuard)
 			continue;
 		%spawn = pickPrisonerSpawnPoint();
 		%client.createPlayer(%spawn);
@@ -206,29 +208,32 @@ function messageAdmins(%msg)
 $Server::PrisonEscape::currentStatistic = 0;
 function swapStatistics() 
 {
+	if (isEventPending($Server::PrisonEscape::statisticLoop))
+		return;
+
 	switch ($Server::PrisonEscape::currentStatistic)
 	{
-		case 0: %stat = "Sharpshooter: " 	@ 
+		case 0: %stat = "Sharpshooter\c6: " 	@ 
 			(strLen($Server::PrisonEscape::SharpshooterGuard.name) > 10 ? getSubStr($Server::PrisonEscape::SharpshooterGuard.name, 9) @ "." : $Server::PrisonEscape::SharpshooterGuard.name)
 			SPC "-" SPC $Server::PrisonEscape::TopAcc SPC "acc";
-		case 1: %stat = "Escape Artist: " 	@ 
+		case 1: %stat = "Escape Artist\c6: " 	@ 
 			(strLen($Server::PrisonEscape::MVPPrisoner.name) > 10 ? getSubStr($Server::PrisonEscape::MVPPrisoner.name, 9) @ "." : $Server::PrisonEscape::MVPPrisoner.name)
 			SPC "-" SPC $Server::PrisonEscape::TopChisel SPC "bricks";
-		case 2: %stat = "Riot Control: "	@
+		case 2: %stat = "Riot Control\c6: "	@
 			(strLen($Server::PrisonEscape::MVPGuard.name) > 10 ? getSubStr($Server::PrisonEscape::MVPGuard.name, 9) @ "." : $Server::PrisonEscape::MVPGuard.name)
 			SPC "-" SPC $Server::PrisonEscape::MVPGuard.getScore() SPC "kills";
-		case 3: %stat = "Guard Messages Sent: " @ $Server::PrisonEscape::GuardMessagesSent;
-		case 4: %stat = "Prisoner Messages Sent: " @ $Server::PrisonEscape::PrisonerMessagesSent;
-		case 5: %stat = "Prisoner Deaths: " @ $Server::PrisonEscape::PrisonerDeaths;
-		case 6: %stat = "Bricks Destroyed: " @ $Server::PrisonEscape::BricksDestroyed;
-		case 7: %stat = "Bullets Fired: " @ $Server::PrisonEscape::SniperRifleBullets;
-		case 8: %stat = "Chisel Swings: " @ $Server::PrisonEscape::ChiselAttacks;
-		case 9: %stat = "Trays Used: " @ $Server::PrisonEscape::TraysUsed;
-		case 10: %stat = "Buckets Used: " @ $Server::PrisonEscape::BucketsUsed;
-		case 11: %stat = "Steaks Eaten: " @ $Server::PrisonEscape::SteaksEaten;
+		case 3: %stat = "Guard Messages Sent\c6: " @ $Server::PrisonEscape::GuardMessagesSent;
+		case 4: %stat = "Prisoner Messages Sent\c6: " @ $Server::PrisonEscape::PrisonerMessagesSent;
+		case 5: %stat = "Prisoner Deaths\c6: " @ $Server::PrisonEscape::PrisonerDeaths;
+		case 6: %stat = "Bricks Destroyed\c6: " @ $Server::PrisonEscape::BricksDestroyed;
+		case 7: %stat = "Bullets Fired\c6: " @ $Server::PrisonEscape::SniperRifleBullets;
+		case 8: %stat = "Chisel Swings\c6: " @ $Server::PrisonEscape::ChiselAttacks;
+		case 9: %stat = "Trays Used\c6: " @ $Server::PrisonEscape::TraysUsed;
+		case 10: %stat = "Buckets Used\c6: " @ $Server::PrisonEscape::BucketsUsed;
+		case 11: %stat = "Steaks Eaten\c6: " @ $Server::PrisonEscape::SteaksEaten;
 	}
 
-	$statisticString = %stat;
+	$Server::PrisonEscape::statisticString = %stat;
 	$Server::PrisonEscape::currentStatistic++;
 	$Server::PrisonEscape::currentStatistic %= 12;
 	$Server::PrisonEscape::statisticLoop = schedule(5000, 0, swapStatistics);
@@ -293,7 +298,7 @@ function serverCmdSetPhase(%client, %phase)
 		//camera for each guard - give guards control of their body here
 
 		//autocall phase 2
-		//call through the caminations
+		//call through the caminations, when they're done
 		$Server::PrisonEscape::roundPhase = 1;
 	}
 	else if (%phase == 2) //start round loops, like timer + win conditions check
@@ -302,7 +307,7 @@ function serverCmdSetPhase(%client, %phase)
 		//iterate through brickgroup ntname "tower[#]" and manually toggle them on.
 
 		//disable suicide (probably just disable it entirely)
-		
+
 		//give players control of themselves
 		for (%i = 0; %i < ClientGroup.getCount(); %i++)
 		{

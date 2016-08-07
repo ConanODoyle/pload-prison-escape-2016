@@ -79,5 +79,5 @@ function spectateNextPlayer(%client)
 	//centerprint controls + time till respawn
 
 	%client.camera.setMode(Corpse, %player);
-	%client.setControlObject(%client.camera)
+	%client.setControlObject(%client.camera);
 }
