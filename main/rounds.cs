@@ -259,10 +259,10 @@ function serverCmdSetPhase(%client, %phase)
 		$Server::PrisonEscape::generator = 0;
 		$Server::PrisonEscape::commDish = 0;
 		//reset the spawn group
+		$Server::PrisonEscape::PrisonerSpawnPoints.delete();
 		$Server::PrisonEscape::PrisonerSpawnPoints = new ScriptObject()
 		{
 			count = 0;
-			//spawn0 = "";
 		};
 		//$buildBLID = 4928;
 		//assignBricks();
