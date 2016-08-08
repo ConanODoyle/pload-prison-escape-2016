@@ -135,8 +135,16 @@ function saveBricks(%brickgroup, %i) //edit to use the brickgroup data later?? (
 	}
 	else if (strPos(%brick.getDatablock().getName(), "Spawn") >= 0)
 	{
-		$Server::PrisonEscape::PrisonerSpawnPoints.spawn[$Server::PrisonEscape::PrisonerSpawnPoints.count] = %brick;
-		$Server::PrisonEscape::PrisonerSpawnPoints.count++;
+		if (%name $= "spawn")
+		{
+			$Server::PrisonEscape::PrisonerSpawnPoints.spawn[$Server::PrisonEscape::PrisonerSpawnPoints.count] = %brick;
+			$Server::PrisonEscape::PrisonerSpawnPoints.count++;
+		}
+		else
+		{
+			$Server::PrisonEscape::TowerSpawn[%name] = %brick;
+			echo("Tower " @ %name "  spawnpoint has been saved.");
+		}
 	}
 	//0 length schedule to run function when server can run it to not lag people
 	schedule(0, 0, saveBricks, %brickgroup, %i+1);
