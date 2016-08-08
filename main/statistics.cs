@@ -100,10 +100,10 @@ $Server::PrisonEscape::SteaksEaten = 0;
 
 package PrisonStatistics
 {
-	function GameConnection::spawnPlayer(%client) //or should I use createPlayer?
+	function GameConnection::createPlayer(%client, %pos)
 	{
 		%client.spawnTime = $Sim::Time;
-		return parent::spawnPlayer(%client);
+		return parent::createPlayer(%client, %pos);
 	}
 
 	function Armor::onRemove(%this, %obj)
