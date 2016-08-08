@@ -94,7 +94,7 @@ function bottomprintTimerLoop(%timeLeft)
 		}
 		return;
 	}
-
+	$Server::PrisonEscape::currTime = %timeLeft; //respawn wave every 3 minutes
 	$Server::PrisonEscape::timerSchedule = schedule(1000, 0, bottomprintTimerLoop, %timeleft-1);
 }
 
@@ -215,28 +215,28 @@ function swapStatistics()
 	{
 		case 0: %stat = "Sharpshooter\c6: " 	@ 
 			(strLen($Server::PrisonEscape::SharpshooterGuard.name) > 10 ? getSubStr($Server::PrisonEscape::SharpshooterGuard.name, 9) @ "." : $Server::PrisonEscape::SharpshooterGuard.name)
-			SPC "-" SPC $Server::PrisonEscape::TopAcc SPC "acc";
+			SPC "-" SPC ($Server::PrisonEscape::TopAcc <= 0 ? 0 : $Server::PrisonEscape::TopAcc) SPC "acc";
 		case 1: %stat = "Escape Artist\c6: " 	@ 
 			(strLen($Server::PrisonEscape::MVPPrisoner.name) > 10 ? getSubStr($Server::PrisonEscape::MVPPrisoner.name, 9) @ "." : $Server::PrisonEscape::MVPPrisoner.name)
-			SPC "-" SPC $Server::PrisonEscape::TopChisel SPC "bricks";
+			SPC "-" SPC ($Server::PrisonEscape::TopChisel <= 0 ? 0 : $Server::PrisonEscape::TopChisel) SPC "bricks";
 		case 2: %stat = "Riot Control\c6: "	@
 			(strLen($Server::PrisonEscape::MVPGuard.name) > 10 ? getSubStr($Server::PrisonEscape::MVPGuard.name, 9) @ "." : $Server::PrisonEscape::MVPGuard.name)
-			SPC "-" SPC $Server::PrisonEscape::MVPGuard.getScore() SPC "kills";
-		case 3: %stat = "Guard Messages Sent\c6: " @ $Server::PrisonEscape::GuardMessagesSent;
-		case 4: %stat = "Prisoner Messages Sent\c6: " @ $Server::PrisonEscape::PrisonerMessagesSent;
-		case 5: %stat = "Prisoner Deaths\c6: " @ $Server::PrisonEscape::PrisonerDeaths;
-		case 6: %stat = "Bricks Destroyed\c6: " @ $Server::PrisonEscape::BricksDestroyed;
-		case 7: %stat = "Bullets Fired\c6: " @ $Server::PrisonEscape::SniperRifleBullets;
-		case 8: %stat = "Chisel Swings\c6: " @ $Server::PrisonEscape::ChiselAttacks;
-		case 9: %stat = "Trays Used\c6: " @ $Server::PrisonEscape::TraysUsed;
-		case 10: %stat = "Buckets Used\c6: " @ $Server::PrisonEscape::BucketsUsed;
-		case 11: %stat = "Steaks Eaten\c6: " @ $Server::PrisonEscape::SteaksEaten;
+			SPC "-" SPC ($Server::PrisonEscape::MVPGuard.getScore() <= 0 ? 0 : $Server::PrisonEscape::MVPGuard.getScore()) SPC "kills";
+		case 3: %stat = "Guard Messages Sent\c6: " @ ($Server::PrisonEscape::GuardMessagesSent <= 0 ? 0 : $Server::PrisonEscape::GuardMessagesSent);
+		case 4: %stat = "Prisoner Messages Sent\c6: " @ ($Server::PrisonEscape::PrisonerMessagesSent <= 0 ? 0 : $Server::PrisonEscape::PrisonerMessagesSent);
+		case 5: %stat = "Prisoner Deaths\c6: " @ ($Server::PrisonEscape::PrisonerDeaths <= 0 ? 0 : $Server::PrisonEscape::PrisonerDeaths);
+		case 6: %stat = "Bricks Destroyed\c6: " @ ($Server::PrisonEscape::BricksDestroyed <= 0 ? 0 : $Server::PrisonEscape::BricksDestroyed);
+		case 7: %stat = "Bullets Fired\c6: " @ ($Server::PrisonEscape::SniperRifleBullets <= 0 ? 0 : $Server::PrisonEscape::SniperRifleBullets);
+		case 8: %stat = "Chisel Swings\c6: " @ ($Server::PrisonEscape::ChiselAttacks <= 0 ? 0 : $Server::PrisonEscape::ChiselAttacks);
+		case 9: %stat = "Trays Used\c6: " @ ($Server::PrisonEscape::TraysUsed <= 0 ? 0 : $Server::PrisonEscape::TraysUsed);
+		case 10: %stat = "Buckets Used\c6: " @ ($Server::PrisonEscape::BucketsUsed <= 0 ? 0 : $Server::PrisonEscape::BucketsUsed);
+		case 11: %stat = "Steaks Eaten\c6: " @ ($Server::PrisonEscape::SteaksEaten <= 0 ? 0 : $Server::PrisonEscape::SteaksEaten);
 	}
 
 	$Server::PrisonEscape::statisticString = %stat;
 	$Server::PrisonEscape::currentStatistic++;
 	$Server::PrisonEscape::currentStatistic %= 12;
-	$Server::PrisonEscape::statisticLoop = schedule(5000, 0, swapStatistics);
+	$Server::PrisonEscape::statisticLoop = schedule(6000, 0, swapStatistics);
 	displayRoundLoadingInfo();
 }
 
@@ -290,8 +290,13 @@ function serverCmdSetPhase(%client, %phase)
 			assignGuard(%client);
 		}
 		//spawn guards
+		//write guard spawn function to call an individual guard spawn function separately.
+		//allows us to assign guards mid round if anyone leaves (usually ourselves)
+		//ploark-XRoanan's Prison Escape!
+		spawnGuards();
 
 		//spawn prisoners ensure no double spawnpoint spawns??
+		//spawn prisoners through timer start code.
 
 		//play music
 		//camera on prison
@@ -306,8 +311,6 @@ function serverCmdSetPhase(%client, %phase)
 	{
 		//turn on all the spotlights
 		//iterate through brickgroup ntname "tower[#]" and manually toggle them on.
-
-		//disable suicide (probably just disable it entirely)
 
 		//give players control of themselves
 		for (%i = 0; %i < ClientGroup.getCount(); %i++)
