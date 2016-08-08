@@ -108,6 +108,9 @@ function saveBricks(%brickgroup, %i) //edit to use the brickgroup data later?? (
 	%brick = %brickgroup.getObject(%i);
 	%name = %brick.getName();
 
+	//reset brick health
+	%brick.damage = 0;
+
 	//skip if there is no name
 	if (%name $= "")
 	{
