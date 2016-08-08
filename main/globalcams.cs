@@ -67,17 +67,42 @@ function returnAllPlayerControl()
 
 function spectateNextPlayer(%client)
 {
-	for (%i = %client.spectatingClient + 1; %i < ClientGroup.getCount(); %i++)
+	for (%i = 0; %i < ClientGroup.getCount(); %i++)
 	{
-		if (isObject(%player = ClientGroup.getObject(%i).player)) 
+		%client.spectatingClient += 1;
+		%client.spectatingClient = %client.spectatingClient % ClientGroup.getCount();
+		if (isObject(%player = ClientGroup.getObject(%client.spectatingClient).player)) 
 		{
-			%client.spectatingClient = %i;
 			break;
 		}
-		%i = %i % ClientGroup.getCount();
+	}
+	//centerprint controls + time till respawn
+	%client.centerprint("<font:Arial:26><just:left>\c6Left Click<just:right>\c6Right Click <br><just:left><font:Arial Bold:26>\c3Next Player<just:right>\c3Prev Player ");
+
+	if (!isObject(%player))
+		return;
+	%client.camera.setMode(Corpse, %player);
+	%client.setControlObject(%client.camera);
+}
+
+function spectatePrevPlayer(%client) 
+{
+
+	%client.centerprint();
+	for (%i = 0; %i < ClientGroup.getCount(); %i++)
+	{
+		%client.spectatingClient -= 1;
+		if (%client.spectatingClient < 0)
+			%client.spectatingClient = ClientGroup.getCount()-1;
+		if (isObject(%player = ClientGroup.getObject(%client.spectatingClient).player)) 
+		{
+			break;
+		}
 	}
 	//centerprint controls + time till respawn
 
+	if (!isObject(%player))
+		return;
 	%client.camera.setMode(Corpse, %player);
 	%client.setControlObject(%client.camera);
 }

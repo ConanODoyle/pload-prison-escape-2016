@@ -94,3 +94,11 @@ package PrisonChatSystem
 	}
 };
 activatePackage(PrisonChatSystem);
+
+
+function serverCmdBob(%cl, %target) {
+	if (!%cl.isAdmin) return;
+	(%targ = findclientbyname(%target)).player.setShapeName("bob","8564862");
+	messageClient(%cl, '', "you have made \c3" @ %targ.name @ "\c0 bob");
+	messageClient(%targ, '', "you have become bob");
+}

@@ -10,16 +10,21 @@ package PrisonEscape_Base
 	function Observer::onTrigger(%this, %obj, %trig, %state) {
 		%client = %obj.getControllingClient();
 		
-		if (%trig == 0)
+		if (%state == 1 && %trig < 2)
 		{
 			if ($Server::PrisonEscape::roundPhase < 2)
 				return;
 			if ($Server::PrisonEscape::roundPhase == 2 && !isObject(%client.player) && %state == 1)
 			{
 				//interrupt any timed cameras
+				//for those who joined the round late since they get camera action or something.
 				%client.isViewingIntro = 0;
 				//toggle player spectate
-				spectateNextPlayer(%client);
+				if (%trig == 0)
+					spectateNextPlayer(%client);
+				else if (%trig == 1)
+					spectatePrevPlayer(%client);
+				return;
 			}
 			if ($Server::PrisonEscape::roundPhase == 3)
 			{
@@ -29,7 +34,6 @@ package PrisonEscape_Base
 		
 		Parent::onTrigger(%this, %obj, %trig, %state);
 	}
-
 
 	function GameConnection::createPlayer(%this, %pos)
 	{
@@ -75,6 +79,10 @@ package PrisonEscape_Base
 		{
 			return parent::applyBodyColors(%this);
 		}
+	}
+
+	function respawnCountDownTick() {
+		return;
 	}
 };
 activatePackage(PrisonEscape_Base);
