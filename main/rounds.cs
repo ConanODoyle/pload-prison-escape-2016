@@ -98,36 +98,6 @@ function bottomprintTimerLoop(%timeLeft)
 	$Server::PrisonEscape::timerSchedule = schedule(1000, 0, bottomprintTimerLoop, %timeleft-1);
 }
 
-$guardCount = 4;
-function prisonersWinLoop(%i)
-{
-	if (isEventPending($Server::PrisonEscape::prisonerWinSchedule))
-		cancel($Server::PrisonEscape::prisonerWinSchedule);
-	if (%i >= ClientGroup.getCount())
-	{
-		%i = 0;
-		//if guards are all dead prisoners win too!
-		if ($guardCount <= 0)
-			return;
-			//prisoners win
-		$guardCount = 0;
-	}
-
-	%client = ClientGroup.getObject(%i);
-	if (isObject(%player = %client.player) && !%client.isGuard)
-	{
-		%pos = %player.getPosition();
-		%x = getWord(%pos, 0);
-		%y = getWord(%pos, 1);
-		if (/*%x or %y not within bounds*/)
-			//prisoners win
-	} 
-	else if (%client.isGuard && isObject(%player))
-		$guardCount++;
-
-	$Server::PrisonEscape::prisonerWinSchedule = schedule(0, 0, prisonersWinLoop, %i + 1);
-}
-
 ///////////////////////////////
 //////////duringround//////////
 ///////////////////////////////
@@ -148,6 +118,15 @@ function guardsWin() {
 	//playsound on clients
 }
 
+registerOutputEvent("fxDTSBrick", "prisonersWin", "", 1);
+
+function fxDTSBrick::prisonersWin(%this, %client) 
+{
+	if (%client.isGuard)
+		return;
+	$Server::PrisonEscape::firstPrisonerOut = %client;
+	prisonersWin();
+}
 
 function prisonersWin() {
 	if (isEventPending($Server::PrisonEscape::prisonerWinSchedule))
@@ -320,7 +299,7 @@ function serverCmdSetPhase(%client, %phase)
 		}
 		//start round timer
 		bottomprintTimerLoop(20 * 60);
-		//create win trigger zones
+		//create win trigger zones	
 		$guardCount = 4;
 		prisonersWinLoop(0);
 		$Server::PrisonEscape::roundPhase = 2;
@@ -334,7 +313,8 @@ function serverCmdSetPhase(%client, %phase)
 			cancel($Server::PrisonEscape::prisonersWinLoop);
 		
 		//assign camera, but dont remove player control so everyone can climb out and run and stuff
-
+		//set fov really low (but save fov beforehand) so we can play emitter effects without letting people run in front of it
+		//then of course reset back to normal.
 		//play round end music
 
 		//autostart phase 0 in 15 seconds

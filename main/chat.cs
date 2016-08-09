@@ -31,7 +31,7 @@ package PrisonChatSystem
 
 		//set donator message
 		if (%isDonator)
-			%msg = "<shadow:-3:3><shadowcolor:ffffff>" @ %msg;
+			%msg = "<shadow:-2:2><shadowcolor:ffffff>" @ %msg;
 
 		if (%phase == 0) //loading in between rounds
 		{
@@ -61,7 +61,7 @@ package PrisonChatSystem
 			if (%location !$= "DEAD")
 				%message = "\c6[\c4" @ %location @ "\c6] " @ %name @ %msg;
 			else
-				%message = %name @ %msg;
+				%message = "\c7[DEAD] " @ %name @ %msg;
 
 
 			for (%i = 0; %i < ClientGroup.getCount(); %i++)
@@ -76,12 +76,12 @@ package PrisonChatSystem
 				%targetIsOutside = (%targetLocation $= "Outside" || %targetLocation $= "Yard");
 
 				//message people on same team
-				if (!%targetIsOutside && !%isOutside)
+				if (%location !$= "DEAD" && %targetTeam == %team)
 					messageClient(%target, '', %message);
 				//and if outside, anyone else outside/in the yard
 				else if (%targetIsOutside && %isOutside)
 					messageClient(%target, '', %message);
-				else if (%location $= "DEAD" && %targetTeam == %team)
+				else if (!%targetIsAlive && $location $= "DEAD") //all dead players can chat
 					messageClient(%target, '', %message);
 			}
 

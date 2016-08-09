@@ -24,3 +24,7 @@ cardboard box slide
 remove shoulder pads
 package initial player spawn after join to just switch to logo cam without spawning
 debug why players are not given their weapons on spawn
+
+trigger prisoners win with event instead of loop cause fuck.
+also check for guard count after each tower destruction to handle that win condition
+chatspam check

@@ -9,8 +9,7 @@ package PrisonEscape_Base
 
 	function Observer::onTrigger(%this, %obj, %trig, %state) {
 		%client = %obj.getControllingClient();
-		
-		if (%state == 1 && %trig < 2)
+		if (%state == 1 && (%trig == 0 || %trig == 4))
 		{
 			if ($Server::PrisonEscape::roundPhase < 2)
 				return;
@@ -22,7 +21,7 @@ package PrisonEscape_Base
 				//toggle player spectate
 				if (%trig == 0)
 					spectateNextPlayer(%client);
-				else if (%trig == 1)
+				else if (%trig == 4)
 					spectatePrevPlayer(%client);
 				return;
 			}
@@ -108,6 +107,10 @@ function GameConnection::applyUniform(%this)
 			   %player.hideNode(%node);
 
 			%i = -1;
+			while((%node = $secondpack[%i++]) !$= "")
+			   %player.hideNode(%node);
+
+			%i = -1;
 			while((%node = $hat[%i++]) !$= "")
 			   %player.hideNode(%node);
 
@@ -147,6 +150,10 @@ function GameConnection::applyUniform(%this)
 				if (%i != 4)
 					%player.hideNode(%node);
 
+			%i = -1;
+			while((%node = $secondpack[%i++]) !$= "")
+			   %player.hideNode(%node);
+			   
 			%i = -1;
 			while((%node = $hat[%i++]) !$= "")
 			   %player.hideNode(%node);

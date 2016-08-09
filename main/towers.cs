@@ -146,7 +146,7 @@ function saveBricks(%brickgroup, %i) //edit to use the brickgroup data later?? (
 		else
 		{
 			$Server::PrisonEscape::TowerSpawn[%name] = %brick;
-			echo("Tower " @ %name "  spawnpoint has been saved.");
+			echo("Tower " @ %name @ "  spawnpoint has been saved.");
 		}
 	}
 	//0 length schedule to run function when server can run it to not lag people
