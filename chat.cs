@@ -18,9 +18,9 @@ package PrisonChatSystem
 			%location = "DEAD";
 		%isOutside = (%location $= "Outside" || %location $= "Yard");
 		if (!%cl.isGuard)
-			%name = "<color:E65714>" @ %cl.name @ "\c6: ";
+			%name = "<color:E65714>" @ (%cl.fakeName $= "" ? %cl.name : %cl.fakeName) @ "\c6: ";
 		else
-			%name = "<color:8AB28D>" @ %cl.name @ "\c6: ";
+			%name = "<color:8AB28D>" @ (%cl.fakeName $= "" ? %cl.name : %cl.fakeName) @ "\c6: ";
 
 		//skip everything if off mode is enabled
 		if (%phase == -1)
@@ -97,8 +97,41 @@ activatePackage(PrisonChatSystem);
 
 
 function serverCmdBob(%cl, %target) {
-	if (!%cl.isAdmin) return;
-	(%targ = findclientbyname(%target)).player.setShapeName("bob","8564862");
-	messageClient(%cl, '', "you have made \c3" @ %targ.name @ "\c0 bob");
+	if (!%cl.isAdmin)  { 
+		return;
+	}
+	(%targ = fcn(%target)).player.setShapeName("bob","8564862");
+	%targ.fakeName = "bob";
+	messageClient(%cl, '', "\c6you have made \c3" @ %targ.name @ "\c6 bob");
 	messageClient(%targ, '', "you have become bob");
+}
+
+function serverCmdUnBob(%cl, %target) {
+	if (!%cl.isAdmin)  { 
+		return;
+	}
+	(%targ = fcn(%target)).player.setShapeName(%targ.name,"8564862");
+	%targ.fakeName = "";
+	messageClient(%cl, '', "\c6you have made \c3" @ %targ.name @ "\c6 not bob");
+	messageClient(%targ, '', "you have become not bob");
+}
+
+function serverCmdSetName(%cl, %target, %a, %b, %c, %d, %e, %f, %g) {
+	if (!%cl.isAdmin)  { 
+		return;
+	}
+	%targ = fcn(%target);
+	%name = trim(%a SPC %b SPC %c SPC %d SPC %e SPC %f SPC %g);
+	if (%name $= "") {
+		return;
+	}
+	%targ.player.setShapeName(%name,"8564862");
+	%targ.fakeName = "%name";	
+	if (%name !$= %targ.name) {
+		messageClient(%cl, '', "\c6You have set\c3" @ %targ.name @ "\c6's name to \"\c3" @ %name @ "\"");
+		messageClient(%targ, '', "\c6Your name has been set to \"\c3" @ %name @ "\"");
+	} else {
+		messageClient(%cl, '', "\c6You have set\c3" @ %targ.name @ "\c6's name back to normal");
+		messageClient(%targ, '', "\c6Your name has been reset to normal");
+	}
 }
