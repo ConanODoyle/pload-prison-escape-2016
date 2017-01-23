@@ -8,7 +8,7 @@ function isBreakableBrick(%brick, %player)
 		return false;
 	if (%db $= %pole || %db $= %window)
 		return %db;
-	if (%db $= %plate && (getRegion(%player) $= "Yard" || getRegion(%player) $="Outside"))
+	if (%db $= %plate && (getRegion(%brick) $= "Yard" || getRegion(%brick) $="Outside"))
 		return %db;
 	return false;
 }
