@@ -2,11 +2,14 @@
 
 $Server::PrisonEscape::Towers = new ScriptGroup()
 {};
+
 $Server::PrisonEscape::PrisonerSpawnPoints = new ScriptObject()
 {
 	count = 0;
 	//spawn0 = "";
 };
+
+$buildBLID = 4928;
 
 function assignBricks()
 {
@@ -15,18 +18,14 @@ function assignBricks()
 
 	for (%i = 1; %i < 5; %i++)
 		if (!isObject(%towerGroup.tower[%i]))
-			%towerGroup.tower[%i] = new ScriptObject() {class = "TowerGroup"; brickCount = 0;};
+			%towerGroup.tower[%i] = new ScriptGroup() {class = "TowerGroup"; brickCount = 0;};
 		else
 		{
 			%towerGroup.tower[%i].delete();
-			%towerGroup.tower[%i] = new ScriptObject() {class = "TowerGroup"; brickCount = 0;};
+			%towerGroup.tower[%i] = new ScriptGroup() {class = "TowerGroup"; brickCount = 0;};
 		}
 	//iterate through and save the bricks into the scriptobjects
-	$Server::PrisonEscape::PrisonerSpawnPoints = new ScriptObject()
-	{
-		count = 0;
-		//spawn0 = "";
-	};
+	$Server::PrisonEscape::PrisonerSpawnPoints = new ScriptGroup() { };
 	saveBricks(%brickgroup, 0);
 }
 
@@ -58,7 +57,6 @@ function replaceGuard(%client, %tower)
 		//spawnPrisoner
 	}
 	%tower.guard = %client;
-	//spawnguard
 	%client.isGuard = 1;
 	messageAll("\c3" @ %client.name @ "\c6 is now a guard at Tower " @ %tower @ "!");
 }
@@ -91,7 +89,7 @@ function killTower(%id)
 	%tower.destroy(0);
 }
 
-function saveBricks(%brickgroup, %i) //edit to use the brickgroup data later?? (NTName[id][index] + NTName[id]count)
+function saveBricks(%brickgroup, %i) 
 {									//would make it easier to spawn spotlights and such
 	//talk(%brickgroup.getName() SPC %i);
 	//look for bricks with the name of tower#
@@ -117,16 +115,18 @@ function saveBricks(%brickgroup, %i) //edit to use the brickgroup data later?? (
 		schedule(0, 0, saveBricks, %brickgroup, %i+1);
 		return;
 	}
-	%name = getSubStr(%name, 1, strLen(%name));
+	%name = getSubStr(%name, 1, strLen(%name)); //removes underscore in name
 
 	if (strPos(%name, "tower") >= 0)
 	{
-		%name = getSubStr(%name, 0, 6); //tower# is only 6 chars
+		%name = getSubStr(%name, 0, 6);
 
-		if (%name $= "tower1") $Server::PrisonEscape::Towers.tower1.addBrick(%brick);
-		else if (%name $= "tower2") $Server::PrisonEscape::Towers.tower2.addBrick(%brick);
-		else if (%name $= "tower3") $Server::PrisonEscape::Towers.tower3.addBrick(%brick);
-		else if (%name $= "tower4") $Server::PrisonEscape::Towers.tower4.addBrick(%brick);
+		switch$ (%name) {
+			case "tower1": $Server::PrisonEscape::Towers.tower1.add(%brick);
+			case "tower2": $Server::PrisonEscape::Towers.tower2.add(%brick);
+			case "tower3": $Server::PrisonEscape::Towers.tower3.add(%brick);
+			case "tower4": $Server::PrisonEscape::Towers.tower4.add(%brick);
+		}
 	} 
 	else if (strPos(%name, "generator") >= 0)
 	{
@@ -140,8 +140,7 @@ function saveBricks(%brickgroup, %i) //edit to use the brickgroup data later?? (
 	{
 		if (%name $= "spawn")
 		{
-			$Server::PrisonEscape::PrisonerSpawnPoints.spawn[$Server::PrisonEscape::PrisonerSpawnPoints.count] = %brick;
-			$Server::PrisonEscape::PrisonerSpawnPoints.count++;
+			$Server::PrisonEscape::PrisonerSpawnPoints.add(%brick);
 		}
 		else
 		{
@@ -149,29 +148,18 @@ function saveBricks(%brickgroup, %i) //edit to use the brickgroup data later?? (
 			echo("Tower " @ %name @ "  spawnpoint has been saved.");
 		}
 	}
-	//0 length schedule to run function when server can run it to not lag people
-	schedule(0, 0, saveBricks, %brickgroup, %i+1);
+
+	schedule(1, %brickgroup, saveBricks, %brickgroup, %i+1);
 }
 
-function TowerGroup::addBrick(%this, %brick)
+function TowerGroup::destroy(%this)
 {
-	if (!isObject(%brick) || %brick.getClassName() !$= "fxDTSBrick")
-	{
-		echo("TowerGroup: Cannot add " @ %brick @ "!");
+	if (%this.getCount() <= 0)
 		return;
-	}
+	%brick = %this.getObject(0);
+	%brick.fakeKillBrick(getRandom()-0.5 @ getRandom()-0.5 @ -1, 2);
+	%brick.schedule(2000, delete);
+	serverPlay3D("brickBreakSound", %brick.getPosition());
 
-	%this.brick[%this.brickCount] = %brick;
-	%this.brickCount++;
-}
-
-function TowerGroup::destroy(%this, %brickIndex)
-{
-	if (%brickIndex >= %this.brickCount)
-		return;
-	%this.brick[%brickIndex].fakeKillBrick(getRandom()-0.5 @ getRandom()-0.5 @ -1, 2);
-	%this.brick[%brickIndex].schedule(2000, delete);
-	serverPlay3D("brickBreakSound", %this.brick[%brickIndex].getPosition());
-
-	%this.schedule(0, destroy, %brickIndex+1);
+	%this.schedule(1, destroy);
 }
