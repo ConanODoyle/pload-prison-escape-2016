@@ -9,7 +9,7 @@ package PrisonEscape_Base
 
 	function Observer::onTrigger(%this, %obj, %trig, %state) {
 		%client = %obj.getControllingClient();
-		if (%state == 1 && (%trig == 0 || %trig == 4))
+		if ((%trig == 0 || %trig == 4) && %state == 1)
 		{
 			if ($Server::PrisonEscape::roundPhase < 2)
 				return;
@@ -27,7 +27,7 @@ package PrisonEscape_Base
 			}
 			if ($Server::PrisonEscape::roundPhase == 3)
 			{
-
+				//TODO
 			}
 		}
 		
@@ -42,20 +42,16 @@ package PrisonEscape_Base
 		{
 			%this.player.setShapeNameColor(".9 .34 .08");
 			%this.player.setShapeNameDistance(15);
-
-			giveItems(%this);
-
-			return %parent;
 		}
 		else
 		{
 			%this.player.setShapeNameColor(".54 .7 .55");
 			%this.player.setShapeNameDistance(20);
-
-			giveItems(%this);
-
-			return %parent;
 		}
+
+		giveItems(%this);
+
+		return %parent;
 	}
 
 
@@ -66,21 +62,21 @@ package PrisonEscape_Base
 			return parent::applyBodyParts(%this);
 		}
 	}
-	
-	//@private
+
 	function GameConnection::applyBodyColors(%this)
 	{
-		if(!%this.applyingUniform && isObject(%this.minigame))
+		if(%this.applyingUniform || !isObject(%this.minigame))
 		{
-			%this.applyUniform();
+			return parent::applyBodyColors(%this);
 		}
 		else
 		{
-			return parent::applyBodyColors(%this);
+			%this.applyUniform();
 		}
 	}
 
 	function respawnCountDownTick() {
+		//removes the purple text countdown
 		return;
 	}
 };
@@ -192,13 +188,15 @@ function GameConnection::applyUniform(%this)
 
 function pickPrisonerSpawnPoint() 
 {
-	%start = getRandom(0, $Server::PrisonEscape::PrisonerSpawnPoints.count - 1);
-	for (%i = %start; %i < $Server::PrisonEscape::PrisonerSpawnPoints.count; %i++)
+	%start = getRandom(0, $Server::PrisonEscape::PrisonerSpawnPoints.getCount() - 1);
+	for (%i = %start; %i < $Server::PrisonEscape::PrisonerSpawnPoints.getCount(); %i++)
 	{
-		%index = %i % $Server::PrisonEscape::PrisonerSpawnPoints.count;
-		%brick = $Server::PrisonEscape::PrisonerSpawnPoints.spawn[%index];
-		if (%brick.spawnCount < 2)
+		%index = %i % $Server::PrisonEscape::PrisonerSpawnPoints.getCount();
+		%brick = $Server::PrisonEscape::PrisonerSpawnPoints.getObject(%index);
+		if (%brick.spawnCount < 2) 
+		{
 			break;
+		}
 		%brick = "";
 	}
 	if (isObject(%brick))
@@ -210,29 +208,30 @@ function pickPrisonerSpawnPoint()
 	{
 		echo("Can't find a spawnpoint with less than 2 spawns! Resetting...");
 		resetPrisonerSpawnPointCounts();
-		return $Server::PrisonEscape::PrisonerSpawnPoints.spawn[%start].getSpawnPoint();
+		return $Server::PrisonEscape::PrisonerSpawnPoints.getObject(%start).getSpawnPoint();
 	}
 }
 
 function resetPrisonerSpawnPointCounts()
 {
-	for (%i = 0; %i < $Server::PrisonEscape::PrisonerSpawnPoints.count; %i++)
+	for (%i = 0; %i < $Server::PrisonEscape::PrisonerSpawnPoints.getCount(); %i++)
 	{
-		%brick = $Server::PrisonEscape::PrisonerSpawnPoints.spawn[%i];
-		%brick.spawnCount = 0;
+		$Server::PrisonEscape::PrisonerSpawnPoints.getObject(%i).spawnCount = 0;
 	}
 }
 
 function giveItems(%client) 
 {
-	if (!isObject(%player = %client.player))
+	if (!isObject(%player = %client.player)) 
+	{
 		return;
+	}
+
 	if (%client.isGuard)
 	{
 		%player.addItem(SniperRifleSpotlightItem, %client);
 		//%player.addItem(WhistleItem, %client);
 		%player.addItem(SteakItem, %client);
-		//%player.addItem(BatonItem, %client);
 	}
 	else
 	{
@@ -240,7 +239,7 @@ function giveItems(%client)
 	}
 }
 
-function Player::addItem(%player,%image,%client)
+function Player::addItem(%player, %image, %client)
 {
    for(%i = 0; %i < %player.getDatablock().maxTools; %i++)
    {
@@ -249,7 +248,7 @@ function Player::addItem(%player,%image,%client)
       {
          %player.tool[%i] = %image;
          %player.weaponCount++;
-         messageClient(%client,'MsgItemPickup','',%i,%image);
+         messageClient(%client, 'MsgItemPickup', '', %i, %image);
          break;
       }
    }
