@@ -103,7 +103,7 @@ function serverCmdBob(%cl, %target) {
 	(%targ = fcn(%target)).player.setShapeName("bob","8564862");
 	%targ.fakeName = "bob";
 	messageClient(%cl, '', "\c6you have made \c3" @ %targ.name @ "\c6 bob");
-	messageClient(%targ, '', "you have become bob");
+	messageClient(%targ, '', "you are bob");
 }
 
 function serverCmdUnBob(%cl, %target) {
@@ -113,7 +113,7 @@ function serverCmdUnBob(%cl, %target) {
 	(%targ = fcn(%target)).player.setShapeName(%targ.name,"8564862");
 	%targ.fakeName = "";
 	messageClient(%cl, '', "\c6you have made \c3" @ %targ.name @ "\c6 not bob");
-	messageClient(%targ, '', "you have become not bob");
+	messageClient(%targ, '', "you are not bob anymore");
 }
 
 function serverCmdSetName(%cl, %target, %a, %b, %c, %d, %e, %f, %g) {
