@@ -1,0 +1,200 @@
+smallest_size = 0.0
+smallest_detail_level = 0
+radius = 2.5941548347473145
+radius_tube = 2.5798754692077637
+center = <Vector (0.0079, 0.9579, -0.0845)>
+bounds = (<Vector (-0.2422, -0.6635, -0.7078)>, <Vector (0.2579, 2.5792, 0.5387)>)
+Ground frames: 0
+Triggers: 0
+Sequence node rotations: 136
+Sequence node translations: 136
+Sequence node uniform scales: 0
+Sequence node aligned scales: 82
+Sequence node arbitrary scales: 0
+Detail levels (1):
+  LOD 0 Detail32 (size 32.0)
+    subshape = 0
+    objectDetail = 0
+    polyCount = 0
+Subshapes (1):
+  Subshape 0
+    nodes = 0 -> Shape, 1 -> Detail32, 2 -> ejectPoint, 3 -> muzzlePoint, 4 -> RIFLE, 5 -> BOLT, 6 -> LHAND, 7 -> RHAND, 8 -> STRAP
+    objects = 0 -> STRAP, 1 -> LHAND, 2 -> RHAND, 3 -> BOLT, 4 -> stock, 5 -> barrel
+Nodes (9):
+  0 Shape
+    translation = <Vector (0.0000, 0.0000, 0.0000)>
+    rotation = <Quaternion (w=1.0000, x=0.0000, y=0.0000, z=0.0000)>
+  1 Detail32  ->  0 Shape
+    translation = <Vector (0.0000, 0.0000, 0.0000)>
+    rotation = <Quaternion (w=1.0000, x=0.0000, y=0.0000, z=0.0000)>
+  2 ejectPoint  ->  1 Detail32
+    translation = <Vector (0.0000, 0.5492, 0.2318)>
+    rotation = <Quaternion (w=1.0000, x=0.0000, y=0.0000, z=0.0000)>
+  3 muzzlePoint  ->  1 Detail32
+    translation = <Vector (0.0000, 2.4792, 0.2118)>
+    rotation = <Quaternion (w=1.0000, x=0.0000, y=0.0000, z=0.0000)>
+  4 RIFLE
+    translation = <Vector (0.0000, 0.0000, 0.0000)>
+    rotation = <Quaternion (w=1.0000, x=0.0000, y=0.0000, z=0.0000)>
+  5 BOLT  ->  4 RIFLE
+    translation = <Vector (-0.0000, -0.0000, 0.0000)>
+    rotation = <Quaternion (w=1.0000, x=0.0000, y=0.0000, z=0.0000)>
+  6 LHAND  ->  4 RIFLE
+    translation = <Vector (0.0000, 0.0000, 0.0000)>
+    rotation = <Quaternion (w=1.0000, x=0.0000, y=0.0000, z=0.0000)>
+  7 RHAND  ->  4 RIFLE
+    translation = <Vector (0.0000, 0.0000, 0.0000)>
+    rotation = <Quaternion (w=1.0000, x=0.0000, y=0.0000, z=0.0000)>
+  8 STRAP  ->  4 RIFLE
+    translation = <Vector (0.0000, 0.0000, 0.0000)>
+    rotation = <Quaternion (w=1.0000, x=0.0000, y=0.0000, z=0.0000)>
+Object states: 6
+Objects (6):
+  0 STRAP in 8 (STRAP), meshes = 2
+  1 LHAND in 6 (LHAND), meshes = 3
+  2 RHAND in 7 (RHAND), meshes = 4
+  3 BOLT in 5 (BOLT), meshes = 0
+  4 stock in 4 (RIFLE), meshes = 1
+  5 barrel in 4 (RIFLE), meshes = 5
+Materials (7):
+  0 grey85 (195 SWrap TWrap NeverEnvMap NoMipMap)
+    bumpMap = -1, reflectanceMap = -1, detailMap = -1
+    reflectance = 0.0, detailScale = 1.0
+  1 wood (195 SWrap TWrap NeverEnvMap NoMipMap)
+    bumpMap = -1, reflectanceMap = -1, detailMap = -1
+    reflectance = 0.0, detailScale = 1.0
+  2 grey75 (195 SWrap TWrap NeverEnvMap NoMipMap)
+    bumpMap = -1, reflectanceMap = -1, detailMap = -1
+    reflectance = 0.0, detailScale = 1.0
+  3 strap (195 SWrap TWrap NeverEnvMap NoMipMap)
+    bumpMap = -1, reflectanceMap = -1, detailMap = -1
+    reflectance = 0.0, detailScale = 1.0
+  4 skin (195 SWrap TWrap NeverEnvMap NoMipMap)
+    bumpMap = -1, reflectanceMap = -1, detailMap = -1
+    reflectance = 0.0, detailScale = 1.0
+  5 grey95 (195 SWrap TWrap NeverEnvMap NoMipMap)
+    bumpMap = -1, reflectanceMap = -1, detailMap = -1
+    reflectance = 0.0, detailScale = 1.0
+  6 black (195 SWrap TWrap NeverEnvMap NoMipMap)
+    bumpMap = -1, reflectanceMap = -1, detailMap = -1
+    reflectance = 0.0, detailScale = 1.0
+IFL materials (0):
+Meshes (6):
+  Mesh 0 - Standard
+    flags = 0
+    bounds = (<Vector (9999999848243207300000000000000.0000, 9999999848243207300000000000000.0000, 9999999848243207300000000000000.0000)>, <Vector (-9999999848243207300000000000000.0000, -9999999848243207300000000000000.0000, -9999999848243207300000000000000.0000)>)
+    center = <Vector (0.0000, 0.0000, 0.0000)>
+    radius = 0.0
+    + Primitives (1):
+      0->299 536870912 NoExplicitType->Triangles Indexed MaterialMask:0
+    + Vertices (300): <omitted>
+    + Texture coords (300): <omitted>
+  Mesh 1 - Standard
+    flags = 0
+    bounds = (<Vector (9999999848243207300000000000000.0000, 9999999848243207300000000000000.0000, 9999999848243207300000000000000.0000)>, <Vector (-9999999848243207300000000000000.0000, -9999999848243207300000000000000.0000, -9999999848243207300000000000000.0000)>)
+    center = <Vector (0.0000, 0.0000, 0.0000)>
+    radius = 0.0
+    + Primitives (2):
+      0->527 536870913 NoExplicitType->Triangles Indexed MaterialMask:1
+      528->695 536870914 NoExplicitType->Triangles Indexed MaterialMask:2
+    + Vertices (696): <omitted>
+    + Texture coords (696): <omitted>
+  Mesh 2 - Standard
+    flags = 0
+    bounds = (<Vector (9999999848243207300000000000000.0000, 9999999848243207300000000000000.0000, 9999999848243207300000000000000.0000)>, <Vector (-9999999848243207300000000000000.0000, -9999999848243207300000000000000.0000, -9999999848243207300000000000000.0000)>)
+    center = <Vector (0.0000, 0.0000, 0.0000)>
+    radius = 0.0
+    + Primitives (1):
+      0->323 536870915 NoExplicitType->Triangles Indexed MaterialMask:3
+    + Vertices (324): <omitted>
+    + Texture coords (324): <omitted>
+  Mesh 3 - Standard
+    flags = 0
+    bounds = (<Vector (9999999848243207300000000000000.0000, 9999999848243207300000000000000.0000, 9999999848243207300000000000000.0000)>, <Vector (-9999999848243207300000000000000.0000, -9999999848243207300000000000000.0000, -9999999848243207300000000000000.0000)>)
+    center = <Vector (0.0000, 0.0000, 0.0000)>
+    radius = 0.0
+    + Primitives (1):
+      0->215 536870916 NoExplicitType->Triangles Indexed MaterialMask:4
+    + Vertices (216): <omitted>
+    + Texture coords (216): <omitted>
+  Mesh 4 - Standard
+    flags = 0
+    bounds = (<Vector (9999999848243207300000000000000.0000, 9999999848243207300000000000000.0000, 9999999848243207300000000000000.0000)>, <Vector (-9999999848243207300000000000000.0000, -9999999848243207300000000000000.0000, -9999999848243207300000000000000.0000)>)
+    center = <Vector (0.0000, 0.0000, 0.0000)>
+    radius = 0.0
+    + Primitives (1):
+      0->215 536870916 NoExplicitType->Triangles Indexed MaterialMask:4
+    + Vertices (216): <omitted>
+    + Texture coords (216): <omitted>
+  Mesh 5 - Standard
+    flags = 0
+    bounds = (<Vector (9999999848243207300000000000000.0000, 9999999848243207300000000000000.0000, 9999999848243207300000000000000.0000)>, <Vector (-9999999848243207300000000000000.0000, -9999999848243207300000000000000.0000, -9999999848243207300000000000000.0000)>)
+    center = <Vector (0.0000, 0.0000, 0.0000)>
+    radius = 0.0
+    + Primitives (3):
+      0->773 536870914 NoExplicitType->Triangles Indexed MaterialMask:2
+      774->1925 536870917 NoExplicitType->Triangles Indexed MaterialMask:5
+      1926->2123 536870918 NoExplicitType->Triangles Indexed MaterialMask:6
+    + Vertices (2124): <omitted>
+    + Texture coords (2124): <omitted>
+Sequences (2):
+  0 Ready
+    flags: 2
+    numKeyframes: 2
+    duration: 0.0833333358168602
+    priority: 0
+    firstGroundFrame: 0
+    numGroundFrames: 0
+    baseRotation: 0
+    baseTranslation: 0
+    baseScale: 0
+    baseObjectState: 6
+    baseDecalState: 0
+    firstTrigger: 0
+    numTriggers: 0
+    toolBegin: 1.0
+    rotationMatters: [False, False, False, False, False, False, True, True, True, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
+    translationMatters: [False, False, False, False, False, False, True, True, True, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
+    scaleMatters: [False, False, False, False, False, False, True, True, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
+    decalMatters: [False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
+    iflMatters: [False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
+    visMatters: [False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
+    frameMatters: [False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
+    matFrameMatters: [False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
+  1 Reload
+    flags: 2
+    numKeyframes: 26
+    duration: 1.0833333730697632
+    priority: 0
+    firstGroundFrame: 0
+    numGroundFrames: 0
+    baseRotation: 6
+    baseTranslation: 6
+    baseScale: 4
+    baseObjectState: 6
+    baseDecalState: 0
+    firstTrigger: 0
+    numTriggers: 0
+    toolBegin: 10.0
+    rotationMatters: [False, False, False, False, True, True, True, True, True, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
+    translationMatters: [False, False, False, False, True, True, True, True, True, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
+    scaleMatters: [False, False, False, False, True, False, True, True, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
+    decalMatters: [False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
+    iflMatters: [False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
+    visMatters: [False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
+    frameMatters: [False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
+    matFrameMatters: [False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
+Names (13):
+  0 = Shape
+  1 = Detail32
+  2 = ejectPoint
+  3 = muzzlePoint
+  4 = RIFLE
+  5 = BOLT
+  6 = LHAND
+  7 = RHAND
+  8 = STRAP
+  9 = stock
+  10 = barrel
+  11 = Ready
+  12 = Reload
