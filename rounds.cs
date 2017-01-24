@@ -67,7 +67,7 @@ function displayRoundLoadingInfo()
 function generateBottomPrint() 
 {
 	%header = "<just:center><font:Arial Bold:34><shadowcolor:666666><shadow:0:4><color:E65714>JailBreak! <br><font:Arial Bold:26>\c7-      - <br>";
-	%footer = "<shadow:0:3><color:ffffff>Please wait until the next round to play<font:Impact:1><br>";
+	%footer = "<shadow:0:3><color:ffffff>Please wait until the next round to play<font:Impact:1> <br>";
 	return %header @ %footer;
 }
 
@@ -162,9 +162,6 @@ function spawnDeadPrisoners()
 /////////////////////////////
 
 exec("./globalcams.cs");
-//function setAllCamerasView(%camPos, %targetPos)
-//function setCameraViewLoop(%transform, %i, %nocontrol)
-//function allCameraPan(%pos1, %pos2, %speed, %targetPos)
 
 /////////////////////////////////
 ////////Generic Functions////////
