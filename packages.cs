@@ -20,9 +20,9 @@ package PrisonEscape_Base
 				%client.isViewingIntro = 0;
 				//toggle player spectate
 				if (%trig == 0)
-					spectateNextPlayer(%client);
+					spectateNextPlayer(%client, 1);
 				else if (%trig == 4)
-					spectatePrevPlayer(%client);
+					spectateNextPlayer(%client, -1);
 				return;
 			}
 			if ($Server::PrisonEscape::roundPhase == 3)

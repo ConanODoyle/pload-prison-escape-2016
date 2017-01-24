@@ -1,8 +1,18 @@
+
+$Server::PrisonEscape::Guards = "";
+$Server::PrisonEscape::winCamPos = "";
+$Server::PrisonEscape::winCamTarget = "";
+$Server::PrisonEscape::currentStatistic = 0;
+$Server::PrisonEscape::roundPhase = -1;
+
+$fakeClient = new ScriptObject() {
+	isSuperAdmin = 1;
+};
+
 ////////////////////////////
 //////////preround//////////
 ////////////////////////////
 
-$Server::PrisonEscape::Guards = "";
 
 function serverCmdAddGuard(%client, %name) 
 {
@@ -10,7 +20,7 @@ function serverCmdAddGuard(%client, %name)
 		return;
 
 	$Server::PrisonEscape::Guards = trim($Server::PrisonEscape::Guards SPC findclientbyname(%name));
-	messageClient(%client, '', "\c7Added " @ findclientbyname(%name).name @ " to the guard list.");
+	messageAdmins(%client, '', "\c7" @ %cl.name @ " added " @ findclientbyname(%name).name @ " to the guard list.");
 	displayRoundLoadingInfo();
 }
 
@@ -23,7 +33,7 @@ function serverCmdRemoveGuard(%client, %name)
 	$Server::PrisonEscape::Guards = strReplace($Server::PrisonEscape::Guards, %guard, "");
 	$Server::PrisonEscape::Guards = strReplace($Server::PrisonEscape::Guards, "  ", " ");
 	$Server::PrisonEscape::Guards = trim($Server::PrisonEscape::Guards);
-	messageClient(%client, '', "\c7Removed " @ findclientbyname(%name).name @ " from the guard list.");
+	messageAdmins(%client, '', "\c7" @ %cl.name @ " removed " @ findclientbyname(%name).name @ " from the guard list.");
 	displayRoundLoadingInfo();
 }
 
@@ -66,17 +76,16 @@ function bottomprintTimerLoop(%timeLeft)
 	if (isEventPending($Server::PrisonEscape::timerSchedule))
 		cancel($Server::PrisonEscape::timerSchedule);
 	//display timeleft to everyone
-	%min = mFloor(%timeLeft / 60);
-	%sec = %timeleft % 60;
 	for (%i = 0; %i < ClientGroup.getCount(); %i++) {
-		ClientGroup.getObject(%i).bottomprint("<font:Arial Bold:34><just:center>\c6" @ %min @ ":" @ (%sec < 10 ? "0" @ %sec : %sec) @ " ", -1, 0);
+		ClientGroup.getObject(%i).bottomprint("<font:Arial Bold:34><just:center>\c6" @ getTimeString(%timeLeft-1) @ " ", -1, 0);
 	}
 
 	if (%timeleft == 0)
 	{
 		//one final check if prisoners are in win zone
 
-		//guards win in one second
+		//guards win
+		//schedule(1000, 0, guards)
 
 		//color the bottomprint timer to indicate its up
 		//and play win/lose sound on client
@@ -85,11 +94,13 @@ function bottomprintTimerLoop(%timeLeft)
 			%client = ClientGroup.getObject(%i);
 			if (%client.isGuard)
 			{
-				%client.bottomprint("<font:Arial Bold:34><just:center>\c2" @ %min @ ":" @ (%sec < 10 ? "0" @ %sec : %sec) @" ", -1, 0);
+				%client.bottomprint("<font:Arial Bold:34><just:center>\c2" @ getTimeString(%timeLeft) @ " ", -1, 0);
+				%client.centerprint("<font:Arial Bold:34>\c2Guards Win! ");
 			}
 			else
 			{
-				%client.bottomprint("<font:Arial Bold:34><just:center>" @ %min @ ":" @ (%sec < 10 ? "0" @ %sec : %sec) @ " ", -1, 0);
+				%client.bottomprint("<font:Arial Bold:34><just:center>" @ getTimeString(%timeLeft) @ " ", -1, 0);
+				%client.centerprint("<font:Arial Bold:34>Guards Win! ");
 			}
 		}
 		return;
@@ -101,12 +112,7 @@ function bottomprintTimerLoop(%timeLeft)
 ///////////////////////////////
 //////////duringround//////////
 ///////////////////////////////
-$fakeClient = new ScriptObject() {
-	isSuperAdmin = 1;
-};
 
-$Server::PrisonEscape::winCamPos = "";
-$Server::PrisonEscape::winCamTarget = "";
 function guardsWin() {
 	if (isEventPending($Server::PrisonEscape::prisonerWinSchedule))
 		cancel($Server::PrisonEscape::prisonerWinSchedule);
@@ -184,7 +190,6 @@ function messageAdmins(%msg)
 	}
 }
 
-$Server::PrisonEscape::currentStatistic = 0;
 function swapStatistics() 
 {
 	if (isEventPending($Server::PrisonEscape::statisticLoop))
@@ -219,7 +224,6 @@ function swapStatistics()
 	displayRoundLoadingInfo();
 }
 
-$Server::PrisonEscape::roundPhase = 0;
 function serverCmdSetPhase(%client, %phase) 
 {
 	if (!%client.isSuperAdmin)
@@ -243,7 +247,6 @@ function serverCmdSetPhase(%client, %phase)
 		{
 			count = 0;
 		};
-		//$buildBLID = 4928;
 		//assignBricks();
 		//reset guard list
 		$Server::PrisonEscape::Guards = "";
@@ -271,7 +274,7 @@ function serverCmdSetPhase(%client, %phase)
 		//spawn guards
 		//write guard spawn function to call an individual guard spawn function separately.
 		//allows us to assign guards mid round if anyone leaves (usually ourselves)
-		//ploark-XRoanan's Prison Escape!
+		//ploark-XRanan's Prison Escape!
 		spawnGuards();
 
 		//spawn prisoners ensure no double spawnpoint spawns??
@@ -298,7 +301,7 @@ function serverCmdSetPhase(%client, %phase)
 			%cl.setControlObject(%cl.player);
 		}
 		//start round timer
-		bottomprintTimerLoop(20 * 60);
+		bottomprintTimerLoop($Server::PrisonEscape::timePerRound * 60 + 1);
 		//create win trigger zones	
 		$guardCount = 4;
 		prisonersWinLoop(0);

@@ -6,7 +6,6 @@ Fix new Bronson animations - redo from scratch?
 Steak testing/fixes (dont path to targets within the prison)
 Whistle to call dog
 Debug and test tick to win for guards and prisoners
-Disable suicide
 Make camera intro a single function called on each client so new joiners see it
 	- Rewrite setAllCamera?
 override showing viewer count in bottomprint
