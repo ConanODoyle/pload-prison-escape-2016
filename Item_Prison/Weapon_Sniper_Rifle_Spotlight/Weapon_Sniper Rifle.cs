@@ -133,7 +133,7 @@ datablock ItemData(SniperRifleSpotlightItem)
 	className = "Weapon"; // For inventory system
 
 	 // Basic Item Properties
-	shapeFile = "./SniperRifle_spotlight.dts";
+	shapeFile = "./sniper rifle v2.dts";
 	rotate = false;
 	mass = 1;
 	density = 0.2;
@@ -159,7 +159,7 @@ datablock ItemData(SniperRifleSpotlightItem)
 datablock ShapeBaseImageData(SniperRifleSpotlightImage)
 {
    // Basic Item properties
-   shapeFile = "./SniperRifle_spotlight.dts";
+   shapeFile = "./sniper rifle v2.dts";
    emap = true;
 
    // Specify mount point & offset for 3rd person, and eye offset
@@ -253,6 +253,7 @@ datablock ShapeBaseImageData(SniperRifleSpotlightImage)
 	stateTimeoutValue[4]	= 1.23;
 	stateTransitionOnTimeout[4]     = "PostReload";
 	stateSound[4]					= "SniperRifleSpotlightBoltSound";
+	stateEjectShell[4]				= true;
 
 	stateName[5]			= "PostReload";
 	stateScript[5]			= "onReload";
@@ -281,9 +282,6 @@ function SniperRifleSpotlightImage::onReload(%this, %obj, %slot)
 
 function SniperRifleSpotlightImage::onMount(%this, %obj, %slot)
 {
-	%obj.hideNode("lhand"); %obj.hideNode("rhand");
-	%obj.hideNode("lhook"); %obj.hideNode("rhook");
-	%obj.playThread(2, "armReadyBoth");
 }
 
 function SniperRifleSpotlightImage::onUnMount(%this, %obj, $slot)
@@ -293,7 +291,6 @@ function SniperRifleSpotlightImage::onUnMount(%this, %obj, $slot)
 		return;
 	%client.applyBodyParts();
 	%client.applyBodyColors();
-	%obj.unhideNode("headskin");
 	%obj.playThread(2, "root");
 }
 
