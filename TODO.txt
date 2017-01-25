@@ -1,7 +1,6 @@
 Fix trays to only block from the front even if the head is turned
 	- Use getForwardVector()
 	- Does not work, changes if player is z-looking. Test alternate method of saving
-Fix spotlights to only blind if you're looking in its direction while crouched
 Fix new Bronson animations - redo from scratch?
 Steak testing/fixes (dont path to targets within the prison)
 Whistle to call dog
