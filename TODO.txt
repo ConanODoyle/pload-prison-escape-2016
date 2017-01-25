@@ -1,9 +1,7 @@
-Fix trays to only block from the front even if the head is turned
-	- Use getForwardVector()
-	- Does not work, changes if player is z-looking. Test alternate method of saving
 Fix new Bronson animations - redo from scratch?
 Steak testing/fixes (dont path to targets within the prison)
 Whistle to call dog
+Fix Dog damaging self
 Debug and test tick to win for guards and prisoners
 Make camera intro a single function called on each client so new joiners see it
 	- Rewrite setAllCamera?

@@ -189,7 +189,7 @@ package PrisonItems
 		if (%col.isHoldingTray)
 		{
 			%targetVector = vectorNormalize(vectorSub(%obj.getPosition(), %col.getHackPosition()));
-			%angle = mACos(vectorDot(%col.getEyeVector(), %targetVector));
+			%angle = mACos(vectorDot(%col.getMuzzleVector(0), %targetVector));
 			if (%angle < 0.72)
 			{
 				//statistics

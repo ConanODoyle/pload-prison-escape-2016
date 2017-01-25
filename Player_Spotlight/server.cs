@@ -364,6 +364,8 @@ function AIPlayer::lookAtPlayer_Spotlight( %obj, %opt, %client )
 	{
 		%obj.isTargetingTarget = 0;
 		%aimPlayer = %obj.getAimObject();
+		%obj.spotlightTarget = "";
+		%obj.spotlightTargetLocation = "";
 	
 		%obj.clearAim();
 		
@@ -442,7 +444,7 @@ registerOutputEvent( Bot,"lookAtPlayer_Spotlight","list Clear 0 Activator 1 Clos
 
 function startLightBeamLoop(%obj)
 {
-	if(!isObject(%obj))
+	if(!isObject(%obj)) 
 		return;
 	if (isEventPending(%obj.lightbeamloop) || %obj.getState() $= "Dead")
 	{
@@ -481,7 +483,7 @@ function startLightBeamLoop(%obj)
 	whiteOutPlayers(%obj, %start, %end, 0);
 
 	//schedule next call
-	%obj.lightbeamloop = schedule(50, 0, startLightBeamLoop, %obj);
+	%obj.lightbeamloop = schedule(50, %obj, startLightBeamLoop, %obj);
 }
 
 function whiteOutPlayers(%obj, %start, %end, %i)
