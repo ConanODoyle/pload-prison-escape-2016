@@ -9,7 +9,7 @@ package PrisonEscape_Base
 
 	function Observer::onTrigger(%this, %obj, %trig, %state) {
 		%client = %obj.getControllingClient();
-		if ((%trig == 0 || %trig == 4) && %state == 1)
+		if ((%trig == 0 || %trig == 4) && %state == 1 && $Server::PrisonEscape::roundPhase >= 0)
 		{
 			if ($Server::PrisonEscape::roundPhase < 2)
 				return;
@@ -31,7 +31,7 @@ package PrisonEscape_Base
 			}
 		}
 		
-		Parent::onTrigger(%this, %obj, %trig, %state);
+		return parent::onTrigger(%this, %obj, %trig, %state);
 	}
 
 	function GameConnection::createPlayer(%this, %pos)
@@ -54,7 +54,6 @@ package PrisonEscape_Base
 		return %parent;
 	}
 
-
 	function GameConnection::applyBodyParts(%this)
 	{
 		if(%this.applyingUniform || !isObject(%this.minigame))
@@ -75,8 +74,23 @@ package PrisonEscape_Base
 		}
 	}
 
-	function respawnCountDownTick() {
+	function respawnCountDownTick(%val) {
 		//removes the purple text countdown
+		return;
+	}
+
+	function handleYourDeath(%netstring, %killMsg, %val1, %val2, %val3, %num) {
+		//removes the purple text countdown
+		return;
+	}
+
+	function SimObject::onCameraEnterOrbit(%obj) {
+		//removes the bottomprint counter
+		return;
+	}
+
+	function SimObject::onCameraLeaveOrbit(%obj) {
+		//removes the bottomprint counter
 		return;
 	}
 };
@@ -100,19 +114,19 @@ function GameConnection::applyUniform(%this)
 
 			%i = -1;
 			while((%node = $pack[%i++]) !$= "")
-			   %player.hideNode(%node);
+				%player.hideNode(%node);
 
 			%i = -1;
 			while((%node = $secondpack[%i++]) !$= "")
-			   %player.hideNode(%node);
+				%player.hideNode(%node);
 
 			%i = -1;
 			while((%node = $hat[%i++]) !$= "")
-			   %player.hideNode(%node);
+				%player.hideNode(%node);
 
 			%i = -1;
 			while((%node = $accent[%i++]) !$= "")
-			   %player.hideNode(%node);
+				%player.hideNode(%node);
 
 			if (%player.isNodeVisible(skirtHip))
 			{
@@ -148,15 +162,15 @@ function GameConnection::applyUniform(%this)
 
 			%i = -1;
 			while((%node = $secondpack[%i++]) !$= "")
-			   %player.hideNode(%node);
-			   
+				%player.hideNode(%node);
+				
 			%i = -1;
 			while((%node = $hat[%i++]) !$= "")
-			   %player.hideNode(%node);
+				%player.hideNode(%node);
 
 			%i = -1;
 			while((%node = $accent[%i++]) !$= "")
-			   %player.hideNode(%node);
+				%player.hideNode(%node);
 
 			if (%player.isNodeVisible(skirtHip))
 			{
@@ -239,17 +253,18 @@ function giveItems(%client)
 	}
 }
 
-function Player::addItem(%player, %image, %client)
+function Player::addItem(%this, %item, %client)
 {
-   for(%i = 0; %i < %player.getDatablock().maxTools; %i++)
-   {
-      %tool = %player.tool[%i];
-      if(%tool == 0)
-      {
-         %player.tool[%i] = %image;
-         %player.weaponCount++;
-         messageClient(%client, 'MsgItemPickup', '', %i, %image);
-         break;
-      }
-   }
+	%item = %item.getID();
+	for(%i = 0; %i < %this.getDatablock().maxTools; %i++)
+	{
+		%tool = %this.tool[%i];
+		if(%tool == 0)
+		{
+			%this.tool[%i] = %item.getID();
+			%this.weaponCount++;
+			messageClient(%client, 'MsgItemPickup', '', %i, %item.getID());
+			break;
+		}
+	}
 }
