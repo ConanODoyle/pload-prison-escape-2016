@@ -261,7 +261,8 @@ function ShepherdDogHoleBot::onBotFollow(%this,%obj,%targ)
 	%zdist = getWord(%targpos, 2) - getWord(%pos, 2);
 
 	//bark at players too high for them to reach, or emote love if their target is their owner
-	if (%zdist > 2.4 && %xydist < 2 && !%obj.hIsRunning)
+	if (%zdist > 2.4 && %xydist < 2 && !%obj.hIsRunning) 
+	{
 		if (%targ.getID() == %obj.owner && %obj.lastEmote < getSimTime()-5000)
 		{
 			%obj.emote(loveImage);
@@ -273,6 +274,7 @@ function ShepherdDogHoleBot::onBotFollow(%this,%obj,%targ)
 			%obj.canBark = 0;
 			schedule(getRandom(500, 1000), 0, eval, %obj.getID() @ ".canBark = 1;");
 		}
+	}
 }
 
 function ShepherdDogHoleBot::onBotDamage(%this,%obj,%source,%pos,%damage,%type)
@@ -299,8 +301,10 @@ package BotHole_Dogs
 
 	function ShepherdDogArmor::onDisabled(%this, %obj, %state) //for players; slightly different behavior
 	{
-		if (!%obj.getState() $= "Dead")
+		if (!%obj.getState() $= "Dead") 
+		{
 			return;
+		}
 
 		holeBotDisabled(%obj);
 		serverPlay3D("ShepherdDogDeath" @ getRandom(1, 2) @ "Sound", %obj.getPosition());
@@ -311,11 +315,15 @@ package BotHole_Dogs
 
 	function AIPlayer::hMeleeAttack(%obj, %col)
 	{
-		if (%obj.getDatablock().getName() !$= "ShepherdDogHoleBot")
+		if (%obj.getDatablock().getName() !$= "ShepherdDogHoleBot") 
+		{
 			return parent::hMeleeAttack(%obj, %col);
+		}
 
-		if (!isObject(%col))
+		if (!isObject(%col)) 
+		{
 			return parent::hMeleeAttack(%obj, %col);
+		}
 
 		if (%col.getType() & $TypeMasks::PlayerObjectType)
 		{
@@ -324,7 +332,7 @@ package BotHole_Dogs
 			if (!parent::hMeleeAttack(%obj, %col))
 				return;
 
-			%col.setVelocity(vectorAdd(%col.getVelocity(), "0 0 5"));
+			%col.setVelocity(vectorAdd(%col.getVelocity(), vectorAdd("0 0 5", vectorScale(%obj.getForwardVector(), 3))));
 			tumble(%col, 40);
 			schedule(2000, 0, clearTumble, %col);
 			%col.isTumbling = true;
@@ -342,8 +350,10 @@ package BotHole_Dogs
 	function Player::playDeathCry(%this)
 	{
 		//this is for players
-		if (%this.getDatablock().getName() $= "ShepherdDogArmor")
+		if (%this.getDatablock().getName() $= "ShepherdDogArmor") 
+		{
 			return;
+		}
 		parent::playDeathCry(%this);
 	}
 
@@ -361,6 +371,17 @@ package BotHole_Dogs
 		//dont want the dog to spazzclick
 		return;
 	}
+
+	function WheeledVehicleData::onCollision(%this, %obj, %col, %vel, %zVel) {
+		if (%this.getName() $= "deathVehicle" && %col.getDatablock().getName() $= "ShepherdDogHoleBot") 
+		{
+			return;
+		}
+		else 
+		{
+			return parent::onCollision(%this, %obj, %col, %vel, %zVel);
+		}
+	}
 };
 activatePackage(BotHole_Dogs);
 
@@ -376,8 +397,6 @@ function clearTumble(%player)
 		%player.isTumbling = false;
 		%player.client.setControlObject(%player);
 	}
-	%obj.unmountobject(%player);
-	%obj.schedule(0, delete);
 }
 
 function DogEatSteak(%obj, %health, %eatTime)

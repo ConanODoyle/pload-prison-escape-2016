@@ -44,6 +44,7 @@ datablock ShapeBaseImageData(PrisonBucketImage)
 	// Basic Item properties
 	shapeFile = "./bucketitem.dts";
 	emap = true;
+	offset = "0.04 0 0";
 
 	// Specify mount point & offset for 3rd person, and eye offset
 	// for first person rendering.
@@ -66,7 +67,7 @@ datablock ShapeBaseImageData(PrisonBucketImage)
 	//melee particles shoot from eye node for consistancy
 	melee = false;
 	//raise your arm up or not
-	armReady = true;
+	armReady = false;
 
 	doColorShift = true;
 	colorshiftColor = "1 1 1 1";
@@ -80,8 +81,8 @@ datablock ShapeBaseImageData(PrisonBucketImage)
 
 	// Initial start up state
 	stateName[0]					= "Activate";
-	stateTimeoutValue[0]			= 0.1;
-	stateTransitionOnTimeout[0]	 	= "Ready";
+	stateTimeoutValue[0]			= 0.5;
+	stateTransitionOnTriggerUp[0]	 	= "Ready";
 	stateSound[0]					= weaponSwitchSound;
 
 	stateName[1]					= "Ready";
@@ -93,23 +94,34 @@ datablock ShapeBaseImageData(PrisonBucketImage)
 	stateTransitionOnTriggerUp[2]	= "Ready";
 	stateWaitForTimeout[2]			= true;
 	stateScript[2]					= "onEquip";
+};
 
+datablock ShapeBaseImageData(PrisonBucketEquippedImage : PrisonBucketImage) {
+	shapeFile = "base/data/shapes/empty.dts";
+	armReady = false;
 };
 
 function PrisonBucketImage::onMount(%this, %obj, %slot)
 {
+	if (%slot == 2) {
+		return parent::onMount();
+	}
+	if (isObject(%image = %obj.getMountedImage(2)) && %image.getID() $= PrisonBucketHatImage.getID()) {
+		%obj.mountImage(PrisonBucketEquippedImage, 0);
+		return;
+	}
 	%obj.playThread(2, armReadyBoth);
 	//unequip hat
-	%player = %obj;
-	%client = %obj.client;
-	if(%player.getMountedImage(2) $= nametoID(PrisonBucketHatImage))
-	{
-		%player.unmountImage(2);
-		%client.applyBodyParts();
-		%client.applyBodyColors();
-		%player.unhideNode("headskin");
-		%player.isWearingBucket = 0;
-	}
+	// %player = %obj;
+	// %client = %obj.client;
+	// if(%player.getMountedImage(2) $= nametoID(PrisonBucketHatImage))
+	// {
+	// 	%player.unmountImage(2);
+	// 	%client.applyBodyParts();
+	// 	%client.applyBodyColors();
+	// 	%player.unhideNode("headskin");
+	// 	%player.isWearingBucket = 0;
+	// }
 }
 
 function PrisonBucketImage::onUnMount(%this, %obj, %slot)
@@ -119,35 +131,42 @@ function PrisonBucketImage::onUnMount(%this, %obj, %slot)
 
 function PrisonBucketImage::onEquip(%this, %obj, %slot)
 {
-	%player = %obj;
 	%client = %obj.client;
+	%obj.unmountImage(2);
 
-	if(isObject(%player))
+	if(%obj.getMountedImage(2) $= nametoID(PrisonBucketHatImage))
 	{
-		if(%player.getMountedImage(2) $= nametoID(PrisonBucketHatImage))
-		{
-			%player.unmountImage(2);
-			%client.applyBodyParts();
-			%client.applyBodyColors();
-			%player.unhideNode("headskin");
-			%player.isWearingBucket = 0;
-		}
-		else
-		{
-			serverPlay3D(weaponSwitchSound, %player.getHackPosition());
-			%player.unmountImage(2);
-			%player.mountImage(PrisonBucketHatImage,2);
-
-			for(%i = 0;$hat[%i] !$= "";%i++)
-			{
-				%player.hideNode($hat[%i]);
-				%player.hideNode($accent[%i]);
-			}
-			serverCmdUnUseTool(%client);
-			%player.unMountImage();
-			%player.isWearingBucket = 1;
-		}
+		%client.applyBodyParts();
+		%client.applyBodyColors();
+		%obj.unhideNode("headskin");
+		%obj.isWearingBucket = 0;
 	}
+	else
+	{
+		serverPlay3D(weaponSwitchSound, %obj.getHackPosition());
+		%obj.mountImage(PrisonBucketHatImage, 2);
+		%obj.mountImage(PrisonBucketEquippedImage, 0);
+
+		for(%i = 0;$hat[%i] !$= "";%i++)
+		{
+			%obj.hideNode($hat[%i]);
+			%obj.hideNode($accent[%i]);
+		}
+		%obj.isWearingBucket = 1;
+	}
+}
+
+function PrisonBucketEquippedImage::onEquip(%this, %obj, %slot) {
+	%client = %obj.client;
+	if(%obj.getMountedImage(2) $= nametoID(PrisonBucketHatImage))
+	{
+		%obj.unmountImage(2);
+		%client.applyBodyParts();
+		%client.applyBodyColors();
+		%obj.unhideNode("headskin");
+		%obj.isWearingBucket = 0;
+	}
+	%obj.mountImage(PrisonBucketImage, 0);
 }
 
 datablock DebrisData(PrisonBucketDebris)
