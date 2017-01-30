@@ -64,7 +64,7 @@ datablock ShapeBaseImageData(PrisonTrayImage)
 	// Specify mount point & offset for 3rd person, and eye offset
 	// for first person rendering.
 	mountPoint = 0;
-	eyeoffset = "0 0.8 -0.8";
+	eyeoffset = "0 0.6 -0.6";
 	offset = "-0.53 0.12 -0.12";
 	rotation = eulerToMatrix("0 0 0");
 
@@ -186,6 +186,7 @@ package PrisonItems
 {
 	function ProjectileData::onCollision(%data, %obj, %col, %fade, %pos, %normal)
 	{
+		if (%data.getDatablock().getName() !$= "chiselProjectile")
 		if (%col.isHoldingTray)
 		{
 			%targetVector = vectorNormalize(vectorSub(%obj.getPosition(), %col.getHackPosition()));
@@ -263,10 +264,9 @@ package PrisonItems
 					}
 				}
 			}
-
-
 		}
-		parent::onCollision(%data, %obj, %col, %fade, %pos, %normal);
+
+		return parent::onCollision(%data, %obj, %col, %fade, %pos, %normal);
 	}
 };
 activatePackage(PrisonItems);

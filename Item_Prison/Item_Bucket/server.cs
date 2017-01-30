@@ -82,12 +82,15 @@ datablock ShapeBaseImageData(PrisonBucketImage)
 	// Initial start up state
 	stateName[0]					= "Activate";
 	stateTimeoutValue[0]			= 0.5;
-	stateTransitionOnTriggerUp[0]	 	= "Ready";
+	stateTransitionOnTimeout[0]	 	= "Ready";
 	stateSound[0]					= weaponSwitchSound;
 
 	stateName[1]					= "Ready";
 	stateAllowImageChange[1]		= true;
-	stateTransitionOnTriggerDown[1] = "Equip";
+	stateTransitionOnTriggerUp[1] 	= "PreEquip";
+
+	stateName[3]					= "PreEquip";
+	stateTransitionOnTriggerDown[3] = "Equip";
 
 	stateName[2]					= "Equip";
 	stateTimeoutValue[2]			= 1;

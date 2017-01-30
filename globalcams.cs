@@ -67,7 +67,11 @@ function returnAllPlayerControl()
 
 function spectateNextPlayer(%client, %num)
 {
-	%dir = (%num > 0 ? 1 : -1);
+	if (%num > 0) {
+		%dir = 1;
+	} else {
+		%dir = -1;
+	}
 	%client.spectatingClient = (%client.spectatingClient + %num) % ClientGroup.getCount();
 	for (%i = 0; %i < ClientGroup.getCount(); %i++)
 	{
@@ -75,10 +79,10 @@ function spectateNextPlayer(%client, %num)
 		{
 			break;
 		}
-		%client.spectatingClient = (%client.spectatingClient + %dir) % ClientGroup.getCount();
+		%client.spectatingClient = (%client.spectatingClient + %dir + ClientGroup.getCount()) % ClientGroup.getCount();
 	}
 	//centerprint controls + time till respawn
-	%client.centerprint("<font:Arial:26><just:left>\c6Left Click<just:right>\c6Right Click <br><just:left><font:Arial Bold:26>\c3Next Player<just:right>\c3Prev Player ");
+	%client.centerprint("<font:Consolas:18><just:left>\c6Left Click<just:right>\c6Right Click<font:Arial Bold:22> <br><just:left>\c3Next Player<just:right>\c3Prev Player ");
 
 	if (!isObject(%player))
 		return;

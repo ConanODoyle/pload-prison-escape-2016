@@ -1,5 +1,6 @@
 exec("./statistics.cs");
 exec("./breakable.cs");
+exec("./packages.cs");
 exec("./chat.cs");
 exec("./Event_Electrocute.cs");
 exec("./globalcams.cs");

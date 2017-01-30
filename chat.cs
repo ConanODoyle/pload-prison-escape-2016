@@ -81,7 +81,7 @@ package PrisonChatSystem
 				//and if outside, anyone else outside/in the yard
 				else if (%targetIsOutside && %isOutside)
 					messageClient(%target, '', %message);
-				else if (!%targetIsAlive && $location $= "DEAD") //all dead players can chat
+				else if (%location $= "DEAD") //all dead players can chat
 					messageClient(%target, '', %message);
 			}
 
