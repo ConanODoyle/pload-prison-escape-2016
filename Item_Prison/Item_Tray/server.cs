@@ -186,81 +186,86 @@ package PrisonItems
 {
 	function ProjectileData::onCollision(%data, %obj, %col, %fade, %pos, %normal)
 	{
-		if (%data.getDatablock().getName() !$= "chiselProjectile")
-		if (%col.isHoldingTray)
+		if (%data.getName() !$= "chiselProjectile")
 		{
-			%targetVector = vectorNormalize(vectorSub(%obj.getPosition(), %col.getHackPosition()));
-			%angle = mACos(vectorDot(%col.getMuzzleVector(0), %targetVector));
-			if (%angle < 0.73)
+			if (%col.isHoldingTray)
 			{
-				//statistics
-				$Server::PrisonEscape::TraysUsed++;
-				%col.client.traysUsed++;
-				%obj.sourceObject.client.traysPlonked++;
-
-				%col.tool[%col.currtool] = 0;
-				%col.weaponCount--;
-				messageClient(%col.client,'MsgItemPickup','',%col.currtool,0);
-				serverCmdUnUseTool(%col.client);
-				%col.unMountImage();
-
-				%sound = getRandom(1, 3);
-				%sound = "trayDeflect" @ %sound @ "Sound";
-				serverPlay3D(%sound, %col.getHackPosition());
-
-				%proj = new Projectile()
+				%targetVector = vectorNormalize(vectorSub(%obj.getPosition(), %col.getHackPosition()));
+				%angle = mACos(vectorDot(%col.getMuzzleVector(0), %targetVector));
+				if (%angle < 0.73)
 				{
-					dataBlock = PrisonTrayProjectile;
-					initialPosition = %col.getHackPosition();
-					initialVelocity = %col.getEyeVector();
-					client = %col.client;
-				};
-				MissionCleanup.add(%proj);
-				%proj.explode();
-				%obj.delete();
-				return;
-			}
-		}
-		if (%col.isWearingBucket)
-		{
-			%head = getWord(%col.getHackPosition(), 2)*1.56;
-			if (getWord(%pos, 2) > %head)
-			{
-				for (%i=0; %i < %col.getDatablock().maxTools; %i++)
-				{
-					if (%col.tool[%i].getName() $= "PrisonBucketItem")
+					//statistics
+					$Server::PrisonEscape::TraysUsed++;
+					%col.client.traysUsed++;
+					%obj.sourceObject.client.traysPlonked++;
+
+					%col.tool[%col.currtool] = 0;
+					%col.weaponCount--;
+					messageClient(%col.client,'MsgItemPickup','',%col.currtool,0);
+					serverCmdUnUseTool(%col.client);
+					%col.unMountImage();
+
+					%sound = getRandom(1, 3);
+					%sound = "trayDeflect" @ %sound @ "Sound";
+					serverPlay3D(%sound, %col.getHackPosition());
+
+					%proj = new Projectile()
 					{
-						//statistics
-						$Server::PrisonEscape::BucketsUsed++;
-						%col.client.bucketsUsed++;
-						%obj.sourceObject.client.bucketPlonked++;
-
-						%col.tool[%i] = 0;
-						%col.weaponCount--;
-						messageClient(%col.client,'MsgItemPickup','',%i,0);
-
-						%sound = getRandom(1, 3);
-						%sound = "trayDeflect" @ %sound @ "Sound";
-						serverPlay3D(%sound, %col.getHackPosition());
-
-
-						%col.unmountImage(2);
-						%col.client.applyBodyParts();
-						%col.client.applyBodyColors();
-						%col.unhideNode("headskin");
-						%col.isWearingBucket = 0;
-
-						%proj = new Projectile()
+						dataBlock = PrisonTrayProjectile;
+						initialPosition = %col.getHackPosition();
+						initialVelocity = %col.getEyeVector();
+						client = %col.client;
+					};
+					MissionCleanup.add(%proj);
+					%proj.explode();
+					%obj.delete();
+					return;
+				}
+			}
+			if (%col.isWearingBucket)
+			{
+				%head = getWord(%col.getHackPosition(), 2) + 0.717;
+				if (getWord(%pos, 2) > %head)
+				{
+					for (%i=0; %i < %col.getDatablock().maxTools; %i++)
+					{
+						if (%col.tool[%i].getName() $= "PrisonBucketItem")
 						{
-							dataBlock = PrisonBucketProjectile;
-							initialPosition = %col.getHackPosition();
-							initialVelocity = %col.getEyeVector();
-							client = %col.client;
-						};
-						MissionCleanup.add(%proj);
-						%proj.explode();
-						%obj.delete();
-						return;
+							//statistics
+							$Server::PrisonEscape::BucketsUsed++;
+							%col.client.bucketsUsed++;
+							%obj.sourceObject.client.bucketPlonked++;
+
+							%col.tool[%i] = 0;
+							%col.weaponCount--;
+							messageClient(%col.client,'MsgItemPickup','',%i,0);
+
+							%sound = getRandom(1, 3);
+							%sound = "trayDeflect" @ %sound @ "Sound";
+							serverPlay3D(%sound, %col.getHackPosition());
+
+
+							%col.unmountImage(2);
+							%col.client.applyBodyParts();
+							%col.client.applyBodyColors();
+							%col.unhideNode("headskin");
+							%col.isWearingBucket = 0;
+
+							%proj = new Projectile()
+							{
+								dataBlock = PrisonBucketProjectile;
+								initialPosition = %col.getHackPosition();
+								initialVelocity = %col.getEyeVector();
+								client = %col.client;
+							};
+							MissionCleanup.add(%proj);
+							%proj.explode();
+							%obj.delete();
+
+							stun(%col, 3);
+
+							return;
+						}
 					}
 				}
 			}

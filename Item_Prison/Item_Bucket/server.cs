@@ -39,6 +39,28 @@ datablock ShapeBaseImageData(PrisonBucketHatImage)
 	colorshiftColor = "1 1 1 1";
 };
 
+datablock ShapeBaseImageData(StunImage)
+{
+	shapeFile = "./stun.dts";
+	emap = true;
+	mountPoint = $HeadSlot;
+	offset = "0 0 -0.1";
+	eyeOffset = "0 0 -0.18";
+	rotation = eulerToMatrix("0 0 0");
+	scale = "1 1 1";
+	doColorShift = true;
+	colorshiftColor = "1 1 1 1";
+
+	stateName[0]				= "Activate";
+	stateTimeoutValue[0]		= 0.01;
+	stateSequence[0]			= "Ready";
+	stateTransitionOnTimeout[0] = "Ready";
+
+	stateName[1]				= "Ready";
+	stateTimeoutValue[1]		= 1;
+	stateSequence[1]			= "Spin";
+};
+
 datablock ShapeBaseImageData(PrisonBucketImage)
 {
 	// Basic Item properties
@@ -81,7 +103,7 @@ datablock ShapeBaseImageData(PrisonBucketImage)
 
 	// Initial start up state
 	stateName[0]					= "Activate";
-	stateTimeoutValue[0]			= 0.5;
+	stateTimeoutValue[0]			= 0.1;
 	stateTransitionOnTimeout[0]	 	= "Ready";
 	stateSound[0]					= weaponSwitchSound;
 

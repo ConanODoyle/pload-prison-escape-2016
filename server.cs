@@ -2,7 +2,7 @@ exec("./statistics.cs");
 exec("./breakable.cs");
 exec("./packages.cs");
 exec("./chat.cs");
-exec("./Event_Electrocute.cs");
+exec("./stun.cs");
 exec("./globalcams.cs");
 exec("./rounds.cs");
 exec("./towers.cs");
