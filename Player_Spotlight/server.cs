@@ -467,7 +467,7 @@ function startLightBeamLoop(%obj)
 	}
 	else
 	{
-		%beamVector = vectorNormalize(%obj.getEyeVector);
+		%beamVector = vectorNormalize(%obj.getEyeVector());
 	}
 	%end = vectorAdd(vectorScale(%beamVector, 800), %start);
 	%ray = containerRaycast(%start, %end, %typemasks, %obj);
