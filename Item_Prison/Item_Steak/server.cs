@@ -108,12 +108,11 @@ package SteakItemCollision
 	function Armor::onCollision(%this, %obj, %col, %a, %b, %c, %d, %e, %f)
 	{
 		%db = %col.getDatablock().getName();
-		if (%db $= "SteakItem" && %obj.getDatablock().getName() $= "ShepherdDogHoleBot")
+		if (%db $= "SteakItem" && %obj.getDatablock().getName() $= "ShepherdDogHoleBot" && !%obj.isDisabled())
 		{
 			if (%obj.isEating)
 				return;
-			DogEatSteak(%obj, 30, %col.timeToFinish);
-			$SteakGroup.removeSteak(%col);
+			EatSteak(%obj, %col.timeToFinish);
 			//talk("Attempting to delete steak");
 			%col.delete();
 			%obj.hPathBrick = "";
@@ -124,98 +123,39 @@ package SteakItemCollision
 
 	function SteakItem::onPickup(%this, %item, %player)
 	{
-		$SteakGroup.removeSteak(%item);
-		parent::onPickup(%this, %item, %player);
+		return parent::onPickup(%this, %item, %player);
 	}
 
 	function serverCmdDropTool(%client, %slot)
 	{
-		%item = %client.player.tool[%slot];
-		if (%item.getName() $= "SteakItem")
-		{
-			//remove item
-			%obj = %client.player;
-			%obj.tool[%obj.currtool] = 0;
-			%obj.weaponCount--;
-			messageClient(%obj.client,'MsgItemPickup','',%obj.currtool,0);
-			serverCmdUnUseTool(%obj.client);
-			%obj.unMountImage(%slot);
-			//spawn item using onFire code
-			spawnSteak(%obj, %slot);
-			return;
-		}
+		$justDroppedItem = 1;
 		parent::serverCmdDropTool(%client, %slot);
+		$justDroppedItem = 0;
+	}
+
+	function ItemData::onAdd(%this, %obj) {
+		%ret = parent::onAdd(%this, %obj);
+		%obj.dump();
+		if (%this.getName() $= "SteakItem") {
+			$SteakGroup.schedule(1, add, %obj);
+			if ($justDroppedItem) {
+				talk("Creating steak item with default time");
+				%obj.timeToFinish = 15000;
+			}
+		}
+		return %ret;
 	}
 };
 activatePackage(SteakItemCollision);
 
-function SteakGroup::addSteak(%group, %steak)
-{
-	%group.steak[%group.numSteaks] = %steak;
-	%group.steakIDX[%steak] = %group.numSteaks;
-	%group.numSteaks++;
-}
-
-function SteakGroup::removeSteak(%group, %steak)
-{
-	%index = %group.steakIDX[%steak];
-	//if its already removed, skip
-	if (%index $= "")
-		return;
-
-	%group.steakIDX[%steak] = "";
-	//remove the steak and shift all the steaks above down a notch
-	while(isObject(%group.steak[%index+1]))
-	{
-		%group.steak[%index] = %group.steak[%index+1];
-		%group.steakIDX[%group.steak[%index]]--;
-		%index++;
-	}
-	%group.steak[%index] = "";
-	%group.numSteaks--;
-	if (%group.numSteaks < 0)
-		%group.numSteaks = 0;
-}
-
 function SteakImage::onFire(%this, %obj, %slot)
 {
-	spawnSteak(%obj, %slot);
-
-	%obj.tool[%obj.currtool] = 0;
-	%obj.weaponCount--;
-	messageClient(%obj.client,'MsgItemPickup','',%obj.currtool,0);
-	serverCmdUnUseTool(%obj.client);
-	%obj.unMountImage(%slot);
+	serverCmdDropTool(%obj.client, %obj.currTool);
 }
 
-function spawnSteak(%obj, %slot)
-{
-	%pos = %obj.getHackPosition();
-	%pos = vectorAdd(%pos, vectorScale(%obj.getEyeVector(), 0.2));
-	%velocity = vectorScale(%obj.getEyeVector(), 15);
-	%velocity = vectorAdd(%velocity, vectorScale(%obj.getVelocity(), 0.3));
-
-	%i = new Item()
+if (!isObject($SteakGroup)) {
+	$SteakGroup = new ScriptGroup()
 	{
-		minigame = %obj.client.minigame;
-		datablock = SteakItem;
-		canPickup = true;
-		rotate = false;
-		timeToFinish = 15000;
-
-		position = %pos;
+		class = "SteakGroup";
 	};
-	MissionCleanup.add(%i);
-	%i.schedule(30000 - 500, fadeOut);
-	%i.schedule(30000, delete);
-	$SteakGroup.schedule(30000, removeSteak, %i);
-	%i.setVelocity(%velocity);
-
-	$SteakGroup.addSteak(%i);
 }
-
-$SteakGroup = new ScriptObject()
-{
-	class = "SteakGroup";
-	numSteaks = 0;
-};

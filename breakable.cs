@@ -4,7 +4,7 @@ function isBreakableBrick(%brick, %player)
 	%pole = "brick1x1fpoleData";
 	%plate = "brick1x3fData";
 	%window = "brick4x5x2WindowData";
-	if (%brick.willCauseChainKill)
+	if (%brick.willCauseChainKill && %brick.getDatablock().getName() !$= "brick1x1fData")
 		return false;
 	if (%db $= %pole || %db $= %window)
 		return %db;

@@ -26,7 +26,7 @@ function assignBricks()
 		}
 	//iterate through and save the bricks into the scriptobjects
 	$Server::PrisonEscape::PrisonerSpawnPoints = new ScriptGroup() { };
-	saveBricks(%brickgroup, 0);
+	prisonEscape_saveBricks(%brickgroup, 0);
 }
 
 function assignGuard(%client)
@@ -89,7 +89,7 @@ function killTower(%id)
 	%tower.destroy(0);
 }
 
-function saveBricks(%brickgroup, %i) 
+function prisonEscape_saveBricks(%brickgroup, %i) 
 {									//would make it easier to spawn spotlights and such
 	//talk(%brickgroup.getName() SPC %i);
 	//look for bricks with the name of tower#
@@ -112,7 +112,7 @@ function saveBricks(%brickgroup, %i)
 	//skip if there is no name
 	if (%name $= "")
 	{
-		schedule(0, 0, saveBricks, %brickgroup, %i+1);
+		schedule(0, 0, prisonEscape_saveBricks, %brickgroup, %i+1);
 		return;
 	}
 	%name = getSubStr(%name, 1, strLen(%name)); //removes underscore in name
@@ -149,7 +149,7 @@ function saveBricks(%brickgroup, %i)
 		}
 	}
 
-	schedule(1, %brickgroup, saveBricks, %brickgroup, %i+1);
+	schedule(1, %brickgroup, prisonEscape_saveBricks, %brickgroup, %i+1);
 }
 
 function TowerGroup::destroy(%this)

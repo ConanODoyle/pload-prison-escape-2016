@@ -203,7 +203,7 @@ package PrisonItems
 					%col.weaponCount--;
 					messageClient(%col.client,'MsgItemPickup','',%col.currtool,0);
 					serverCmdUnUseTool(%col.client);
-					%col.unMountImage();
+					%col.unMountImage(0);
 
 					%sound = getRandom(1, 3);
 					%sound = "trayDeflect" @ %sound @ "Sound";
@@ -263,6 +263,7 @@ package PrisonItems
 							%obj.delete();
 
 							stun(%col, 3);
+							%col.unMountImage(0);
 
 							return;
 						}

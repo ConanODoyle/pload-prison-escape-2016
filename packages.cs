@@ -7,6 +7,15 @@ package PrisonEscape_Base
 		return;
 	}
 
+	function serverCmdDropTool(%client, %slot) 
+	{
+		if (%client.isGuard && isObject(%player = %client.player) && %player.tool[%slot] !$= "SteakItem") 
+		{
+			return;
+		}
+		return parent::serverCmdDropTool(%client, %slot);
+	}
+
 	function Observer::onTrigger(%this, %obj, %trig, %state) {
 		%client = %obj.getControllingClient();
 		if ((%trig == 0 || %trig == 4) && %state == 1 && $Server::PrisonEscape::roundPhase >= 0)
