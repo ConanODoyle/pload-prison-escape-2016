@@ -135,7 +135,6 @@ package SteakItemCollision
 
 	function ItemData::onAdd(%this, %obj) {
 		%ret = parent::onAdd(%this, %obj);
-		%obj.dump();
 		if (%this.getName() $= "SteakItem") {
 			$SteakGroup.schedule(1, add, %obj);
 			if ($justDroppedItem) {
