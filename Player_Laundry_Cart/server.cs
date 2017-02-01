@@ -130,8 +130,8 @@ datablock PlayerData(LaundryCartArmor)
    minImpactSpeed = 250;
    speedDamageScale = 3.8;
 
-   boundingBox			= vectorScale("2.5 4 0.3", 4);
-   crouchBoundingBox	= vectorScale("2.5 4 0.3", 4);
+   boundingBox			= vectorScale("1.9 1.9 1.6", 4);
+   crouchBoundingBox	= vectorScale("1.9 1.9 1.6", 4);
    
    pickupRadius = 0.75;
    

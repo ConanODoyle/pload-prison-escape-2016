@@ -13,8 +13,8 @@ exec("./Brick_Security_Camera/server.cs");
 
 exec("./Bot_Dog/server.cs");
 exec("./Player_Spotlight/server.cs");
-//exec("./Player_Buff/server.cs");
-//exec("./Player_Laundry_Cart/server.cs");
+exec("./Player_Buff/server.cs");
+exec("./Player_Laundry_Cart/server.cs");
 
 exec("./Item_Prison/server.cs");
 

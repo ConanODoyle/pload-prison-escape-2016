@@ -143,9 +143,9 @@ function GameConnection::applyUniform(%this)
 				%player.hideNode(skirtTrimLeft);
 				%player.hideNode(skirtTrimRight);
 				%player.unHideNode(pants);
-				%player.unHideNode(lShoe);
-				%player.unHideNode(rShoe);
 			}
+			%player.hideNode(lPeg);
+			%player.hideNode(rPeg);
 			%player.setNodeColor(chest, %color);
 			%player.setNodeColor(femChest, %color);
 			%player.setNodeColor(rArm, %color);
@@ -153,6 +153,8 @@ function GameConnection::applyUniform(%this)
 			%player.setNodeColor(lArm, %color);
 			%player.setNodeColor(lArmSlim, %color);
 			%player.setNodeColor(pants, %color);
+			%player.unHideNode(lShoe);
+			%player.unHideNode(rShoe);
 			%player.setNodeColor(lShoe, "0.1 0.1 0.1 1");
 			%player.setNodeColor(rShoe, "0.1 0.1 0.1 1");
 			%player.setNodeColor(lPeg, "0.1 0.1 0.1 1");
