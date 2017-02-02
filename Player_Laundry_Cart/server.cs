@@ -85,7 +85,7 @@ datablock PlayerData(LaundryCartArmor)
    maxLookAngle = 1.5708;
    maxFreelookAngle = 3.0;
 
-   mass = 20;
+   mass = 30;
    drag = 0.1;
    density = 0.7;
    maxDamage = 200;
@@ -98,13 +98,13 @@ datablock PlayerData(LaundryCartArmor)
    runEnergyDrain = 0;
    minRunEnergy = 0;
    maxStepHeight= "1";
-   maxForwardSpeed = 7;
+   maxForwardSpeed = 6.5;
    maxBackwardSpeed = 4.5;
-   maxSideSpeed = 0;
+   maxSideSpeed = 0.5;
 
    maxForwardCrouchSpeed = 6.5;
    maxBackwardCrouchSpeed = 4.5;
-   maxSideCrouchSpeed = 0;
+   maxSideCrouchSpeed = 0.5;
 
    maxForwardProneSpeed = 0;
    maxBackwardProneSpeed = 0;
@@ -130,8 +130,8 @@ datablock PlayerData(LaundryCartArmor)
    minImpactSpeed = 250;
    speedDamageScale = 3.8;
 
-   boundingBox			= vectorScale("1.9 1.9 1.6", 4);
-   crouchBoundingBox	= vectorScale("1.9 1.9 1.6", 4);
+   boundingBox			= vectorScale("1.9 1.9 0.4", 4);
+   crouchBoundingBox	= vectorScale("1.9 1.9 0.4", 4);
    
    pickupRadius = 0.75;
    
@@ -163,18 +163,18 @@ datablock PlayerData(LaundryCartArmor)
 
    // Controls over slope of runnable/jumpable surfaces
    runSurfaceAngle  = 85;
-   jumpSurfaceAngle = 86;
+   jumpSurfaceAngle = 86; 
 
    minJumpSpeed = 20;
    maxJumpSpeed = 30;
 
-   horizMaxSpeed = 0;
-   horizResistSpeed = 10;
-   horizResistFactor = 0.35;
+   horizMaxSpeed = 200;
+   horizResistSpeed = 33;
+   horizResistFactor = 2;
 
    upMaxSpeed = 80;
    upResistSpeed = 25;
-   upResistFactor = 0.3;
+   upResistFactor = 0.01;
    
    footstepSplashHeight = 0.35;
 
@@ -234,8 +234,8 @@ datablock PlayerData(LaundryCartArmor)
    mountThread[1] = "root";
    mountNode[1] = 1;
 
-   mountThread[1] = "root";
-   mountNode[1] = 2;
+   mountThread[2] = "root";
+   mountNode[2] = 2;
 };
 
 
@@ -256,7 +256,7 @@ function LaundryCartArmor::onAdd(%this,%obj)
    %obj.hideNode("rshoe");
 }
 
-$pushForce = 50;
+$pushForce = 30;
 
 package LaundryCartPackage {
    function Armor::onMount(%this, %obj, %vehi, %mountPoint) {
@@ -302,6 +302,8 @@ package LaundryCartPackage {
          if (%db $= "LaundryCartArmor" && %mountPoint == 0) {
             %vehi.hideNode("lhand");
             %vehi.hideNode("rhand");
+            %vehi.hideNode("lhook");
+            %vehi.hideNode("rhook");
             %vehi.hideNode("lshoe");
             %vehi.hideNode("rshoe");
 
@@ -330,11 +332,10 @@ package LaundryCartPackage {
                %this.setTransform(%originalPos);
             }
          }
-      } else if (isObject(%vehi)) {
+      } else if (isObject(%vehi) && %this.getMountNode() == 0) {
          %vec = vectorNormalize(getWords(%this.getMuzzleVector(0), 0, 1) SPC 0.1);
-         //%this.getDatablock().doDismount(%this);
+         %this.getDatablock().doDismount(%this);
          %vehi.setVelocity(vectorAdd(%vehi.getVelocity(), vectorScale(%vec, $pushForce)));
-         talk(%vehi.getVelocity());
       }
       return parent::activateStuff(%this);
    }
