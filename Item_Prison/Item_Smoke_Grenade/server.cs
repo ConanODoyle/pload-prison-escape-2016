@@ -1,12 +1,11 @@
 //projectile
-AddDamageType("chiselDirect",   '<bitmap:add-ons/Gamemode_PPE/Item_Prison/Item_chisel/CI_chisel> %1',       '%2 <bitmap:add-ons/Gamemode_PPE/Item_Prison/Item_chisel/CI_chisel> %1',1,1);
 
-datablock ProjectileData(chiselProjectile)
+datablock ProjectileData(RiotSmokeGrenadeProjectile)
 {
    directDamage        = 8;
-   directDamageType  = $DamageType::chiselDirect;
-   radiusDamageType  = $DamageType::chiselRadius;
-   explosion           = swordExplosion;
+   directDamageType  = $DamageType::rocketDirect;
+   radiusDamageType  = $DamageType::rocketRadius;
+   explosion           = riotSmokeGrenadeExplosion;
    //particleEmitter     = as;
 
    muzzleVelocity      = 50;

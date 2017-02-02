@@ -432,7 +432,7 @@ function AIPlayer::lookAtPlayer_Spotlight( %obj, %opt, %client )
 		{
 			if (%player.isShrouded) {
 				%obj.spotlightTargetLocation = %player.getEyePoint();
-				%obj.setAimLocation(%obj.spotlightTargetLocation)
+				%obj.setAimLocation(%obj.spotlightTargetLocation);
 				%obj.spotlightTarget = "";
 			} else {
 				%obj.setAimObject(%obj.spotlightTarget);
