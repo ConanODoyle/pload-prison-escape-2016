@@ -130,8 +130,8 @@ datablock PlayerData(LaundryCartArmor)
    minImpactSpeed = 250;
    speedDamageScale = 3.8;
 
-   boundingBox			= vectorScale("1.9 1.9 0.4", 4);
-   crouchBoundingBox	= vectorScale("1.9 1.9 0.4", 4);
+   boundingBox			= vectorScale("1.8 1.8 1.4", 4);
+   crouchBoundingBox	= vectorScale("1.8 1.8 1.4", 4);
    
    pickupRadius = 0.75;
    
@@ -310,14 +310,18 @@ package LaundryCartPackage {
             %obj.client.applyBodyParts();
             %obj.client.applyBodyColors();
          }
+
+         %ret = parent::onUnMount(%this, %obj, %vehi, %mountPoint);
+         %vt = %vehi.getTransform();
+         %obj.schedule(1, setTransform, vectorAdd(getWords(%vt, 0, 2), "0 0 2") SPC getWords(%vt, 3, 6));
       }
-      return parent::onUnMount(%this, %obj, %vehi, %mountPoint);
+      return %ret;
    }
 
    function Player::activateStuff(%this) {
       if (!isObject(%vehi = %this.getObjectMount()) && !%this.client.isGuard) {
          %s = %this.getEyePoint();
-         %e = vectorAdd(vectorScale(%this.getEyeVector(), 3), %s);
+         %e = vectorAdd(vectorScale(%this.getEyeVector(), 2.5), %s);
          %masks = $TypeMasks::fxBrickObjectType | $TypeMasks::PlayerObjectType | $TypeMasks::VehicleObjectType | $TypeMasks::StaticShapeObjectType;
          %ray = containerRaycast(%s, %e, %masks, %this);
          %hit = getWord(%ray, 0);
