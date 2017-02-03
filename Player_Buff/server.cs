@@ -9,15 +9,15 @@ datablock TSShapeConstructor(BuffDts)
 	baseShape  = "./buff_bot.dts";
 	sequence0  = "./buff_root.dsq root";
 
-	sequence1  = "./buff_run.dsq run";
-	sequence2  = "./buff_run.dsq walk";
-	sequence3  = "./buff_back.dsq back";
+	sequence1  = "./buff_runFast.dsq run";
+	sequence2  = "./buff_runFast.dsq walk";
+	sequence3  = "./buff_backFast.dsq back";
 	sequence4  = "./buff_side.dsq side";
 
-	sequence5  = "./buff_root.dsq crouch";
-	sequence6  = "./buff_run.dsq crouchRun";
-	sequence7  = "./buff_back.dsq crouchBack";
-	sequence8  = "./buff_side.dsq crouchSide";
+	sequence5  = "./buff_crouch.dsq crouch";
+	sequence6  = "./buff_crouchrun.dsq crouchRun";
+	sequence7  = "./buff_crouchback.dsq crouchBack";
+	sequence8  = "./buff_crouchside.dsq crouchSide";
 
 	sequence9  = "./buff_look.dsq look";
 	sequence10 = "./buff_headlook.dsq headside";
@@ -25,28 +25,28 @@ datablock TSShapeConstructor(BuffDts)
 
 	sequence12 = "./buff_jump.dsq jump";
 	sequence13 = "./buff_jump.dsq standjump";
-	sequence14 = "./buff_root.dsq fall";
+	sequence14 = "./buff_fall.dsq fall";
 	sequence15 = "./buff_root.dsq land";
 
 	sequence16 = "./buff_armAttack.dsq armAttack";
 	sequence17 = "./buff_armReadyLeft.dsq armReadyLeft";
-	sequence18 = "./buff_armReady.dsq armReadyRight";
+	sequence18 = "./buff_armReadyRight.dsq armReadyRight";
 	sequence19 = "./buff_armReadyBoth.dsq armReadyBoth";
 	sequence20 = "./buff_spearready.dsq spearready";     
 	sequence21 = "./buff_spearThrow.dsq spearThrow";
 
-	sequence22 = "./buff_side.dsq talk";  
+	sequence22 = "./buff_talk.dsq talk";  
 
-	sequence23 = "./buff_death.dsq death1"; 
+	sequence23 = "./buff_death1.dsq death1"; 
 	
 	sequence24 = "./buff_shiftUp.dsq shiftUp";
 	sequence25 = "./buff_shiftDown.dsq shiftDown";
-	sequence26 = "./buff_shiftUp.dsq shiftAway";
-	sequence27 = "./buff_shiftDown.dsq shiftTo";
-	sequence28 = "./buff_rotateCCW.dsq shiftLeft";
-	sequence29 = "./buff_rotateCW.dsq shiftRight";
-	sequence30 = "./buff_rotateCW.dsq rotCW";
-	sequence31 = "./buff_rotateCCW.dsq rotCCW";
+	sequence26 = "./buff_shiftAway.dsq shiftAway";
+	sequence27 = "./buff_shiftTo.dsq shiftTo";
+	sequence28 = "./buff_shiftLeft.dsq shiftLeft";
+	sequence29 = "./buff_shiftRight.dsq shiftRight";
+	sequence30 = "./buff_rotCW.dsq rotCW";
+	sequence31 = "./buff_rotCCW.dsq rotCCW";
 
 	sequence32 = "./buff_undo.dsq undo";
 	sequence33 = "./buff_plant.dsq plant";
@@ -58,7 +58,7 @@ datablock TSShapeConstructor(BuffDts)
    sequence36 = "./buff_activate.dsq activate";
    sequence37 = "./buff_activate2.dsq activate2";
 
-   sequence38 = "./buff_recoil.dsq leftrecoil";
+   sequence38 = "./buff_leftRecoil.dsq leftrecoil";
 };    
 
 datablock PlayerData(BuffArmor)
@@ -88,7 +88,7 @@ datablock PlayerData(BuffArmor)
    mass = 140;
    drag = 0.1;
    density = 0.7;
-   maxDamage = 200;
+   maxDamage = 400;
    maxEnergy =  10;
    repairRate = 0.33;
 
@@ -98,13 +98,13 @@ datablock PlayerData(BuffArmor)
    runEnergyDrain = 0;
    minRunEnergy = 0;
    maxStepHeight= "1";
-   maxForwardSpeed = 7;
+   maxForwardSpeed = 6.5;
    maxBackwardSpeed = 3.5;
-   maxSideSpeed = 3;
+   maxSideSpeed = 5.5;
 
-   maxForwardCrouchSpeed = 7.5;
-   maxBackwardCrouchSpeed = 3.5;
-   maxSideCrouchSpeed = 3;
+   maxForwardCrouchSpeed = 3;
+   maxBackwardCrouchSpeed = 2;
+   maxSideCrouchSpeed = 2;
 
    maxForwardProneSpeed = 0;
    maxBackwardProneSpeed = 0;
@@ -130,8 +130,8 @@ datablock PlayerData(BuffArmor)
    minImpactSpeed = 250;
    speedDamageScale = 3.8;
 
-   boundingBox			= vectorScale("1.2 1.2 2.6", 4);
-   crouchBoundingBox	= vectorScale("1.2 1.2 2.6", 4);
+   boundingBox			= vectorScale("1.35 1.35 2.7", 4);
+   crouchBoundingBox	= vectorScale("1.35 1.35 1.1", 4);
    
    pickupRadius = 0.75;
    
