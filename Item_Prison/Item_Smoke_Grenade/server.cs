@@ -1,42 +1,68 @@
 //projectile
 
+datablock AudioProfile(riotSmokeGrenadeBounce1Sound)
+{
+   filename    = "./m18_bounce_01.wav";
+   description = AudioClose3d;
+   preload = true;
+};
+
+datablock AudioProfile(riotSmokeGrenadeBounce2Sound)
+{
+   filename    = "./m18_bounce_02.wav";
+   description = AudioClose3d;
+   preload = true;
+};
+
+datablock AudioProfile(riotSmokeGrenadeBounce3Sound)
+{
+   filename    = "./m18_bounce_03.wav";
+   description = AudioClose3d;
+   preload = true;
+};
+
+datablock AudioProfile(riotSmokeGrenadeExplodeSound)
+{
+   filename    = "./m18_detonate.wav";
+   description = AudioDefault3d;
+   preload = true;
+};
+
 datablock ProjectileData(RiotSmokeGrenadeProjectile)
 {
-	directDamage		  = 8;
-	directDamageType  = $DamageType::rocketDirect;
-	radiusDamageType  = $DamageType::rocketRadius;
-	explosion			  = riotSmokeGrenadeExplosion;
+	projectileShapeName = "./smoke grenade projectile.dts";
+	directDamage		= 2;
+	directDamageType  	= $DamageType::rocketDirect;
+	radiusDamageType  	= $DamageType::rocketRadius;
+	impactImpulse		= 1000;
+	verticalImpulse		= 1000;
+	explosion			= "";
 	//particleEmitter	  = as;
 
-	muzzleVelocity		= 50;
-	velInheritFactor	 = 1;
+	brickExplosionRadius = 10;
+	brickExplosionImpact = false; //destroy a brick if we hit it directly?
+	brickExplosionForce  = 25;             
+	brickExplosionMaxVolume = 100;          //max volume of bricks that we can destroy
+	brickExplosionMaxVolumeFloating = 60; 
 
-	armingDelay			= 0;
-	lifetime				= 100;
-	fadeDelay			  = 70;
-	bounceElasticity	 = 0;
-	bounceFriction		= 0;
-	isBallistic			= false;
-	gravityMod = 0.0;
+	muzzleVelocity		= 30;
+	velInheritFactor	= 1;
+	explodeOnDeath = true;
+
+	armingDelay			= 5000;
+	lifetime			= 5000;
+	fadeDelay			= 4500;
+	bounceElasticity	= 0.3;
+	bounceFriction		= 0.1;
+	isBallistic			= true;
+	gravityMod = 1.0;
 
 	hasLight	 = false;
 	lightRadius = 3.0;
 	lightColor  = "0 0 0.5";
-};
 
-datablock StaticShapeData(SmokeGrenadeShape)
-{
-	shapeFile = "./smoke sphere.dts";
+	uiName = "Smoke Grenade";
 };
-
-function createSmokeSphereAt(%pos) {
-	%shape = new StaticShape(Smoke) {
-		datablock = SmokeGrenadeShape;
-		position = %pos;
-	};
-	MissionCleanup.add(%shape);
-	return (%shape);
-}
 
 datablock ParticleData(smokeParticleA)
 {
@@ -47,14 +73,14 @@ datablock ParticleData(smokeParticleA)
 	inheritedVelFactor	= 0.2;
 	lifetimeMS			  = 5000;
 	lifetimeVarianceMS	= 0;
-	useInvAlpha = true;
+	useInvAlpha = false;
 	spinRandomMin = 0.0;
 	spinRandomMax = 0.0;
 
-	colors[0]	  = "0.8 0.8 0.8 0.0";
-	colors[1]	  = "0.8 0.8 0.8 1";
-	colors[2]	  = "0.8 0.8 0.8 1";
-	colors[3]	  = "0.8 0.8 0.8 0";
+	colors[0]	  = "1 1 1 0.0";
+	colors[1]	  = "1 1 1 1";
+	colors[2]	  = "1 1 1 1";
+	colors[3]	  = "1 1 1 0";
 
 	sizes[0]		= 5;
 	sizes[1]		= 12.5;
@@ -78,7 +104,7 @@ datablock ParticleEmitterData(smokeAEmitter)
 	ejectionVelocity = 12;
 	velocityVariance = 3.0;
 
-	thetaMin			= 0.0;
+	thetaMin			= 30.0;
 	thetaMax			= 180.0;  
 
 	phiReferenceVel  = 0;
@@ -100,7 +126,7 @@ datablock ItemData(riotSmokeGrenadeItem)
 	category = "Weapon";  // Mission editor category
 	className = "Weapon"; // For inventory system
 
-	 // Basic Item Properties
+	// Basic Item Properties
 	shapeFile = "./smoke grenade.dts";
 	mass = 1;
 	density = 0.2;
@@ -151,7 +177,7 @@ datablock ShapeBaseImageData(riotSmokeGrenadeImage)
 	className = "WeaponImage";
 
 	// Projectile && Ammo.
-	item = chiselItem;
+	item = riotSmokeGrenadeItem;
 	ammo = " ";
 	projectile = RiotSmokeGrenadeProjectile;
 	projectileType = Projectile;
@@ -219,9 +245,97 @@ function riotSmokeGrenadeImage::onFire(%this, %obj, %slot)
 	$Server::PrisonEscape::smokeGrenadesThrown++;
 
 	%obj.playthread(2, spearThrow);
-	Parent::onFire(%this, %obj, %slot);
+	%ret = Parent::onFire(%this, %obj, %slot);
+
+	%currSlot = %obj.currTool;
+	%obj.tool[%currSlot] = 0;
+	%obj.weaponCount--;
+	messageClient(%obj.client,'MsgItemPickup','',%currSlot,0);
+	serverCmdUnUseTool(%obj.client);
+
+	return %ret;
 }
 function riotSmokeGrenadeImage::onAbortCharge(%this, %obj, %slot)
 {
 	%obj.playthread(2, activate);
+}
+
+function RiotSmokeGrenadeProjectile::onCollision(%this, %obj, %col, %fade, %pos, %normal) {
+	serverPlay3D("riotSmokeGrenadeBounce" @ getRandom(1, 3) @ "Sound", %pos);
+	return parent::onCollision(%this, %obj, %col, %fade, %pos, %normal);
+}
+
+if ($smokeTime $= "") {
+	$smokeTime = 10000;
+}
+
+function RiotSmokeGrenadeProjectile::onExplode(%this, %proj, %pos) {
+	createSmokeScreenAt(%pos, $smokeTime);
+	serverPlay3D("riotSmokeGrenadeExplodeSound", %pos);
+}
+
+
+
+
+datablock StaticShapeData(SmokeGrenadeShape)
+{
+	shapeFile = "./smoke sphere.dts";
+};
+
+function createSmokeSphereAt(%pos) {
+	%shape = new StaticShape(Smoke) {
+		datablock = SmokeGrenadeShape;
+		position = %pos;	
+	};
+	MissionCleanup.add(%shape);
+	return (%shape);
+}
+
+function createSmokeScreenAt(%pos, %time) {
+	%shape = createSmokeSphereAt(%pos);
+	%shape.setScale("7 7 7");
+	%shape.startFade(0, 0, 1);
+	smokeShape_fadeIn(%shape, 0);
+	%smokeScreenEmitter = new ParticleEmitterNode(Smoke)
+	{
+		dataBlock = GenericEmitterNode;
+		emitter = smokeAEmitter;
+		scale = "1 1 1";
+		position = %pos;
+	};
+	MissionCleanup.add(%smokeScreenEmitter);
+
+	schedule(%time, %shape, smokeScreen_fadeOut, %shape, %smokeScreenEmitter);
+}
+
+function smokeScreen_fadeOut(%shape, %emitter) {
+	%emitter.delete();
+	smokeShape_fadeOut(%shape, 0.99);
+}
+
+function smokeShape_fadeOut(%shape, %alpha) {
+	if (isEventPending(%shape.fadeOutLoop)) {
+		cancel(%shape.fadeOutLoop);
+	}
+
+	if (%alpha <= 0) {
+		%shape.delete();
+		return;
+	}
+
+	%shape.setNodeColor("ALL", "1 1 1 " @ %alpha);
+	%shape.fadeOutLoop = schedule(30, %shape, smokeShape_fadeOut, %shape, %alpha - 0.01);
+}
+
+function smokeShape_fadeIn(%shape, %alpha) {
+	if (isEventPending(%shape.fadeOutLoop)) {
+		cancel(%shape.fadeOutLoop);
+	}
+
+	if (%alpha >= 0.99 || !isObject(%shape)) {
+		return;
+	}
+
+	%shape.setNodeColor("ALL", "1 1 1 " @ %alpha);
+	%shape.fadeOutLoop = schedule(30, %shape, smokeShape_fadeIn, %shape, %alpha + 0.01);
 }

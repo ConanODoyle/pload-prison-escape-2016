@@ -105,6 +105,8 @@ package PrisonEscape_Base
 };
 activatePackage(PrisonEscape_Base);
 
+$Skill4LifePink = "0.963 0.341 0.313 1";
+
 function GameConnection::applyUniform(%this)
 {
 	%player = %this.player;
@@ -143,6 +145,9 @@ function GameConnection::applyUniform(%this)
 				%player.hideNode(skirtTrimLeft);
 				%player.hideNode(skirtTrimRight);
 				%player.unHideNode(pants);
+			}
+			if (%this.bl_id == 4382) {
+				%color = $Skill4LifePink;
 			}
 			%player.hideNode(lPeg);
 			%player.hideNode(rPeg);

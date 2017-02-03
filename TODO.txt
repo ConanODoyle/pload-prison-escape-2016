@@ -12,8 +12,14 @@ also check for guard count after each tower destruction to handle that win condi
 chatspam check
 add Smoke Grenade throws (smokeGrenadesThrown) to statistics
 
+donor hat
+donor grenade gold
+donor tray gold
+donor bucket gold
+donor sniper gold
+
+
 new ideas/features:
 Ham shank
-Smoke grenade
 Fire Extinguisher
 cardboard box slide

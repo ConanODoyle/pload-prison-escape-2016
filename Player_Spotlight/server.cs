@@ -463,11 +463,11 @@ function startLightBeamLoop(%obj)
 	%typeMasks = $Typemasks::FxBrickObjectType | $Typemasks::TerrainObjectType | 
 	$TypeMasks::StaticObjectType;
 
-	if  (isObject(%targetPlayer = %obj.getAimObject()) || (isObject(%targetPlayer = %obj.spotlightTarget) && %obj.isTargetingTarget))
+	if  (%obj.getClassName() !$= "Player" && isObject(%targetPlayer = %obj.getAimObject()) || (isObject(%targetPlayer = %obj.spotlightTarget) && %obj.isTargetingTarget))
 	{
 		%beamVector = vectorNormalize(vectorSub(%targetPlayer.getEyePoint(), %start));
 	}
-	else if (%obj.spotlightTargetLocation !$= "" && %obj.isTargetingTarget)
+	else if (%obj.getClassName() !$= "Player" && %obj.spotlightTargetLocation !$= "" && %obj.isTargetingTarget)
 	{
 		%beamVector = vectorNormalize(vectorSub(%obj.spotlightTargetLocation, %start));
 	}
