@@ -311,8 +311,8 @@ package LaundryCartPackage {
             %obj.client.applyBodyColors();
          }
 
-         %ret = parent::onUnMount(%this, %obj, %vehi, %mountPoint);
          %vt = %vehi.getTransform();
+         %ret = parent::onUnMount(%this, %obj, %vehi, %mountPoint);
          %obj.schedule(1, setTransform, vectorAdd(getWords(%vt, 0, 2), "0 0 2") SPC getWords(%vt, 3, 6));
       }
       return %ret;

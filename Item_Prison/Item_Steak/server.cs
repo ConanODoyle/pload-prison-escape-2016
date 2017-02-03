@@ -138,7 +138,6 @@ package SteakItemCollision
 		if (%this.getName() $= "SteakItem") {
 			$SteakGroup.schedule(1, add, %obj);
 			if ($justDroppedItem) {
-				talk("Creating steak item with default time");
 				%obj.timeToFinish = 15000;
 			}
 		}

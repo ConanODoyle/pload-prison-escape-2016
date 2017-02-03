@@ -73,7 +73,19 @@ package PrisonEscape_Base
 
 	function GameConnection::applyBodyColors(%this)
 	{
-		if(%this.applyingUniform || !isObject(%this.minigame))
+		if (%this.player.getDatablock().getName() $= "BuffArmor") 
+		{
+			%color = %this.headColor;
+			%tint = min(getWord(%this.headColor, 0) - 0.13, 1) SPC min(getWord(%this.headColor, 1) - 0.16, 1) SPC getWords(%this.headColor, 2, 3);
+
+			%this.player.setNodeColor("ALL", %color);
+			%this.player.setNodeColor("nipples", %tint);
+			%this.player.setNodeColor("face", "0 0 0 1");
+			%this.player.setNodeColor("pants", "0.1 0.1 0.1 1");
+			%this.player.setNodeColor("lShoe", "0.1 0.1 0.1 1");
+			%this.player.setNodeColor("rShoe", "0.1 0.1 0.1 1");
+		}
+		else if(%this.applyingUniform || !isObject(%this.minigame))
 		{
 			return parent::applyBodyColors(%this);
 		}
@@ -104,6 +116,16 @@ package PrisonEscape_Base
 	}
 };
 activatePackage(PrisonEscape_Base);
+
+function min(%a, %b) {
+	if (%a < %b) {
+		return %a;
+	}
+	else 
+	{
+		return %b;
+	}
+}
 
 $Skill4LifePink = "0.963 0.341 0.313 1";
 
