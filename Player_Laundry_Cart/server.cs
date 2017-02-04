@@ -256,7 +256,7 @@ function LaundryCartArmor::onAdd(%this,%obj)
    %obj.hideNode("rshoe");
 }
 
-$pushForce = 21;
+$pushForce = 24;
 
 package LaundryCartPackage {
    function Armor::onMount(%this, %obj, %vehi, %mountPoint) {
@@ -346,16 +346,17 @@ package LaundryCartPackage {
 
          %vec = vectorNormalize(getWords(%this.getForwardVector(), 0, 1) SPC 0.1);
          %this.getDatablock().doDismount(%this);
-         tumble(%vehi, 4);
-         %vehi.getObjectMount().setVelocity(vectorScale(%vec, $pushForce));
+         
+         %vehi.setVelocity(vectorScale(%vec, $pushForce));
+         schedule(30, %vehi, tumble, %vehi, 4);
          schedule(3000, %vehi, clearTumble, %vehi);
          if (isObject(%pl = %vehi.getMountedObject(0))) {
-            %pl.schedule(1000, dismount);
-            schedule(1000, %pl, tumble, %pl);
+            //%pl.schedule(1000, dismount);
+            //schedule(1000, %pl, tumble, %pl);
          }
          if (isObject(%pl = %vehi.getMountedObject(1))) {
-            %pl.schedule(1000, dismount);
-            schedule(1000, %pl, tumble, %pl);
+            //%pl.schedule(1000, dismount);
+            //schedule(1000, %pl, tumble, %pl);
          }
       }
       return parent::activateStuff(%this);

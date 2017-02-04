@@ -1,165 +1,16 @@
-
 $Server::PrisonEscape::Guards = "";
 $Server::PrisonEscape::winCamPos = "";
 $Server::PrisonEscape::winCamTarget = "";
 $Server::PrisonEscape::currentStatistic = 0;
 $Server::PrisonEscape::roundPhase = -1;
 
-$fakeClient = new ScriptObject() {
-	isSuperAdmin = 1;
-};
-
-////////////////////////////
-//////////preround//////////
-////////////////////////////
-
-
-function serverCmdAddGuard(%client, %name) 
-{
-	if (!%client.isSuperAdmin)
-		return;
-
-	$Server::PrisonEscape::Guards = trim($Server::PrisonEscape::Guards SPC findclientbyname(%name));
-	messageAdmins(%client, '', "\c7" @ %cl.name @ " added " @ findclientbyname(%name).name @ " to the guard list.");
-	displayRoundLoadingInfo();
+if (!isObject($fakeClient)) {
+	$fakeClient = new ScriptObject(ClientObjects) {
+		isSuperAdmin = 1;
+		isAdmin = 1;
+		name = "Dummy Client";
+	};
 }
-
-function serverCmdRemoveGuard(%client, %name)
-{
-	if (!%client.isSuperAdmin)
-		return;
-
-	%guard = findclientbyname(%name);
-	$Server::PrisonEscape::Guards = strReplace($Server::PrisonEscape::Guards, %guard, "");
-	$Server::PrisonEscape::Guards = strReplace($Server::PrisonEscape::Guards, "  ", " ");
-	$Server::PrisonEscape::Guards = trim($Server::PrisonEscape::Guards);
-	messageAdmins(%client, '', "\c7" @ %cl.name @ " removed " @ findclientbyname(%name).name @ " from the guard list.");
-	displayRoundLoadingInfo();
-}
-
-function getGuardNames()
-{
-	%list = "<just:right>";
-	for (%i = 0; %i < getWordCount($Server::PrisonEscape::Guards); %i++)
-	{
-		%list = %list @ "\c2" @ (getWord($Server::PrisonEscape::Guards, %i).name) @ " - Guard " @ (%i + 1) @ " <br>";
-	}
-
-	for (%i = getWordCount($Server::PrisonEscape::Guards); %i < 4; %i++)
-	{
-		%list = %list @ "\c6NONE - Guard " @ (%i + 1) @ " <br>";
-	}
-
-	return %list;
-}
-
-function displayRoundLoadingInfo() 
-{
-	%statisticString = $Server::PrisonEscape::statisticString;
-	%guards1 = getGuardNames();
-	%guards2 = getSubStr(%guards1, strPos(%guards1, "Guard 2 <br>") + 12, strLen(%guards1));
-	%guards1 = getSubStr(%guards1, 0, strPos(%guards1, "Guard 2 <br>") + 12);
-	%centerprintString = "<font:Arial Bold:20>" @ %guards1 @ "<just:center>\c3" @ %statisticString @ " <just:right>\c6" @ %guards2;
-	centerprintAll(%centerprintString);
-	bottomprintAll(generateBottomPrint(), -1, 1);
-}
-
-function generateBottomPrint() 
-{
-	%header = "<just:center><font:Arial Bold:34><shadowcolor:666666><shadow:0:4><color:E65714>JailBreak! <br><font:Arial Bold:26>\c7-      - <br>";
-	%footer = "<shadow:0:3><color:ffffff>Please wait until the next round to play<font:Impact:1> <br>";
-	return %header @ %footer;
-}
-
-function bottomprintTimerLoop(%timeLeft)
-{
-	if (isEventPending($Server::PrisonEscape::timerSchedule))
-		cancel($Server::PrisonEscape::timerSchedule);
-	//display timeleft to everyone
-	for (%i = 0; %i < ClientGroup.getCount(); %i++) {
-		ClientGroup.getObject(%i).bottomprint("<font:Arial Bold:34><just:center>\c6" @ getTimeString(%timeLeft-1) @ " ", -1, 0);
-	}
-
-	if (%timeleft == 0)
-	{
-		//one final check if prisoners are in win zone
-
-		//guards win
-		//schedule(1000, 0, guards)
-
-		//color the bottomprint timer to indicate its up
-		//and play win/lose sound on client
-		for (%i = 0; %i < ClientGroup.getCount(); %i++)
-		{
-			%client = ClientGroup.getObject(%i);
-			if (%client.isGuard)
-			{
-				%client.bottomprint("<font:Arial Bold:34><just:center>\c2" @ getTimeString(%timeLeft) @ " ", -1, 0);
-				%client.centerprint("<font:Arial Bold:34>\c2Guards Win! ");
-			}
-			else
-			{
-				%client.bottomprint("<font:Arial Bold:34><just:center>" @ getTimeString(%timeLeft) @ " ", -1, 0);
-				%client.centerprint("<font:Arial Bold:34>Guards Win! ");
-			}
-		}
-		return;
-	}
-	$Server::PrisonEscape::currTime = %timeLeft; //respawn wave every 3 minutes
-	$Server::PrisonEscape::timerSchedule = schedule(1000, 0, bottomprintTimerLoop, %timeleft-1);
-}
-
-///////////////////////////////
-//////////duringround//////////
-///////////////////////////////
-
-function guardsWin() {
-	if (isEventPending($Server::PrisonEscape::prisonerWinSchedule))
-		cancel($Server::PrisonEscape::prisonerWinSchedule);
-	if (isEventPending($Server::PrisonEscape::timerSchedule))
-		cancel($Server::PrisonEscape::timerSchedule);
-
-	//set cameras up
-
-	//playsound on clients
-}
-
-registerOutputEvent("fxDTSBrick", "prisonersWin", "", 1);
-
-function fxDTSBrick::prisonersWin(%this, %client) 
-{
-	if (%client.isGuard)
-		return;
-	$Server::PrisonEscape::firstPrisonerOut = %client;
-	prisonersWin();
-}
-
-function prisonersWin() {
-	if (isEventPending($Server::PrisonEscape::prisonerWinSchedule))
-		cancel($Server::PrisonEscape::prisonerWinSchedule);
-	if (isEventPending($Server::PrisonEscape::timerSchedule))
-		cancel($Server::PrisonEscape::timerSchedule);
-
-	//set cameras up
-
-	//playsound on clients
-}
-
-function spawnDeadPrisoners()
-{
-	for (%i = 0; %i < ClientGroup.getCount(); %i++)
-	{
-		if (isObject(%client.player) || (%client = ClientGroup.getObject(%i)).isGuard)
-			continue;
-		%spawn = pickPrisonerSpawnPoint();
-		%client.createPlayer(%spawn);
-	}
-	resetPrisonerSpawnPointCounts();
-}
-
-/////////////////////////////
-//////////postround//////////
-/////////////////////////////
 
 exec("./globalcams.cs");
 
@@ -178,12 +29,12 @@ function despawnAll()
 	}
 }
 
-function messageAdmins(%msg)
+function PPE_messageAdmins(%msg)
 {
 	for (%i = 0; %i < ClientGroup.getCount(); %i++)
 	{
 		if ((%client = ClientGroup.getObject(%i)).isSuperAdmin)
-			messageClient(%client, '', %msg);
+			messageClient(%client, '', "\c7(ADMINS) \c3" @ %msg);
 	}
 }
 
@@ -192,27 +43,7 @@ function swapStatistics()
 	if (isEventPending($Server::PrisonEscape::statisticLoop))
 		return;
 
-	switch ($Server::PrisonEscape::currentStatistic)
-	{
-		case 0: %stat = "Sharpshooter\c6: " 	@ 
-			(strLen($Server::PrisonEscape::SharpshooterGuard.name) > 10 ? getSubStr($Server::PrisonEscape::SharpshooterGuard.name, 9) @ "." : $Server::PrisonEscape::SharpshooterGuard.name)
-			SPC "-" SPC ($Server::PrisonEscape::TopAcc <= 0 ? 0 : $Server::PrisonEscape::TopAcc) SPC "acc";
-		case 1: %stat = "Escape Artist\c6: " 	@ 
-			(strLen($Server::PrisonEscape::MVPPrisoner.name) > 10 ? getSubStr($Server::PrisonEscape::MVPPrisoner.name, 9) @ "." : $Server::PrisonEscape::MVPPrisoner.name)
-			SPC "-" SPC ($Server::PrisonEscape::TopChisel <= 0 ? 0 : $Server::PrisonEscape::TopChisel) SPC "bricks";
-		case 2: %stat = "Riot Control\c6: "	@
-			(strLen($Server::PrisonEscape::MVPGuard.name) > 10 ? getSubStr($Server::PrisonEscape::MVPGuard.name, 9) @ "." : $Server::PrisonEscape::MVPGuard.name)
-			SPC "-" SPC ($Server::PrisonEscape::MVPGuard.getScore() <= 0 ? 0 : $Server::PrisonEscape::MVPGuard.getScore()) SPC "kills";
-		case 3: %stat = "Guard Messages Sent\c6: " @ ($Server::PrisonEscape::GuardMessagesSent <= 0 ? 0 : $Server::PrisonEscape::GuardMessagesSent);
-		case 4: %stat = "Prisoner Messages Sent\c6: " @ ($Server::PrisonEscape::PrisonerMessagesSent <= 0 ? 0 : $Server::PrisonEscape::PrisonerMessagesSent);
-		case 5: %stat = "Prisoner Deaths\c6: " @ ($Server::PrisonEscape::PrisonerDeaths <= 0 ? 0 : $Server::PrisonEscape::PrisonerDeaths);
-		case 6: %stat = "Bricks Destroyed\c6: " @ ($Server::PrisonEscape::BricksDestroyed <= 0 ? 0 : $Server::PrisonEscape::BricksDestroyed);
-		case 7: %stat = "Bullets Fired\c6: " @ ($Server::PrisonEscape::SniperRifleBullets <= 0 ? 0 : $Server::PrisonEscape::SniperRifleBullets);
-		case 8: %stat = "Chisel Swings\c6: " @ ($Server::PrisonEscape::ChiselAttacks <= 0 ? 0 : $Server::PrisonEscape::ChiselAttacks);
-		case 9: %stat = "Trays Used\c6: " @ ($Server::PrisonEscape::TraysUsed <= 0 ? 0 : $Server::PrisonEscape::TraysUsed);
-		case 10: %stat = "Buckets Used\c6: " @ ($Server::PrisonEscape::BucketsUsed <= 0 ? 0 : $Server::PrisonEscape::BucketsUsed);
-		case 11: %stat = "Steaks Eaten\c6: " @ ($Server::PrisonEscape::SteaksEaten <= 0 ? 0 : $Server::PrisonEscape::SteaksEaten);
-	}
+	%stat = getStatistic();
 
 	$Server::PrisonEscape::statisticString = %stat;
 	$Server::PrisonEscape::currentStatistic++;
@@ -235,7 +66,7 @@ function serverCmdSetPhase(%client, %phase)
 		serverDirectSaveFileLoad("saves/Prison Escape.bls", 3, "", 0, 1); //1 for silent
 		//reset guard picks and after load is complete add new named bricks to tower scriptobjs
 		//also add the comms dish and the generator to special global vars
-		messageAdmins("\c4Loading bricks...");
+		PPE_messageAdmins("\c4Loading bricks...");
 		$Server::PrisonEscape::generator = 0;
 		$Server::PrisonEscape::commDish = 0;
 		//reset the spawn group

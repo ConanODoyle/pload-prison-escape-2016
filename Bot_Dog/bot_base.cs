@@ -391,7 +391,8 @@ function clearTumble(%player)
 		%player.stopSkiing();
 		%player.dismount();
 		%player.isTumbling = false;
-		%player.client.setControlObject(%player);
+		if (isObject(%player.client))
+			%player.client.setControlObject(%player);
 	}
 }
 
