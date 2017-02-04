@@ -1,4 +1,4 @@
-datablock ItemData(PrisonBucketItem)
+datablock ItemData(PrisonBucketGoldenItem)
 {
 	category = "Weapon";// Mission editor category
 	className = "Weapon"; // For inventory system
@@ -13,20 +13,20 @@ datablock ItemData(PrisonBucketItem)
 	emap = true;
 
 	//gui stuff
-	uiName = "Bucket";
+	uiName = "Golden Bucket";
 	iconName = "";
 	doColorShift = true;
-	colorshiftColor = "1 1 1 1";
+	colorshiftColor = "1 1 0 1";
 
 	 // Dynamic properties defined by the scripts
-	image = PrisonBucketImage;
+	image = PrisonBucketGoldenImage;
 	canDrop = true;
 	
 	maxAmmo = 1;
 	canReload = 0;
 };
 
-datablock ShapeBaseImageData(PrisonBucketHatImage)
+datablock ShapeBaseImageData(PrisonBucketGoldenHatImage)
 {
 	shapeFile = "./buckethat.dts";
 	emap = true;
@@ -36,32 +36,31 @@ datablock ShapeBaseImageData(PrisonBucketHatImage)
 	rotation = eulerToMatrix("0 0 0");
 	scale = "1 1 1";
 	doColorShift = true;
-	colorshiftColor = "0.5 0.5 0.5 1";
+	colorshiftColor = "1 1 0 1";
+
+	stateName[0]					= "Activate";
+	stateTimeoutValue[0]			= 0.1;
+	stateTransitionOnTimeout[0]	 	= "Ready";
+	stateSound[0]					= "";
+
+	stateName[1]					= "Ready";
+	stateAllowImageChange[1]		= true;
+	stateTimeoutValue[1]			= 1;
+	stateTransitionOnTimeout[1]		= "postReady";
+	stateEmitter[1]					= GoldenEmitter;
+	stateEmitterNode[1]				= "emitterPoint";
+	stateEmitterTime[1]				= 1000;
+
+	stateName[2]					= "postReady";
+	stateAllowImageChange[2]		= true;
+	stateTimeoutValue[2]			= 1;
+	stateTransitionOnTimeout[2]		= "Ready";
+	stateEmitter[2]					= GoldenEmitter;
+	stateEmitterNode[2]				= "emitterPoint";
+	stateEmitterTime[2]				= 1000;
 };
 
-datablock ShapeBaseImageData(StunImage)
-{
-	shapeFile = "./stun.dts";
-	emap = true;
-	mountPoint = $HeadSlot;
-	offset = "0 0 -0.1";
-	eyeOffset = "0 0 -0.18";
-	rotation = eulerToMatrix("0 0 0");
-	scale = "1 1 1";
-	doColorShift = true;
-	colorshiftColor = "0.5 0.5 0.5 1";
-
-	stateName[0]				= "Activate";
-	stateTimeoutValue[0]		= 0.01;
-	stateSequence[0]			= "Ready";
-	stateTransitionOnTimeout[0] = "Ready";
-
-	stateName[1]				= "Ready";
-	stateTimeoutValue[1]		= 1;
-	stateSequence[1]			= "Spin";
-};
-
-datablock ShapeBaseImageData(PrisonBucketImage)
+datablock ShapeBaseImageData(PrisonBucketGoldenImage)
 {
 	// Basic Item properties
 	shapeFile = "./bucketitem.dts";
@@ -83,7 +82,7 @@ datablock ShapeBaseImageData(PrisonBucketImage)
 	className = "WeaponImage";
 
 	// Projectile && Ammo.
-	item = PrisonBucketItem;
+	item = PrisonBucketGoldenItem;
 	ammo = " ";
 
 	//melee particles shoot from eye node for consistancy
@@ -92,7 +91,7 @@ datablock ShapeBaseImageData(PrisonBucketImage)
 	armReady = false;
 
 	doColorShift = true;
-	colorshiftColor = "1 1 1 1";
+	colorshiftColor = "1 1 0 1";
 
 	// Images have a state system which controls how the animations
 	// are run, which sounds are played, script callbacks, etc. This
@@ -110,36 +109,45 @@ datablock ShapeBaseImageData(PrisonBucketImage)
 	stateName[1]					= "Ready";
 	stateAllowImageChange[1]		= true;
 	stateTransitionOnTriggerUp[1] 	= "PreEquip";
+	stateEmitter[1]					= GoldenEmitter;
+	stateEmitterNode[1]				= "emitterPoint";
+	stateEmitterTime[1]				= 1000;
 
 	stateName[3]					= "PreEquip";
 	stateTransitionOnTriggerDown[3] = "Equip";
+	stateEmitter[3]					= GoldenEmitter;
+	stateEmitterNode[3]				= "emitterPoint";
+	stateEmitterTime[3]				= 1000;
 
 	stateName[2]					= "Equip";
 	stateTimeoutValue[2]			= 1;
 	stateTransitionOnTriggerUp[2]	= "Ready";
 	stateWaitForTimeout[2]			= true;
 	stateScript[2]					= "onEquip";
+	stateEmitter[2]					= GoldenEmitter;
+	stateEmitterNode[2]				= "emitterPoint";
+	stateEmitterTime[3]				= 1000;
 };
 
-datablock ShapeBaseImageData(PrisonBucketEquippedImage : PrisonBucketImage) {
+datablock ShapeBaseImageData(PrisonBucketGoldenEquippedImage : PrisonBucketGoldenImage) {
 	shapeFile = "base/data/shapes/empty.dts";
 	armReady = false;
 };
 
-function PrisonBucketImage::onMount(%this, %obj, %slot)
+function PrisonBucketGoldenImage::onMount(%this, %obj, %slot)
 {
 	if (%slot == 2) {
 		return parent::onMount();
 	}
-	if (isObject(%image = %obj.getMountedImage(2)) && %image.getID() $= PrisonBucketHatImage.getID()) {
-		%obj.mountImage(PrisonBucketEquippedImage, 0);
+	if (isObject(%image = %obj.getMountedImage(2)) && %image.getID() $= PrisonBucketGoldenHatImage.getID()) {
+		%obj.mountImage(PrisonBucketGoldenEquippedImage, 0);
 		return;
 	}
 	%obj.playThread(2, armReadyBoth);
 	//unequip hat
 	// %player = %obj;
 	// %client = %obj.client;
-	// if(%player.getMountedImage(2) $= nametoID(PrisonBucketHatImage))
+	// if(%player.getMountedImage(2) $= nametoID(PrisonBucketGoldenHatImage))
 	// {
 	// 	%player.unmountImage(2);
 	// 	%client.applyBodyParts();
@@ -149,17 +157,17 @@ function PrisonBucketImage::onMount(%this, %obj, %slot)
 	// }
 }
 
-function PrisonBucketImage::onUnMount(%this, %obj, %slot)
+function PrisonBucketGoldenImage::onUnMount(%this, %obj, %slot)
 {
 	%obj.playThread(2, root);
 }
 
-function PrisonBucketImage::onEquip(%this, %obj, %slot)
+function PrisonBucketGoldenImage::onEquip(%this, %obj, %slot)
 {
 	%client = %obj.client;
 	%obj.unmountImage(2);
 
-	if(%obj.getMountedImage(2) $= nametoID(PrisonBucketHatImage))
+	if(%obj.getMountedImage(2) $= nametoID(PrisonBucketGoldenHatImage))
 	{
 		%client.applyBodyParts();
 		%client.applyBodyColors();
@@ -169,8 +177,8 @@ function PrisonBucketImage::onEquip(%this, %obj, %slot)
 	else
 	{
 		serverPlay3D(weaponSwitchSound, %obj.getHackPosition());
-		%obj.mountImage(PrisonBucketHatImage, 2);
-		%obj.mountImage(PrisonBucketEquippedImage, 0);
+		%obj.mountImage(PrisonBucketGoldenHatImage, 2);
+		%obj.mountImage(PrisonBucketGoldenEquippedImage, 0);
 
 		for(%i = 0;$hat[%i] !$= "";%i++)
 		{
@@ -181,9 +189,9 @@ function PrisonBucketImage::onEquip(%this, %obj, %slot)
 	}
 }
 
-function PrisonBucketEquippedImage::onEquip(%this, %obj, %slot) {
+function PrisonBucketGoldenEquippedImage::onEquip(%this, %obj, %slot) {
 	%client = %obj.client;
-	if(%obj.getMountedImage(2) $= nametoID(PrisonBucketHatImage))
+	if(%obj.getMountedImage(2) $= nametoID(PrisonBucketGoldenHatImage))
 	{
 		%obj.unmountImage(2);
 		%client.applyBodyParts();
@@ -191,10 +199,10 @@ function PrisonBucketEquippedImage::onEquip(%this, %obj, %slot) {
 		%obj.unhideNode("headskin");
 		%obj.isWearingBucket = 0;
 	}
-	%obj.mountImage(PrisonBucketImage, 0);
+	%obj.mountImage(PrisonBucketGoldenImage, 0);
 }
 
-datablock DebrisData(PrisonBucketDebris)
+datablock DebrisData(PrisonBucketGoldenDebris)
 {
 	shapeFile = "./buckethat.dts";
 
@@ -212,14 +220,14 @@ datablock DebrisData(PrisonBucketDebris)
 	gravModifier = 6;
 };
 
-datablock ExplosionData(PrisonBucketExplosion)
+datablock ExplosionData(PrisonBucketGoldenExplosion)
 {
 	//explosionShape = "";
 	soundProfile = "";
 
 	lifeTimeMS = 150;
 
-	debris = PrisonbucketDebris;
+	debris = PrisonbucketGoldenDebris;
 	debrisNum = 1;
 	debrisNumVariance = 0;
 	debrisPhiMin = 0;
@@ -248,10 +256,10 @@ datablock ExplosionData(PrisonBucketExplosion)
 	impulseForce = 0;
 };
 
-datablock ProjectileData(PrisonBucketProjectile)
+datablock ProjectileData(PrisonBucketGoldenProjectile)
 {
 	projectileShapeName = "";
-	explosion           = PrisonBucketExplosion;
+	explosion           = PrisonBucketGoldenExplosion;
 	explodeondeath 		= true;
 	armingDelay         = 0;
 	hasLight    = false;

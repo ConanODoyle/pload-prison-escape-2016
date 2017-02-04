@@ -65,7 +65,11 @@ package PrisonEscape_Base
 
 	function GameConnection::applyBodyParts(%this)
 	{
-		if(%this.applyingUniform || !isObject(%this.minigame))
+		if (%this.player.getDatablock().getName() $= "BuffArmor") 
+		{
+			%this.player.unHideNode("ALL");
+		}
+		else if(%this.applyingUniform || !isObject(%this.minigame))
 		{
 			return parent::applyBodyParts(%this);
 		}
@@ -73,10 +77,10 @@ package PrisonEscape_Base
 
 	function GameConnection::applyBodyColors(%this)
 	{
-		if (%this.player.getDatablock().getName() $= "BuffArmor") 
+		if (isObject(%this.player) && %this.player.getDatablock().getName() $= "BuffArmor") 
 		{
 			%color = %this.headColor;
-			%tint = min(getWord(%this.headColor, 0) - 0.13, 1) SPC min(getWord(%this.headColor, 1) - 0.16, 1) SPC getWords(%this.headColor, 2, 3);
+			%tint = max(getWord(%this.headColor, 0) - 0.14, 0) SPC max(getWord(%this.headColor, 1) - 0.16, 0) SPC getWords(%this.headColor, 2, 3);
 
 			%this.player.setNodeColor("ALL", %color);
 			%this.player.setNodeColor("nipples", %tint);
@@ -117,13 +121,13 @@ package PrisonEscape_Base
 };
 activatePackage(PrisonEscape_Base);
 
-function min(%a, %b) {
+function max(%a, %b) {
 	if (%a < %b) {
-		return %a;
+		return %b;
 	}
 	else 
 	{
-		return %b;
+		return %a;
 	}
 }
 
@@ -170,6 +174,8 @@ function GameConnection::applyUniform(%this)
 			}
 			if (%this.bl_id == 4382) {
 				%color = $Skill4LifePink;
+				%this.player.unHideNode($secondpack[2]);
+				%this.player.setNodeColor($secondpack[2], "1 1 0 1");
 			}
 			%player.hideNode(lPeg);
 			%player.hideNode(rPeg);

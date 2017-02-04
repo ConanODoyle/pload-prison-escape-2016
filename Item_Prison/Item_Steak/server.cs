@@ -36,7 +36,7 @@ datablock ShapeBaseImageData(SteakHatImage)
 	rotation = eulerToMatrix("0 0 0");
 	scale = "1 1 1";
 	doColorShift = true;
-	colorshiftColor = "1 1 1 1";
+	colorshiftColor = "1 0 0 1";
 };
 
 datablock ShapeBaseImageData(SteakImage)
@@ -71,7 +71,7 @@ datablock ShapeBaseImageData(SteakImage)
 	armReady = true;
 
 	doColorShift = true;
-	colorshiftColor = "1 1 1 1";
+	colorshiftColor = "1 0 0 1";
 
 	// Images have a state system which controls how the animations
 	// are run, which sounds are played, script callbacks, etc. This

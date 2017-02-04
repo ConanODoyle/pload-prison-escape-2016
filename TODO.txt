@@ -10,7 +10,6 @@ package initial player spawn after join to just switch to logo cam without spawn
 write prisoner trigger win
 also check for guard count after each tower destruction to handle that win condition
 chatspam check
-add Smoke Grenade throws (smokeGrenadesThrown) to statistics
 
 donor hat
 donor grenade gold

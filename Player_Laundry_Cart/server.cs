@@ -256,7 +256,7 @@ function LaundryCartArmor::onAdd(%this,%obj)
    %obj.hideNode("rshoe");
 }
 
-$pushForce = 30;
+$pushForce = 21;
 
 package LaundryCartPackage {
    function Armor::onMount(%this, %obj, %vehi, %mountPoint) {
@@ -334,12 +334,29 @@ package LaundryCartPackage {
             Armor::onCollision(LaundryCartArmor.getID(), %hit, %this, "0.000000 0.000000 -1.704514", 1.704514);
             if (!isObject(%this.getObjectMount())) {
                %this.setTransform(%originalPos);
+            } else if (%this.getMountNode() == 0) {
+               %this.getObjectMount().setTransform(%originalPos);
             }
          }
-      } else if (isObject(%vehi) && %this.getMountNode() == 0) {
-         %vec = vectorNormalize(getWords(%this.getMuzzleVector(0), 0, 1) SPC 0.1);
+         %this.mountedVehicleTime = getSimTime();
+      } else if (isObject(%vehi) && %this.getMountNode() == 0 && %vehi.getDatablock().getName() $= "LaundryCartArmor") {
+         if (getSimTime() - %this.mountedVehicleTime < 1000 || isObject(%this.getObjectMount().getObjectMount())) {
+            return parent::activateStuff(%this);
+         }
+
+         %vec = vectorNormalize(getWords(%this.getForwardVector(), 0, 1) SPC 0.1);
          %this.getDatablock().doDismount(%this);
-         %vehi.setVelocity(vectorAdd(%vehi.getVelocity(), vectorScale(%vec, $pushForce)));
+         tumble(%vehi, 4);
+         %vehi.getObjectMount().setVelocity(vectorScale(%vec, $pushForce));
+         schedule(3000, %vehi, clearTumble, %vehi);
+         if (isObject(%pl = %vehi.getMountedObject(0))) {
+            %pl.schedule(1000, dismount);
+            schedule(1000, %pl, tumble, %pl);
+         }
+         if (isObject(%pl = %vehi.getMountedObject(1))) {
+            %pl.schedule(1000, dismount);
+            schedule(1000, %pl, tumble, %pl);
+         }
       }
       return parent::activateStuff(%this);
    }

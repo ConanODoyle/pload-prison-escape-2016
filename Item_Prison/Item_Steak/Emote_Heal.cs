@@ -37,7 +37,7 @@ datablock ParticleEmitterData(HealCrossEmitter)
    ejectionOffset   = 1.2;
    velocityVariance = 0.0;
    thetaMin         = 0;
-   thetaMax         = 360;
+   thetaMax         = 180;
    phiReferenceVel  = 0;
    phiVariance      = 360;
    overrideAdvance = false;
@@ -48,6 +48,8 @@ datablock ParticleEmitterData(HealCrossEmitter)
 
    emitterNode = GenericEmitterNode;        //used when placed on a brick
    pointEmitterNode = TenthEmitterNode; //used when placed on a 1x1 brick
+
+   useEmitterColors = false;
 
    uiName = "Emote - HealCross";
 };

@@ -44,7 +44,7 @@ datablock ItemData(PrisonTrayItem)
 	uiName = "Tray";
 	iconName = "";
 	doColorShift = true;
-	colorshiftColor = "1 1 1 1";
+	colorshiftColor = "0.5 0.5 0.5 1";
 	rotation = eulerToMatrix("0 90 0");
 
 	 // Dynamic properties defined by the scripts
@@ -64,8 +64,8 @@ datablock ShapeBaseImageData(PrisonTrayImage)
 	// Specify mount point & offset for 3rd person, and eye offset
 	// for first person rendering.
 	mountPoint = 0;
-	eyeoffset = "0 0.6 -0.6";
-	offset = "-0.53 0.12 -0.12";
+	eyeoffset = "0.563 0.6 -0.4";
+	offset = "0 0.02 -0.12";
 	rotation = eulerToMatrix("0 0 0");
 
 	// When firing from a point offset from the eye, muzzle correction
@@ -88,7 +88,7 @@ datablock ShapeBaseImageData(PrisonTrayImage)
 	armReady = true;
 
 	doColorShift = true;
-	colorshiftColor = "1 1 1 1";
+	colorshiftColor = "0.5 0.5 0.5 1";
 
 	// Images have a state system which controls how the animations
 	// are run, which sounds are played, script callbacks, etc. This
@@ -184,6 +184,19 @@ datablock ProjectileData(PrisonTrayProjectile)
 
 package PrisonItems
 {
+	function serverCmdDropTool(%cl, %slot) {
+		if (!isObject(%pl = %cl.player)) {
+			return parent::serverCmdDropTool(%cl, %slot);
+		}
+
+		if (%pl.tool[%slot].getName() $= "PrisonBucketItem" && %pl.isWearingBucket) {
+			%pl.unmountImage(2);
+			%pl.unmountImage(0);
+			%pl.isWearingBucket = 0;
+		}
+		return parent::serverCmdDropTool(%cl, %slot);
+	}
+
 	function ProjectileData::onCollision(%data, %obj, %col, %fade, %pos, %normal)
 	{
 		if (%data.getName() !$= "chiselProjectile")
@@ -194,6 +207,7 @@ package PrisonItems
 				%angle = mACos(vectorDot(%col.getMuzzleVector(0), %targetVector));
 				if (%angle < 0.73)
 				{
+					%gold = %col.tool[%col.currtool].getName() $= "PrisonTrayItem" ? PrisonTrayProjectile : PrisonTrayGoldProjectile;
 					//statistics
 					$Server::PrisonEscape::TraysUsed++;
 					%col.client.traysUsed++;
@@ -211,7 +225,7 @@ package PrisonItems
 
 					%proj = new Projectile()
 					{
-						dataBlock = PrisonTrayProjectile;
+						dataBlock = %gold;
 						initialPosition = %col.getHackPosition();
 						initialVelocity = %col.getEyeVector();
 						client = %col.client;
@@ -229,8 +243,9 @@ package PrisonItems
 				{
 					for (%i=0; %i < %col.getDatablock().maxTools; %i++)
 					{
-						if (%col.tool[%i].getName() $= "PrisonBucketItem")
+						if (strPos(%col.tool[%i].getName(), "PrisonBucket") >= 0)
 						{
+							%gold = %col.tool[%i].getName() $= "PrisonBucketItem" ? PrisonBucketProjectile : PrisonBucketGoldProjectile;
 							//statistics
 							$Server::PrisonEscape::BucketsUsed++;
 							%col.client.bucketsUsed++;

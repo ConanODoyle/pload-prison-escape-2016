@@ -238,7 +238,7 @@ datablock ShapeBaseImageData(SniperRifleSpotlightImage)
 	stateEmitter[2]					= GunFlashEmitter;
 	stateEmitterTime[2]				= 0.05;
 	stateEmitterNode[2]				= "muzzlePoint";
-	stateSound[2]					= "SniperRifleSpotlightFireSound";
+	stateSound[2]					= gunShot1Sound;
 
 	stateName[3] 					= "Smoke";
 	stateEmitter[3]					= SniperRifleSpotlightSmokeEmitter;

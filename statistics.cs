@@ -53,6 +53,7 @@ function clearStatistics()
 	$Server::PrisonEscape::TraysUsed = 0;
 	$Server::PrisonEscape::BucketsUsed = 0;
 	$Server::PrisonEscape::SteaksEaten = 0;
+	$Server::PrisonEscape::SmokeGrenadesThrown = 0;
 
 
 	for (%i = 0; %i < ClientGroup.getCount(); %i++)
@@ -63,10 +64,12 @@ function clearStatistics()
 		%client.shotsHit = 0; %client.shotsFired = 0;
 		%client.chiselAttack = 0; %client.chiselHit = 0;
 		%client.bucketsUsed = 0; %client.traysUsed = 0;
-		%client.whiteOutTime = 0;
+		%client.whiteOutTime = 0; %client.stunnedTime = 0;
+		%client.electrocutedTime = 0;
+		%client.SmokeGrenadesThrown = 0;
 		%client.trays = 0; %client.bucketsPlonked = 0;
 		%client.accuracy = 0; %client.weightedaccuracy = 0; %client.efficiency = 0;
-		%client.setScore(0); /////////////////////////////////////////////////////////////////is this even a valid method?
+		%client.setScore(0);
 	}
 }
 

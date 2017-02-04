@@ -1,34 +1,5 @@
 //projectile
-
-datablock AudioProfile(riotSmokeGrenadeBounce1Sound)
-{
-   filename    = "./m18_bounce_01.wav";
-   description = AudioClose3d;
-   preload = true;
-};
-
-datablock AudioProfile(riotSmokeGrenadeBounce2Sound)
-{
-   filename    = "./m18_bounce_02.wav";
-   description = AudioClose3d;
-   preload = true;
-};
-
-datablock AudioProfile(riotSmokeGrenadeBounce3Sound)
-{
-   filename    = "./m18_bounce_03.wav";
-   description = AudioClose3d;
-   preload = true;
-};
-
-datablock AudioProfile(riotSmokeGrenadeExplodeSound)
-{
-   filename    = "./m18_detonate.wav";
-   description = AudioDefault3d;
-   preload = true;
-};
-
-datablock ProjectileData(RiotSmokeGrenadeProjectile)
+datablock ProjectileData(RiotSmokeGrenadeGoldenProjectile)
 {
 	projectileShapeName = "./smoke grenade projectile.dts";
 	directDamage		= 2;
@@ -121,7 +92,7 @@ datablock ParticleEmitterData(smokeAEmitter)
 //////////
 // item //
 //////////
-datablock ItemData(riotSmokeGrenadeItem)
+datablock ItemData(riotSmokeGrenadeGoldenItem)
 {
 	category = "Weapon";  // Mission editor category
 	className = "Weapon"; // For inventory system
@@ -135,13 +106,13 @@ datablock ItemData(riotSmokeGrenadeItem)
 	emap = true;
 
 	//gui stuff
-	uiName = "Smoke Grenade";
+	uiName = "Golden Smoke Grenade";
 	iconName = "";
 	doColorShift = true;
-	colorShiftColor = "0.5 0.5 0.5 1.000";
+	colorShiftColor = "1 0.8 0 1.000";
 
 	 // Dynamic properties defined by the scripts
-	image = riotSmokeGrenadeImage;
+	image = riotSmokeGrenadeGoldenImage;
 	canDrop = true;
 };
 
@@ -154,7 +125,7 @@ datablock ItemData(riotSmokeGrenadeItem)
 ////////////////
 //weapon image//
 ////////////////
-datablock ShapeBaseImageData(riotSmokeGrenadeImage)
+datablock ShapeBaseImageData(riotSmokeGrenadeGoldenImage)
 {
 	// Basic Item properties
 	shapeFile = "./smoke grenade.dts";
@@ -177,9 +148,9 @@ datablock ShapeBaseImageData(riotSmokeGrenadeImage)
 	className = "WeaponImage";
 
 	// Projectile && Ammo.
-	item = riotSmokeGrenadeItem;
+	item = riotSmokeGrenadeGoldenItem;
 	ammo = " ";
-	projectile = RiotSmokeGrenadeProjectile;
+	projectile = RiotSmokeGrenadeGoldenProjectile;
 	projectileType = Projectile;
 
 	//melee particles shoot from eye node for consistancy
@@ -189,7 +160,7 @@ datablock ShapeBaseImageData(riotSmokeGrenadeImage)
 
 	//casing = " ";
 	doColorShift = true;
-	colorShiftColor = "0.5 0.5 0.5 1.000";
+	colorShiftColor = "1 0.8 0 1";
 
 	// Images have a state system which controls how the animations
 	// are run, which sounds are played, script callbacks, etc. This
@@ -207,6 +178,9 @@ datablock ShapeBaseImageData(riotSmokeGrenadeImage)
 	stateName[1]			= "Ready";
 	stateTransitionOnTriggerDown[1]	= "Charge";
 	stateAllowImageChange[1]	= true;
+	stateEmitter[1]					= GoldenEmitter;
+	stateEmitterNode[1]				= "emitterPoint";
+	stateEmitterTime[1]				= 1000;
 	
 	stateName[2]						  = "Charge";
 	stateTransitionOnTimeout[2]	= "Armed";
@@ -215,10 +189,16 @@ datablock ShapeBaseImageData(riotSmokeGrenadeImage)
 	stateWaitForTimeout[2]		= false;
 	stateTransitionOnTriggerUp[2]	= "AbortCharge";
 	stateAllowImageChange[2]		  = false;
+	stateEmitter[2]					= GoldenEmitter;
+	stateEmitterNode[2]				= "emitterPoint";
+	stateEmitterTime[2]				= 1000;
 	
 	stateName[3]			= "Armed";
 	stateTransitionOnTriggerUp[3]	= "Fire";
 	stateAllowImageChange[3]	= false;
+	stateEmitter[3]					= GoldenEmitter;
+	stateEmitterNode[3]				= "emitterPoint";
+	stateEmitterTime[3]				= 1000;
 
 	stateName[4]			= "Fire";
 	stateTransitionOnTimeout[4]	= "Ready";
@@ -227,18 +207,24 @@ datablock ShapeBaseImageData(riotSmokeGrenadeImage)
 	stateScript[4]			= "onFire";
 	stateWaitForTimeout[4]		= true;
 	stateAllowImageChange[4]	= false;
+	stateEmitter[4]					= GoldenEmitter;
+	stateEmitterNode[4]				= "emitterPoint";
+	stateEmitterTime[4]				= 1000;
 
 	stateName[5]			= "AbortCharge";
 	stateScript[5]			= "onAbortCharge";
 	stateTransitionOnTimeout[5] = "Ready";
 	stateTimeoutValue[5] = 0.1;
+	stateEmitter[5]					= GoldenEmitter;
+	stateEmitterNode[5]				= "emitterPoint";
+	stateEmitterTime[5]				= 1000;
 };
 
-function riotSmokeGrenadeImage::onCharge(%this, %obj, %slot)
+function riotSmokeGrenadeGoldenImage::onCharge(%this, %obj, %slot)
 {
 	%obj.playthread(2, spearReady);
 }
-function riotSmokeGrenadeImage::onFire(%this, %obj, %slot)
+function riotSmokeGrenadeGoldenImage::onFire(%this, %obj, %slot)
 {
 	//statistics
 	%obj.client.smokeGrenadesThrown++;
@@ -255,12 +241,12 @@ function riotSmokeGrenadeImage::onFire(%this, %obj, %slot)
 
 	return %ret;
 }
-function riotSmokeGrenadeImage::onAbortCharge(%this, %obj, %slot)
+function riotSmokeGrenadeGoldenImage::onAbortCharge(%this, %obj, %slot)
 {
 	%obj.playthread(2, activate);
 }
 
-function RiotSmokeGrenadeProjectile::onCollision(%this, %obj, %col, %fade, %pos, %normal) {
+function RiotSmokeGrenadeGoldenProjectile::onCollision(%this, %obj, %col, %fade, %pos, %normal) {
 	serverPlay3D("riotSmokeGrenadeBounce" @ getRandom(1, 3) @ "Sound", %pos);
 	return parent::onCollision(%this, %obj, %col, %fade, %pos, %normal);
 }
@@ -269,7 +255,7 @@ if ($smokeTime $= "") {
 	$smokeTime = 10000;
 }
 
-function RiotSmokeGrenadeProjectile::onExplode(%this, %proj, %pos) {
+function RiotSmokeGrenadeGoldenProjectile::onExplode(%this, %proj, %pos) {
 	createSmokeScreenAt(%pos, $smokeTime);
 	serverPlay3D("riotSmokeGrenadeExplodeSound", %pos);
 }
@@ -277,14 +263,14 @@ function RiotSmokeGrenadeProjectile::onExplode(%this, %proj, %pos) {
 
 
 
-datablock StaticShapeData(SmokeGrenadeShape)
+datablock StaticShapeData(SmokeGrenadeGoldenShape)
 {
 	shapeFile = "./smoke sphere.dts";
 };
 
 function createSmokeSphereAt(%pos) {
 	%shape = new StaticShape(Smoke) {
-		datablock = SmokeGrenadeShape;
+		datablock = SmokeGrenadeGoldenShape;
 		position = %pos;	
 	};
 	MissionCleanup.add(%shape);

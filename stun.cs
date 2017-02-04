@@ -7,6 +7,7 @@ function Player::electrocute(%player, %time)
 
 	%client.camera.setMode(Corpse, %player);
 	%client.setControlObject(%client.camera);
+	%client.elecrocutedTime += %time;
 	
 	electrocute(%player, %time);
 }
@@ -126,6 +127,7 @@ function stun(%player, %time) {
 		serverPlay3D(playerMountSound, %player.getHackPosition());
 	}
 
+	%client.stunnedTime += 1;
 	%client.isBeingStunned = 1;
 	
 	//emitter here

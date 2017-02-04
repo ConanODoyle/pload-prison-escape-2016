@@ -1,7 +1,5 @@
 //projectile
-AddDamageType("chiselDirect",   '<bitmap:add-ons/Gamemode_PPE/Item_Prison/Item_chisel/CI_chisel> %1',       '%2 <bitmap:add-ons/Gamemode_PPE/Item_Prison/Item_chisel/CI_chisel> %1',1,1);
-
-datablock ProjectileData(chiselProjectile)
+datablock ProjectileData(chiselGoldenProjectile)
 {
    directDamage        = 8;
    directDamageType  = $DamageType::chiselDirect;
@@ -29,7 +27,7 @@ datablock ProjectileData(chiselProjectile)
 //////////
 // item //
 //////////
-datablock ItemData(chiselItem)
+datablock ItemData(chiselGoldenItem)
 {
 	category = "Weapon";  // Mission editor category
 	className = "Weapon"; // For inventory system
@@ -43,17 +41,17 @@ datablock ItemData(chiselItem)
 	emap = true;
 
 	//gui stuff
-	uiName = "Chisel";
+	uiName = "Golden Chisel";
 	iconName = "./knife";
 	doColorShift = true;
-	colorShiftColor = "0.4 0.4 0.4 1.000";
+	colorShiftColor = "1 0.9 0 1.000";
 
 	 // Dynamic properties defined by the scripts
-	image = chiselImage;
+	image = chiselGoldenImage;
 	canDrop = true;
 };
 
-//function chisel::onUse(%this,%user)
+//function chiselGolden::onUse(%this,%user)
 //{
 //	//mount the image in the right hand slot
 //	%user.mountimage(%this.image, $RightHandSlot);
@@ -62,7 +60,7 @@ datablock ItemData(chiselItem)
 ////////////////
 //weapon image//
 ////////////////
-datablock ShapeBaseImageData(chiselImage)
+datablock ShapeBaseImageData(chiselGoldenImage)
 {
    // Basic Item properties
    shapeFile = "./chisel.dts";
@@ -85,9 +83,9 @@ datablock ShapeBaseImageData(chiselImage)
    className = "WeaponImage";
 
    // Projectile && Ammo.
-   item = chiselItem;
+   item = chiselGoldenItem;
    ammo = " ";
-   projectile = chiselProjectile;
+   projectile = chiselGoldenProjectile;
    projectileType = Projectile;
 
    //melee particles shoot from eye node for consistancy
@@ -97,7 +95,7 @@ datablock ShapeBaseImageData(chiselImage)
 
    //casing = " ";
    doColorShift = true;
-   colorShiftColor = "0.4 0.4 0.4 1.000";
+   colorShiftColor = "1 0.9 0 1.000";
 
    // Images have a state system which controls how the animations
    // are run, which sounds are played, script callbacks, etc. This
@@ -111,10 +109,16 @@ datablock ShapeBaseImageData(chiselImage)
 	stateTimeoutValue[0]		= 0.5;
 	stateTransitionOnTimeout[0]	= "Ready";
 	stateSound[0]					= weaponSwitchSound;
+	stateEmitter[0]					= "GoldenEmitter";
+	stateEmitterNode[0]				= "emitterPoint";
+	stateEmitterTime[0]				= 1000;
 
 	stateName[1]			= "Ready";
 	stateTransitionOnTriggerDown[1]	= "Charge";
 	stateAllowImageChange[1]	= true;
+	stateEmitter[1]					= "GoldenEmitter";
+	stateEmitterNode[1]				= "emitterPoint";
+	stateEmitterTime[1]				= 1000;
 	
 	stateName[2]                    = "Charge";
 	stateTransitionOnTimeout[2]	= "Armed";
@@ -123,10 +127,16 @@ datablock ShapeBaseImageData(chiselImage)
 	stateWaitForTimeout[2]		= false;
 	stateTransitionOnTriggerUp[2]	= "AbortCharge";
 	stateAllowImageChange[2]        = false;
+	stateEmitter[2]					= "GoldenEmitter";
+	stateEmitterNode[2]				= "emitterPoint";
+	stateEmitterTime[2]				= 1000;
 	
 	stateName[3]			= "Armed";
 	stateTransitionOnTriggerUp[3]	= "Fire";
 	stateAllowImageChange[3]	= false;
+	stateEmitter[3]					= "GoldenEmitter";
+	stateEmitterNode[3]				= "emitterPoint";
+	stateEmitterTime[3]				= 1000;
 
 	stateName[4]			= "Fire";
 	stateTransitionOnTimeout[4]	= "Ready";
@@ -135,18 +145,24 @@ datablock ShapeBaseImageData(chiselImage)
 	stateScript[4]			= "onFire";
 	stateWaitForTimeout[4]		= true;
 	stateAllowImageChange[4]	= false;
+	stateEmitter[4]					= "GoldenEmitter";
+	stateEmitterNode[4]				= "emitterPoint";
+	stateEmitterTime[4]				= 1000;
 
 	stateName[5]			= "AbortCharge";
 	stateScript[5]			= "onAbortCharge";
 	stateTransitionOnTimeout[5] = "Ready";
 	stateTimeoutValue[5] = 0.1;
+	stateEmitter[5]					= "GoldenEmitter";
+	stateEmitterNode[5]				= "emitterPoint";
+	stateEmitterTime[5]				= 1000;
 };
 
-function chiselImage::onCharge(%this, %obj, %slot)
+function chiselGoldenImage::onCharge(%this, %obj, %slot)
 {
 	%obj.playthread(2, spearReady);
 }
-function chiselImage::onFire(%this, %obj, %slot)
+function chiselGoldenImage::onFire(%this, %obj, %slot)
 {
 	//statistics
 	%obj.client.chiselAttack++;
@@ -155,7 +171,7 @@ function chiselImage::onFire(%this, %obj, %slot)
 	%obj.playthread(2, spearThrow);
 	Parent::onFire(%this, %obj, %slot);
 }
-function chiselImage::onAbortCharge(%this, %obj, %slot)
+function chiselGoldenImage::onAbortCharge(%this, %obj, %slot)
 {
 	%obj.playthread(2, spearThrow);
 }
@@ -164,12 +180,13 @@ function isBreakableBrick(%brick, %player)
 {
 	%db = %brick.getDatablock().getName();
 	%pole = "brick1x1fpoleData";
+	%pole2 = "brick1x1poleData";
 	%plate = "brick1x3fData";
 	%plate2 = "brick1x1fData";
 	%window = "brick4x5x2WindowData";
 	if (%brick.willCauseChainKill() || %brick.getName() !$= "")
 		return "";
-	if (%db $= %pole || %db $= %window)
+	if (%db $= %pole || %db $= %pole2 || %db $= %window)
 		return %db;
 	if ((%db $= %plate || %db $= %plate2) && (getRegion(%player) $= "Yard" || getRegion(%player) $="Outside"))
 		return %db;
@@ -178,7 +195,7 @@ function isBreakableBrick(%brick, %player)
 
 package ChiselHit
 {
-	function chiselProjectile::onCollision(%data, %obj, %col, %fade, %pos, %normal)
+	function chiselGoldenProjectile::onCollision(%data, %obj, %col, %fade, %pos, %normal)
 	{
 		if (%col.getClassName() $= "FxDTSBrick" && %obj.sourceObject.getClassName() $= "Player")
 		{
