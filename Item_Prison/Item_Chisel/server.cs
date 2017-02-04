@@ -1,5 +1,5 @@
 //projectile
-AddDamageType("chiselDirect",   '<bitmap:add-ons/Weapon_chisel/CI_chisel> %1',       '%2 <bitmap:add-ons/Weapon_chisel/CI_chisel> %1',1,1);
+AddDamageType("chiselDirect",   '<bitmap:add-ons/Gamemode_PPE/Item_Prison/Item_chisel/CI_chisel> %1',       '%2 <bitmap:add-ons/Gamemode_PPE/Item_Prison/Item_chisel/CI_chisel> %1',1,1);
 
 datablock ProjectileData(chiselProjectile)
 {
@@ -45,8 +45,8 @@ datablock ItemData(chiselItem)
 	//gui stuff
 	uiName = "Chisel";
 	iconName = "./knife";
-	doColorShift = false;
-	colorShiftColor = "0.400 0.196 0 1.000";
+	doColorShift = true;
+	colorShiftColor = "0.4 0.4 0.4 1.000";
 
 	 // Dynamic properties defined by the scripts
 	image = chiselImage;
@@ -96,8 +96,8 @@ datablock ShapeBaseImageData(chiselImage)
    armReady = true;
 
    //casing = " ";
-   doColorShift = false;
-   colorShiftColor = "0.400 0.196 0 1.000";
+   doColorShift = true;
+   colorShiftColor = "0.4 0.4 0.4 1.000";
 
    // Images have a state system which controls how the animations
    // are run, which sounds are played, script callbacks, etc. This

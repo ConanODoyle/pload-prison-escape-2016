@@ -71,7 +71,7 @@ datablock PlayerData(LaundryCartArmor)
    cameraMaxDist = 8;
    cameraTilt = 0.261;//0.174 * 2.5; //~25 degrees
    cameraVerticalOffset = 1.3;
-     
+
    cameraDefaultFov = 90.0;
    cameraMinFov = 5.0;
    cameraMaxFov = 120.0;
@@ -85,7 +85,7 @@ datablock PlayerData(LaundryCartArmor)
    maxLookAngle = 1.5708;
    maxFreelookAngle = 3.0;
 
-   mass = 120;
+   mass = 30;
    drag = 0.1;
    density = 0.7;
    maxDamage = 200;
@@ -98,13 +98,13 @@ datablock PlayerData(LaundryCartArmor)
    runEnergyDrain = 0;
    minRunEnergy = 0;
    maxStepHeight= "1";
-   maxForwardSpeed = 7;
+   maxForwardSpeed = 6.5;
    maxBackwardSpeed = 4.5;
-   maxSideSpeed = 0;
+   maxSideSpeed = 0.5;
 
    maxForwardCrouchSpeed = 6.5;
    maxBackwardCrouchSpeed = 4.5;
-   maxSideCrouchSpeed = 0;
+   maxSideCrouchSpeed = 0.5;
 
    maxForwardProneSpeed = 0;
    maxBackwardProneSpeed = 0;
@@ -130,12 +130,11 @@ datablock PlayerData(LaundryCartArmor)
    minImpactSpeed = 250;
    speedDamageScale = 3.8;
 
-   boundingBox			= vectorScale("2.5 4 0.3", 4);
-   crouchBoundingBox	= vectorScale("2.5 4 0.3", 4);
+   boundingBox			= vectorScale("1.8 1.8 1.4", 4);
+   crouchBoundingBox	= vectorScale("1.8 1.8 1.4", 4);
    
    pickupRadius = 0.75;
    
-   // Foot Prints
    //decalData   = LaundryCartFootprint;
    //decalOffset = 0.25;
 	
@@ -164,18 +163,18 @@ datablock PlayerData(LaundryCartArmor)
 
    // Controls over slope of runnable/jumpable surfaces
    runSurfaceAngle  = 85;
-   jumpSurfaceAngle = 86;
+   jumpSurfaceAngle = 86; 
 
    minJumpSpeed = 20;
    maxJumpSpeed = 30;
 
-   horizMaxSpeed = 0;
+   horizMaxSpeed = 200;
    horizResistSpeed = 33;
-   horizResistFactor = 0.35;
+   horizResistFactor = 2;
 
    upMaxSpeed = 80;
    upResistSpeed = 25;
-   upResistFactor = 0.3;
+   upResistFactor = 0.01;
    
    footstepSplashHeight = 0.35;
 
@@ -219,8 +218,8 @@ datablock PlayerData(LaundryCartArmor)
 	
 	uiName = "LaundryCart";
 	rideable = true;
-		lookUpLimit = 0.585398;
-		lookDownLimit = 0.385398;
+	lookUpLimit = 0.585398;
+	lookDownLimit = 0.585398;
 
 	canRide = false;
 	showEnergyBar = false;
@@ -235,8 +234,8 @@ datablock PlayerData(LaundryCartArmor)
    mountThread[1] = "root";
    mountNode[1] = 1;
 
-   mountThread[1] = "root";
-   mountNode[1] = 2;
+   mountThread[2] = "root";
+   mountNode[2] = 2;
 };
 
 
@@ -248,10 +247,148 @@ function LaundryCartArmor::onAdd(%this,%obj)
 
    // Default dynamic armor stats
    %obj.setRepairRate(0);
-
+   
+   %obj.hideNode("lhand");
+   %obj.hideNode("rhand");
+   %obj.hideNode("lhook");
+   %obj.hideNode("rhook");
+   %obj.hideNode("lshoe");
+   %obj.hideNode("rshoe");
 }
 
+$pushForce = 24;
 
+package LaundryCartPackage {
+   function Armor::onMount(%this, %obj, %vehi, %mountPoint) {
+      %db = %vehi.getDatablock().getName();
+      if (%db $= "LaundryCartArmor" && %mountPoint == 0) {
+         %vehi.unHideNode("lshoe");
+         %vehi.unHideNode("rshoe");
+
+         %vehi.setNodeColor("lshoe", %obj.client.llegcolor);
+         %vehi.setNodeColor("rshoe", %obj.client.rlegcolor);
+
+         if (%obj.isNodeVisible("lhand")) {
+            %vehi.unHideNode("lhand");
+            %vehi.setNodeColor("lhand", %obj.client.lhandcolor);
+         }
+         if (%obj.isNodeVisible("rhand")) {
+            %vehi.unHideNode("rhand");
+            %vehi.setNodeColor("rhand", %obj.client.rhandcolor);
+         }
+
+         if (%obj.isNodeVisible("lhook")) {
+            %vehi.unHideNode("lhook");
+            %vehi.setNodeColor("lhook", %obj.client.lhandcolor);
+         }
+         if (%obj.isNodeVisible("rhook")) {
+            %vehi.unHideNode("rhook");
+            %vehi.setNodeColor("rhook", %obj.client.rhandcolor);
+         }
+
+         %obj.hideNode("lhand");
+         %obj.hideNode("rhand");
+         %obj.hideNode("lhook");
+         %obj.hideNode("rhook");
+         %obj.hideNode("lshoe");
+         %obj.hideNode("rshoe");
+      }
+      return parent::onMount(%this, %obj, %vehi, %mountPoint);
+   }
+
+   function Armor::onUnMount(%this, %obj, %vehi, %mountPoint) {
+      if (isObject(%vehi)) {
+         %db = %vehi.getDatablock().getName();
+         if (%db $= "LaundryCartArmor" && %mountPoint == 0) {
+            %vehi.hideNode("lhand");
+            %vehi.hideNode("rhand");
+            %vehi.hideNode("lhook");
+            %vehi.hideNode("rhook");
+            %vehi.hideNode("lshoe");
+            %vehi.hideNode("rshoe");
+
+            %obj.client.applyBodyParts();
+            %obj.client.applyBodyColors();
+         }
+
+         %vt = %vehi.getTransform();
+         %ret = parent::onUnMount(%this, %obj, %vehi, %mountPoint);
+         %obj.schedule(1, setTransform, vectorAdd(getWords(%vt, 0, 2), "0 0 2") SPC getWords(%vt, 3, 6));
+      }
+      return %ret;
+   }
+
+   function Player::activateStuff(%this) {
+      if (!isObject(%vehi = %this.getObjectMount()) && !%this.client.isGuard) {
+         %s = %this.getEyePoint();
+         %e = vectorAdd(vectorScale(%this.getEyeVector(), 2.5), %s);
+         %masks = $TypeMasks::fxBrickObjectType | $TypeMasks::PlayerObjectType | $TypeMasks::VehicleObjectType | $TypeMasks::StaticShapeObjectType;
+         %ray = containerRaycast(%s, %e, %masks, %this);
+         %hit = getWord(%ray, 0);
+
+         if (isObject(%hit) && %hit.getDatablock().getName() $= "LaundryCartArmor") {
+            %originalPos = %this.getTransform();
+
+            %this.setTransform(vectorAdd(%hit.getPosition(), "0 0 5"));
+
+            Armor::onCollision(LaundryCartArmor.getID(), %hit, %this, "0.000000 0.000000 -1.704514", 1.704514);
+            if (!isObject(%this.getObjectMount())) {
+               %this.setTransform(%originalPos);
+            } else if (%this.getMountNode() == 0) {
+               %this.getObjectMount().setTransform(%originalPos);
+            }
+         }
+         %this.mountedVehicleTime = getSimTime();
+      } else if (isObject(%vehi) && %this.getMountNode() == 0 && %vehi.getDatablock().getName() $= "LaundryCartArmor") {
+         if (getSimTime() - %this.mountedVehicleTime < 1000 || isObject(%this.getObjectMount().getObjectMount())) {
+            return parent::activateStuff(%this);
+         }
+
+         %vec = vectorNormalize(getWords(%this.getForwardVector(), 0, 1) SPC 0.1);
+         %this.getDatablock().doDismount(%this);
+         
+         %vehi.setVelocity(vectorScale(%vec, $pushForce));
+         schedule(30, %vehi, tumble, %vehi, 4);
+         schedule(3000, %vehi, clearTumble, %vehi);
+         if (isObject(%pl = %vehi.getMountedObject(0))) {
+            //%pl.schedule(1000, dismount);
+            //schedule(1000, %pl, tumble, %pl);
+         }
+         if (isObject(%pl = %vehi.getMountedObject(1))) {
+            //%pl.schedule(1000, dismount);
+            //schedule(1000, %pl, tumble, %pl);
+         }
+      }
+      return parent::activateStuff(%this);
+   }
+
+   function serverCmdNextSeat(%cl) {
+      if (isObject(%pl = %cl.player) && %pl.getObjectMount().getDatablock().getName() $= "LaundryCartArmor") {
+         if (%pl.getMountNode() == 0) {
+            %cl.centerprint("\c3You can't swap seats as the driver of the cart!", 1);
+         } else {
+            parent::serverCmdNextSeat(%cl);
+            if (%pl.getMountNode() == 0) {
+               parent::serverCmdNextSeat(%cl);
+            }
+         }
+      } 
+   }
+
+   function serverCmdPrevSeat(%cl) {
+      if (isObject(%pl = %cl.player) && %pl.getObjectMount().getDatablock().getName() $= "LaundryCartArmor") {
+         if (%pl.getMountNode() == 0) {
+            %cl.centerprint("\c3You can't swap seats as the driver of the cart!", 1);
+         } else {
+            parent::serverCmdPrevSeat(%cl);
+            if (%pl.getMountNode() == 0) {
+               parent::serverCmdPrevSeat(%cl);
+            }
+         }
+      } 
+   }
+};
+activatePackage(LaundryCartPackage);
 
 //called when the driver of a player-vehicle is unmounted
 function LaundryCartArmor::onDriverLeave(%obj, %player)

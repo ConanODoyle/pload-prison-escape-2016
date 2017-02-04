@@ -6,6 +6,28 @@ registerOutputEvent("GameConnection", "setCameraNormal", "", 0);
 
 
 //puts the player's camera at the given brick while retaining control of the player
+function fxDTSBrick::loopToggle(%this, %time) {
+   if (isEventPending(%this.loopToggleLoop)) {
+      cancel(%this.loopToggleLoop);
+   }
+   if (%time == 0) {
+      return;
+   }
+
+   if (%this.getDatablock().isOpen) {
+      %this.door(4);
+   } else { 
+      if (%this.isCCW) {
+         %this.door(3);
+         %this.isCCW = 0;
+      } else {
+         %this.door(2);
+         %this.isCCW = 1;
+      }
+   }
+   %this.loopToggleLoop = %this.schedule(%time / 4, loopToggle, %time);
+}
+
 function GameConnection::setCameraView(%client, %posBrickName, %targetBrickName)
 {
    %camera = %client.camera;

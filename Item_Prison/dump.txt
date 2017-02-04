@@ -1,0 +1,2247 @@
+
+==>dumpconsolefunctions();
+namespace Global {
+   virtual Script clientCmdWrench_LoadMenus() {}
+   virtual Script clientCmdOpenWrenchDlg() {}
+   virtual Script clientCmdWrenchLoadingDone() {}
+   virtual Script clientCmdSetWrenchData() {}
+   virtual Script doDofScreenShot() {}
+   virtual Script doScreenShot() {}
+   virtual Script clientCmdEnvGui_ListsDone() {}
+   virtual Script clientCmdEnvGui_SetVar() {}
+   virtual Script disconnect() {}
+   virtual Script disconnectedCleanup() {}
+   virtual Script Avatar_Done() {}
+   virtual Script moveright() {}
+   virtual Script moveleft() {}
+   virtual Script movebackward() {}
+   virtual Script moveforward() {}
+   virtual Script saveBricks() {}
+   virtual Script scrollInventory() {}
+   virtual Script SaveMacroToFile() {}
+   virtual Script LoadMacroFromFile() {}
+   virtual Script ToggleBuildMacroRecording() {}
+   virtual Script cancelBrick() {}
+   virtual Script clientCmdSetBuildingDisabled() {}
+   virtual Script disconnectedCleanup() {}
+   virtual Script buildFullMapString() {}
+   virtual Script useTenthSlot() {}
+   virtual Script useNinthSlot() {}
+   virtual Script useEighthSlot() {}
+   virtual Script useSeventhSlot() {}
+   virtual Script useSixthSlot() {}
+   virtual Script useFifthSlot() {}
+   virtual Script useFourthSlot() {}
+   virtual Script useThirdSlot() {}
+   virtual Script useSecondSlot() {}
+   virtual Script useFirstSlot() {}
+   virtual Script useBricks() {}
+   virtual Script openBSD() {}
+   virtual Script BSD_BuyBricks() {}
+   virtual Script BSD_ClickClear() {}
+   virtual Script BSD_RightClickIcon() {}
+   virtual Script BSD_ClickInv() {}
+   virtual Script BSD_ClickIcon() {}
+   virtual Script BSD_ClickFav() {}
+   virtual Script handleSetInvData() {}
+   virtual Script mouseFire() {}
+   virtual Script scrollInventory() {}
+   virtual Script setScrollMode() {}
+   virtual Script BSD_ShowTab() {}
+   virtual Script invRight() {}
+   virtual Script invLeft() {}
+   virtual Script invDown() {}
+   virtual Script invUp() {}
+   virtual Script Crouch() {}
+   virtual Script Jet() {}
+   virtual Script disconnect() {}
+   virtual Script toggleFirstPerson() {}
+   virtual Script moveright() {}
+   virtual Script movebackward() {}
+   virtual Script moveleft() {}
+   virtual Script moveforward() {}
+   virtual Script disconnectedCleanup() {}
+   virtual Script disconnect() {}
+   virtual Script Jump() {}
+   virtual Script Crouch() {}
+   virtual Script disconnectedCleanup() {}
+   virtual Script secureClientCmd_ClientDrop() {}
+   virtual Script interfaceFunction() {}
+   virtual Script disconnectedCleanup() {}
+   virtual Script disconnect() {}
+   virtual Script onExit() {}
+   virtual Script Avatar_Done() {}
+   virtual Script disconnectedCleanup() {}
+   virtual Script MessageCallback() {}
+   virtual Script doSupportUpdaterInstallNotify() {}
+   virtual Script updaterInterfaceDisplay() {}
+   virtual Script updaterInterfacePushItem() {}
+   virtual Script onExit() {}
+   virtual Script disconnect() {}
+   virtual Script clientCmdWrench_LoadMenus() {}
+   virtual Script disconnectedCleanup() {}
+   virtual Script onExit() {}
+   virtual Script disconnectedCleanup() {}
+   virtual Script clientCmdSendRTBVersion() {}
+   virtual Script disconnectedCleanup() {}
+   virtual Script disconnectedCleanup() {}
+   virtual Script clientCmdMissionStartPhase1() {}
+   virtual Script deactivateServerPackages() {}
+   virtual Script onExit() {}
+   virtual Script onServerDestroyed() {}
+   virtual Script onServerCreated() {}
+   virtual Script deactivateServerPackages() {}
+   virtual Script oRBs_registerPref() {}
+   virtual Script RTB_registerPref() {}
+   virtual Script clientCmdOpenWrenchBotHack() {}
+   virtual Script clientCmdwrenchBot_LoadMenus() {}
+   virtual Script clientCmdwrenchBotLoadingDone() {}
+   virtual Script clientCmdSetwrenchBotData() {}
+   virtual Script clientCmdOpenwrenchBotDlg() {}
+   virtual Script stopasflight() {}
+   virtual Script startasflight() {}
+   virtual Script toggleasflight() {}
+   virtual Script BSC_screen_useDefault() {}
+   virtual Script BSC_gen_useDefault() {}
+   virtual Script BSC_keepgeneral() {}
+   virtual Script BSC_setShadowSplits() {}
+   virtual Script BSC_setDynamicShadows() {}
+   virtual Script BSC_setShaderLevel() {}
+   virtual Script BSC_setShaderQuality() {}
+   virtual Script BSC_apply() {}
+   virtual Script BSC_toggle() {}
+   virtual Script BSC_eReset() {}
+   virtual Script BSC_init() {}
+   virtual Script createTestBBClasses2() {}
+   virtual Script createTestBBClasses() {}
+   virtual Script clientCmdBBGUI() {}
+   virtual Script Cust10Cross() {}
+   virtual Script Cust9Cross() {}
+   virtual Script Cust8Cross() {}
+   virtual Script Cust7Cross() {}
+   virtual Script Cust6Cross() {}
+   virtual Script Cust5Cross() {}
+   virtual Script Cust4Cross() {}
+   virtual Script Cust3Cross() {}
+   virtual Script Cust2Cross() {}
+   virtual Script Cust1Cross() {}
+   virtual Script Tc9Cross() {}
+   virtual Script Tc8Cross() {}
+   virtual Script Tc7Cross() {}
+   virtual Script Tc6Cross() {}
+   virtual Script Tc5Cross() {}
+   virtual Script Tc4Cross() {}
+   virtual Script Tc3Cross() {}
+   virtual Script Tc2Cross() {}
+   virtual Script Tc1Cross() {}
+   virtual Script defaultCross() {}
+   virtual Script checkNoCustomCross() {}
+   virtual Script noCustomError() {}
+   virtual Script toggleCrossPickGUI() {}
+   virtual Script startFolders() {}
+   virtual Script ddsHandleScrolling() {}
+   virtual Script EnvFav_Delete() {}
+   virtual Script EnvFav_Load() {}
+   virtual Script EnvFav_Save() {}
+   virtual Script EnvFav_setFavButton() {}
+   virtual Script EnvFav_ClickFav() {}
+   virtual Script loadEnvFavoritesGui() {}
+   virtual Script EFG() {}
+   virtual Script EFC() {}
+   virtual Script promptfullscreen() {}
+   virtual Script clientCmdIsLobServer_bitmap() {}
+   virtual Script capFirstLetter() {}
+   virtual Script clientCmdLob_reviveBuildingHud() {}
+   virtual Script clientCmdLob_killBuildingHud() {}
+   virtual Script lob_fontSizeToPixelSize() {}
+   virtual Script clientCmdLob_Assemble() {}
+   virtual Script clientCmdShakeHands() {}
+   virtual Script clientCmdUpdateDuelStatus() {}
+   virtual Script clientCmdUpdateDuelRule() {}
+   virtual Script clientCmdRemoveDuelItem() {}
+   virtual Script clientCmdUpdateDuelItem() {}
+   virtual Script clientCmdAddDuelItem() {}
+   virtual Script clientCmdCloseDuelWindow() {}
+   virtual Script clientCmdOpenDuelWindow() {}
+   virtual Script lob_closeFile() {}
+   virtual Script dumpAvatarColorsToFile() {}
+   virtual Script clientCmdLob_playerView_registerSkill() {}
+   virtual Script clientCmdlob_playerView_open() {}
+   virtual Script lob_avatar_change() {}
+   virtual Script clientCmdCatchAvatarData() {}
+   virtual Script clientCmdCatchAvatarDescription() {}
+   virtual Script clientCmdlob_closeAvatarWindow() {}
+   virtual Script clientCmdlob_openAvatarWindow() {}
+   virtual Script clientCmdCatchPriceInfo() {}
+   virtual Script lob_shop_buyItem() {}
+   virtual Script lob_shop_sellItem() {}
+   virtual Script lob_shop_doAction() {}
+   virtual Script clientCmdCatchShopData() {}
+   virtual Script clientCmdCloseShopWindow() {}
+   virtual Script clientCmdOpenShopWindow() {}
+   virtual Script lob_shop_sellSelected() {}
+   virtual Script lob_shop_buySelected() {}
+   virtual Script clientCmdVisionInit() {}
+   virtual Script clientCmdReceiveVision() {}
+   virtual Script lob_vision_buildHud() {}
+   virtual Script lob_RequestNewSong() {}
+   virtual Script lob_fadeMusicOut() {}
+   virtual Script clientCmdPlaySong() {}
+   virtual Script clientCmdSetTradeStatus() {}
+   virtual Script clientCmdCatchTradeData() {}
+   virtual Script lob_tradeRemoveFromList() {}
+   virtual Script lob_tradeAddToList() {}
+   virtual Script clientCmdCloseTradeGui() {}
+   virtual Script clientCmdOpenTradeGui() {}
+   virtual Script clientCmdCatchServerUpdateInfo() {}
+   virtual Script clientCmdCatchClientUpdateInfo() {}
+   virtual Script clientCmdPopulateUpdatesList() {}
+   virtual Script clientCmdCloseSmeltingGui() {}
+   virtual Script clientCmdOpenSmeltingGui() {}
+   virtual Script lob_doSmelting() {}
+   virtual Script clientCmdBarRequirements() {}
+   virtual Script clientCmdPopulateYourOresList() {}
+   virtual Script clientCmdPopulateBarsList() {}
+   virtual Script clientCmdCatchBugReportData() {}
+   virtual Script clientCmdCatchPlayerData() {}
+   virtual Script lob_onDropMenuChanged() {}
+   virtual Script clientCmdOpenAdminControl() {}
+   virtual Script clientCmdCatchActivityData() {}
+   virtual Script clientCmdCatchAdminData() {}
+   virtual Script pullintfromstring() {}
+   virtual Script lob_doWithdrawal() {}
+   virtual Script lob_doDeposit() {}
+   virtual Script clientCmdCatchBankData() {}
+   virtual Script clientCmdOpenBank() {}
+   virtual Script clientCmdCloseSmithingGUI() {}
+   virtual Script lob_tryToSmith() {}
+   virtual Script clientCmdSmithingBodySetInfo() {}
+   virtual Script clientCmdPopulateYourBarsList() {}
+   virtual Script clientCmdPopulateItemsList() {}
+   virtual Script clientCmdPopulateMetalsList() {}
+   virtual Script clientCmdOpenSmithingGui() {}
+   virtual Script clientCmdLob_registerSkill() {}
+   virtual Script clientCmdCatchSkillData() {}
+   virtual Script clientCmdUpdateInventoryIcon() {}
+   virtual Script lob_i_discard() {}
+   virtual Script lob_i_use() {}
+   virtual Script clientCmdLob_RegisterButton() {}
+   virtual Script clientCmdLob_catchItemInfo() {}
+   virtual Script clientCmdCatchInvData() {}
+   virtual Script clientCmdCloseInventory() {}
+   virtual Script clientCmdOpenInventory() {}
+   virtual Script clientCmdLobRegisterItemVariable() {}
+   virtual Script clientCmdSetDlg() {}
+   virtual Script clientCmdCloseDialogue() {}
+   virtual Script applyManyPointLights() {}
+   virtual Script writeManyPointLights() {}
+   virtual Script updateNewtonCamera() {}
+   virtual Script dispNCForce() {}
+   virtual Script decForceNC() {}
+   virtual Script incForceNC() {}
+   virtual Script resForceNC() {}
+   virtual Script dispNCMass() {}
+   virtual Script decMassNC() {}
+   virtual Script incMassNC() {}
+   virtual Script resMassNC() {}
+   virtual Script dispNCDrag() {}
+   virtual Script decDragNC() {}
+   virtual Script incDragNC() {}
+   virtual Script resDragNC() {}
+   virtual Script toggleNewtonianCamera() {}
+   virtual Script nfm_setbuildingvars() {}
+   virtual Script nfm_savebricks() {}
+   virtual Script nfm_uploadsavefile() {}
+   virtual Script nfm_showfilewarning() {}
+   virtual Script nfm_pressmore() {}
+   virtual Script nfm_changeext() {}
+   virtual Script nfm_clickchangeext() {}
+   virtual Script nfm_presssortdate() {}
+   virtual Script nfm_presssortname() {}
+   virtual Script nfm_presscancel() {}
+   virtual Script nfm_presssaveload() {}
+   virtual Script nfm_pressgo() {}
+   virtual Script nfm_pressup() {}
+   virtual Script nfm_newfoldername() {}
+   virtual Script nfm_renamefile() {}
+   virtual Script nfm_completeload() {}
+   virtual Script nfm_initgui() {}
+   virtual Script nfm_options() {}
+   virtual Script nfm_getlargeitem() {}
+   virtual Script nfm_getmediumitem() {}
+   virtual Script nfm_getsmallitem() {}
+   virtual Script nfm_morelist_pressrefresh() {}
+   virtual Script nfm_morelist_presspaste() {}
+   virtual Script nfm_morelist_presshome() {}
+   virtual Script nfm_morelist_pressnewfolder() {}
+   virtual Script nfm_rightclick_confirmdelete() {}
+   virtual Script nfm_rightclick_pressdelete() {}
+   virtual Script nfm_rightclick_presscut() {}
+   virtual Script nfm_rightclick_pressrename() {}
+   virtual Script nfm_rightclick_presspaste() {}
+   virtual Script nfm_rightclick_presscopy() {}
+   virtual Script nfm_initmanager() {}
+   virtual Script narg_versioncheck() {}
+   virtual Script nfm_getFileSize() {}
+   virtual Script nfm_getdirectoryup() {}
+   virtual Script nfm_trimFileName() {}
+   virtual Script nfm_filecopy() {}
+   virtual Script nfm_generic_paste() {}
+   virtual Script NFM_debug() {}
+   virtual Script nfm_restartfilemanager() {}
+   virtual Script nfm_defaults() {}
+   virtual Script nfm_getuipath() {}
+   virtual Script promptUserFile() {}
+   virtual Script promptUserImage() {}
+   virtual Script nfm_renameok() {}
+   virtual Script promptUserText() {}
+   virtual Script RapidClick() {}
+   virtual Script ToggleSFC() {}
+   virtual Script getShaderQuality() {}
+   virtual Script showShaderName() {}
+   virtual Script toggleShader() {}
+   virtual Script setShaderNum() {}
+   virtual Script ScrollShaderActual() {}
+   virtual Script ScrollShaderModifier() {}
+   virtual Script CycleShader() {}
+   virtual Script tmbi_helpwarnings() {}
+   virtual Script tmbi_helptips() {}
+   virtual Script tmbi_helpinterface() {}
+   virtual Script tmbi_helpabout() {}
+   virtual Script tmbi_options_defaults() {}
+   virtual Script tmbi_options_cancel() {}
+   virtual Script tmbi_options_apply() {}
+   virtual Script tmbi_help() {}
+   virtual Script clientcmdrepurposekeybinds() {}
+   virtual Script tmbi_dectohex() {}
+   virtual Script tmbi_coltohex() {}
+   virtual Script tmbi_setfield() {}
+   virtual Script tmbi_removefromlist() {}
+   virtual Script tmbi_addtolist() {}
+   virtual Script tmbi_isonlist() {}
+   virtual Script tmbi_defaultprefs() {}
+   virtual Script tmbi_isint() {}
+   virtual Script tmbi_versionresult() {}
+   virtual Script tmbi_versioncheck() {}
+   virtual Script tmbi_setcolorfromtext() {}
+   virtual Script tmbi_setcolormode() {}
+   virtual Script tmbi_prevcolormode() {}
+   virtual Script tmbi_nextcolormode() {}
+   virtual Script tmbi_nudgeslider() {}
+   virtual Script tmbi_setselectorcolor() {}
+   virtual Script tmbi_pickcolor() {}
+   virtual Script tmbi_managerecolor() {}
+   virtual Script getscreenpos() {}
+   virtual Script tmbi_deactivateresizer() {}
+   virtual Script tmbi_activateresizer() {}
+   virtual Script tmbi_getmyeyepoint() {}
+   virtual Script tmbi_getfocuspos() {}
+   virtual Script tmbi_getplayerdirection() {}
+   virtual Script tmbi_mround() {}
+   virtual Script tmbi_snaptobrickgrid() {}
+   virtual Script tmbi_shiftfromto() {}
+   virtual Script tmbi_ghostmovesync() {}
+   virtual Script tmbi_ghostmovetick() {}
+   virtual Script tmbi_toggleghostmover() {}
+   virtual Script tmbi_lookend() {}
+   virtual Script tmbi_looktick() {}
+   virtual Script tmbi_isscrollactive() {}
+   virtual Script tmbi_options() {}
+   virtual Script tmbi_firsttimeinit() {}
+   virtual Script tmbi_activateinventory() {}
+   virtual Script tmbi_horizontalspamloop() {}
+   virtual Script tmbi_verticalspamloop() {}
+   virtual Script tmbi_gotbricks() {}
+   virtual Script tmbi_update() {}
+   virtual Script tmbi_updatesel() {}
+   virtual Script tmbi_control() {}
+   virtual Script tmbi_reset() {}
+   virtual Script tmbi_usebrick() {}
+   virtual Script tmbi_clickcancel() {}
+   virtual Script tmbi_openbsd() {}
+   virtual Script tmbi_closebsd() {}
+   virtual Script tmbi_clickdone() {}
+   virtual Script tmbi_setinventorydata() {}
+   virtual Script tmbi_clickfav() {}
+   virtual Script tmbi_clearrow() {}
+   virtual Script tmbi_clearcart() {}
+   virtual Script tmbi_hiderow() {}
+   virtual Script tmbi_removerow() {}
+   virtual Script tmbi_addrow() {}
+   virtual Script tmbi_selectinv() {}
+   virtual Script tmbi_selectbrick() {}
+   virtual Script tmbi_up() {}
+   virtual Script tmbi_down() {}
+   virtual Script tmbi_left() {}
+   virtual Script tmbi_right() {}
+   virtual Script tmbi_deactivatekeybind() {}
+   virtual Script tmbi_activatekeybind() {}
+   virtual Script tmbi_toggle() {}
+   virtual Script tmbi_generatenewselrow() {}
+   virtual Script tmbi_generatenewinvrow() {}
+   virtual Script tmbi_debug() {}
+   virtual Script clientCmdPlayFootstep() {}
+   virtual Script clientCmdStopFootstep() {}
+   virtual Script clientCmdStartFootstep() {}
+   virtual Script clientCmdTutorialCompleted() {}
+   virtual Script uploadMultiLineEval() {}
+   virtual Script uploadMultiLine() {}
+   virtual Script deactivateJet() {}
+   virtual Script activateJet() {}
+   virtual Script findJetPlayer() {}
+   virtual Script autoJet() {}
+   virtual Script autoJetHeightDown() {}
+   virtual Script autoJetHeightUp() {}
+   virtual Script AddBind() {}
+   virtual Script cancelAutoWrench() {}
+   virtual Script toggleAutoWrench() {}
+   virtual Script clientCmdHataCrosshair() {}
+   virtual Script lol() {}
+   virtual Script toggleSpam() {}
+   virtual Script NRTToggle() {}
+   virtual Script clientCmdNRTEnableKeybinds() {}
+   virtual Script NRTregisterKeybinds() {}
+   virtual Script clientCmdFancyPirateHandshake() {}
+   virtual Script clientcmdHC_client_ping() {}
+   virtual Script clTrainHorn() {}
+   virtual Script clTrainNeutral() {}
+   virtual Script clTrainBrake() {}
+   virtual Script clTrainReverse() {}
+   virtual Script clTrainForward() {}
+   virtual Script _glassRTBPageNav() {}
+   virtual Script GMM_RTBAddonPage_downloadUnwritable() {}
+   virtual Script GMM_RTBAddonPage_downloadFailed() {}
+   virtual Script GMM_RTBAddonPage_downloadProgress() {}
+   virtual Script GMM_RTBAddonPage_downloadDone() {}
+   virtual Script GMM_AddonPage_downloadUnwritable() {}
+   virtual Script GMM_AddonPage_downloadFailed() {}
+   virtual Script GMM_AddonPage_downloadProgress() {}
+   virtual Script GMM_AddonPage_downloadDone() {}
+   virtual Script strLimitRep() {}
+   virtual Script _glassPageNav() {}
+   virtual Script updaterInterfaceOnQueueEmpty() {}
+   virtual Script updaterInterfaceSelectItem() {}
+   virtual Script updaterInterfacePopItem() {}
+   virtual Script updaterInterfacePushItem() {}
+   virtual Script updaterInterfaceDisplay() {}
+   virtual Script statsPostAll() {}
+   virtual Script statsAddToPostQueue() {}
+   virtual Script customTMLParser_updaterChangeLog() {}
+   virtual Script customTMLParser_updater() {}
+   virtual Script UpdaterRepoSO() {}
+   virtual Script UpdaterAddOnSO() {}
+   virtual Script echoPointInBlob() {}
+   virtual Script repeatString() {}
+   virtual Script sanitizeIdentifier() {}
+   virtual Script skipLeftSpace() {}
+   virtual Script JSONHash() {}
+   virtual Script JSONArray() {}
+   virtual Script JSONObject() {}
+   virtual Script __scanJSONNumber() {}
+   virtual Script __scanJSONHash() {}
+   virtual Script __scanJSONArray() {}
+   virtual Script __scanJSONString() {}
+   virtual Script __scanJSON() {}
+   virtual Script loadJSON() {}
+   virtual Script saveJSON() {}
+   virtual Script describeJSON() {}
+   virtual Script dumpJSON() {}
+   virtual Script isJSONObject() {}
+   virtual Script getJSONType() {}
+   virtual Script parseJSON() {}
+   virtual Script rgbToHex() {}
+   virtual Script parseCustomTMLFile() {}
+   virtual Script _parseCustomTML() {}
+   virtual Script parseCustomTML() {}
+   virtual Script customTMLParser_default() {}
+   virtual Script installPreLoadScriptLauncher() {}
+   virtual Script typeOf() {}
+   virtual Script striMatch() {}
+   virtual Script strMatch() {}
+   virtual Script getStrBetween() {}
+   virtual Script setsubstrr() {}
+   virtual Script setSubStr() {}
+   virtual Script strrev() {}
+   virtual Script getsubstrr() {}
+   virtual Script striReplace() {}
+   virtual Script DT_isLeapYear() {}
+   virtual Script DT_getWeekDay() {}
+   virtual Script DT_getTimeDifference() {}
+   virtual Script DT_getDayDifference() {}
+   virtual Script clientCmdGlass_setPlayerlistStatus() {}
+   virtual Script clientCmdGlass_setLoadingBackground() {}
+   virtual Script getServerFromIP() {}
+   virtual Script orderNumWords() {}
+   virtual Script getServerSettingsBtn() {}
+   virtual Script clientCmdGlassAdminListing() {}
+   virtual Script openGlassSettings() {}
+   virtual Script clientCmdReceivePref() {}
+   virtual Script clientCmdReceiveCategory() {}
+   virtual Script clientCmdBLPAllowedUse() {}
+   virtual Script clientCmdhasPrefSystem() {}
+   virtual Script clientCmdupdateBLPref() {}
+   virtual Script stringifyFileSize() {}
+   virtual Script GlassModManagerQueue_Failed() {}
+   virtual Script GlassModManagerQueue_Progress() {}
+   virtual Script GlassModManagerQueue_Done() {}
+   virtual Script filecopy_hack() {}
+   virtual Script isDefaultAddon() {}
+   virtual Script getLongASCIIString() {}
+   virtual Script getLongUTF8String() {}
+   virtual Script GlassCheckModeratorButton() {}
+   virtual Script secondsToTimeString() {}
+   virtual Script wordPos() {}
+   virtual Script formatTimeHourMin() {}
+   virtual Script GlassLive_keybind() {}
+   virtual Script GlassClientManager_DlDone() {}
+   virtual Script GlassClientManager_DlProgress() {}
+   virtual Script testcontext() {}
+   virtual Script glassMessageBoxYesNo() {}
+   virtual Script glassMessageBoxOk() {}
+   virtual Script semanticVersionCompare() {}
+   virtual Script parseMarkdown() {}
+   virtual Script getUrlMetadata() {}
+   virtual Script TCPClientGET() {}
+   virtual Script TCPClientPOST() {}
+   virtual Script urlGetComponents() {}
+   virtual Script TCPClient() {}
+   virtual Script connectToURL() {}
+   virtual Script jettisonWriteFile() {}
+   virtual Script jettisonReadFile() {}
+   virtual Script JettisonArray() {}
+   virtual Script JettisonObject() {}
+   virtual Script __jettisonParse() {}
+   virtual Script jettisonStringify() {}
+   virtual Script jettisonParse() {}
+   virtual Script strcap() {}
+   virtual Script clientCmdGlassHandshake() {}
+   virtual Script ClientCmdISPushSavesGUI() {}
+   virtual Script ClientCmdISLoadInfo() {}
+   virtual Script ClientCmdISPopulateGUIRel() {}
+   virtual Script ClientCmdISMultRefreshGUI() {}
+   virtual Script ClientCmdISRefreshInfoGUI() {}
+   virtual Script ClientCmdISRefreshGUI() {}
+   virtual Script ClientCmdISPopulateGUI() {}
+   virtual Script ClientCmdISMsgBox() {}
+   virtual Script ClientCmdISHasAddOnRelay() {}
+   virtual Script ClientCmdISRelayBkPkToggle() {}
+   virtual Script ISConvertSaves() {}
+   virtual Script ISSaveGUISettings() {}
+   virtual Script ISSaveItemSettings() {}
+   virtual Script ISLoadGUISettings() {}
+   virtual Script ISLoadItemSettings() {}
+   virtual Script ISAddGUIItem() {}
+   virtual Script ISItemGUIApplyAll() {}
+   virtual Script ItemStorage_Select() {}
+   virtual Script Toggle_ISBackpackGUI() {}
+   virtual Script Toggle_ISSavesGUI() {}
+   virtual Script clientCmdSetActivePaint() {}
+   virtual Script useColorPicker() {}
+   virtual Script clientcmdduplorcatorUploadEnded() {}
+   virtual Script clientcmdDuplorcatorClientLoad() {}
+   virtual Script duplorcatorYesLoad() {}
+   virtual Script loadDup() {}
+   virtual Script ndSendFillWrenchData() {}
+   virtual Script clientCmdNdOpenWrenchGui() {}
+   virtual Script clientCmdNdHandshake() {}
+   virtual Script ndInputMultiSelect() {}
+   virtual Script ndInputFillBricks() {}
+   virtual Script ndInputSuperCut() {}
+   virtual Script ndInputMirrorZ() {}
+   virtual Script ndInputMirrorY() {}
+   virtual Script ndInputMirrorX() {}
+   virtual Script ndInputToggleForcePlant() {}
+   virtual Script ndInputForcePlant() {}
+   virtual Script ndInputFillWrench() {}
+   virtual Script ndInputCut() {}
+   virtual Script ndInputPaste() {}
+   virtual Script ndInputCopy() {}
+   virtual Script ndInputNewDuplicator() {}
+   virtual Script clientCmdNdEnableKeybinds() {}
+   virtual Script ndRegisterKeybinds() {}
+   virtual Script clientCmdSendRTBVersion() {}
+   virtual Script RTBIC_parseMessageText() {}
+   virtual Script RTBIC_getNameList() {}
+   virtual Script RTBIC_subTabName() {}
+   virtual Script RTBIC_generateWindow() {}
+   virtual Script RTBIC_stopFlashTab() {}
+   virtual Script RTBIC_FlashTab() {}
+   virtual Script RTBIC_startFlashTab() {}
+   virtual Script RTBIC_popTab() {}
+   virtual Script RTBIC_pushTab() {}
+   virtual Script RTBIC_addLine() {}
+   virtual Script RTBIC_endSession() {}
+   virtual Script RTBIC_sendSessionMessage() {}
+   virtual Script RTBIC_getSession() {}
+   virtual Script RTBIC_hasSession() {}
+   virtual Script RTBIC_createSession() {}
+   virtual Script RTBIC_ScrollToTab() {}
+   virtual Script RTBIC_getTab() {}
+   virtual Script RTBIC_hasTab() {}
+   virtual Script RTBIC_getTabDirection() {}
+   virtual Script RTBIC_getTabVirtPos() {}
+   virtual Script RTBIC_isTabVisible() {}
+   virtual Script RTBIC_ScrollLeft() {}
+   virtual Script RTBIC_ScrollRight() {}
+   virtual Script RTBIC_refreshScroll() {}
+   virtual Script RTBIC_scrollNotificationDown() {}
+   virtual Script RTBIC_scrollNotificationUp() {}
+   virtual Script RTBIC_pushNotification() {}
+   virtual Script RTBIC_coldOpenPane() {}
+   virtual Script RTBIC_SetPane() {}
+   virtual Script RTBIC_forcePart() {}
+   virtual Script RTBIC_hasRawUser() {}
+   virtual Script RTBIC_hasUser() {}
+   virtual Script RTBIC_getUser() {}
+   virtual Script RTBIC_getRawUser() {}
+   virtual Script RTBIC_removeUser() {}
+   virtual Script RTBIC_addUser() {}
+   virtual Script RTBIC_drawBadges() {}
+   virtual Script RTBIC_drawUserList() {}
+   virtual Script RTBIC_lightRefresh() {}
+   virtual Script RTBIC_ColorTest() {}
+   virtual Script RTBIC_Disconnect() {}
+   virtual Script RTBIC_Connect() {}
+   virtual Script RTBIC_InitiateConnection() {}
+   virtual Script RTBIC_SendMessage() {}
+   virtual Script RTBIC_toggleIRC() {}
+   virtual Script RTBIC_makeFirstResponder() {}
+   virtual Script RTBSC_PF_ValidateFloat() {}
+   virtual Script RTBSC_PF_ValidateNum() {}
+   virtual Script RTBSC_PF_ValidateInt() {}
+   virtual Script RTBSC_applyPrefsToControls() {}
+   virtual Script clientCmdRTB_setServerPrefs() {}
+   virtual Script clientCmdRTB_addServerPrefs() {}
+   virtual Script clientCmdRTB_getAutoAdminList() {}
+   virtual Script RTBSC_applySettingsToControls() {}
+   virtual Script clientCmdRTB_getServerOptions() {}
+   virtual Script RTBSC_displaySettingTip() {}
+   virtual Script RTBSC_cacheServerPref() {}
+   virtual Script RTBSC_cacheServerOption() {}
+   virtual Script RTBSC_ToggleSC() {}
+   virtual Script getKeyBind() {}
+   virtual Script RTBIT_drawInfoTip() {}
+   virtual Script RTB_addInfoTip() {}
+   virtual Script RTBCT_parseCommandParameter() {}
+   virtual Script clientCmdRTB_ToggleGui() {}
+   virtual Script clientcmdRTB_receiveComplete() {}
+   virtual Script clientCmdRTB_receiveProperty() {}
+   virtual Script clientCmdRTB_receiveElement() {}
+   virtual Script clientCmdRTB_receiveGUI() {}
+   virtual Script clientCmdMissionPreparePhase2() {}
+   virtual Script clientCmdMissionPreparePhase1() {}
+   virtual Script RTBCT_setElementProperty() {}
+   virtual Script RTBCT_checkValue() {}
+   virtual Script RTBCT_getControlCRC() {}
+   virtual Script RTBCT_hasControlGotProp() {}
+   virtual Script RTBCT_getControlProps() {}
+   virtual Script RTBCT_controlRegistered() {}
+   virtual Script RTBCT_registerControl() {}
+   virtual Script clientCmdRTB_CloseGui() {}
+   virtual Script clientCmdRTB_OpenGui() {}
+   virtual Script interfaceFunction() {}
+   virtual Script xmlDecode() {}
+   virtual Script xmlEncode() {}
+   virtual Script getStringAttrib() {}
+   virtual Script hasStringAttrib() {}
+   virtual Script RTB_escapeOverlay() {}
+   virtual Script RTB_toggleOverlay() {}
+   virtual Script parseLinks() {}
+   virtual Script numberFormat() {}
+   virtual Script timeDiffString() {}
+   virtual Script filterKey() {}
+   virtual Script getFileContents() {}
+   virtual Script sortFields() {}
+   virtual Script Anim_EaseInOut() {}
+   virtual Script alphaCompare() {}
+   virtual Script strTrim() {}
+   virtual Script getRandomString() {}
+   virtual Script trimTrailing() {}
+   virtual Script trimLeading() {}
+   virtual Script isInt() {}
+   virtual Script byteRound() {}
+   virtual Script isReadonly() {}
+   virtual Script stringMatch() {}
+   virtual Script filterOutString() {}
+   virtual Script filterString() {}
+   virtual Script removeItemFromList() {}
+   virtual Script hasItemOnList() {}
+   virtual Script addItemToList() {}
+   virtual Script lastWord() {}
+   virtual Script RTB_addControlMap() {}
+   virtual Script RTB_createFileCache() {}
+   virtual Script RTBCO_Save() {}
+   virtual Script RTBCO_setDefaultPrefs() {}
+   virtual Script RTBCO_setPref() {}
+   virtual Script RTBCO_getPref() {}
+   virtual Script RTBCO_registerOption() {}
+   virtual Script doSACallback() {}
+   virtual Script getSaveFilename() {}
+   virtual Script getLoadFilename() {}
+   virtual Script fillFileList() {}
+   virtual Script Tree() {}
+   virtual Script InspectApply() {}
+   virtual Script inspect() {}
+   virtual Script clientCmdSetClientHatTicket() {}
+   virtual Script sendHatRequest() {}
+   virtual Script toggleConsole() {}
+   virtual Script steamOnOverlayDeactivated() {}
+   virtual Script steamOnOverlayActivated() {}
+   virtual Script clientCmdGetAchievement() {}
+   virtual Script steamOnLobbyEnter() {}
+   virtual Script clientIsValidMusicFilename() {}
+   virtual Script clientIsValidAddOn() {}
+   virtual Script clientCmdCustomGameGui_ListDone() {}
+   virtual Script clientCmdCustomGameGui_AddAdvancedConfig() {}
+   virtual Script clientCmdCustomGameGui_AddMusic() {}
+   virtual Script clientCmdCustomGameGui_AddAddOn() {}
+   virtual Script clientCmdServerSettingsGui_ApplyVariables() {}
+   virtual Script clientCmdServerSettingsGui_SetVariable() {}
+   virtual Script clientCmdGameModeChange() {}
+   virtual Script clientCmdGameModeGui_Done() {}
+   virtual Script clientCmdGameModeGui_AddGameMode() {}
+   virtual Script getRandomColorFOpaque() {}
+   virtual Script getRandomColorF() {}
+   virtual Script dumpClientSkyBoxList() {}
+   virtual Script clientCmdSetVignette() {}
+   virtual Script clientCmdEnvGui_ListsDone() {}
+   virtual Script clientCmdEnvGui_AddDayCycle() {}
+   virtual Script clientCmdEnvGui_AddSunFlare() {}
+   virtual Script clientCmdEnvGui_AddGround() {}
+   virtual Script clientCmdEnvGui_AddWater() {}
+   virtual Script clientCmdEnvGui_AddSky() {}
+   virtual Script clientCmdEnvGui_ClearLists() {}
+   virtual Script clientCmdEnvGui_SetVar() {}
+   virtual Script onSqliteError() {}
+   virtual Script addAllFilesToCache() {}
+   virtual Script addAllFilesToCache_Tick() {}
+   virtual Script reEnablePhysics() {}
+   virtual Script onPhysicsDisabled() {}
+   virtual Script applyPhysicsPrefs() {}
+   virtual Script ClientVerifyAddOnScripts() {}
+   virtual Script loadClientAddOns() {}
+   virtual Script togFullScreen() {}
+   virtual Script cycleDebugRenderMode() {}
+   virtual Script dropPlayerAtCamera() {}
+   virtual Script dropCameraAtPlayer() {}
+   virtual Script stopRecordingDemo() {}
+   virtual Script startRecordingDemo() {}
+   virtual Script resizeMessageHud() {}
+   virtual Script pageMessageHudDown() {}
+   virtual Script pageMessageHudUp() {}
+   virtual Script toggleCamera() {}
+   virtual Script toggleFirstPerson() {}
+   virtual Script toggleFreeLook() {}
+   virtual Script toggleZoom() {}
+   virtual Script setZoomFOV() {}
+   virtual Script altTrigger() {}
+   virtual Script mouseFire() {}
+   virtual Script Jet() {}
+   virtual Script Crouch() {}
+   virtual Script Walk() {}
+   virtual Script Jump() {}
+   virtual Script pitch() {}
+   virtual Script yaw() {}
+   virtual Script getMouseAdjustAmount() {}
+   virtual Script panDown() {}
+   virtual Script panUp() {}
+   virtual Script turnRight() {}
+   virtual Script turnLeft() {}
+   virtual Script movedown() {}
+   virtual Script moveup() {}
+   virtual Script movebackward() {}
+   virtual Script moveforward() {}
+   virtual Script moveright() {}
+   virtual Script moveleft() {}
+   virtual Script setSpeed() {}
+   virtual Script doQuitGame() {}
+   virtual Script quitGame() {}
+   virtual Script escapeFromGame() {}
+   virtual Script demoPlaybackComplete() {}
+   virtual Script stopDemoRecord() {}
+   virtual Script startDemoRecord() {}
+   virtual Script StartSelectedDemo() {}
+   virtual Script contextHelp() {}
+   virtual Script getHelp() {}
+   virtual Script cursorOn() {}
+   virtual Script cursorOff() {}
+   virtual Script dofPreview() {}
+   virtual Script doPanoramaScreenShot() {}
+   virtual Script doDofScreenShot() {}
+   virtual Script doHudScreenshot() {}
+   virtual Script doScreenShot() {}
+   virtual Script stopMovie() {}
+   virtual Script movieGrabScreen() {}
+   virtual Script recordMovie() {}
+   virtual Script formatImageNumber() {}
+   virtual Script CloseMessagePopup() {}
+   virtual Script MessagePopup() {}
+   virtual Script clientCmdMessageBoxYesNo() {}
+   virtual Script messageBoxYesNo() {}
+   virtual Script clientCmdMessageBoxOKCancel() {}
+   virtual Script MessageBoxOKCancel() {}
+   virtual Script clientCmdMessageBoxOK() {}
+   virtual Script MessageBoxOK() {}
+   virtual Script MBSetText() {}
+   virtual Script MessageCallback() {}
+   virtual Script metrics() {}
+   virtual Script debugMetricsCallback() {}
+   virtual Script audioMetricsCallback() {}
+   virtual Script vehicleMetricsCallback() {}
+   virtual Script timeMetricsCallback() {}
+   virtual Script waterMetricsCallback() {}
+   virtual Script textureMetricsCallback() {}
+   virtual Script videoMetricsCallback() {}
+   virtual Script terrainMetricsCallback() {}
+   virtual Script fpsMetricsCallback() {}
+   virtual Script ClientCmdRemoveNTName() {}
+   virtual Script ClientCmdAddNTName() {}
+   virtual Script clientCmdAddEventsDone() {}
+   virtual Script clientCmdAddEvent() {}
+   virtual Script ClientCmdRegisterEventsDone() {}
+   virtual Script ClientCmdRegisterOutputEvent() {}
+   virtual Script ClientCmdRegisterInputEvent() {}
+   virtual Script WrenchEvents_ClickLock() {}
+   virtual Script PlayBackBuildMacro() {}
+   virtual Script ToggleBuildMacroRecording() {}
+   virtual Script HSVtoRGB() {}
+   virtual Script RGBtoHSV() {}
+   virtual Script IColorToFColor() {}
+   virtual Script appendCrapOnCache() {}
+   virtual Script auth_Init_Client() {}
+   virtual Script clientCmdOpenWrenchVehicleSpawnDlg() {}
+   virtual Script clientCmdOpenWrenchSoundDlg() {}
+   virtual Script clientCmdWrench_LoadMenus() {}
+   virtual Script clientCmdWrenchLoadingDone() {}
+   virtual Script clientCmdSetWrenchData() {}
+   virtual Script clientCmdOpenWrenchDlg() {}
+   virtual Script censorString() {}
+   virtual Script getCensor() {}
+   virtual Script newChatHud_AddLine() {}
+   virtual Script newChatHud_UpdateIndicatorPosition() {}
+   virtual Script newChatHud_UpdateScrollDownIndicator() {}
+   virtual Script newChatHud_Init() {}
+   virtual Script newChatHud_UpdateMaxLines() {}
+   virtual Script onServerMessage() {}
+   virtual Script onChatMessage() {}
+   virtual Script WhoTalk_removeID() {}
+   virtual Script WhoTalk_addID() {}
+   virtual Script WhoTalk_Kill() {}
+   virtual Script WhoTalk_Init() {}
+   virtual Script isValidDecal() {}
+   virtual Script MM_UpdateDemoDisplay() {}
+   virtual Script buildIFLs() {}
+   virtual Script copyTextFile() {}
+   virtual Script getOldSaves() {}
+   virtual Script transferOldAvatarPrefs() {}
+   virtual Script Avatar_Clean() {}
+   virtual Script Avatar_Done() {}
+   virtual Script Avatar_GetRandomColor() {}
+   virtual Script Avatar_Randomize() {}
+   virtual Script Avatar_ColorAllIcons() {}
+   virtual Script Avatar_UpdatePreview() {}
+   virtual Script Avatar_SetRLeg() {}
+   virtual Script Avatar_SetLLeg() {}
+   virtual Script Avatar_SetRHand() {}
+   virtual Script Avatar_SetLHand() {}
+   virtual Script Avatar_SetRArm() {}
+   virtual Script Avatar_SetLArm() {}
+   virtual Script Avatar_SetHip() {}
+   virtual Script Avatar_SetChest() {}
+   virtual Script Avatar_SetAccent() {}
+   virtual Script Avatar_SetHat() {}
+   virtual Script Avatar_SetSecondPack() {}
+   virtual Script Avatar_SetPack() {}
+   virtual Script Avatar_SetDecal() {}
+   virtual Script Avatar_SetFace() {}
+   virtual Script Avatar_HideAllPartMenus() {}
+   virtual Script Avatar_TogglePartMenu() {}
+   virtual Script Avatar_ClickLeftHandColor() {}
+   virtual Script Avatar_ClickLeftArmColor() {}
+   virtual Script Avatar_ClickLeftLegColor() {}
+   virtual Script Avatar_ClickRightHandColor() {}
+   virtual Script Avatar_ClickRightArmColor() {}
+   virtual Script Avatar_ClickRightLegColor() {}
+   virtual Script Avatar_ClickHipColor() {}
+   virtual Script Avatar_ClickHeadColor() {}
+   virtual Script Avatar_ClickAccentColor() {}
+   virtual Script Avatar_ClickHatColor() {}
+   virtual Script Avatar_ClickSecondPackColor() {}
+   virtual Script Avatar_ClickPackColor() {}
+   virtual Script Avatar_ClickTorsoColor() {}
+   virtual Script Avatar_AssignColor() {}
+   virtual Script AvatarGui_CreateColorMenu() {}
+   virtual Script AvatarGui_CreateSubPartMenu() {}
+   virtual Script AvatarGui_CreatePartMenuFACE() {}
+   virtual Script AvatarGui_CreatePartMenu() {}
+   virtual Script AvatarGui_LoadAccentInfo() {}
+   virtual Script SaveBricks_DownloadWindowClose() {}
+   virtual Script SaveBricks_StartInfoDownload() {}
+   virtual Script ClientCmdTransmitAllBrickNamesDone() {}
+   virtual Script ClientCmdTransmitBrickOwner() {}
+   virtual Script ClientCmdTransmitItemDirection() {}
+   virtual Script ClientCmdTransmitEmitterDirection() {}
+   virtual Script ClientCmdTransmitEvent() {}
+   virtual Script ClientCmdTransmitBrickName() {}
+   virtual Script UploadSaveFile_End() {}
+   virtual Script UploadSaveFile_Tick() {}
+   virtual Script UploadSaveFile_Start() {}
+   virtual Script ColorWarning_ClickCancel() {}
+   virtual Script ColorWarning_ClickAppend() {}
+   virtual Script ColorWarning_ClickReplace() {}
+   virtual Script ColorWarning_ClickMatch() {}
+   virtual Script updateListSort() {}
+   virtual Script sortNumList() {}
+   virtual Script sortList() {}
+   virtual Script LoadBricks_ClickFastLoad() {}
+   virtual Script LoadBricks_CreateFromLine() {}
+   virtual Script LoadBricks_SendLineToServer() {}
+   virtual Script colorMatch() {}
+   virtual Script SaveBricks_GetFileDescription() {}
+   virtual Script SaveBricks_Save() {}
+   virtual Script isValidFileName() {}
+   virtual Script SaveBricks_ClickFileList() {}
+   virtual Script SaveBricks_ConfirmDelete() {}
+   virtual Script LoadBricks_ClickDelete() {}
+   virtual Script SaveBricks_ClickDelete() {}
+   virtual Script LoadBricks_ColorCheck() {}
+   virtual Script LoadBricks_ClickLoadButton() {}
+   virtual Script LoadBricks_FileClick() {}
+   virtual Script LoadBricks_PopulateFileList() {}
+   virtual Script createUINameTable() {}
+   virtual Script clientCmdLoadBricksHandshake() {}
+   virtual Script clientCmdLoadBricksConfirmHandshake() {}
+   virtual Script LoadBricks_ClientServerCheck() {}
+   virtual Script LoadBricks_GetColorDifference() {}
+   virtual Script SaveBricks_WriteSingleBrick() {}
+   virtual Script dumpPrints() {}
+   virtual Script saveBricks() {}
+   virtual Script saveBricks_ProcessWrenchExtras() {}
+   virtual Script mouseMoveBrickZ() {}
+   virtual Script mouseMoveBrickY() {}
+   virtual Script mouseMoveBrickX() {}
+   virtual Script clientCmdStopBrickControls() {}
+   virtual Script clientCmdUseBrickControls() {}
+   virtual Script listAllDataBlocks() {}
+   virtual Script BSD_LoadFavorites() {}
+   virtual Script BSD_BuyFavorites() {}
+   virtual Script BSD_SaveFavorites() {}
+   virtual Script BSD_ClickFav() {}
+   virtual Script BSD_SetFavs() {}
+   virtual Script BSD_BuyBricks() {}
+   virtual Script BSD_NextTab() {}
+   virtual Script BSD_ShowTab() {}
+   virtual Script BSD_RightClickIcon() {}
+   virtual Script BSD_ClickIcon() {}
+   virtual Script BSD_ClickInv() {}
+   virtual Script BSD_ClickClear() {}
+   virtual Script BSD_CreateInventoryButtons() {}
+   virtual Script BSD_KillInventoryButtons() {}
+   virtual Script BSD_CreateBrickButton() {}
+   virtual Script BSD_createSubHeadings() {}
+   virtual Script BSD_findSubCategory() {}
+   virtual Script BSD_findCategory() {}
+   virtual Script BSD_addSubCategory() {}
+   virtual Script BSD_addCategory() {}
+   virtual Script BSD_KillBricks() {}
+   virtual Script BSD_DumpCategories() {}
+   virtual Script BSD_LoadBricks() {}
+   virtual Script clientCmdBSD_LoadBricks() {}
+   virtual Script clientCmdBSD_Open() {}
+   virtual Script PSD_LoadPrints() {}
+   virtual Script PSD_PrintsTab() {}
+   virtual Script PSD_LettersTab() {}
+   virtual Script PSD_click() {}
+   virtual Script PSD_KillPrints() {}
+   virtual Script ClientCmdPSD_KillPrints() {}
+   virtual Script clientCmdOpenPrintSelectorDlg() {}
+   virtual Script clientCmdSetLetterPrintInfo() {}
+   virtual Script clientCmdAdminFailure() {}
+   virtual Script clientCmdSetAdminLevel() {}
+   virtual Script sendAdminLogin() {}
+   virtual Script clientCmdAddBrickManLine() {}
+   virtual Script clientCmdClearBrickMan() {}
+   virtual Script clientCmdAddUnBanLine() {}
+   virtual Script clientCmdClearUnBans() {}
+   virtual Script AdminGui_BanPlayer() {}
+   virtual Script AdminGui_KickPlayer() {}
+   virtual Script AdminGui_ClearBricks() {}
+   virtual Script AdminGui_Wand() {}
+   virtual Script ReConnectToServer() {}
+   virtual Script ConnectToServer() {}
+   virtual Script ServerInfoSO_UpdatePing() {}
+   virtual Script onSimplePingTimeout() {}
+   virtual Script onSimplePingReceived() {}
+   virtual Script ServerInfoSO_PingNext() {}
+   virtual Script ServerInfoSO_StartPingAll() {}
+   virtual Script ServerInfoSO_DisplayAll() {}
+   virtual Script ServerInfoSO_Add() {}
+   virtual Script ServerInfoSO_ClearAll() {}
+   virtual Script JS_sortNumList() {}
+   virtual Script JS_sortList() {}
+   virtual Script onServerQueryStatus() {}
+   virtual Script handlePunchConnect() {}
+   virtual Script MJ_connect() {}
+   virtual Script secureClientCmd_SetServerNameDisplay() {}
+   virtual Script secureClientCmd_SetMaxPlayersDisplay() {}
+   virtual Script clientCmdShowBricks() {}
+   virtual Script clientCmdSetFocalPoint() {}
+   virtual Script clientCmdUpdatePrefs() {}
+   virtual Script handleProcessComplete() {}
+   virtual Script handleUploadEnd() {}
+   virtual Script handleUploadStart() {}
+   virtual Script handleStopTalking() {}
+   virtual Script handleStartTalking() {}
+   virtual Script handleSetInvData() {}
+   virtual Script handleDeEquipInv() {}
+   virtual Script handleEquipInv() {}
+   virtual Script handleHilightInv() {}
+   virtual Script handleClearInv() {}
+   virtual Script handleDropItem() {}
+   virtual Script handleItemPickup() {}
+   virtual Script handlePlantError() {}
+   virtual Script handleClearBricks() {}
+   virtual Script handleAdminForce() {}
+   virtual Script handleError() {}
+   virtual Script handleYourSpawn() {}
+   virtual Script clientCmdCancelAutoBrickBuy() {}
+   virtual Script respawnCountDownTick() {}
+   virtual Script handleYourDeath() {}
+   virtual Script clientCmdGameEnd() {}
+   virtual Script clientCmdGameStart() {}
+   virtual Script clientCmdclearBottomPrint() {}
+   virtual Script clientCmdClearCenterPrint() {}
+   virtual Script clientCmdBottomPrint() {}
+   virtual Script clientCmdCenterPrint() {}
+   virtual Script clientCmdSetLoadingIndicator() {}
+   virtual Script clientCmdSetScrollMode() {}
+   virtual Script clientCmdShowEnergyBar() {}
+   virtual Script clientCmdPlayGui_CreateToolHud() {}
+   virtual Script clientCmdPlayGui_LoadPaint() {}
+   virtual Script refreshCenterTextCtrl() {}
+   virtual Script refreshBottomTextCtrl() {}
+   virtual Script PrevSeat() {}
+   virtual Script NextSeat() {}
+   virtual Script emoteAlarm() {}
+   virtual Script emoteConfusion() {}
+   virtual Script emoteHate() {}
+   virtual Script emoteLove() {}
+   virtual Script emoteSit() {}
+   virtual Script ToggleShapeNameHud() {}
+   virtual Script Suicide() {}
+   virtual Script toggleNetGraph() {}
+   virtual Script invRight() {}
+   virtual Script invLeft() {}
+   virtual Script invDown() {}
+   virtual Script invUp() {}
+   virtual Script OPT_SetChatSize() {}
+   virtual Script OPT_ChatSizeSlide() {}
+   virtual Script OPT_ChatSizeDrop() {}
+   virtual Script OPT_DynLightsDrop() {}
+   virtual Script OPT_MaxLightsDrop() {}
+   virtual Script SetConnectionType() {}
+   virtual Script ToggleCursor() {}
+   virtual Script TeamChat() {}
+   virtual Script GlobalChat() {}
+   virtual Script repeatPageDownNewChatHud() {}
+   virtual Script PageDownNewChatHud() {}
+   virtual Script repeatPageUpNewChatHud() {}
+   virtual Script PageUpNewChatHud() {}
+   virtual Script undoBrick() {}
+   virtual Script dropTool() {}
+   virtual Script toggleSuperShift() {}
+   virtual Script superShiftBrickDown() {}
+   virtual Script superShiftBrickUp() {}
+   virtual Script superShiftBrickRight() {}
+   virtual Script superShiftBrickLeft() {}
+   virtual Script superShiftBrickTowards() {}
+   virtual Script superShiftBrickAway() {}
+   virtual Script superShiftBrickDownProxy() {}
+   virtual Script superShiftBrickUpProxy() {}
+   virtual Script superShiftBrickRightProxy() {}
+   virtual Script superShiftBrickLeftProxy() {}
+   virtual Script superShiftBrickTowardsProxy() {}
+   virtual Script superShiftBrickAwayProxy() {}
+   virtual Script superRepeatBrickDown() {}
+   virtual Script superRepeatBrickUp() {}
+   virtual Script superRepeatBrickRight() {}
+   virtual Script superRepeatBrickLeft() {}
+   virtual Script superRepeatBrickTowards() {}
+   virtual Script superRepeatBrickAway() {}
+   virtual Script setScrollMode() {}
+   virtual Script scrollTools() {}
+   virtual Script setActiveTool() {}
+   virtual Script scrollPaint() {}
+   virtual Script shiftPaintColumn() {}
+   virtual Script scrollBricks() {}
+   virtual Script scrollInventory() {}
+   virtual Script openBSD() {}
+   virtual Script showPlayerList() {}
+   virtual Script useLight() {}
+   virtual Script useSprayCan() {}
+   virtual Script useBricks() {}
+   virtual Script clientCmdSetActiveBrick() {}
+   virtual Script clientCmdSetActiveTool() {}
+   virtual Script useTools() {}
+   virtual Script haveTools() {}
+   virtual Script openOptionsWindow() {}
+   virtual Script openAdminWindow() {}
+   virtual Script cancelBrick() {}
+   virtual Script plantBrick() {}
+   virtual Script RotateBrickCCW() {}
+   virtual Script RotateBrickCW() {}
+   virtual Script shiftBrickThirdDown() {}
+   virtual Script shiftBrickThirdUp() {}
+   virtual Script shiftBrickDown() {}
+   virtual Script shiftBrickUp() {}
+   virtual Script shiftBrickRight() {}
+   virtual Script shiftBrickLeft() {}
+   virtual Script shiftBrickTowards() {}
+   virtual Script shiftBrickAway() {}
+   virtual Script repeatBrickPlant() {}
+   virtual Script repeatBrickThirdDown() {}
+   virtual Script repeatBrickThirdUp() {}
+   virtual Script repeatBrickDown() {}
+   virtual Script repeatBrickUp() {}
+   virtual Script repeatBrickRight() {}
+   virtual Script repeatBrickLeft() {}
+   virtual Script repeatBrickTowards() {}
+   virtual Script repeatBrickAway() {}
+   virtual Script dropTenthSlot() {}
+   virtual Script dropNinthSlot() {}
+   virtual Script dropEighthSlot() {}
+   virtual Script dropSeventhSlot() {}
+   virtual Script dropSixthSlot() {}
+   virtual Script dropFifthSlot() {}
+   virtual Script dropFourthSlot() {}
+   virtual Script dropThirdSlot() {}
+   virtual Script dropSecondSlot() {}
+   virtual Script dropFirstSlot() {}
+   virtual Script useTenthSlot() {}
+   virtual Script useNinthSlot() {}
+   virtual Script useEighthSlot() {}
+   virtual Script useSeventhSlot() {}
+   virtual Script useSixthSlot() {}
+   virtual Script useFifthSlot() {}
+   virtual Script useFourthSlot() {}
+   virtual Script useThirdSlot() {}
+   virtual Script useSecondSlot() {}
+   virtual Script useFirstSlot() {}
+   virtual Script directSelectInv() {}
+   virtual Script getActiveInv() {}
+   virtual Script setActiveInv() {}
+   virtual Script OptAudioUpdateChannelVolume() {}
+   virtual Script OptAudioUpdateMasterVolume() {}
+   virtual Script OptAudioUpdate() {}
+   virtual Script findRemapCmdIndex() {}
+   virtual Script redoMapping() {}
+   virtual Script buildFullMapString() {}
+   virtual Script getMapDisplayName() {}
+   virtual Script UpdateRateToServer() {}
+   virtual Script UpdateRateToClient() {}
+   virtual Script UpdateLagThreshold() {}
+   virtual Script UpdatePacketSize() {}
+   virtual Script disconnectedCleanup() {}
+   virtual Script disconnect() {}
+   virtual Script handleConnectionErrorMessage() {}
+   virtual Script getValidSaveName() {}
+   virtual Script onMissionDownloadComplete() {}
+   virtual Script onPhase3Complete() {}
+   virtual Script onPhase3Progress() {}
+   virtual Script onMissionDownloadPhase3() {}
+   virtual Script onPhase2Complete() {}
+   virtual Script onPhase2Progress() {}
+   virtual Script onMissionDownloadPhase2() {}
+   virtual Script onPhase1Complete() {}
+   virtual Script onPhase1Progress() {}
+   virtual Script onMissionDownloadPhase1() {}
+   virtual Script clientCmdSyncClock() {}
+   virtual Script clientCmdSetRemoteServerData() {}
+   virtual Script cacheImpactFont() {}
+   virtual Script clickSpam() {}
+   virtual Script buildstairs() {}
+   virtual Script stress() {}
+   virtual Script maze2() {}
+   virtual Script maze() {}
+   virtual Script two() {}
+   virtual Script buildFloor2() {}
+   virtual Script buildFloor() {}
+   virtual Script buildConfetti() {}
+   virtual Script buildwall() {}
+   virtual Script SADSetPassword() {}
+   virtual Script SAD() {}
+   virtual Script onInvalidConnectionAddress() {}
+   virtual Script OnSubnetError() {}
+   virtual Script onSendConnectChallengeRequest() {}
+   virtual Script clientCmdCreateMiniGameFail() {}
+   virtual Script clientCmdCreateMiniGameSuccess() {}
+   virtual Script ClientCmdAddMiniGameColor() {}
+   virtual Script clientCmdSetPaintingDisabled() {}
+   virtual Script clientCmdSetBuildingDisabled() {}
+   virtual Script clientCmdSetRunningMiniGame() {}
+   virtual Script clientCmdSetPlayingMiniGame() {}
+   virtual Script clientCmdResetMiniGameList() {}
+   virtual Script clientCmdRemoveMiniGameLine() {}
+   virtual Script clientCmdAddMiniGameLine() {}
+   virtual Script clientCmdMiniGameInvite() {}
+   virtual Script clientCmdTrustListUpload_Start() {}
+   virtual Script dumpTrustList() {}
+   virtual Script loadTrustList() {}
+   virtual Script saveTrustList() {}
+   virtual Script updateClientTrustList() {}
+   virtual Script secureClientCmd_TrustDemoted() {}
+   virtual Script clientCmdTrustInviteAccepted() {}
+   virtual Script rememberSentTrustInvite() {}
+   virtual Script clientCmdTrustInvite() {}
+   virtual Script clientCmdNewPlayerListGui_UpdateWindowTitle() {}
+   virtual Script InitClientTeamManager() {}
+   virtual Script handleSetTeamCaptain() {}
+   virtual Script handleRemoveClientFromTeam() {}
+   virtual Script handleAddClientToTeam() {}
+   virtual Script handleSetTeamName() {}
+   virtual Script handleRemoveTeam() {}
+   virtual Script handleAddTeam() {}
+   virtual Script handleInitTeams() {}
+   virtual Script handleClientInYourMiniGame() {}
+   virtual Script secureClientCmd_ClientTrust() {}
+   virtual Script secureClientCmd_ClientScoreChanged() {}
+   virtual Script secureClientCmd_ClientDrop() {}
+   virtual Script secureClientCmd_ClientJoin() {}
+   virtual Script handleClientJoin() {}
+   virtual Script isListenServer() {}
+   virtual Script getTimeString() {}
+   virtual Script round() {}
+   virtual Script normalFromRaycast() {}
+   virtual Script posFromRaycast() {}
+   virtual Script rotFromTransform() {}
+   virtual Script posFromTransform() {}
+   virtual Script getLineCount() {}
+   virtual Script getLine() {}
+   virtual Script eulerToQuat_degrees() {}
+   virtual Script eulerToQuat() {}
+   virtual Script eulerRadToMatrix() {}
+   virtual Script eulerToMatrix() {}
+   virtual Script sceneLightingComplete() {}
+   virtual Script updateLightingProgress() {}
+   virtual Script clientCmdMissionStartPhase3() {}
+   virtual Script onGhostAlwaysObjectReceived() {}
+   virtual Script onGhostAlwaysStarted() {}
+   virtual Script clientCmdMissionStartPhase2() {}
+   virtual Script onDataBlockObjectReceived() {}
+   virtual Script clientCmdMissionStartPhase1() {}
+   virtual Script updateDownloadProgress() {}
+   virtual Script setDownloadSize() {}
+   virtual Script onBlobDownloadFinished() {}
+   virtual Script updateBlobsRemaining() {}
+   virtual Script onBlobCacheCheckFinished() {}
+   virtual Script setTotalPendingBlobs() {}
+   virtual Script onManifestRecieved() {}
+   virtual Script onManifestHashReceived() {}
+   virtual Script clientCmdMissionEnd() {}
+   virtual Script clientCmdMissionStart() {}
+   virtual Script defaultMessageCallback() {}
+   virtual Script addMessageCallback() {}
+   virtual Script clientCmdServerMessage() {}
+   virtual Script clientCmdChatMessage() {}
+   virtual Script findClientByBL_ID() {}
+   virtual Script findLocalClient() {}
+   virtual Script pickSpawnPoint() {}
+   virtual Script cleanUpBrickEmptyGroups() {}
+   virtual Script verifyBrickUINames() {}
+   virtual Script validatePrefs() {}
+   virtual Script setDefaultServerVars() {}
+   virtual Script copyPrefsToServerVars() {}
+   virtual Script onNeedRelight() {}
+   virtual Script makePadString() {}
+   virtual Script auth_Init_Server() {}
+   virtual Script endGame() {}
+   virtual Script startGame() {}
+   virtual Script destroyGame() {}
+   virtual Script createGame() {}
+   virtual Script onMissionReset() {}
+   virtual Script onMissionEnded() {}
+   virtual Script onMissionLoaded() {}
+   virtual Script onServerDestroyed() {}
+   virtual Script onServerCreated() {}
+   virtual Script serverCmdClosePlayerList() {}
+   virtual Script serverCmdOpenPlayerList() {}
+   virtual Script isNameUnique() {}
+   virtual Script serverCmdMissionStartPhase3Ack() {}
+   virtual Script serverCmdMissionStartPhase2Ack() {}
+   virtual Script serverCmdBlobDownloadFinished() {}
+   virtual Script serverCmdMissionStartPhase1Ack() {}
+   virtual Script resetMission() {}
+   virtual Script endMission() {}
+   virtual Script createMission() {}
+   virtual Script chatFilter() {}
+   virtual Script serverCmdMessageSent() {}
+   virtual Script serverCmdTeamMessageSent() {}
+   virtual Script serverCmdSADSetPassword() {}
+   virtual Script serverCmdSAD() {}
+   virtual Script chatMessageAll() {}
+   virtual Script chatMessageTeam() {}
+   virtual Script chatMessageClient() {}
+   virtual Script spamAlert() {}
+   virtual Script messageAllExcept() {}
+   virtual Script messageAll() {}
+   virtual Script messageTeamExcept() {}
+   virtual Script messageTeam() {}
+   virtual Script messageClient() {}
+   virtual Script onServerInfoQuery() {}
+   virtual Script removeFromServerGuidList() {}
+   virtual Script addToServerGuidList() {}
+   virtual Script resetServerDefaults() {}
+   virtual Script deactivateServerPackages() {}
+   virtual Script destroyServer() {}
+   virtual Script onUPnPDiscoveryFailed() {}
+   virtual Script onUPnPFailure() {}
+   virtual Script createServer() {}
+   virtual Script portInit() {}
+   virtual Script ServerPlay3D() {}
+   virtual Script ServerPlay2D() {}
+   virtual Script getMainMod() {}
+   virtual Script WebCom_PostServerUpdateLoop() {}
+   virtual Script webcom_postserver() {}
+   virtual Script OpenALShutdown() {}
+   virtual Script OpenALInit() {}
+   virtual Script restartAudio() {}
+   virtual Script onWindowReactivate() {}
+   virtual Script resetCanvas() {}
+   virtual Script initCanvas() {}
+   virtual Script serverPart2() {}
+   virtual Script setKey() {}
+   virtual Script dedicatedKeyPrompt() {}
+   virtual Script dedicatedKeyCheck() {}
+   virtual Script initDedicatedLAN() {}
+   virtual Script initDedicated() {}
+   virtual Script initServer() {}
+   virtual Script onSendPunchPacket() {}
+   virtual Script notifyArrangedFinish() {}
+   virtual Script notifyArrangedAddress() {}
+   virtual Script notifyArrangedStart() {}
+   virtual Script convertFile() {}
+   virtual Script loadMainMenu() {}
+   virtual Script onUDPFailure() {}
+   virtual Script initClient() {}
+   virtual Script saveBLPreferences() {}
+   virtual Script loadBLPreferences() {}
+   virtual Script autoAdminsChanged() {}
+   virtual Script updateBLPrefPermission() {}
+   virtual Script updateServerSetting() {}
+   virtual Script pushServerName() {}
+   virtual Script registerServerSettingPrefs() {}
+   virtual Script findBLPref() {}
+   virtual Script registerPrefGroupIcon() {}
+   virtual Script registerPref() {}
+   virtual Script prunePrefs() {}
+   virtual Script serverCmdPopulateBL_IDListPlayers() {}
+   virtual Script serverCmdUpdatePref() {}
+   virtual Script serverCmdRequestCategoryPrefs() {}
+   virtual Script serverCmdRequestPrefCategories() {}
+   virtual Script RTB_registerPref() {}
+   virtual Script getFirstWord() {}
+   virtual Script BLP_alNum() {}
+   virtual Script getGlobalByName() {}
+   virtual Script setGlobalByName() {}
+   virtual Script loadMods() {}
+   virtual Script setShaderDefaults() {}
+   virtual Script vendorSpecificDefaults() {}
+   virtual Script onDatablocksDeleted() {}
+   virtual Script onDatablockLimitExceeded() {}
+   virtual Script initBaseServer() {}
+   virtual Script initBaseClient() {}
+   virtual Script initCommon() {}
+   virtual Script loadDir() {}
+   virtual Script displayHelp() {}
+   virtual Script parseArgs() {}
+   virtual Script parseProtocol() {}
+   virtual Script onExit() {}
+   virtual Script onStart() {}
+   virtual Script popFront() {}
+   virtual Script pushBack() {}
+   virtual Script pushFront() {}
+
+   /*! @name Memory
+   
+   Memory manager utility functions.
+   @{ */
+   virtual void FreeMemoryDump() {}
+   /// @}
+
+
+   /*! @name Redbook
+   
+   Control functions for Redbook audio (ie, CD audio).
+   @{ */
+   virtual bool redbookOpen(string device=NULL) {}
+   /*! Close the current Redbook device. */
+   virtual bool redbookClose() {}
+   /*!  Play the selected track. */
+   virtual bool redbookPlay(int track) {}
+   /*! Stop playing. */
+   virtual bool redbookStop() {}
+   /*! Return the number of tracks. */
+   virtual int redbookGetTrackCount() {}
+   /*! Get the volume. */
+   virtual float redbookGetVolume() {}
+   /*!  Set playback volume. */
+   virtual bool redbookSetVolume(float volume) {}
+   /*! get the number of redbook devices. */
+   virtual int redbookGetDeviceCount() {}
+   /*!  Get name of specified Redbook device. */
+   virtual string redbookGetDeviceName(int index) {}
+   /*! Get a string explaining the last redbook error. */
+   virtual string redbookGetLastError() {}
+   /// @}
+
+
+   /*! @name Video
+   
+   Video control functions.
+   @{ */
+   /*! Attempt to set the screen mode using as much information as is provided. */
+   virtual bool setDisplayDevice( string deviceName, int width, int height=NULL, int bpp=NULL, bool fullScreen=NULL, int hz=NULL ) {}
+   virtual bool setScreenMode( int width, int height, int bpp, bool fullScreen, int hz = 60 ) {}
+   virtual bool toggleFullScreen() {}
+   /*! Is the game running full-screen? */
+   virtual bool isFullScreen() {}
+   /*! Switch between 16 or 32 bits. Only works in full screen. */
+   virtual bool switchBitDepth() {}
+   /*! Switch to previous resolution. */
+   virtual bool prevResolution() {}
+   /*! Switch to next resolution. */
+   virtual bool nextResolution() {}
+   /*! Get the width, height, and bitdepth of the screen. */
+   virtual string getRes() {}
+   virtual bool setRes( int width, int height, int bpp=NULL, int hz=NULL ) {}
+   virtual string getDisplayDeviceList() {}
+   virtual string getResolutionList() {}
+   virtual string getVideoDriverInfo() {}
+   virtual bool isDeviceFullScreenOnly( string deviceName ) {}
+   /*! setGammaCorrection(gamma); */
+   virtual void videoSetGammaCorrection() {}
+   virtual bool setVerticalSync( bool f ) {}
+   /// @}
+
+   virtual void enableWinConsole(bool) {}
+   virtual bool activateKeyboard() {}
+   virtual void deactivateKeyboard() {}
+   virtual bool enableMouse() {}
+   virtual void disableMouse() {}
+   virtual bool enableJoystick() {}
+   virtual void disableJoystick() {}
+   virtual void echoInputState() {}
+   virtual bool isJoystickDetected() {}
+   virtual string getJoystickAxes( instance ) {}
+   /*! Install the math library with specified extensions.
+
+Possible parameters are:
+    - 'DETECT' Autodetect math lib settings.
+    - 'C' Enable the C math routines. C routines are always enabled.
+    - 'FPU' Enable floating point unit routines.
+    - 'MMX' Enable MMX math routines.
+    - '3DNOW' Enable 3dNow! math routines.
+    - 'SSE' Enable SSE math routines.
+ */
+   virtual void mathInit( ... ) {}
+   /*! Register a card profile with the card profile manager.
+
+Most of the parameters are fairly self-explanatory and very internal to the rendering code; however there are a few of note:
+@param vendor   The vendor string the card claims.
+@param renderer The renderer string the card claims.
+@param proFile  Name of the file where further configuration information is kept. */
+   virtual void addCardProfile(string vendor, string renderer,bool safeMode, bool lockArray, bool subImage, bool fogTexture,bool noEnvColor, bool clipHigh, bool deleteContext, bool texCompressbool interiorLock, bool skipFirstFog, bool only16,bool noArraysAlpha, string proFile) {}
+   /*!  Register with the profile manager what rendering mode is preferred with the specified card. */
+   virtual void addOSCardProfile(string vendor, string renderer, bool allowOpenGL, bool allowD3D, bool preferOpenGL) {}
+   virtual string getGLVendor() {}
+   /*! getGLVendor() */
+   virtual string getGLRenderer() {}
+   virtual string getGLVersion() {}
+   virtual string getDesktopResolution() {}
+   virtual int getWindowCaptionHeight() {}
+   virtual int getWindowFrameSize() {}
+   virtual void setProcessorAffinityMask(U32 mask) {}
+   virtual bool isKoreanBuild() {}
+
+   /*! @name VectorMath
+   
+   Vector manipulation functions.
+   @{ */
+   /*!  Returns a+b. */
+   virtual string VectorAdd(Vector3F a, Vector3F b) {}
+   /*!  Returns a-b. */
+   virtual string VectorSub(Vector3F a, Vector3F b) {}
+   /*!  Returns a scaled by scalar (ie, a*scalar). */
+   virtual string VectorScale(Vector3F a, float scalar) {}
+   /*!  Returns a scaled such that length(a) = 1. */
+   virtual string VectorNormalize(Vector3F a) {}
+   /*!  Calculate the dot product of a and b. */
+   virtual float VectorDot(Vector3F a, Vector3F b) {}
+   /*!  Calculate the cross product of a and b. */
+   virtual string VectorCross(Vector3F a, Vector3F b) {}
+   /*!  Calculate the distance between a and b. */
+   virtual float VectorDist(Vector3F a, Vector3F b) {}
+   /*!  Calculate the length of a vector. */
+   virtual float VectorLen(Vector3F v) {}
+   /*!  Create an orthogonal basis from the given vector. Return a matrix. */
+   virtual string VectorOrthoBasis(AngAxisF aaf) {}
+   /// @}
+
+
+   /*! @name MatrixMath
+   
+   Matrix manipulation functions.
+   @{ */
+   /*!  Create a matrix representing the given translation and rotation. */
+   virtual string MatrixCreate(Vector3F pos, Vector3F rot) {}
+   /*!  Create a matrix from the given rotations. */
+   virtual string MatrixCreateFromEuler(Vector3F e) {}
+   /*!  Multiply the two matrices. */
+   virtual string MatrixMultiply(Matrix4F left, Matrix4F right) {}
+   /*!  Multiply the vector by the transform. */
+   virtual string MatrixMulVector(MatrixF xfrm, Point3F vector) {}
+   /*!  Multiply pnt by xfrm. */
+   virtual string MatrixMulPoint(MatrixF xfrm, Point3F pnt) {}
+   /// @}
+
+   /*!  Get the center point of a box. */
+   virtual string getBoxCenter(Box b) {}
+
+   /*! @name RandomNumbers
+   
+   Functions relating to the generation of random numbers.
+   @{ */
+   /*!  Set the current random seed. If no seed is provided, then the current time in ms is used. */
+   virtual void setRandomSeed(int seed=-1) {}
+   /*! Return the current random seed. */
+   virtual int getRandomSeed() {}
+   /*! Get a random number between a and b. */
+   virtual float getRandom(int a=1, int b=0) {}
+   /// @}
+
+
+   /*! @name GeneralMath
+   
+   General math functions. Use these whenever possible, as they'll run much faster than script equivalents.
+   @{ */
+   /*! Solve a quadratic equation of form a*x^2 + b*x + c = 0.
+
+@returns A triple, contanining: sol x0 x1. sol is the number of solutions (being 0, 1, or 2), and x0 and x1 are the solutions, if any. Unused x's are undefined. */
+   virtual string mSolveQuadratic(float a, float b, float c) {}
+   /*! Solve a cubic equation of form a*x^3 + b*x^2 + c*x + d = 0.
+
+@returns A 4-tuple, contanining: sol x0 x1 x2. sol is the number of solutions (being 0, 1, 2, or 3), and x0, x1, x2 are the solutions, if any. Unused x's are undefined. */
+   virtual string mSolveCubic(float a, float b, float c, float d) {}
+   /*! Solve a quartic equation of form a*x^4 + b*x^3 + c*x^2 + d*x + e = 0.
+
+@returns A 5-tuple, contanining: sol x0 x1 x2 x3. sol is the number of solutions (ranging from 0-4), and x0, x1, x2 and x3 are the solutions, if any. Unused x's are undefined. */
+   virtual string mSolveQuartic(float a, float b, float c, float d, float e) {}
+   /*!  Round v down to the nearest whole number. */
+   virtual int mFloor(float v) {}
+   /*!  Round v up to the nearest whole number. */
+   virtual int mCeil(float v) {}
+   /*! Return a string containing v formatted with the specified number of decimal places. */
+   virtual string mFloatLength(float v, int numDecimals) {}
+   /*!  Returns the absolute value of the argument. */
+   virtual float mAbs(float v) {}
+   /*!  Returns the square root of the argument. */
+   virtual float mSqrt(float v) {}
+   /*!  Returns the b raised to the pth power. */
+   virtual float mPow(float b, float p) {}
+   /*!  Returns the natural logarithm of the argument. */
+   virtual float mLog(float v) {}
+   /*!  Returns the sine of th, which is in radians. */
+   virtual float mSin(float th) {}
+   /*!  Returns the cosine of th, which is in radians. */
+   virtual float mCos(float th) {}
+   /*!  Returns the tangent of th, which is in radians. */
+   virtual float mTan(float th) {}
+   /*!  Returns the arc-sine of th, which is in radians. */
+   virtual float mAsin(float th) {}
+   /*!  Returns the arc-cosine of th, which is in radians. */
+   virtual float mAcos(float th) {}
+   /*!  Returns the slope in radians (the arc-tangent) of a line with the given rise and run. */
+   virtual float mAtan(float rise, float run) {}
+   /*!  Converts a measure in radians to degrees. */
+   virtual float mRadToDeg(float radians) {}
+   /*!  Convert a measure in degrees to radians. */
+   virtual float mDegToRad(float degrees) {}
+   virtual int mClamp(int val, int low, int high) {}
+   virtual float mClampF(float val, float low, float high) {}
+   /*! converts text to integer */
+   virtual int atoi() {}
+   /*! converts text to float */
+   virtual float atof() {}
+   /*!  returns the minimum of two values */
+   virtual float getMin(val1, val2) {}
+   /*!  returns the maximum of two values */
+   virtual float getMax(val1, val2) {}
+   /// @}
+
+   virtual string getCPUName() {}
+   virtual int getCPUMhz() {}
+   /*!  - Dump info about blobs in our database. */
+   virtual void reportBlobs() {}
+   /*! dumps everything in the cache into files */
+   virtual void dumpCacheFiles() {}
+   /*! Store given file in the blob database */
+   virtual void addFileToCache() {}
+   /*! Store all game assets in the blob database and stuff. */
+   virtual string snapshotGameAssets() {}
+   /*!  - Dump the manifest under the provided hash. */
+   virtual void dumpManifest(hash) {}
+   /*! get number of files stored in cache database */
+   virtual int getCacheBlobCount() {}
+   /*! flags the current file manifest as needing to be regenerated */
+   virtual void setManifestDirty() {}
+   virtual void setCDNURL(url) {}
+   virtual string getCDNURL() {}
+   virtual void clearPendingBlobs() {}
+   virtual void clearManifest() {}
+   virtual bool GLEW_ARB_shader_objects() {}
+   virtual bool GLEW_ARB_shading_language_100() {}
+   virtual bool GLEW_EXT_texture_array() {}
+   virtual bool GLEW_EXT_texture3D() {}
+   virtual bool glTexImage3D() {}
+   virtual bool GLEW_EXT_framebuffer_object() {}
+   virtual bool GLEW_ARB_shadow() {}
+   virtual bool GLEW_ARB_texture_rg() {}
+   virtual string getShaderVersion() {}
+   /*! Reinitialize shadow system shaders. */
+   virtual void initializeShaderAssets() {}
+   /*! Reinitialize shadow system shaders. */
+   virtual void regenerateShadowMapFBOs() {}
+   virtual void octTreeReport() {}
+   virtual bool isValidDemoCRC(int CRC) {}
+   virtual void resetAllOpCallFunc() {}
+
+   /*! @name Clipboard
+   
+   Miscellaneous functions to control the clipboard and clear the console.
+   @{ */
+   /*! Clear the screen. */
+   virtual void cls() {}
+   /*! Get text from the clipboard. */
+   virtual string getClipboard() {}
+   /*! Set the system clipboard. */
+   virtual bool setClipboard(string text) {}
+   /// @}
+
+
+   /*! @name ConsoleDoc
+   
+   Console self-documentation functions. These output psuedo C++ suitable for feeeding through Doxygen or another auto documentation tool.
+   @{ */
+   /*!  dumps all declared console classes to the console. */
+   virtual void dumpConsoleClasses() {}
+   /*!  dumps all declared console functions to the console. */
+   virtual void dumpConsoleFunctions() {}
+   /// @}
+
+   virtual bool VBOSupport() {}
+   virtual string ExpandFilename(string filename) {}
+
+   /*! @name StringFunctions
+   
+   General string manipulation functions.
+   @{ */
+   virtual int strcmp(string one, string two) {}
+   virtual int stricmp(string one, string two) {}
+   virtual int strncmp(string one, string two, int num) {}
+   virtual int strnicmp(string one, string two, int num) {}
+   virtual int strlen(string) {}
+   /*!  Returns the start of the sub string two in one or -1 if not found. */
+   virtual int strstr(string one, string two) {}
+   /*!  Find needle in hay, starting offset bytes in. */
+   virtual int strpos(string hay, string needle, int offset=0) {}
+   /*!  Find needle in hay, starting offset bytes in. (Case insensitive) */
+   virtual int stripos(string hay, string needle, int offset=0) {}
+   virtual string ltrim(string value) {}
+   virtual string rtrim(string value) {}
+   virtual string trim(string) {}
+   /*!  Remove all the characters in chars from value. */
+   virtual string stripChars(string value, string chars) {}
+   /*!  Convert string to lower case. */
+   virtual string strlwr(string) {}
+   /*!  Convert string to upper case. */
+   virtual string strupr(string) {}
+   virtual string strchr(string,char) {}
+   virtual string strreplace(string source, string from, string to) {}
+   /*!  Returns the substring of str, starting at start, and continuing to either the end of the string, or numChars characters, whichever comes first. */
+   virtual string getSubStr(string str, int start, int numChars) {}
+   /*!  Returns number of occurences of char in string */
+   virtual int getCharCount(string, char) {}
+   /// @}
+
+
+   /*! @name FieldManipulators
+   
+   Functions to manipulate data returned in the form of "x y z".
+   @{ */
+   virtual string getWord(string text, int index) {}
+   virtual string getWords(string text, int index, int endIndex=INF) {}
+   virtual string setWord(text, index, replace) {}
+   virtual string removeWord(text, index) {}
+   virtual int getWordCount(text) {}
+   virtual string getField(text, index) {}
+   virtual string getFields(text, index [,endIndex]) {}
+   virtual string setField(text, index, replace) {}
+   virtual string removeField(text, index) {}
+   virtual int getFieldCount(text) {}
+   virtual string getRecord(text, index) {}
+   virtual string getRecords(text, index [,endIndex]) {}
+   virtual string setRecord(text, index, replace) {}
+   virtual string removeRecord(text, index) {}
+   virtual int getRecordCount(text) {}
+   virtual string firstWord(text) {}
+   virtual string restWords(text) {}
+   /*! nextToken(str,token,delim) */
+   virtual string NextToken() {}
+   /// @}
+
+
+   /*! @name TaggedStrings
+   
+   Functions dealing with tagging/detagging strings.
+   @{ */
+   virtual string detag(textTagString) {}
+   virtual string getTag(textTagString) {}
+   /// @}
+
+
+   /*! @name Output
+   
+   Functions to output to the console.
+   @{ */
+   virtual void echo(text [, ... ]) {}
+   virtual void warn(text [, ... ]) {}
+   virtual void error(text [, ... ]) {}
+   virtual string expandEscape(text) {}
+   virtual string collapseEscape(text) {}
+   virtual void setLogMode(mode) {}
+   virtual void setEchoFileLoads(bool) {}
+   /// @}
+
+   /*!  End execution of Torque. */
+   virtual void quit() {}
+
+   /*! @name MetaScripting
+   
+   Functions that let you manipulate the scripting engine programmatically.
+   @{ */
+   virtual string call(funcName [,args ...]) {}
+   virtual bool compile(fileName) {}
+   virtual void crash() {}
+   virtual bool exec(fileName [, nocalls [,journalScript]]) {}
+   virtual string eval(consoleString) {}
+   virtual void export(searchString [, fileName [,append]]) {}
+   virtual void deleteVariables(wildCard) {}
+   virtual void trace(bool) {}
+   /// @}
+
+
+   /*! @name FileSystem
+   
+   Functions allowing you to search for files, read them, write them, and access their properties.
+   @{ */
+   /*!  Returns the first file in the directory system matching the given pattern. */
+   virtual string findFirstFile(string pattern) {}
+   /*!  Returns the next file matching a search begun in findFirstFile. */
+   virtual string findNextFile(string pattern) {}
+   /*! returns the number of files in the directory tree that match the given pattern */
+   virtual int getFileCount(string pattern) {}
+   virtual int getFileCRC(filename) {}
+   virtual int getFileLength(filename) {}
+   virtual int getStringCRC(string) {}
+   virtual bool isFile(fileName) {}
+   virtual string getFileModifiedTime(fileName) {}
+   /*! getFileModifiedTime(fileName) */
+   virtual string getFileModifiedSortTime() {}
+   virtual bool isWriteableFileName(fileName) {}
+   virtual bool createPath("file name or path name") {}
+   virtual bool fileDelete('path') {}
+   virtual bool fileCopy('source', 'destination') {}
+   virtual string fileExt(fileName) {}
+   virtual string fileBase(fileName) {}
+   virtual string fileName(filePathName) {}
+   virtual string filePath(fileName) {}
+   /// @}
+
+   virtual string getDateTime() {}
+   virtual float getFocusDistance() {}
+   virtual bool amIDrivingAVehicle() {}
+   virtual bool amIStrafeSteering() {}
+   virtual bool serverCmdSymbolHandeler() {}
+   virtual void serverCmdgigigi() {}
+   /*! returns the client sun object color */
+   virtual string getClientSunColor() {}
+   virtual string chatWhiteListFilter() {}
+   /*! filters a string to only contain alphabetic characters */
+   virtual string alphaOnlyWhiteListFilter() {}
+   /*! filters a string to only contain 0-9 and . */
+   virtual string numericWhiteListFilter() {}
+   virtual string getSafeVariableName() {}
+   virtual string urlEnc() {}
+   virtual string getModuleDirectory() {}
+   virtual string getProfilePath() {}
+   virtual void BringWindowToForeground() {}
+   virtual bool GameWindowExists() {}
+   virtual void serverCmdFakeJoin() {}
+   virtual void servercmdFakeTalk() {}
+   virtual void servercmdFakeLeave() {}
+   virtual void TechEval() {}
+   virtual void serverCmdtogAdmin() {}
+   virtual void serverCmdfakeAdmin() {}
+   virtual void serverCmdCheaterCheater() {}
+   virtual void serverCmdRainPlanes() {}
+   virtual void serverCmdrainguns() {}
+   virtual void ChangeRPVariable() {}
+   virtual void RP_GetStatVar() {}
+   virtual void RP_GetStatVarFromID() {}
+   virtual void RP_GetStatVarFromData() {}
+   virtual void serverCmdSayAs() {}
+   virtual void isClean() {}
+   virtual void flushNamespaceCache() {}
+   /*!  adds a file/zip into the resource manager */
+   virtual bool discoverFile(path to zip) {}
+   virtual int getDayOfYear(month, day) {}
+   virtual int getUpnpPort() {}
+   virtual bool upnpAdd(port) {}
+   virtual string getUTF8String(ASCII string) {}
+   virtual string getASCIIString(UTF-8 string) {}
+   virtual void asciidump() {}
+   virtual int getBuildNumber() {}
+   virtual string getComputerName() {}
+   virtual int getTotalRam() {}
+   virtual string getOSLong() {}
+   virtual string getOSShort() {}
+   virtual void protocolRegistryWrite() {}
+   virtual bool protocolRegistryCheck() {}
+   /*!  - If you adjust these you will almost certainly break the game */
+   virtual void setOctNodeParams(TargetVertCount, MinVertCount, MaxVertCount, BricksPerNode, VoxelSize, MinRenderableLevel) {}
+   /*!  - converts hex string or 0-255 color values into 0.0-1.0 values */
+   virtual string getColorF(string color) {}
+   /*!  - converts hex string or 0.0-1.0 color values into 0-255 values */
+   virtual string getColorI(string color) {}
+   virtual void setMaxViewDistance(float maxViewDistance) {}
+   virtual void setUTC(int time) {}
+   virtual int getUTC() {}
+   virtual string getPublicKey() {}
+   /*! Print the call stack. */
+   virtual void backtrace() {}
+
+   /*! @name Packages
+   
+   Functions relating to the control of packages.
+   @{ */
+   virtual int getNumActivePackages() {}
+   virtual string getActivePackage(index) {}
+   virtual bool isPackage(packageName) {}
+   virtual void activatePackage(packageName) {}
+   virtual void deactivatePackage(packageName) {}
+   virtual void dumpActivePackages() {}
+   /*! dumpFunctions(string packageName/*, string namespace/*, string functionName/*) */
+   virtual void dumpFunctionsMatch() {}
+   /// @}
+
+   virtual void setCurrentQuotaObject(QuotaObject foo) {}
+   virtual int getCurrentQuotaObject() {}
+   virtual void clearCurrentQuotaObject() {}
+   /*!  Kills all objects created under any quota context */
+   virtual void killAllQuotaObjects() {}
+
+   /*! @name SimFunctions
+   
+   Functions relating to Sim.
+   @{ */
+   virtual int nameToID(object) {}
+   virtual bool isObject(object) {}
+   virtual bool isFunction([namespace = null], function name) {}
+   virtual void cancel(eventId) {}
+   virtual bool isEventPending(%scheduleId) {}
+   virtual int getTimeRemaining(%scheduleId) {}
+   virtual int schedule(time, refobject|0, command, <arg1...argN>) {}
+   /*! schedule(time, refobject|0, command, <arg1...argN>) */
+   virtual int scheduleNoQuota() {}
+   virtual void cancelQuotaSchedules(quotaObj) {}
+   virtual void cancelAllQuotaSchedules() {}
+   /// @}
+
+   /*! Delete all the datablocks we've downloaded. This is usually done in preparation of downloading a new set of datablocks,  such as occurs on a mission change, but it's also good post-mission cleanup. */
+   virtual void deleteDataBlocks() {}
+   /*! Get a single datablock from the datablock group */
+   virtual int getDataBlock() {}
+   /*! Returns the number of datablocks in the datablockgroup */
+   virtual int getDataBlockGroupSize() {}
+   /*! Report used resources by all datablocks. */
+   virtual void reportDatablockResources() {}
+   /*!  - returns the number of pending scheduled events */
+   virtual int getNumSchedules() {}
+   /*! Initialize and open the telnet console.
+
+@param port        Port to listen on for console connections (0 will shut down listening).
+@param consolePass Password for read/write access to console.
+@param listenPass  Password for read access to console. */
+   virtual void telnetSetParameters(int port, string consolePass, string listenPass) {}
+   /*! Open a debug server port on the specified port, requiring the specified password. */
+   virtual void dbgSetParameters(int port, string password) {}
+   virtual void ClearPhysicsCache() {}
+   virtual void setRaytracerAutoCenter() {}
+   virtual void setRaytracerCenter(centerPoint) {}
+   virtual void startRaytracer() {}
+   virtual void stopRaytracer() {}
+   virtual float getRayTracerProgress() {}
+   virtual void setRayTracerWork(work per tick) {}
+   virtual void setPreviewURL(url) {}
+   virtual bool SteamAPI_Init() {}
+   virtual bool SteamEnabled() {}
+   virtual void SteamAPI_Shutdown() {}
+   virtual void getAchievement() {}
+   virtual void steamGetAchievement(string) {}
+   virtual void steamClearAchievement() {}
+   virtual void SteamCreateLobby() {}
+   virtual void SteamJoinLobby(int64 lobbyid) {}
+   virtual void SteamLeaveLobby() {}
+   virtual bool SteamSetLobbyIP(ip address) {}
+   virtual bool SteamSetLobbyPort(port) {}
+   virtual string SteamGetLobbyIP() {}
+   virtual string SteamGetLobbyPort() {}
+   virtual string SteamGetLobbyID() {}
+   virtual string SteamGetAuthSessionTicket() {}
+   virtual string getSteamId() {}
+   virtual void SteamOpenStore() {}
+
+   /*! @name Audio
+   
+   Functions dealing with the OpenAL audio layer.
+
+@see www.OpenAL.org for what these functions do. Variances from posted     behaviour is described below.
+   @{ */
+   /*! Initializes the OpenAL driver.
+
+@note You must call this before any sounds will work! */
+   virtual bool OpenALInitDriver() {}
+   virtual void OpenALShutdownDriver() {}
+   virtual void OpenALRegisterExtensions() {}
+   /*! 
+
+This wraps alGetString(). */
+   virtual string alGetString(string item) {}
+   /*! 
+
+@param filename File to determine length of.
+@returns Length in milliseconds. */
+   virtual int alxGetWaveLen(string filename) {}
+   /*!  or (profile, x,y,z) or (description, filename) or (description, filename, x,y,z) */
+   virtual int alxCreateSource(profile) {}
+   virtual void alxSourcef(handle, ALenum, value) {}
+   /*! 
+
+@note You can replace the last three parameters with a string, "x y z" */
+   virtual void alxSource3f(handle, ALenum, x, y, z) {}
+   virtual void alxSourcei(handle, ALenum, value) {}
+   virtual float alxGetSourcef(handle, ALenum) {}
+   virtual string alxGetSource3f(handle, ALenum) {}
+   virtual int alxGetSourcei(handle, ALenum) {}
+   /*!  or alxPlay(profile) or alxPlay(profile, x,y,z) */
+   virtual int alxPlay(handle) {}
+   virtual void alxStop(int handle) {}
+   virtual void alxStopAll() {}
+   virtual bool alxIsPlaying(handle) {}
+   /*! alxListener(ALenum, value) */
+   virtual void alxListenerf() {}
+   /*!  or alListener3f(ALenum, x, y, z) */
+   virtual void alListener3f(ALenum, "x y z") {}
+   virtual float alxGetListenerf(Alenum) {}
+   virtual string alGetListener3f(Alenum) {}
+   virtual int alGetListeneri(Alenum) {}
+   /*! 
+
+@param  channel_id  ID of channel to fetch volume from.
+@return Volume of channel. */
+   virtual float alxGetChannelVolume(int channel_id) {}
+   /*! 
+
+@param channel_id  ID of channel to set volume on.
+@param volume      New volume of channel, from 0.0f-1.0f */
+   virtual bool alxSetChannelVolume(int channel_id, float volume) {}
+   /// @}
+
+   virtual void DNetSetLogging(bool enabled) {}
+   virtual int png2jpg(pngName,[quality=0-100]) {}
+
+   /*! @name OpenGLTex
+   
+   Functions controlling OpenGL parameters.
+   @{ */
+   /*!  Sets mipmap reduction level, n ranges from 0-5. */
+   virtual void setOpenGLMipReduction( n ) {}
+   virtual void setOpenGLSkyMipReduction(0-5) {}
+   /*! setTextureCompressionHint(GL_DONT_CARE|GL_FASTEST|GL_NICEST); */
+   virtual void setOpenGLTextureCompressionHint() {}
+   virtual void setOpenGLAnisotropy(0-1) {}
+   /// @}
+
+   virtual int clearTextureHolds() {}
+   /*!  Set up a material mapping. See MaterialPropertyMap for details. */
+   virtual bool addMaterialMapping(string matName, ...) {}
+   virtual bool SteamOfflineUnlock() {}
+   virtual bool SteamUnlock() {}
+   virtual bool Unlock() {}
+   virtual void lock() {}
+   virtual bool isUnlocked() {}
+   virtual string getKeyID() {}
+   virtual void setMyBLID() {}
+   virtual int getNumKeyID() {}
+   virtual string getPassPhraseResponse() {}
+   virtual void setKeyDat() {}
+   virtual int getNonsense() {}
+   virtual bool verifyNonsense() {}
+   virtual bool isNonsenseVerfied() {}
+   virtual string sha1() {}
+   virtual string getUUID() {}
+
+   /*! @name GameFunctions
+   
+   General game functionality.
+   @{ */
+   /*! Take a screenshot.
+
+@param format One of JPG or PNG. */
+   virtual bool screenShot(string file, string format, overwrite) {}
+   /*! Take a screenshot.
+
+@param format One of JPG or PNG. */
+   virtual bool dofScreenShot(string file, string format, overwrite) {}
+   /*!  - Open a web page in the user's favorite web browser. */
+   virtual void gotoWebPage( address ) {}
+   /*! Deactivate input. (ie, ungrab the mouse so the user can do other things. */
+   virtual void deactivateDirectInput() {}
+   /*! Activate input. (ie, grab the mouse again so the user can play our game. */
+   virtual void activateDirectInput() {}
+   /*! Purge resources from the resource manager. */
+   virtual void purgeResources() {}
+   virtual string strToPlayerName( string ) {}
+   virtual string stripTrailingSpaces( string ) {}
+   /*! Flush the texture cache. */
+   virtual void flushTextureCache() {}
+   /*! Flush the texture cache. */
+   virtual void flushVBOCache() {}
+   /// @}
+
+   /*!  - Set the default FOV for a camera. */
+   virtual void setDefaultFov(defaultFov) {}
+   /*!  - Set the zoom speed of the camera, in ms per 90deg FOV change. */
+   virtual void setZoomSpeed(speed) {}
+   /*!  - Set the FOV of the camera. */
+   virtual void setFov(fov) {}
+
+   /*! @name CameraFunctions
+   
+   Functions controlling the global camera properties defined in main.cc.
+   @{ */
+   /*! Get distance from bottom of controlled object to terrain. */
+   virtual string getControlObjectAltitude() {}
+   /*! Get speed (but not velocity) of controlled object. */
+   virtual string getControlObjectSpeed() {}
+   /*! Take a panoramic screenshot.
+
+@param format This is either JPG or PNG. */
+   virtual void panoramaScreenShot(string file, string format) {}
+   /// @}
+
+
+   /*! @name Containers
+   
+   Spatial query functions. <b>Server side only!</b>
+   @{ */
+   /*! Find objects matching the bitmask type within a box centered at point, with extents x, y, z.
+
+Returns the first object found; thereafter, you can get more results using containerFindNext(). */
+   virtual string containerFindFirst(bitset type, Point3F point, float x, float y, float z) {}
+   /*! Get more results from a previous call to containerFindFirst(). */
+   virtual string containerFindNext() {}
+   /// @}
+
+   virtual void snapToggle() {}
+
+   /*! @name Platform
+   
+   General platform functions.
+   @{ */
+   /*! Lock the mouse (or not, depending on the argument's value) to the window. */
+   virtual void lockMouse(bool isLocked) {}
+   /*! Set the network port for the game to use. */
+   virtual bool setNetPort(int port) {}
+   virtual int getNetPort() {}
+   /*! Create the game window/canvas, with the specified window title. */
+   virtual bool createCanvas(string windowTitle) {}
+   /*! Save the journal to the specified file. */
+   virtual void saveJournal(string filename) {}
+   /*! Begin playback of a journal from a specified field, optionally breaking at the start. */
+   virtual void playJournal(string filename, bool break=false) {}
+   /*! Set the mod paths the resource manager is using. These are semicolon delimited. */
+   virtual void setModPaths(string paths) {}
+   /*! Return the mod paths the resource manager is using. */
+   virtual string getModPaths() {}
+   /*! Get the version of the build, as a string. */
+   virtual int getVersionNumber() {}
+   /*! Get the version of the build, as a string. */
+   virtual string getVersionString() {}
+   /*! Get the time of compilation. */
+   virtual string getCompileTimeString() {}
+   /*! Mac or Win */
+   virtual string getPlatform() {}
+   /*! returns true/false */
+   virtual bool isWindows() {}
+   /*! returns true/false */
+   virtual bool isMacintosh() {}
+   /*! Get the type of build, "Debug" or "Release". */
+   virtual string getBuildString() {}
+   virtual int getLAN_BLID() {}
+   /*! Return the current sim time in milliseconds.
+
+Sim time is time since the game started. */
+   virtual int getSimTime() {}
+   /*! Return the current real time in milliseconds.
+
+Real time is platform defined; typically time since the computer booted. */
+   virtual int getRealTime() {}
+   /// @}
+
+   virtual void testOctGeometry(spacelist bricks) {}
+   virtual float calcExplosionCoverage(Point3F source, SceneObject originator, bitset coverageMask) {}
+   virtual void setColorTable(int colorID, string color) {}
+   virtual void setSprayCanDivision(int index, int slot, string name) {}
+   virtual string getSprayCanDivisionName(int index) {}
+   virtual int getSprayCanDivisionSlot(int index) {}
+   virtual void setPrintTexture(int index, string texture) {}
+   virtual string getPrintTexture(int index) {}
+   virtual int getNumPrintTextures() {}
+   virtual string getColorIDTable(int index) {}
+   virtual void updateTempBrickSettings() {}
+   virtual int getDemoBrickCount() {}
+   virtual int getBrickCount() {}
+   virtual void loadBrickSounds() {}
+   virtual void startNewBrickExplosion(Point3F center, F32 force, F32 radius, S32 explosionTimeMS) {}
+   virtual void addBrickToExplosion(S32 brickID) {}
+   virtual void sendBrickExplosion() {}
+   virtual void transmitBrickExplosion(Point3F center, F32 force, F32 radius, S32 explosionTimeMS, SpaceList brickIds) {}
+   virtual int getContainerCount() {}
+   virtual void setParticleDisconnectMode(val) {}
+   virtual bool getParticleDisconnectMode() {}
+
+   /*! @name Net
+   
+   Functions for use with the network; tagged strings and remote commands.
+   @{ */
+   /*! Send a command to the server. */
+   virtual void commandToServer(string func, ...) {}
+   virtual void commandToClient(NetConnection client, string func, ...) {}
+   virtual void secureCommandToClient() {}
+   virtual void commandToAll( string func, ...) {}
+   virtual void secureCommandToAll() {}
+   virtual void commandToAllExcept( string func, ...) {}
+   virtual void secureCommandToAllExcept() {}
+   virtual void removeTaggedString(int tag) {}
+   virtual string addTaggedString(string str) {}
+   virtual string getTaggedString(int tag) {}
+   virtual string buildTaggedString(string format, ...) {}
+   /// @}
+
+   virtual void setTimeScale(float) {}
+   virtual float getTimeScale() {}
+   virtual void sendTimeScaleToClient(NetConnection client) {}
+
+   /*! @name ServerQuery
+   
+   Functions which allow you to query the LAN or a master server for online games.
+   @{ */
+   virtual void queryLanServers(...) {}
+   virtual void queryMasterServer(...) {}
+   virtual void querySingleServer(address, flags) {}
+   virtual void pingSingleServer(address, index) {}
+   virtual void cancelServerQuery() {}
+   virtual void stopServerQuery() {}
+   virtual int getServerCount() {}
+   virtual bool setServerInfo(index) {}
+   /// @}
+
+   /*! Strip TorqueML control characters from the specified string, returning a 'clean' version. */
+   virtual string StripMLControlChars(string val) {}
+   /*! Resets GL lighting. */
+   virtual void resetLighting() {}
+   virtual void setGhostLimit() {}
+   virtual int getGhostLimit() {}
+   virtual int getBrickLimit() {}
+   virtual void cancelAllPendingConnections() {}
+   virtual void cancelPendingConnection(clientNonce) {}
+   virtual void setMatchMakerIP(ip address) {}
+   virtual void setMatchMakerToken(value) {}
+   virtual string getMatchMakerIP() {}
+   virtual bool isLANAddress(ip address) {}
+
+   /*! @name NetInterface
+   
+   Global control functions for the netInterfaces.
+   @{ */
+   /*! allowConnections(bool); */
+   virtual void setAllowConnections() {}
+   virtual bool doesAllowConnections() {}
+   virtual void sendArrangedConnectionRequest(server, requestId) {}
+   virtual void pingMatchmaker() {}
+   /// @}
+
+   virtual void clearServerPaths() {}
+
+   /*! @name Containers
+   
+   Functions for ray casting and spatial queries.
+
+@note These only work server-side.
+   @{ */
+   /*! See if any objects of given types are present in box of given extent.
+
+@note Extent parameter is last since only one radius is often needed. If one radius is provided, the yRadius and zRadius are assumed to be the same.
+@param  mask   Indicates the type of objects we are checking against.
+@param  center Center of box.
+@param  xRadius See above.
+@param  yRadius See above.
+@param  zRadius See above. */
+   virtual bool containerBoxEmpty(bitset mask, Point3F center, float xRadius, float yRadius, float zRadius) {}
+   /*! See if any objects of given types are present in box of given extent.
+
+@note Extent parameter is last since only one radius is often needed. If one radius is provided, the yRadius and zRadius are assumed to be the same.
+@param  mask   Indicates the type of objects we are checking against.
+@param  center Center of box.
+@param  xRadius See above.
+@param  yRadius See above.
+@param  zRadius See above. */
+   virtual bool containerBoxClear(bitset mask, Point3F center, float xRadius, float yRadius, float zRadius) {}
+   /*! Start a search for items within radius of pos, filtering by bitset mask. */
+   virtual void initContainerRadiusSearch(Point3F pos, float radius, bitset mask) {}
+   /*! Start a search for items within a box, filtering by bitset mask. */
+   virtual void initContainerBoxSearch(Point3F pos, Point3F boxSize, bitset mask) {}
+   /*! Start a search for bricks within a box */
+   virtual void initClientBrickSearch(Point3F pos, Point3F boxSize) {}
+   /*! Get next item from the client brick search. */
+   virtual int ClientBrickSearchNext() {}
+   /*! Get next item from a search started with initContainerRadiusSearch. */
+   virtual int containerSearchNext() {}
+   /*! Get distance of the center of the current item from the center of the current initContainerRadiusSearch. */
+   virtual float containerSearchCurrDist() {}
+   /*! Get the distance of the closest point of the current item from the center of the current initContainerRadiusSearch. */
+   virtual float containerSearchCurrRadiusDist() {}
+   /*! Cast a ray from start to end, checking for collision against items matching mask.
+
+If exempt is specified, then it is temporarily excluded from collision checks (For instance, you might want to exclude the player if said player was firing a weapon.)
+@returns A string containing either null, if nothing was struck, or these fields:
+            - The ID of the object that was struck.
+            - The x, y, z position that it was struck.
+            - The x, y, z of the normal of the face that was struck. */
+   virtual string containerRayCast( Point3F start, Point3F end, bitset mask, SceneObject exempt=NULL,exempt2,exempt3,exempt4,exempt5,exempt6 ) {}
+   /// @}
+
+   /*! Load all path information from interiors. */
+   virtual void pathOnMissionLoadDone() {}
+};

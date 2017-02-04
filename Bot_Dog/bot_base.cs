@@ -176,50 +176,40 @@ function ShepherdDogHoleBot::onBotLoop(%this,%obj)
 		%obj.hFollowPlayer(%obj.owner, 1, 1);
 		%obj.emote(loveImage);
 		%obj.lastEmote = getSimTime();
-	}
+	} 
 	//look for a steak if its not targeting anyone
-	if (!%obj.hFollowing)
+	else if (!%obj.hFollowing && !%obj.isFollowingWhistle)
 	{
-		%closestSteak = 0;
 		%distance = 10000;
 		%pos = %obj.getEyePoint();
 		%typeMasks = $Typemasks::FxBrickObjectType | $Typemasks::TerrainObjectType | 
 			$TypeMasks::StaticObjectType;
 
 		//iterate through backwards in case a steak gets deleted while searching for one
-		for (%i = $SteakGroup.numSteaks-1; %i >= 0; %i--)
+		for (%i = $SteakGroup.getCount()-1; %i >= 0; %i--)
 		{
-			echo("Looking for steaks: steakCount " @ $SteakGroup.numSteaks);
-			%steak = $SteakGroup.steak[%i];
+			echo("Looking for steaks: steakCount " @ $SteakGroup.getCount());
+			%steak = $SteakGroup.getObject(%i);
 			echo("Steak " @ %steak);
-			if (!isObject(%steak))
-			{
-				echo("    A steak that doesn't exist");
-				$SteakGroup.removeSteak(%steak);
-				continue;
-			}
 
 			%steakPos = vectorAdd(%steak.getPosition(), "0 0 0.2");
 			%distanceToSteak = vectorDist(%pos, %steakPos);
 			//if distance > 2 check for line of sight
-			if (%distanceToSteak > 2)
+			if (%distanceToSteak < %distance && ((%str = getRegion(%steak)) $= "Outside" || %str $= "Yard"))
 			{
-				echo("    A steak far away - checking for LOS");
-				%ray = containerRaycast(%pos, %steakPos, %typemasks);
-				if (!isObject(getWord(%ray, 0)))
+				if (%distanceToSteak > 2)
 				{
-					if (%distanceToSteak < %distance)
+					echo("    A steak far away - checking for LOS");
+					%ray = containerRaycast(%pos, %steakPos, %typemasks);
+					if (!isObject(getWord(%ray, 0)))
 					{
 						%distance = %distanceToSteak;
 						%closestSteak = %steak;
 					}
 				}
-			}
-			else
-			{
-				echo("    A steak very close");
-				if (%distanceToSteak < %distance)
+				else
 				{
+					echo("    A steak very close");
 					%distance = %distanceToSteak;
 					%closestSteak = %steak;
 				}
@@ -233,6 +223,11 @@ function ShepherdDogHoleBot::onBotLoop(%this,%obj)
 			%obj.setMoveDestination(%closestSteak.getPosition());
 			%obj.setAimObject(%closestSteak);
 		}
+	}
+	//look for nearby prisoners to target if it just followed a whistle
+	else if (%obj.isFollowingWhistle || !%obj.hFollowing) 
+	{
+		//do container search then set as target
 	}
 }
 
@@ -261,7 +256,8 @@ function ShepherdDogHoleBot::onBotFollow(%this,%obj,%targ)
 	%zdist = getWord(%targpos, 2) - getWord(%pos, 2);
 
 	//bark at players too high for them to reach, or emote love if their target is their owner
-	if (%zdist > 2.4 && %xydist < 2 && !%obj.hIsRunning)
+	if (%zdist > 2.4 && %xydist < 2 && !%obj.hIsRunning) 
+	{
 		if (%targ.getID() == %obj.owner && %obj.lastEmote < getSimTime()-5000)
 		{
 			%obj.emote(loveImage);
@@ -273,6 +269,7 @@ function ShepherdDogHoleBot::onBotFollow(%this,%obj,%targ)
 			%obj.canBark = 0;
 			schedule(getRandom(500, 1000), 0, eval, %obj.getID() @ ".canBark = 1;");
 		}
+	}
 }
 
 function ShepherdDogHoleBot::onBotDamage(%this,%obj,%source,%pos,%damage,%type)
@@ -280,9 +277,10 @@ function ShepherdDogHoleBot::onBotDamage(%this,%obj,%source,%pos,%damage,%type)
 	//Called when the bot is being damaged
 	if (%obj.isEating)
 	{
-		DogStopEatSteak(%obj);
+		StopEatSteak(%obj);
 		%obj.setAimObject(%source);
 	}
+	return parent::onBotDamage(%this, %obj, %source, %pos, %damage, %type);
 }
 
 package BotHole_Dogs
@@ -299,23 +297,29 @@ package BotHole_Dogs
 
 	function ShepherdDogArmor::onDisabled(%this, %obj, %state) //for players; slightly different behavior
 	{
-		if (!%obj.getState() $= "Dead")
+		if (!%obj.getState() $= "Dead") 
+		{
 			return;
+		}
 
 		holeBotDisabled(%obj);
 		serverPlay3D("ShepherdDogDeath" @ getRandom(1, 2) @ "Sound", %obj.getPosition());
 		%obj.playThread(2, "death1");
 
-		parent::onDisabled(%this, %obj, %state);
+		return parent::onDisabled(%this, %obj, %state);
 	}
 
 	function AIPlayer::hMeleeAttack(%obj, %col)
 	{
-		if (%obj.getDatablock().getName() !$= "ShepherdDogHoleBot")
+		if (%obj.getDatablock().getName() !$= "ShepherdDogHoleBot") 
+		{
 			return parent::hMeleeAttack(%obj, %col);
+		}
 
-		if (!isObject(%col))
+		if (!isObject(%col)) 
+		{
 			return parent::hMeleeAttack(%obj, %col);
+		}
 
 		if (%col.getType() & $TypeMasks::PlayerObjectType)
 		{
@@ -324,7 +328,7 @@ package BotHole_Dogs
 			if (!parent::hMeleeAttack(%obj, %col))
 				return;
 
-			%col.setVelocity(vectorAdd(%col.getVelocity(), "0 0 5"));
+			%col.setVelocity(vectorAdd(%col.getVelocity(), vectorAdd("0 0 5", vectorScale(%obj.getForwardVector(), 3))));
 			tumble(%col, 40);
 			schedule(2000, 0, clearTumble, %col);
 			%col.isTumbling = true;
@@ -342,8 +346,10 @@ package BotHole_Dogs
 	function Player::playDeathCry(%this)
 	{
 		//this is for players
-		if (%this.getDatablock().getName() $= "ShepherdDogArmor")
+		if (%this.getDatablock().getName() $= "ShepherdDogArmor") 
+		{
 			return;
+		}
 		parent::playDeathCry(%this);
 	}
 
@@ -361,6 +367,17 @@ package BotHole_Dogs
 		//dont want the dog to spazzclick
 		return;
 	}
+
+	function WheeledVehicleData::onCollision(%this, %obj, %col, %vel, %zVel) {
+		if (%this.getName() $= "deathVehicle" && %col.getDatablock().getName() $= "ShepherdDogHoleBot") 
+		{
+			return;
+		}
+		else 
+		{
+			return parent::onCollision(%this, %obj, %col, %vel, %zVel);
+		}
+	}
 };
 activatePackage(BotHole_Dogs);
 
@@ -374,13 +391,35 @@ function clearTumble(%player)
 		%player.stopSkiing();
 		%player.dismount();
 		%player.isTumbling = false;
-		%player.client.setControlObject(%player);
+		if (isObject(%player.client))
+			%player.client.setControlObject(%player);
 	}
-	%obj.unmountobject(%player);
-	%obj.schedule(0, delete);
 }
 
-function DogEatSteak(%obj, %health, %eatTime)
+datablock ShapeBaseImageData(healingImage)
+{
+	shapeFile = "base/data/shapes/empty.dts";
+	emap = true;
+	mountPoint = $HeadSlot;
+	offset = "0 0 -0.1";
+	eyeOffset = "0 0 -0.18";
+	rotation = eulerToMatrix("0 0 0");
+	scale = "1 1 1";
+	doColorShift = true;
+	colorshiftColor = "1 1 1 1";
+
+	stateName[0]				= "Activate";
+	stateTimeoutValue[0]		= 0.01;
+	stateTransitionOnTimeout[0] = "Ready";
+
+	stateName[1]				= "Ready";
+	stateTimeoutValue[1]		= 1;
+	stateEmitter[1]				= "healCrossEmitter";
+	stateEmitterTime[1]			= 30000;
+	stateEmitterNode[1]			= "mountPoint";
+};
+
+function EatSteak(%obj, %eatTime)
 {
 	//talk("Dog starting to eat for " @ %eatTime);
 	//make it hold the steak
@@ -402,36 +441,25 @@ function DogEatSteak(%obj, %health, %eatTime)
 	%obj.setAimVector( %vec );
 
 	%obj.emote(loveImage);
-	%obj.eatEmitter = new ParticleEmitterNode()
-	{
-		dataBlock = GenericEmitterNode;
-		emitter = healCrossEmitter;
-		scale = "0 0 0";
-	};
-	%obj.eatEmitter.setTransform(%obj.getPosition());
-	MissionCleanup.add(%obj.eatEmitter);
+	%obj.mountImage(healingImage, 2);
 
-	%obj.newHealth = %obj.getDamageLevel() - %health;
-	%obj.eatSteakSchedule = schedule(%eatTime, 0, DogStopEatSteak, %obj);
-	schedule(%eatTime, 0, eval, %obj @ ".finishedSteak = 1;");
+	%obj.eatSteakSchedule = schedule(%eatTime, 0, StopEatSteak, %obj);
 }
 
-function DogStopEatSteak(%obj)
+function StopEatSteak(%obj)
 {
-	//talk("Dog finished eating");
+	talk("Dog finished eating");
 	//remove the image from it
 	%obj.unMountImage(0);
 	%obj.playThread(0, root);
 	%obj.startHoleLoop();
 	%obj.isEating = 0;
 
-	%obj.eatEmitter.delete();
-
 	//if dog was interrupted while eating, drop the steak
 	if (isEventPending(%obj.eatSteakSchedule))
 	{
 		%pos = vectorSub(vectorAdd(%obj.getPosition(), "0 0 3"), %obj.getEyeVector());
-		%velocity = vectorAdd(vectorScale(%obj.getEyeVector(), -1), "0 0 4");
+		%velocity = vectorAdd(vectorScale(%obj.getEyeVector(), -3), "0 0 10");
 
 		%i = new Item()
 		{
@@ -446,10 +474,9 @@ function DogStopEatSteak(%obj)
 		MissionCleanup.add(%i);
 		%i.schedule(30000 - 500, fadeOut);
 		%i.schedule(30000, delete);
-		$SteakGroup.schedule(30000, removeSteak, %i);
 		%i.setVelocity(%velocity);
 		
-		$SteakGroup.addSteak(%i);
+		$SteakGroup.add(%i);
 
 		cancel(%obj.eatSteakSchedule);
 	}
@@ -458,6 +485,6 @@ function DogStopEatSteak(%obj)
 		//statistics
 		$Server::PrisonEscape::SteaksEaten++;
 
-		%obj.setDamageLevel(%obj.newHealth);
+		%obj.setDamageLevel(%obj.getDamageLevel() - 30);
 	}
 }

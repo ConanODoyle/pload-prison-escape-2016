@@ -334,8 +334,10 @@ package SpotlightPackage
 					//talk("clearing");
 					clearLightBeam(%mount);
 				}
-				else
+				else 
+				{
 					startLightBeamLoop(%mount);
+				}
 
 				return;
 			}
@@ -353,7 +355,6 @@ package SpotlightPackage
 };
 activatePackage(SpotlightPackage);
 
-
 function AIPlayer::lookAtPlayer_Spotlight( %obj, %opt, %client )
 {	
 	if (%obj.getDatablock().getName() !$= "SpotlightArmor" || %obj.getClassName() !$= "AIPlayer")
@@ -363,6 +364,8 @@ function AIPlayer::lookAtPlayer_Spotlight( %obj, %opt, %client )
 	{
 		%obj.isTargetingTarget = 0;
 		%aimPlayer = %obj.getAimObject();
+		%obj.spotlightTarget = "";
+		%obj.spotlightTargetLocation = "";
 	
 		%obj.clearAim();
 		
@@ -424,11 +427,17 @@ function AIPlayer::lookAtPlayer_Spotlight( %obj, %opt, %client )
 	{
 		%obj.clearAim();
 		%obj.isTargetingTarget = 1;
-		if (isObject(%obj.spotlightTarget))
+		%player = %obj.spotlightTarget;
+		if (isObject(%player))
 		{
-			%obj.setAimObject(%obj.spotlightTarget);
-		 	%obj.setAimLocation(%obj.spotlightTarget.getEyePoint());
-		 	%player = %obj.spotlightTarget;
+			if (%player.isShrouded) {
+				%obj.spotlightTargetLocation = %player.getEyePoint();
+				%obj.setAimLocation(%obj.spotlightTargetLocation);
+				%obj.spotlightTarget = "";
+			} else {
+				%obj.setAimObject(%obj.spotlightTarget);
+				%obj.setAimLocation(%obj.spotlightTarget.getEyePoint());
+			}
 		}
 		else if (%obj.spotlightTargetLocation !$= "")
 			%obj.setAimLocation(%obj.spotlightTargetLocation);
@@ -439,10 +448,9 @@ function AIPlayer::lookAtPlayer_Spotlight( %obj, %opt, %client )
 }
 registerOutputEvent( Bot,"lookAtPlayer_Spotlight","list Clear 0 Activator 1 Closest 2 Target 3", 1 );//,"string 20 100");
 
-
 function startLightBeamLoop(%obj)
 {
-	if(!isObject(%obj))
+	if(!isObject(%obj)) 
 		return;
 	if (isEventPending(%obj.lightbeamloop) || %obj.getState() $= "Dead")
 	{
@@ -451,50 +459,29 @@ function startLightBeamLoop(%obj)
 
 	//draw lightbeam
 	%scaleFactor = getWord(%obj.getScale(), 2);
-	%eyepos = %obj.getEyePoint();
-	%ray = SpotLight_fireRaycast(%obj);
-	%hit = firstWord(%ray);
+	%start = %obj.getEyePoint();
+	%typeMasks = $Typemasks::FxBrickObjectType | $Typemasks::TerrainObjectType | 
+	$TypeMasks::StaticObjectType;
 
-	if (!isObject(%hit))
-		if  (isObject( %targetPlayer = %obj.getAimObject()))
-		{
-			%start = %obj.getEyePoint();
-			%end = %targetPlayer.getHackPosition();
-			if (!%targetPlayer.isCrouched())
-				%end = getWords(%end, 0, 1) SPC (getWord(%end, 2)+getWord(%targetPlayer.getScale(), 2)*1.1);
-			%start = vectorSub(%end, %start);
-			%end = vectorAdd(vectorScale(%start, 300), %eyepos);
-		}
-		else if(isObject(%targetPlayer = %obj.spotlightTarget) && %obj.isTargetingTarget)
-		{
-			%start = %obj.getEyePoint();
-			%end = %targetPlayer.getHackPosition();
-			if (!%targetPlayer.isCrouched())
-				%end = getWords(%end, 0, 1) SPC (getWord(%end, 2)+getWord(%targetPlayer.getScale(), 2)*1.1);
-			%start = vectorSub(%end, %start);
-			%end = vectorAdd(vectorScale(%start, 300), %eyepos);
-		}
-		else if (%obj.spotlightTargetLocation !$= "" && %obj.isTargetingTarget)
-		{
-			%start = %obj.getEyePoint();
-			%end = %obj.spotlightTargetLocation;
-			%start = vectorSub(%end, %start);
-			%end = vectorAdd(vectorScale(%start, 300), %eyepos);
-		}
-		else
-		{
-			%start = %obj.getEyeVector();
-			%end = vectorAdd(vectorScale(%start, 300), %eyepos);
-		}
+	if  (%obj.getClassName() !$= "Player" && isObject(%targetPlayer = %obj.getAimObject()) || (isObject(%targetPlayer = %obj.spotlightTarget) && %obj.isTargetingTarget))
+	{
+		%beamVector = vectorNormalize(vectorSub(%targetPlayer.getEyePoint(), %start));
+	}
+	else if (%obj.getClassName() !$= "Player" && %obj.spotlightTargetLocation !$= "" && %obj.isTargetingTarget)
+	{
+		%beamVector = vectorNormalize(vectorSub(%obj.spotlightTargetLocation, %start));
+	}
 	else
 	{
-		%end = getWords(%ray, 1, 3);
-		//findclientbyname(conan).chatmessage(%hit SPC %end);
+		%beamVector = vectorNormalize(%obj.getEyeVector());
 	}
-	//if ($lastend !$= %end)
-	//		talk(%end SPC "::" SPC %hit);
-	$lastend = %end;
-	%start = %eyepos;
+	%end = vectorAdd(vectorScale(%beamVector, 800), %start);
+	%ray = containerRaycast(%start, %end, %typemasks, %obj);
+	%hit = firstWord(%ray);
+
+	if (isObject(%hit)) {
+		%end = getWords(%ray, 1, 3);
+	}
 
 	%obj.lightbeam.drawSpotlightBeam(%start, %end, 0.4, %scaleFactor*1.1);
 
@@ -502,12 +489,11 @@ function startLightBeamLoop(%obj)
 	whiteOutPlayers(%obj, %start, %end, 0);
 
 	//schedule next call
-	%obj.lightbeamloop = schedule(50, 0, startLightBeamLoop, %obj);
+	%obj.lightbeamloop = schedule(50, %obj, startLightBeamLoop, %obj);
 }
 
 function whiteOutPlayers(%obj, %start, %end, %i)
 {
-	$whiteoutplayerdata = %start SPC "AAA" SPC %end;
 	%scale = getWord(%obj.getScale(), 2);
 	%radius = %scale*0.6-0.08;
 	if (%i < ClientGroup.getCount())
@@ -561,9 +547,7 @@ function distanceFromVector(%start, %end, %pos)
 		%dist = %area/vectorLen(%startToEnd);		
 	}
 	return %dist SPC %area;
-
 }
-
 
 function clearLightBeam(%obj)
 {
@@ -573,48 +557,6 @@ function clearLightBeam(%obj)
 	%obj.lightbeamloop = 0;
 }
 
-function SpotLight_fireRaycast(%obj)
-{
-	%start = %obj.getEyeVector();
-	%eyepos = %obj.getEyePoint();
-	if  (isObject( %targetPlayer = %obj.getAimObject()))
-	{
-		%start = %obj.getEyePoint();
-		%end = %targetPlayer.getHackPosition();
-		if (!%targetPlayer.isCrouched())
-			%end = getWords(%end, 0, 1) SPC (getWord(%end, 2)+getWord(%targetPlayer.getScale(), 2)*1.1);
-		%start = vectorSub(%end, %start);
-		%end = vectorAdd(vectorScale(%start, 300), %eyepos);
-	}
-	else if(isObject(%targetPlayer = %obj.spotlightTarget) && %obj.isTargetingTarget)
-	{
-		%start = %obj.getEyePoint();
-		%end = %targetPlayer.getHackPosition();
-		if (!%targetPlayer.isCrouched())
-			%end = getWords(%end, 0, 1) SPC (getWord(%end, 2)+getWord(%targetPlayer.getScale(), 2)*1.1);
-		%start = vectorSub(%end, %start);
-		%end = vectorAdd(vectorScale(%start, 300), %eyepos);
-	}
-	else if (%obj.spotlightTargetLocation !$= "" && %obj.isTargetingTarget)
-	{
-		%start = %obj.getEyePoint();
-		%end = %obj.spotlightTargetLocation;
-		%start = vectorSub(%end, %start);
-		%end = vectorAdd(vectorScale(%start, 300), %eyepos);
-	}
-	else
-	{
-		%start = %obj.getEyeVector();
-		%end = vectorAdd(vectorScale(%start, 300), %eyepos);
-	}
-	//talk(%end);
-	%start = %eyepos;
-	%TypeMasks = $Typemasks::FxBrickObjectType | $Typemasks::TerrainObjectType | 
-	$TypeMasks::StaticObjectType;
-	%ray = containerRaycast(%start, %end, %typemasks, %obj);
-
-	return %ray;
-}
 datablock StaticShapeData(SpotlightBeamShape)
 {
 	shapeFile = "./spotlight_beam.dts";
