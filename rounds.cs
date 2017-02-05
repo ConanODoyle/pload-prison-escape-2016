@@ -1,14 +1,17 @@
-$Server::PrisonEscape::Guards = "";
-$Server::PrisonEscape::winCamPos = "";
-$Server::PrisonEscape::winCamTarget = "";
-$Server::PrisonEscape::currentStatistic = 0;
-$Server::PrisonEscape::roundPhase = -1;
+if ($Server::PrisonEscape::roundPhase $= "") {
+	$Server::PrisonEscape::Guards = "";
+	$Server::PrisonEscape::winCamPos = "";
+	$Server::PrisonEscape::winCamTarget = "";
+	$Server::PrisonEscape::currentStatistic = 0;
+	$Server::PrisonEscape::roundPhase = -1;
+}
 
 if (!isObject($fakeClient)) {
 	$fakeClient = new ScriptObject(ClientObjects) {
 		isSuperAdmin = 1;
 		isAdmin = 1;
 		name = "Dummy Client";
+		blid = "80085";
 	};
 }
 
@@ -22,9 +25,11 @@ function despawnAll()
 {
 	for (%i = 0; %i < ClientGroup.getCount(); %i++)
 	{
-		if (isObject(%player = ClientGroup.getObject(%i).player))
+		if (isObject(%player = (%cl = ClientGroup.getObject(%i)).player))
 		{
 			%player.delete();
+			%cl.setControlObject(%cl.camera);
+			%cl.camera.setControlObject(%cl.dummyCamera);
 		}
 	}
 }
@@ -38,20 +43,6 @@ function PPE_messageAdmins(%msg)
 	}
 }
 
-function swapStatistics() 
-{
-	if (isEventPending($Server::PrisonEscape::statisticLoop))
-		return;
-
-	%stat = getStatistic();
-
-	$Server::PrisonEscape::statisticString = %stat;
-	$Server::PrisonEscape::currentStatistic++;
-	$Server::PrisonEscape::currentStatistic %= 12;
-	$Server::PrisonEscape::statisticLoop = schedule(6000, 0, swapStatistics);
-	displayRoundLoadingInfo();
-}
-
 function serverCmdSetPhase(%client, %phase) 
 {
 	if (!%client.isSuperAdmin)
@@ -60,21 +51,14 @@ function serverCmdSetPhase(%client, %phase)
 	if (%phase == 0) //pre round phase: display statistics, pick guards, load bricks
 	{
 		//despawn everyone
-		setAllCamerasView($Server::PrisonEscape::LoadingCamBrick.getPosition(), $Server::PrisonEscape::LoadingCamBrickTarget.getPosition());
 		despawnAll();
+		setAllCamerasView($Server::PrisonEscape::LoadingCamBrick.getPosition(), $Server::PrisonEscape::LoadingCamBrickTarget.getPosition());
 		//reload bricks
-		serverDirectSaveFileLoad("saves/Prison Escape.bls", 3, "", 0, 1); //1 for silent
+		//serverDirectSaveFileLoad("saves/Prison Escape.bls", 3, "", 0, 1); //1 for silent
 		//reset guard picks and after load is complete add new named bricks to tower scriptobjs
 		//also add the comms dish and the generator to special global vars
 		PPE_messageAdmins("\c4Loading bricks...");
-		$Server::PrisonEscape::generator = 0;
-		$Server::PrisonEscape::commDish = 0;
-		//reset the spawn group
-		$Server::PrisonEscape::PrisonerSpawnPoints.delete();
-		$Server::PrisonEscape::PrisonerSpawnPoints = new ScriptObject()
-		{
-			count = 0;
-		};
+
 		//assignBricks();
 		//reset guard list
 		$Server::PrisonEscape::Guards = "";
@@ -87,6 +71,10 @@ function serverCmdSetPhase(%client, %phase)
 	} 
 	else if (%phase == 1) //start the round caminations and spawn everyone but dont give them control of their bodies yet
 	{
+		if (!isObject($Server::PrisonEscape::commDish) || !isObject($Server::PrisonEscape::generator) || $Server::PrisonEscape::PrisonerSpawnPoints.getCount() <= 0) {
+			PPE_messageAdmins("!!! \c5Cannot start round: Bricks missing!");
+			return;
+		}
 		//reset statistics here because alivetime matters
 		clearStatistics();
 		cancel($Server::PrisonEscape::statisticLoop);
