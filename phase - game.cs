@@ -52,13 +52,13 @@ registerOutputEvent("fxDTSBrick", "prisonersWin", "", 1);
 
 function fxDTSBrick::prisonersWin(%this, %client) 
 {
-	if (%client.isGuard)
+	if (%client.isGuard || $Server::PrisonEscape::roundPhase != 2)
 		return;
 	$Server::PrisonEscape::firstPrisonerOut = %client;
-	prisonersWin();
+	prisonersWin(%this);
 }
 
-function prisonersWin() {
+function prisonersWin(%brick) {
 	if (isEventPending($Server::PrisonEscape::prisonerWinSchedule))
 		cancel($Server::PrisonEscape::prisonerWinSchedule);
 	if (isEventPending($Server::PrisonEscape::timerSchedule))
@@ -73,10 +73,47 @@ function spawnDeadPrisoners()
 {
 	for (%i = 0; %i < ClientGroup.getCount(); %i++)
 	{
-		if (isObject(%client.player) || (%client = ClientGroup.getObject(%i)).isGuard)
+		%client = ClientGroup.getObject(%i);
+		if (isObject(%client.player) || %client.isGuard)
 			continue;
 		%spawn = pickPrisonerSpawnPoint();
 		%client.createPlayer(%spawn);
+		%client.centerprint("");
 	}
 	resetPrisonerSpawnPointCounts();
+}
+
+function pickPrisonerSpawnPoint() 
+{
+	%start = getRandom(0, $Server::PrisonEscape::PrisonerSpawnPoints.getCount() - 1);
+	%count = $Server::PrisonEscape::PrisonerSpawnPoints.getCount();
+	for (%i = 0; %i < %count; %i++)
+	{
+		%index = (%i + %start) % %count;
+		%brick = $Server::PrisonEscape::PrisonerSpawnPoints.getObject(%index);
+		if (%brick.spawnCount < 2) 
+		{
+			break;
+		}
+		%brick = "";
+	}
+	if (isObject(%brick))
+	{
+		%brick.spawnCount++;
+		return %brick.getSpawnPoint();
+	}
+	else
+	{
+		echo("Can't find a spawnpoint with less than 2 spawns! Resetting...");
+		resetPrisonerSpawnPointCounts();
+		return $Server::PrisonEscape::PrisonerSpawnPoints.getObject(%start).getSpawnPoint();
+	}
+}
+
+function resetPrisonerSpawnPointCounts()
+{
+	for (%i = 0; %i < $Server::PrisonEscape::PrisonerSpawnPoints.getCount(); %i++)
+	{
+		$Server::PrisonEscape::PrisonerSpawnPoints.getObject(%i).spawnCount = 0;
+	}
 }

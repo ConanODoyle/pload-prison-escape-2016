@@ -164,16 +164,25 @@ function isBreakableBrick(%brick, %player)
 {
 	%db = %brick.getDatablock().getName();
 	%pole = "brick1x1fpoleData";
+	%pole2 = "brick1x1poleData";
 	%plate = "brick1x3fData";
 	%plate2 = "brick1x1fData";
 	%window = "brick4x5x2WindowData";
-	if (%brick.willCauseChainKill() || %brick.getName() !$= "")
-		return "";
-	if (%db $= %pole || %db $= %window)
-		return %db;
+	if (%brick.getName() !$= "")
+		return 0;
+	if ((%db $= %pole || %db $= %pole2) && %brick.willCauseChainKill())
+		return 2;
 	if ((%db $= %plate || %db $= %plate2) && (getRegion(%player) $= "Yard" || getRegion(%player) $="Outside"))
-		return %db;
-	return "";
+		return 1;
+	if (%db $= %window)
+		return 3;
+	return 0;
+}
+
+function FxDTSBrick::killDelete(%this) {
+	%this.fakeKillBrick(getRandom()-0.5 @ getRandom()-0.5 @ -1, 2);
+	%this.schedule(2000, delete);
+	serverPlay3D("brickBreakSound", %this.getPosition());
 }
 
 package ChiselHit
@@ -183,14 +192,18 @@ package ChiselHit
 		if (%col.getClassName() $= "FxDTSBrick" && %obj.sourceObject.getClassName() $= "Player")
 		{
 			%type = isBreakableBrick(%col, %obj.sourceObject);
-			if (%type !$= "")
+			if (%type > 0)
 			{
 				//statistics
 				%obj.client.chiselHit++;
-				if (%type $= "brick1x1fpoleData" || %type $= "brick1x3fData" || %type $= "brick1x1fData")
+				if (%type == 1)
+					%col.killDelete();
+				else if (%type == 2) {
 					%col.killbrick();
-				else
+				}
+				else {
 					%col.damage(5);
+				}
 				%obj.client.incScore(1);
 			}
 		}
@@ -217,7 +230,7 @@ function FxDTSBrick::damage(%brick, %damage)
 
 	%brick.damage += %damage;
 	if (%brick.damage > %brick.maxDamage)
-		%brick.killbrick();
+		%brick.killDelete();
 
 	%brick.setColor(45);
 	%brick.playSound(glassExplosionSound);

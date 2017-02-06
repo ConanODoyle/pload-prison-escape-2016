@@ -1,7 +1,7 @@
 //assumes the brickgroup is of blid $buildBLID
 
 if (!isObject($Server::PrisonEscape::Towers)) {
-	$Server::PrisonEscape::Towers = new ScriptGroup() {};
+	$Server::PrisonEscape::Towers = new ScriptObject() {};
 }
 
 if (!isObject($Server::PrisonEscape::PrisonerSpawnPoints)) {
@@ -27,7 +27,6 @@ function assignBricks() {
 	$Server::PrisonEscape::PrisonerSpawnPoints.clear();
 	$Server::PrisonEscape::generator = 0;
 	$Server::PrisonEscape::commDish = 0;
-	//iterate through and save the bricks into the scriptobjects
 
 	PPE_messageAdmins("!!! \c5Beginning search for gamemode bricks...");
 	prisonEscape_saveBricks(%brickgroup, 0);
@@ -131,14 +130,14 @@ function prisonEscape_saveBricks(%brickgroup, %i) {									//would make it easi
 		}
 
 		if (strPos(%name, "spawn") >= 0) {
-			$Server::PrisonEscape::Towers.tower[%tower].spawnpoint = %brick;
+			$Server::PrisonEscape::Towers.tower[%tower].spawn = %brick;
 			echo("Tower " @ %name @ " spawnpoint has been saved.");
 		}
 	} else if (strPos(%name, "generator") >= 0) {
 		$Server::PrisonEscape::generator = %brick;
 	} else if (strPos(%name, "commDish") >= 0) {
 		$Server::PrisonEscape::commDish = %brick;
-	} else if (strPos(%brick.getDatablock().getName(), "Spawn") >= 0) {
+	} else if (strPos(%brick.getDatablock().geetName(), "Spawn") >= 0) {
 		if (%name $= "spawn") {
 			$Server::PrisonEscape::PrisonerSpawnPoints.add(%brick);
 		}

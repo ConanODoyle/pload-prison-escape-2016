@@ -88,12 +88,9 @@ function serverCmdSetPhase(%client, %phase)
 			assignGuard(%client);
 		}
 		//spawn guards
-		//write guard spawn function to call an individual guard spawn function separately.
-		//allows us to assign guards mid round if anyone leaves (usually ourselves)
-		//ploark-XRanan's Prison Escape!
 		spawnGuards();
+		displayIntroCenterprint();
 
-		//spawn prisoners ensure no double spawnpoint spawns??
 		//spawn prisoners through timer start code.
 
 		//play music

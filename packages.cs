@@ -244,40 +244,6 @@ function GameConnection::applyUniform(%this)
 	%this.applyingUniform = false;
 }
 
-function pickPrisonerSpawnPoint() 
-{
-	%start = getRandom(0, $Server::PrisonEscape::PrisonerSpawnPoints.getCount() - 1);
-	for (%i = %start; %i < $Server::PrisonEscape::PrisonerSpawnPoints.getCount(); %i++)
-	{
-		%index = %i % $Server::PrisonEscape::PrisonerSpawnPoints.getCount();
-		%brick = $Server::PrisonEscape::PrisonerSpawnPoints.getObject(%index);
-		if (%brick.spawnCount < 2) 
-		{
-			break;
-		}
-		%brick = "";
-	}
-	if (isObject(%brick))
-	{
-		%brick.spawnCount++;
-		return %brick.getSpawnPoint();
-	}
-	else
-	{
-		echo("Can't find a spawnpoint with less than 2 spawns! Resetting...");
-		resetPrisonerSpawnPointCounts();
-		return $Server::PrisonEscape::PrisonerSpawnPoints.getObject(%start).getSpawnPoint();
-	}
-}
-
-function resetPrisonerSpawnPointCounts()
-{
-	for (%i = 0; %i < $Server::PrisonEscape::PrisonerSpawnPoints.getCount(); %i++)
-	{
-		$Server::PrisonEscape::PrisonerSpawnPoints.getObject(%i).spawnCount = 0;
-	}
-}
-
 function giveItems(%client) 
 {
 	if (!isObject(%player = %client.player)) 
