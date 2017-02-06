@@ -14,8 +14,12 @@ function serverCmdAddGuard(%client, %name)
 		messageAdmins("!!! \c5Cannot add \c3" @ %targ.name @ "\c5 to guard list - already in list!");
 		return;
 	}
+	if (getWordCount($Server::PrisonEscape::Guards) >= 4) {
+		messageAdmins("!!! \c5Cannot add \c3" @ %targ.name @ "\c5 to guard list - list is full!");
+		return;
+	}
 	$Server::PrisonEscape::Guards = trim($Server::PrisonEscape::Guards SPC findclientbyname(%name));
-	messageAdmins(%client, '', "\c7" @ %cl.name @ " added " @ findclientbyname(%name).name @ " to the guard list.");
+	PPE_messageAdmins("!!! \c7" @ %client.name @ " added " @ findclientbyname(%name).name @ " to the guard list.");
 	displayRoundLoadingInfo();
 }
 
@@ -25,16 +29,23 @@ function serverCmdRemoveGuard(%client, %name)
 		return;
 
 	%targ = findclientbyname(%name);
-	if (strPos($Server::PrisonEscape::Guards, %targ) < 0) {
+	if (strPos($Server::PrisonEscape::Guards, %targ) < 0 && !(%name > 0 && %name < 5)) {
 		messageAdmins("!!! \c5Cannot remove \c3" @ %targ.name @ "\c5 from guard list - not in list!");
 		return;
 	}
 
-	%guard = findclientbyname(%name);
-	$Server::PrisonEscape::Guards = strReplace($Server::PrisonEscape::Guards, %guard, "");
-	$Server::PrisonEscape::Guards = strReplace($Server::PrisonEscape::Guards, "  ", " ");
-	$Server::PrisonEscape::Guards = trim($Server::PrisonEscape::Guards);
-	messageAdmins(%client, '', "\c7" @ %cl.name @ " removed " @ findclientbyname(%name).name @ " from the guard list.");
+	if (!(%name > 0 && %name < 5)) {
+		%guard = findclientbyname(%name);
+		$Server::PrisonEscape::Guards = strReplace($Server::PrisonEscape::Guards, %guard, "");
+		$Server::PrisonEscape::Guards = strReplace($Server::PrisonEscape::Guards, "  ", " ");
+		$Server::PrisonEscape::Guards = trim($Server::PrisonEscape::Guards);
+	} else {
+		%guard = getWord($Server::PrisonEscape::Guards, %name-1);
+		$Server::PrisonEscape::Guards = removeWord($Server::PrisonEscape::Guards, %name-1);
+		$Server::PrisonEscape::Guards = strReplace($Server::PrisonEscape::Guards, "  ", " ");
+		$Server::PrisonEscape::Guards = trim($Server::PrisonEscape::Guards);
+	}
+	PPE_messageAdmins("!!! \c7" @ %client.name @ " removed " @ %guard.name @ " from the guard list.");
 	displayRoundLoadingInfo();
 }
 
@@ -59,15 +70,15 @@ function displayRoundLoadingInfo()
 	%statisticString = $Server::PrisonEscape::statisticString;
 	%guards1 = getGuardNames();
 	%guards2 = getSubStr(%guards1, strPos(%guards1, "Guard 2 <br>") + 12, strLen(%guards1));
-	%guards1 = "<just:right> \c6" @ getSubStr(%guards1, 0, strPos(%guards1, "Guard 2 <br>") + 12);
-	%centerprintString = "<font:Arial Bold:20>" @ %guards1 @ "<just:center>\c3" @ %statisticString @ %guards2;
+	%guards1 = " \c6" @ getSubStr(%guards1, 0, strPos(%guards1, "Guard 2 <br>") + 12);
+	%centerprintString = "<font:Arial Bold:20>" @ %guards1 @ "<just:center>\c3" @ %statisticString @ "<just:right>" @ %guards2 @ "<br><br><br>";
 	centerprintAll(%centerprintString);
 	bottomprintAll(generateBottomPrint(), -1, 1);
 }
 
 function generateBottomPrint() 
 {
-	%header = "<just:center><font:Arial Bold:34><shadowcolor:666666><shadow:0:4><color:E65714>JailBreak! <br><font:Arial Bold:26>\c7-      - <br>";
+	%header = "<just:center><font:Arial Bold:38><shadowcolor:666666><shadow:0:4><color:E65714>JailBreak! <br><font:Arial Bold:30>\c7-      - <br>";
 	%footer = "<shadow:0:3><color:ffffff>Please wait until the next round to play<font:Impact:1> <br>";
 	return %header @ %footer;
 }

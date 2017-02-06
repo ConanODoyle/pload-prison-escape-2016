@@ -39,7 +39,7 @@ function PPE_messageAdmins(%msg)
 	for (%i = 0; %i < ClientGroup.getCount(); %i++)
 	{
 		if ((%client = ClientGroup.getObject(%i)).isSuperAdmin)
-			messageClient(%client, '', "\c7(ADMINS) \c3" @ %msg);
+			messageClient(%client, '', "\c7(ADMINS) \c0" @ %msg);
 	}
 }
 
@@ -55,6 +55,7 @@ function serverCmdSetPhase(%client, %phase)
 		setAllCamerasView($Server::PrisonEscape::LoadingCamBrick.getPosition(), $Server::PrisonEscape::LoadingCamBrickTarget.getPosition());
 		//reload bricks
 		//serverDirectSaveFileLoad("saves/Prison Escape.bls", 3, "", 0, 1); //1 for silent
+		serverDirectSaveFileLoad("config/NewDuplicator/Saves/testPrison.bls", 3, "", 0, 1); //1 for silent
 		//reset guard picks and after load is complete add new named bricks to tower scriptobjs
 		//also add the comms dish and the generator to special global vars
 		PPE_messageAdmins("\c4Loading bricks...");

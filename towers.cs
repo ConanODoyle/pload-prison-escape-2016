@@ -5,7 +5,7 @@ if (!isObject($Server::PrisonEscape::Towers)) {
 }
 
 if (!isObject($Server::PrisonEscape::PrisonerSpawnPoints)) {
-	$Server::PrisonEscape::PrisonerSpawnPoints = new ScriptGroup() {};
+	$Server::PrisonEscape::PrisonerSpawnPoints = new SimSet() {};
 }
 
 $buildBLID = 4928;
@@ -16,12 +16,13 @@ function assignBricks() {
 
 	for (%i = 1; %i < 5; %i++) {
 		if (!isObject(%towerGroup.tower[%i]))
-			%towerGroup.tower[%i] = new ScriptGroup() {};
+			%towerGroup.tower[%i] = new SimSet() {};
 		else {
 			%towerGroup.tower[%i].clear();
 			%towerGroup.tower[%i].guard = "";
 			%towerGroup.tower[%i].spawn = "";
 			%towerGroup.isDestroyed = 0;
+			%towerGroup.spotlight = 0;
 		}
 	}
 	$Server::PrisonEscape::PrisonerSpawnPoints.clear();
@@ -29,6 +30,7 @@ function assignBricks() {
 	$Server::PrisonEscape::commDish = 0;
 
 	PPE_messageAdmins("!!! \c5Beginning search for gamemode bricks...");
+	PPE_messageAdmins("!!! \c5Brickgroup brickcount: " @ %brickgroup.getCount());
 	prisonEscape_saveBricks(%brickgroup, 0);
 }
 
@@ -54,8 +56,8 @@ function assignGuard(%client) {
 
 function replaceGuard(%client, %tower) {
 	%tower = $Server::PrisonEsape::Towers.tower[%tower];
-	if (!isObject %tower) || %tower.isDestroyed) {
-		PPE_messageAdmins("!!! \c5Failed to replace guard at tower " @ %tower "!");
+	if (!isObject(%tower) || %tower.isDestroyed) {
+		PPE_messageAdmins("!!! \c5Failed to replace guard at tower " @ %tower @ "!");
 	}
 
 	if (isObject(%tower.guard)) {
@@ -98,11 +100,12 @@ function prisonEscape_saveBricks(%brickgroup, %i) {									//would make it easi
 	//look for bricks with the name of tower#
 	if (%i >= %brickgroup.getCount()) {
 		PPE_messageAdmins("!!! \c5Tower Bricks saved to TowerGroup from " @ %brickgroup);
-		PPE_messageAdmins("!!! \c5--Tower1 brickcount: " @ $Server::PrisonEscape::Towers.tower1.brickCount);
-		PPE_messageAdmins("!!! \c5--Tower2 brickcount: " @ $Server::PrisonEscape::Towers.tower2.brickCount);
-		PPE_messageAdmins("!!! \c5--Tower3 brickcount: " @ $Server::PrisonEscape::Towers.tower3.brickCount);
-		PPE_messageAdmins("!!! \c5--Tower4 brickcount: " @ $Server::PrisonEscape::Towers.tower4.brickCount);
+		PPE_messageAdmins("!!! \c5--Tower1 brickcount: " @ $Server::PrisonEscape::Towers.tower1.getCount());
+		PPE_messageAdmins("!!! \c5--Tower2 brickcount: " @ $Server::PrisonEscape::Towers.tower2.getCount());
+		PPE_messageAdmins("!!! \c5--Tower3 brickcount: " @ $Server::PrisonEscape::Towers.tower3.getCount());
+		PPE_messageAdmins("!!! \c5--Tower4 brickcount: " @ $Server::PrisonEscape::Towers.tower4.getCount());
 		PPE_messageAdmins("!!! \c5Generator: " @ $Server::PrisonEscape::Generator SPC "CommDish: " @ $Server::PrisonEscape::commDish);
+		PPE_messageAdmins("!!! \c5Num Prisoner Spawns: " @ $Server::PrisonEscape::PrisonerSpawnPoints.getcount());
 		return;
 	}
 	%brick = %brickgroup.getObject(%i);
@@ -119,10 +122,10 @@ function prisonEscape_saveBricks(%brickgroup, %i) {									//would make it easi
 	%name = getSubStr(%name, 1, strLen(%name)); //removes underscore in name
 
 	if (strPos(%name, "tower") >= 0) {
-		%name = getSubStr(%name, 0, 6);
+		%subName = getSubStr(%name, 0, 6);
 
 		%tower = -1;
-		switch$ (%name) {
+		switch$ (%subName) {
 			case "tower1": %tower = 1; $Server::PrisonEscape::Towers.tower1.add(%brick);
 			case "tower2": %tower = 2; $Server::PrisonEscape::Towers.tower2.add(%brick);
 			case "tower3": %tower = 3; $Server::PrisonEscape::Towers.tower3.add(%brick);
@@ -133,11 +136,14 @@ function prisonEscape_saveBricks(%brickgroup, %i) {									//would make it easi
 			$Server::PrisonEscape::Towers.tower[%tower].spawn = %brick;
 			echo("Tower " @ %name @ " spawnpoint has been saved.");
 		}
+		if (isObject(%brick.vehicle)) {
+			$Server::PrisonEscape::Towers.tower[%tower].spotlight = %brick.vehicle;
+		}
 	} else if (strPos(%name, "generator") >= 0) {
 		$Server::PrisonEscape::generator = %brick;
 	} else if (strPos(%name, "commDish") >= 0) {
 		$Server::PrisonEscape::commDish = %brick;
-	} else if (strPos(%brick.getDatablock().geetName(), "Spawn") >= 0) {
+	} else if (strPos(%brick.getDatablock().getName(), "Spawn") >= 0) {
 		if (%name $= "spawn") {
 			$Server::PrisonEscape::PrisonerSpawnPoints.add(%brick);
 		}

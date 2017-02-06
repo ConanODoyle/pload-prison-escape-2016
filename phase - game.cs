@@ -60,12 +60,11 @@ function resetPrisonerSpawnPointCounts() {
 function spawnDeadPrisoners() {
 	for (%i = 0; %i < ClientGroup.getCount(); %i++) {
 		%client = ClientGroup.getObject(%i);
-		if (isObject(%client.player) || %client.isGuard) {
-			continue;
+		if (isObject(%client.player) || !%client.isGuard) {
+			%spawn = pickPrisonerSpawnPoint();
+			%client.createPlayer(%spawn);
+			%client.centerprint("");
 		}
-		%spawn = pickPrisonerSpawnPoint();
-		%client.createPlayer(%spawn);
-		%client.centerprint("");
 	}
 	resetPrisonerSpawnPointCounts();
 }

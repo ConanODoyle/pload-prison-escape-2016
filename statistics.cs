@@ -158,5 +158,5 @@ function getStatistic() {
 		case 10: %stat = "Buckets Used\c6: " @ ($Server::PrisonEscape::BucketsUsed <= 0 ? 0 : $Server::PrisonEscape::BucketsUsed);
 		case 11: %stat = "Steaks Eaten\c6: " @ ($Server::PrisonEscape::SteaksEaten <= 0 ? 0 : $Server::PrisonEscape::SteaksEaten);
 	}
-	return %stat
+	return %stat;
 }

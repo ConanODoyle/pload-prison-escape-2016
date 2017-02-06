@@ -4,7 +4,7 @@ function spawnGuard(%tower, %suppress) {
 		PPE_messageAdmins("!!! \c5Cannot spawn guard on tower " @ %tower @ " - tower not found!");
 		return 0;
 	}
-	%spawnpoint = %tower.spawn;
+	%spawnpoint = %tower.spawn.getSpawnPoint();
 	if (!isObject(%spawnpoint)) {
 		PPE_messageAdmins("!!! \c5Cannot spawn guard on tower " @ %tower @ " - spawnpoint not found!");
 		return 0;
@@ -20,12 +20,17 @@ function spawnGuard(%tower, %suppress) {
 }
 
 function spawnGuards() {
-	spawnGuard(0);
-	spawnGuard(1);
-	spawnGuard(2);
-	spawnGuard(3);
+	spawnGuard(1, 1);
+	spawnGuard(2, 1);
+	spawnGuard(3, 1);
+	spawnGuard(4, 1);
 
 	messageAll('', "\c4The guards have been spawned at their towers!");
+
+	startLightBeamLoop($Server::PrisonEscape::Towers.tower1.spotlight);
+	startLightBeamLoop($Server::PrisonEscape::Towers.tower2.spotlight);
+	startLightBeamLoop($Server::PrisonEscape::Towers.tower3.spotlight);
+	startLightBeamLoop($Server::PrisonEscape::Towers.tower4.spotlight);
 }
 
 function displayIntroCenterprint() {

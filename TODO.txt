@@ -4,13 +4,13 @@ Make camera intro a single function called on each client so new joiners see it
 	- Rewrite setAllCamera?
 finish roundphase 3 for observer onTrigger
 add damage checks for prisoners
-finish prisonerwinloopcheck
 package initial player spawn after join to just switch to logo cam without spawning
 write prisoner trigger win
 also check for guard count after each tower destruction to handle that win condition
 chatspam check
 bronson dust
 console error: packages applybodycolors when bot is respawned
+have spotlights scan
 
 donor hat
 donor sniper gold
@@ -19,3 +19,12 @@ new ideas/features:
 Ham shank
 Fire Extinguisher
 cardboard box slide
+
+
+- check guard adding/removing
+- check build load and adding bricks
+check prisoner respawn wave
+check guard spawn
+check guard spawn group
+check intro centerprint preserving on respawn
+check spawn function being called every minute

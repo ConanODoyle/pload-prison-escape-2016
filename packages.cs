@@ -118,6 +118,11 @@ package PrisonEscape_Base
 		//removes the bottomprint counter
 		return;
 	}
+
+	function GameConnection::onDrop(%this, %val) {
+		serverCmdRemoveGuard($fakeClient, %this.name);
+		return parent::onDrop(%this, %val);
+	}
 };
 activatePackage(PrisonEscape_Base);
 
