@@ -167,22 +167,26 @@ function isBreakableBrick(%brick, %player)
 	%pole2 = "brick1x1poleData";
 	%plate = "brick1x3fData";
 	%plate2 = "brick1x1fData";
-	%window = "brick4x5x2WindowData";
-	if (%brick.getName() !$= "")
-		return 0;
+	%window = "Window";
+	%towerSupport = "support";
 	if ((%db $= %pole || %db $= %pole2) && %brick.willCauseChainKill())
 		return 2;
 	if ((%db $= %plate || %db $= %plate2) && (getRegion(%player) $= "Yard" || getRegion(%player) $="Outside"))
 		return 1;
-	if (%db $= %window)
+	if (strPos(%db, %window) >= 0 || strPos(%brick.getName(), %towerSupport) >= 0)
 		return 3;
+	
 	return 0;
 }
 
 function FxDTSBrick::killDelete(%this) {
-	%this.fakeKillBrick(getRandom()-0.5 @ getRandom()-0.5 @ -1, 2);
+	%this.fakeKillBrick((getRandom()-0.5)*20 SPC (getRandom()-0.5)*20 SPC -1, 2);
 	%this.schedule(2000, delete);
 	serverPlay3D("brickBreakSound", %this.getPosition());
+
+	if (%this.tower > 0) {
+		validateTower(%this.tower, %this);
+	}
 }
 
 package ChiselHit
@@ -202,7 +206,7 @@ package ChiselHit
 					%col.killbrick();
 				}
 				else {
-					%col.damage(5);
+					%col.damage(1);
 				}
 				%obj.client.incScore(1);
 			}
@@ -211,6 +215,18 @@ package ChiselHit
 	}
 };
 activatePackage(ChiselHit);
+
+$windowDamage = 15;
+$towerDamage = 9;
+$towerStages = 4;
+$towerColor0 = 60;
+$towerColor1 = 59;
+$towerColor2 = 57;
+$towerColor3 = 55;
+$towerColor4 = 56;
+$towerColor5 = 55;
+$towerColor6 = 54;
+$damageFlashColor = 45;
 
 function FxDTSBrick::damage(%brick, %damage)
 {
@@ -224,15 +240,30 @@ function FxDTSBrick::damage(%brick, %damage)
 	}
 	if(!%brick.maxDamage)
 	{
-		%db = %brick.getDatablock();
-		%brick.maxDamage = %db.brickSizeX * %db.brickSizeY * %db.brickSizeZ / 3 + 20;
+		%db = %brick.getDatablock().getName();
+		if (strPos(%db, "Window") >= 0) {
+			%brick.maxDamage = $windowDamage;
+			%brick.playSound(glassExplosionSound);
+		} else {
+			%brick.maxDamage = $towerDamage * $towerStages;
+			%brick.isTowerSupport = 1;
+			%brick.colorStage = 0;
+		}
 	}
 
 	%brick.damage += %damage;
-	if (%brick.damage > %brick.maxDamage)
+	if (%brick.damage >= %brick.maxDamage) {
 		%brick.killDelete();
+		return;
+	}
 
-	%brick.setColor(45);
-	%brick.playSound(glassExplosionSound);
+	if (%brick.isTowerSupport) {
+		if (%brick.damage % $towerDamage == 0) {
+			%brick.colorStage++;
+			%brick.origColorID = $towerColor[%brick.colorStage];
+		}
+	}
+
+	%brick.setColor($damageFlashColor);
 	%brick.recolorSchedule = %brick.schedule(50, setColor, %brick.origColorID);
 }

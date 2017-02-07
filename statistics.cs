@@ -54,6 +54,7 @@ function clearStatistics()
 	$Server::PrisonEscape::BucketsUsed = 0;
 	$Server::PrisonEscape::SteaksEaten = 0;
 	$Server::PrisonEscape::SmokeGrenadesThrown = 0;
+	$Server::PrisonEscape::firstPrisonerOut = 0;
 
 
 	for (%i = 0; %i < ClientGroup.getCount(); %i++)
@@ -104,6 +105,8 @@ $Server::PrisonEscape::ChiselAttacks = 0;
 $Server::PrisonEscape::TraysUsed = 0;
 $Server::PrisonEscape::BucketsUsed = 0;
 $Server::PrisonEscape::SteaksEaten = 0;
+$Server::PrisonEscape::SmokeGrenadesThrown = 0;
+$Server::PrisonEscape::firstPrisonerOut = 0;
 
 package PrisonStatistics
 {

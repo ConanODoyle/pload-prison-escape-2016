@@ -4,6 +4,7 @@ if ($Server::PrisonEscape::roundPhase $= "") {
 	$Server::PrisonEscape::winCamTarget = "";
 	$Server::PrisonEscape::currentStatistic = 0;
 	$Server::PrisonEscape::roundPhase = -1;
+	$Server::PrisonEscape::timePerRound = 22;
 }
 
 if (!isObject($fakeClient)) {
@@ -118,7 +119,7 @@ function serverCmdSetPhase(%client, %phase)
 		}
 		//start round timer
 		bottomprintTimerLoop($Server::PrisonEscape::timePerRound * 60 + 1);
-		//create win trigger zones	
+		
 		$guardCount = 4;
 		$Server::PrisonEscape::roundPhase = 2;
 	}

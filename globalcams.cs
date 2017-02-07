@@ -71,6 +71,16 @@ function returnAllPlayerControl()
 	}
 }
 
+function returnAllPlayerControlCamera()
+{
+	for(%i = 0; %i < ClientGroup.getCount(); %i++)
+	{
+		%client = ClientGroup.getObject(%i);
+		if (isObject(%client.player))
+			%client.getControlObject().setControlObject(%client.player);
+	}
+}
+
 //////Spectating cams//////
 
 function spectateNextPlayer(%client, %num)

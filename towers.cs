@@ -21,8 +21,9 @@ function assignBricks() {
 			%towerGroup.tower[%i].clear();
 			%towerGroup.tower[%i].guard = "";
 			%towerGroup.tower[%i].spawn = "";
-			%towerGroup.isDestroyed = 0;
-			%towerGroup.spotlight = 0;
+			%towerGroup.tower[%i].isDestroyed = 0;
+			%towerGroup.tower[%i].spotlight = 0;
+			%towerGroup.tower[%i].origCount = 0;
 		}
 	}
 	$Server::PrisonEscape::PrisonerSpawnPoints.clear();
@@ -92,7 +93,16 @@ function killTower(%id) {
 		%client.player.kill();
 
 	//destroy the bricks but sequentially as to not lag everyone to death
-	%tower.destroy(0);
+	%tower.destroy();
+}
+
+function validateTower(%id, %brick) {
+	%tower = $Server::PrisonEscape::Towers.tower[%id];
+	%tower.remove(%brick);
+	if (%tower.getCount() <= %tower.origCount - 4) {
+		killTower(%id);
+	}
+	validateGameWin();
 }
 
 function prisonEscape_saveBricks(%brickgroup, %i) {									//would make it easier to spawn spotlights and such
@@ -106,6 +116,11 @@ function prisonEscape_saveBricks(%brickgroup, %i) {									//would make it easi
 		PPE_messageAdmins("!!! \c5--Tower4 brickcount: " @ $Server::PrisonEscape::Towers.tower4.getCount());
 		PPE_messageAdmins("!!! \c5Generator: " @ $Server::PrisonEscape::Generator SPC "CommDish: " @ $Server::PrisonEscape::commDish);
 		PPE_messageAdmins("!!! \c5Num Prisoner Spawns: " @ $Server::PrisonEscape::PrisonerSpawnPoints.getcount());
+
+		$Server::PrisonEscape::Towers.tower1.origCount = $Server::PrisonEscape::Towers.tower1.getCount();
+		$Server::PrisonEscape::Towers.tower2.origCount = $Server::PrisonEscape::Towers.tower2.getCount();
+		$Server::PrisonEscape::Towers.tower3.origCount = $Server::PrisonEscape::Towers.tower3.getCount();
+		$Server::PrisonEscape::Towers.tower4.origCount = $Server::PrisonEscape::Towers.tower4.getCount();
 		return;
 	}
 	%brick = %brickgroup.getObject(%i);
@@ -139,6 +154,7 @@ function prisonEscape_saveBricks(%brickgroup, %i) {									//would make it easi
 		if (isObject(%brick.vehicle)) {
 			$Server::PrisonEscape::Towers.tower[%tower].spotlight = %brick.vehicle;
 		}
+		%brick.tower = %tower;
 	} else if (strPos(%name, "generator") >= 0) {
 		$Server::PrisonEscape::generator = %brick;
 	} else if (strPos(%name, "commDish") >= 0) {
@@ -155,12 +171,17 @@ function prisonEscape_saveBricks(%brickgroup, %i) {									//would make it easi
 	schedule(1, %brickgroup, prisonEscape_saveBricks, %brickgroup, %i+1);
 }
 
-function ScriptGroup::destroy(%this) {
+function SimSet::destroy(%this) {
 	if (%this.getCount() <= 0)
 		return;
-	%brick = %this.getObject(0);
-	%brick.fakeKillBrick(getRandom()-0.5 @ getRandom()-0.5 @ -1, 2);
+	%brick = %this.getObject(%this.getCount()-1);
+	%brick.fakeKillBrick((getRandom()-0.5)*20 SPC (getRandom()-0.5)*20 SPC 15, 2);
 	%brick.schedule(2000, delete);
+	%this.remove(%brick);
+	if (isObject(%brick.item))
+		%brick.item.delete();
+	if (isObject(%brick.vehicle))
+		%brick.vehicle.kill();
 	serverPlay3D("brickBreakSound", %brick.getPosition());
 
 	%this.schedule(1, destroy);
