@@ -11,11 +11,11 @@ function serverCmdAddGuard(%client, %name)
 
 	%targ = findclientbyname(%name);
 	if (strPos($Server::PrisonEscape::Guards, %targ) >= 0) {
-		messageAdmins("!!! \c5Cannot add \c3" @ %targ.name @ "\c5 to guard list - already in list!");
+		messageAdmins("!!! \c5Cannot add \c3" @ %targ.name @ "\c5 to guard list - already in list! \c7(" @ %client.name @ ")");
 		return;
 	}
 	if (getWordCount($Server::PrisonEscape::Guards) >= 4) {
-		messageAdmins("!!! \c5Cannot add \c3" @ %targ.name @ "\c5 to guard list - list is full!");
+		messageAdmins("!!! \c5Cannot add \c3" @ %targ.name @ "\c5 to guard list - list is full! \c7(" @ %client.name @ ")");
 		return;
 	}
 	$Server::PrisonEscape::Guards = trim($Server::PrisonEscape::Guards SPC findclientbyname(%name));
@@ -30,7 +30,7 @@ function serverCmdRemoveGuard(%client, %name)
 
 	%targ = findclientbyname(%name);
 	if (strPos($Server::PrisonEscape::Guards, %targ) < 0 && !(%name > 0 && %name < 5)) {
-		messageAdmins("!!! \c5Cannot remove \c3" @ %targ.name @ "\c5 from guard list - not in list!");
+		messageAdmins("!!! \c5Cannot remove \c3" @ %targ.name @ "\c5 from guard list - not in list! \c7(" @ %client.name @ ")");
 		return;
 	}
 
@@ -43,7 +43,7 @@ function serverCmdRemoveGuard(%client, %name)
 		%guard = getWord($Server::PrisonEscape::Guards, %name-1);
 		$Server::PrisonEscape::Guards = removeWord($Server::PrisonEscape::Guards, %name-1);
 		$Server::PrisonEscape::Guards = strReplace($Server::PrisonEscape::Guards, "  ", " ");
-		$Server::PrisonEscape::Guards = trim($Server::PrisonEscape::Guards);
+		$Server::PrisonEscape::Guarsd = trim($Server::PrisonEscape::Guards);
 	}
 	PPE_messageAdmins("!!! \c7" @ %client.name @ " removed " @ %guard.name @ " from the guard list.");
 	displayRoundLoadingInfo();

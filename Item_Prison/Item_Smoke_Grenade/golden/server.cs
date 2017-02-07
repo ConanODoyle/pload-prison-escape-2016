@@ -2,11 +2,11 @@
 datablock ProjectileData(RiotSmokeGrenadeGoldenProjectile)
 {
 	projectileShapeName = "./smoke grenade projectile.dts";
-	directDamage		= 2;
+	directDamage		= 0;
 	directDamageType  	= $DamageType::rocketDirect;
 	radiusDamageType  	= $DamageType::rocketRadius;
-	impactImpulse		= 1000;
-	verticalImpulse		= 1000;
+	impactImpulse		= 0;
+	verticalImpulse		= 0;
 	explosion			= "";
 	//particleEmitter	  = as;
 
@@ -19,6 +19,7 @@ datablock ProjectileData(RiotSmokeGrenadeGoldenProjectile)
 	muzzleVelocity		= 30;
 	velInheritFactor	= 1;
 	explodeOnDeath = true;
+	particleEmitter     = GoldenEmitter;
 
 	armingDelay			= 5000;
 	lifetime			= 5000;
@@ -247,6 +248,9 @@ function riotSmokeGrenadeGoldenImage::onAbortCharge(%this, %obj, %slot)
 }
 
 function RiotSmokeGrenadeGoldenProjectile::onCollision(%this, %obj, %col, %fade, %pos, %normal) {
+	if (strPos(%col.getClassName(), "Player") >= 0) {
+		return;
+	}
 	serverPlay3D("riotSmokeGrenadeBounce" @ getRandom(1, 3) @ "Sound", %pos);
 	return parent::onCollision(%this, %obj, %col, %fade, %pos, %normal);
 }

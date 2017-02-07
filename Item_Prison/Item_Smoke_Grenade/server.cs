@@ -31,11 +31,11 @@ datablock AudioProfile(riotSmokeGrenadeExplodeSound)
 datablock ProjectileData(RiotSmokeGrenadeProjectile)
 {
 	projectileShapeName = "./smoke grenade projectile.dts";
-	directDamage		= 2;
+	directDamage		= 0;
 	directDamageType  	= $DamageType::rocketDirect;
 	radiusDamageType  	= $DamageType::rocketRadius;
-	impactImpulse		= 1000;
-	verticalImpulse		= 1000;
+	impactImpulse		= 0;
+	verticalImpulse		= 0;
 	explosion			= "";
 	//particleEmitter	  = as;
 
@@ -261,6 +261,9 @@ function riotSmokeGrenadeImage::onAbortCharge(%this, %obj, %slot)
 }
 
 function RiotSmokeGrenadeProjectile::onCollision(%this, %obj, %col, %fade, %pos, %normal) {
+	if (strPos(%col.getClassName(), "Player") >= 0) {
+		return;
+	}
 	serverPlay3D("riotSmokeGrenadeBounce" @ getRandom(1, 3) @ "Sound", %pos);
 	return parent::onCollision(%this, %obj, %col, %fade, %pos, %normal);
 }

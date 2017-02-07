@@ -37,9 +37,9 @@ function displayIntroCenterprint() {
 	for (%i = 0; %i < ClientGroup.getCount(); %i++) {
 		%cl = ClientGroup.getObject(%i);
 		if (%cl.isGuard) {
-			%cl.centerprint("<font:Arial Bold:34><shadowcolor:666666><shadow:0:4><color:E65714>JailBreak! <br><font:Arial Bold:26>\c6Prevent the prisoners from escaping!", 10);
+			%cl.centerprint("<font:Arial Bold:34><shadowcolor:666666><shadow:0:4><color:E65714>JailBreak! <br><font:Arial Bold:26><color:ffffff>Prevent the prisoners from escaping!", 10);
 		} else {
-			%cl.centerprint("<font:Arial Bold:34><shadowcolor:666666><shadow:0:4><color:E65714>JailBreak! <br><font:Arial Bold:26>\c6Team up and escape!", 10);
+			%cl.centerprint("<font:Arial Bold:34><shadowcolor:666666><shadow:0:4><color:E65714>JailBreak! <br><font:Arial Bold:26><color:ffffff>Team up and escape!", 10);
 		}
 	}
 }

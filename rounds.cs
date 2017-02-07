@@ -90,17 +90,19 @@ function serverCmdSetPhase(%client, %phase)
 		}
 		//spawn guards
 		spawnGuards();
-		displayIntroCenterprint();
 
 		//spawn prisoners through timer start code.
 
 		//play music
 		//camera on prison
+		displayIntroCenterprint();
+		setAllCamerasView($Server::PrisonEscape::PrisonPreview.getPosition(), $Server::PrisonEscape::PrisonPreviewTarget.getPosition(), 50);
 
 		//camera for each guard - give guards control of their body here
 
 		//autocall phase 2
 		//call through the caminations, when they're done
+		schedule(5000, 0, serverCmdSetPhase, %cl, 2);
 		$Server::PrisonEscape::roundPhase = 1;
 	}
 	else if (%phase == 2) //start round loops, like timer + win conditions check
@@ -118,7 +120,6 @@ function serverCmdSetPhase(%client, %phase)
 		bottomprintTimerLoop($Server::PrisonEscape::timePerRound * 60 + 1);
 		//create win trigger zones	
 		$guardCount = 4;
-		prisonersWinLoop(0);
 		$Server::PrisonEscape::roundPhase = 2;
 	}
 	else if (%phase == 3) //end of round phase
@@ -126,8 +127,6 @@ function serverCmdSetPhase(%client, %phase)
 		//cancel timer loop, but dont override the ending time bottomprint
 		if (isEventPending($Server::PrisonEscape::bottomprintTimerLoop))
 			cancel($Server::PrisonEscape::bottomprintTimerLoop);
-		if (isEventPending($Server::PrisonEscape::prisonersWinLoop))
-			cancel($Server::PrisonEscape::prisonersWinLoop);
 		
 		//assign camera, but dont remove player control so everyone can climb out and run and stuff
 		//set fov really low (but save fov beforehand) so we can play emitter effects without letting people run in front of it

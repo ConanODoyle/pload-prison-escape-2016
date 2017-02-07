@@ -189,7 +189,7 @@ package PrisonItems
 			return parent::serverCmdDropTool(%cl, %slot);
 		}
 
-		if (%pl.tool[%slot].getName() $= "PrisonBucketItem" && %pl.isWearingBucket) {
+		if ((%pl.tool[%slot].getName() $= "PrisonBucketItem" || %pl.tool[%slot].getName() $= "PrisonBucketGoldenItem") && %pl.isWearingBucket) {
 			%pl.unmountImage(2);
 			%pl.unmountImage(0);
 			%pl.isWearingBucket = 0;

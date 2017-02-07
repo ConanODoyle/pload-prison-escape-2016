@@ -38,6 +38,7 @@ package PrisonEscape_Base
 			{
 				//TODO
 			}
+			return;
 		}
 		
 		return parent::onTrigger(%this, %obj, %trig, %state);
@@ -59,6 +60,10 @@ package PrisonEscape_Base
 		}
 
 		giveItems(%this);
+
+		if (%this.originalFOV > 0) {
+			%this.setControlCameraFOV(%this.originalFOV);
+		}
 
 		return %parent;
 	}
@@ -120,7 +125,10 @@ package PrisonEscape_Base
 	}
 
 	function GameConnection::onDrop(%this, %val) {
-		serverCmdRemoveGuard($fakeClient, %this.name);
+		if (%this.bl_id !$= "" && strPos($Server::PrisonEscape::Guards, %this.bl_id) >= 0) {
+			serverCmdRemoveGuard($fakeClient, %this.name);
+		}
+		//PPE_messageAdmins("!!! \c6Connection attempt by \c3" @ %this @ "\c6!");
 		return parent::onDrop(%this, %val);
 	}
 };

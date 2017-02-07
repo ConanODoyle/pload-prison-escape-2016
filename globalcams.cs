@@ -1,4 +1,4 @@
-function setAllCamerasView(%camPos, %targetPos, %nocontrol)
+function setAllCamerasView(%camPos, %targetPos, %nocontrol, %FOV)
 {
 	//calculate the position and rotation of camera
 	%pos = %camPos;
@@ -15,14 +15,17 @@ function setAllCamerasView(%camPos, %targetPos, %nocontrol)
 	%camTransform = %pos SPC %aa;
 
 	//apply this on everyone
-	setCameraViewLoop(%camTransform, 0, !%nocontrol);
+	setCameraViewLoop(%camTransform, 0, !%nocontrol, %FOV);
 }
 
-function setCameraViewLoop(%transform, %i, %nocontrol)
+function setCameraViewLoop(%transform, %i, %nocontrol, %FOV)
 {
 	if (%i >= ClientGroup.getCount())
 		return;
 	%client = ClientGroup.getObject(%i);
+	if (%FOV !$= "") {
+		%client.originalFOV = %client.getControlCameraFOV();
+	}
 	%camera = %client.camera;
 	
 	%client.setControlObject(%camera);
@@ -33,6 +36,11 @@ function setCameraViewLoop(%transform, %i, %nocontrol)
 	if (%nocontrol)
 		%camera.setControlObject(%client.dummyCamera);
 		////////////////////////////////package onTrigger or respawnplayer to prevent players from spawning
+	if (%FOV > 0) {
+		%client.setControlCameraFOV(%FOV);
+	} else if (%client.originalFOV > 0) {
+		%client.setControlCameraFOV(%client.originalFOV);
+	}
 	schedule(0, 0, setCameraViewLoop, %transform, %i+1, %nocontrol);
 }
 

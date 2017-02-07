@@ -139,10 +139,10 @@ activatePackage(PrisonStatistics);
 function getStatistic() {
 	switch ($Server::PrisonEscape::currentStatistic)
 	{
-		case 0: %stat = "Sharpshooter\c6: " 	@ 
+		case 0: %stat = "Sharpshooter\c6: " @ 
 			(strLen($Server::PrisonEscape::SharpshooterGuard.name) > 10 ? getSubStr($Server::PrisonEscape::SharpshooterGuard.name, 9) @ "." : $Server::PrisonEscape::SharpshooterGuard.name)
 			SPC "-" SPC ($Server::PrisonEscape::TopAcc <= 0 ? 0 : $Server::PrisonEscape::TopAcc) SPC "acc";
-		case 1: %stat = "Escape Artist\c6: " 	@ 
+		case 1: %stat = "Escape Artist\c6: " @ 
 			(strLen($Server::PrisonEscape::MVPPrisoner.name) > 10 ? getSubStr($Server::PrisonEscape::MVPPrisoner.name, 9) @ "." : $Server::PrisonEscape::MVPPrisoner.name)
 			SPC "-" SPC ($Server::PrisonEscape::TopChisel <= 0 ? 0 : $Server::PrisonEscape::TopChisel) SPC "bricks";
 		case 2: %stat = "Riot Control\c6: "	@
