@@ -109,13 +109,13 @@ function prisonEscape_saveBricks(%brickgroup, %i) {									//would make it easi
 	//talk(%brickgroup.getName() SPC %i);
 	//look for bricks with the name of tower#
 	if (%i >= %brickgroup.getCount()) {
-		PPE_messageAdmins("!!! \c5Tower Bricks saved to TowerGroup from " @ %brickgroup);
-		PPE_messageAdmins("!!! \c5--Tower1 brickcount: " @ $Server::PrisonEscape::Towers.tower1.getCount());
-		PPE_messageAdmins("!!! \c5--Tower2 brickcount: " @ $Server::PrisonEscape::Towers.tower2.getCount());
-		PPE_messageAdmins("!!! \c5--Tower3 brickcount: " @ $Server::PrisonEscape::Towers.tower3.getCount());
-		PPE_messageAdmins("!!! \c5--Tower4 brickcount: " @ $Server::PrisonEscape::Towers.tower4.getCount());
+		PPE_messageAdmins("!!! \c5Tower Bricks saved to Towers from " @ %brickgroup);
+		PPE_messageAdmins("!!! \c5--T1 bc: " @ $Server::PrisonEscape::Towers.tower1.getCount());
+		PPE_messageAdmins("!!! \c5--T2 bc: " @ $Server::PrisonEscape::Towers.tower2.getCount());
+		PPE_messageAdmins("!!! \c5--T3 bc: " @ $Server::PrisonEscape::Towers.tower3.getCount());
+		PPE_messageAdmins("!!! \c5--T4 bc: " @ $Server::PrisonEscape::Towers.tower4.getCount());
 		PPE_messageAdmins("!!! \c5Generator: " @ $Server::PrisonEscape::Generator SPC "CommDish: " @ $Server::PrisonEscape::commDish);
-		PPE_messageAdmins("!!! \c5Num Prisoner Spawns: " @ $Server::PrisonEscape::PrisonerSpawnPoints.getcount());
+		PPE_messageAdmins("!!! \c5# Prisoner Spawns: " @ $Server::PrisonEscape::PrisonerSpawnPoints.getcount());
 
 		$Server::PrisonEscape::Towers.tower1.origCount = $Server::PrisonEscape::Towers.tower1.getCount();
 		$Server::PrisonEscape::Towers.tower2.origCount = $Server::PrisonEscape::Towers.tower2.getCount();
@@ -136,7 +136,15 @@ function prisonEscape_saveBricks(%brickgroup, %i) {									//would make it easi
 	}
 	%name = getSubStr(%name, 1, strLen(%name)); //removes underscore in name
 
-	if (strPos(%name, "tower") >= 0) {
+	if (%name $= "LoadingCamBrick") {
+		$Server::PrisonEscape::LoadingCamBrick = %brick;
+	} else if (%name $= "LoadingCamBrickTarget") {
+		$Server::PrisonEscape::LoadingCamBrickTarget = %brick;
+	} else if (%name $= "PrisonPreview") {
+		$Server::PrisonEscape::PrisonPreview = %brick;
+	} else if (%name $= "PrisonPreviewTarget") {
+		$Server::PrisonEscape::PrisonPreviewTarget = %brick;
+	} else if (strPos(%name, "tower") >= 0) {
 		%subName = getSubStr(%name, 0, 6);
 
 		%tower = -1;

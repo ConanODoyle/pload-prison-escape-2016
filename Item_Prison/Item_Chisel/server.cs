@@ -163,8 +163,8 @@ function chiselImage::onAbortCharge(%this, %obj, %slot)
 function isBreakableBrick(%brick, %player)
 {
 	%db = %brick.getDatablock().getName();
-	%pole = "brick1x1fpoleData";
-	%pole2 = "brick1x1poleData";
+	%pole = "brick1x1HorizPoleData";
+	%pole2 = "brick1x1PoleData";
 	%plate = "brick1x3fData";
 	%plate2 = "brick1x1fData";
 	%window = "Window";
