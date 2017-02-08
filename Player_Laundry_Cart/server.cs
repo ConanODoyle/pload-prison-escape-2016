@@ -94,7 +94,7 @@ datablock PlayerData(LaundryCartArmor)
 
    rechargeRate = 0.4;
 
-   runForce = 60 * 90;
+   runForce = 500;
    runEnergyDrain = 0;
    minRunEnergy = 0;
    maxStepHeight= "1";
@@ -175,6 +175,9 @@ datablock PlayerData(LaundryCartArmor)
    upMaxSpeed = 80;
    upResistSpeed = 25;
    upResistFactor = 0.01;
+
+   slideSpeed = 12;
+   slowdownMax = 80;
    
    footstepSplashHeight = 0.35;
 
@@ -256,7 +259,7 @@ function LaundryCartArmor::onAdd(%this,%obj)
    %obj.hideNode("rshoe");
 }
 
-$pushForce = 24;
+$pushForce = 20;
 
 package LaundryCartPackage {
    function Armor::onMount(%this, %obj, %vehi, %mountPoint) {
@@ -326,7 +329,7 @@ package LaundryCartPackage {
          %ray = containerRaycast(%s, %e, %masks, %this);
          %hit = getWord(%ray, 0);
 
-         if (isObject(%hit) && %hit.getDatablock().getName() $= "LaundryCartArmor") {
+         if (isObject(%hit) && %hit.getDatablock().getName() $= "LaundryCartArmor" && !%hit.isSliding) {
             %originalPos = %this.getTransform();
 
             %this.setTransform(vectorAdd(%hit.getPosition(), "0 0 5"));
@@ -339,17 +342,14 @@ package LaundryCartPackage {
             }
          }
          %this.mountedVehicleTime = getSimTime();
-      } else if (isObject(%vehi) && %this.getMountNode() == 0 && %vehi.getDatablock().getName() $= "LaundryCartArmor") {
-         if (getSimTime() - %this.mountedVehicleTime < 1000 || isObject(%this.getObjectMount().getObjectMount())) {
+      } else if (isObject(%vehi) && %this.getMountNode() == 0 && %vehi.getDatablock().getName() $= "LaundryCartArmor" && !%vehi.isSliding) {
+         if (getSimTime() - %this.mountedVehicleTime < 1500 || isObject(%this.getObjectMount().getObjectMount())) {
             return parent::activateStuff(%this);
          }
 
-         %vec = vectorNormalize(getWords(%this.getForwardVector(), 0, 1) SPC 0.1);
+         %vec = vectorNormalize(getWords(%this.getForwardVector(), 0, 1) SPC 0.01);
          %this.getDatablock().doDismount(%this);
-         
-         %vehi.setVelocity(vectorScale(%vec, $pushForce));
-         schedule(30, %vehi, tumble, %vehi, 4);
-         schedule(3000, %vehi, clearTumble, %vehi);
+         %vehi.doLaundrySlide(0);
          if (isObject(%pl = %vehi.getMountedObject(0))) {
             //%pl.schedule(1000, dismount);
             //schedule(1000, %pl, tumble, %pl);
@@ -394,4 +394,24 @@ activatePackage(LaundryCartPackage);
 function LaundryCartArmor::onDriverLeave(%obj, %player)
 {
 	//do nothing
+}
+
+function Player::doLaundrySlide(%pl,%tick)
+{
+   if(%tick == 0){
+      %pl.isSliding = 1;
+      %pl.setMaxForwardSpeed(%pl.getDatablock().slideSpeed);
+      %pl.addVelocity(vectorScale(%pl.getForwardVector(), %pl.getDatablock().slideSpeed));
+   }
+   cancel(%pl.laundrySlideSched);
+   %max = LaundryCartArmor.slowdownMax;
+   %p = 1-(%tick/%max);
+   %pl.setMoveY(%p);
+   if(%tick >= %max) {
+      %pl.isSliding = 0;
+      %pl.setMoveY(0);
+      %pl.setMaxForwardSpeed(%pl.getDatablock().maxForwardSpeed);
+      return;
+   }
+   %pl.laundrySlideSched = %pl.schedule(64,doLaundrySlide,%tick++);
 }

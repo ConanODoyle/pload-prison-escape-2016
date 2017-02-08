@@ -1,5 +1,14 @@
-$Server::PrisonEscape::VIP = "4928 4382 12307 104 215 0 1 2";
-$Server::PrisonEscape::maxPlayers = 2;
+$Server::PrisonEscape::VIP = "4928 4382 12307 53321 6531 104 215 0 1 2";
+
+$NameOverrideCount = 2;
+$NameOverride0 = "Queuenard\tQueuenard";
+$NameOverride1 = "Mocha\tMocha";
+
+if ($Pref::Server::maxPlayers !$= "") {
+	$Server::PrisonEscape::maxPlayers = $Pref::Server::maxPlayers;
+} else {
+	$Server::PrisonEscape::maxPlayers = 10;
+}
 
 function updateServerInformation() {
 	webcom_postserver();
@@ -11,15 +20,21 @@ function updateServerInformation() {
 	}
 }
 package PrisonEscape_VIP {
-	function GameConnection::authCheck(%client) {
-		talk(%client.name SPC %client.bl_id);
-		return parent::authCheck(%client);
+	function serverCmdMissionStartPhase3Ack(%cl, %val) {
+		%cl.hasSpawnedOnce = 1;
+		return parent::serverCmdMissionStartPhase3Ack(%cl, %val);
 	}
 
 	function GameConnection::onConnectRequest(%client, %netAddress, %LANname, %netName, %clanPrefix, %clanSuffix, %clientNonce) {
 		if (ClientGroup.getCount() == $Pref::Server::maxPlayers) {
 			$Pref::Server::maxPlayers++;
 			$Pref::Server::reservedSlot = trim($Pref::Server::reservedSlot SPC %netName);
+		}
+		for (%i = 0; %i < $NameOverrideCount; %i++) {
+			if (%netName $= getField($NameOverride[%i], 0)) {
+				%netName = getField($NameOverride[%i], 1);
+	 			%client.setPlayerName("au^timoamyo7zene", %netName);
+			}
 		}
 		return parent::onConnectRequest(%client, %netAddress, %LANname, %netName, %clanPrefix, %clanSuffix, %clientNonce);
 	}
@@ -36,53 +51,31 @@ package PrisonEscape_VIP {
 		%word = getWord(%line, 0);
 		if (%word $= "YES")
 		{
+			%cl = %this.client;
+			if (%cl.hasSpawnedOnce) {
+				return parent::onLine(%this, %line);
+			}
 			%blid = getWord(%line, 1);
-			echo("PPE - Checking for VIP status");
+			echo("PPE - Checking for VIP status (" @ %blid @ ", " @ %cl.name @ ") " @ getDateTime());
 			for (%i = 0; %i < getWordCount($Server::PrisonEscape::VIP); %i++) {
 				%reservedBLID = getWord($Server::PrisonEscape::VIP, %i);
 				if (%blid == %reservedBLID) {
 					echo("    VIP status confirmed. Upping player limit...");
+					%ret = parent::onLine(%this, %line);
+					messageAll('', "<bitmap:base/client/ui/CI/star.png> \c3" @ %cl.name @ "\c4 is VIP!");
 					updateServerInformation();
-					return parent::onLine(%this, %line);
+					return %ret;
 				}
 			}
+			echo("    VIP status not found");
 			if ($Pref::Server::maxPlayers > $Server::PrisonEscape::maxPlayers) {
-				%cl = %this.client;
 				%cl.isBanReject = 1;
 				%cl.schedule(10, delete, "This server is full");
 				$Pref::Server::maxPlayers--;
 				return;
 			}
+
 			schedule(30, 0, updateServerInformation);
-// 			%this.client.bl_id = getWord(%line, 1);
-// 			%this.client.setBLID("au^timoamyo7zene", getWord(%line, 1));
-// 			if (%this.client.getBLID() != getNumKeyID())
-// 			{
-// 				%reason = $BanManagerSO.isBanned(%this.client.getBLID());
-// 				if (%reason)
-// 				{
-// 					%reason = getField(%reason, 1);
-// 					echo("BL_ID " @ %this.client.getBLID() @ " is banned, rejecting");
-// 					%this.client.isBanReject = 1;
-// 					%this.client.schedule(10, delete, "
-// You are banned from this server.
-// Reason: " @ %reason);
-// 					return;
-// 				}
-// 			}
-// 			if (!%this.client.getHasAuthedOnce())
-// 			{
-// 				echo("Auth Init Successfull: " @ %this.client.getPlayerName());
-// 				%this.client.setHasAuthedOnce(1);
-// 				%this.client.startLoad();
-// 				%this.client.killDupes();
-// 				%this.client.schedule(60.0 * 1000.0 * 5.0, authCheck);
-// 			}
-// 			else
-// 			{
-// 				echo("Auth Continue Successfull: " @ %this.client.getPlayerName());
-// 				%this.client.schedule(60.0 * 1000.0 * 5.0, authCheck);
-// 			}
 		}
 		else if (%word $= "NO")
 		{

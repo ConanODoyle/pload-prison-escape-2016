@@ -9,6 +9,7 @@ exec("./stun.cs");
 exec("./globalcams.cs");
 exec("./rounds.cs");
 exec("./towers.cs");
+exec("./vip.cs");
 
 exec("./Brick_Prison/server.cs");
 exec("./Brick_Garage_Door/server.cs");

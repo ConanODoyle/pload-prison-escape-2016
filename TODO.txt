@@ -8,8 +8,8 @@ write prisoner trigger win
 also check for guard count after each tower destruction to handle that win condition
 chatspam check
 bronson dust
-console error: packages applybodycolors when bot is respawned
 have spotlights scan
+bring forward bronson face
 
 donor hat
 donor sniper gold

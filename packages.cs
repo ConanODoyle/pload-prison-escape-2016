@@ -70,6 +70,9 @@ package PrisonEscape_Base
 
 	function GameConnection::applyBodyParts(%this)
 	{
+		if (!isObject(%this.player)) {
+			return parent::applyBodyParts(%this);
+		}
 		if (%this.player.getDatablock().getName() $= "BuffArmor") 
 		{
 			%this.player.unHideNode("ALL");
