@@ -131,6 +131,21 @@ package PrisonEscape_Base
 		//PPE_messageAdmins("!!! \c6Connection attempt by \c3" @ %this @ "\c6!");
 		return parent::onDrop(%this, %val);
 	}
+
+	function minigameCanDamage(%obj1, %obj2) {
+		%cl1 = %obj1.client;
+		%cl2 = %obj2.client;
+
+		%db1 = %obj1.getDatablock().getName();
+		%db2 = %obj2.getDatablock().getName();
+
+		if (%db1 $= "ShepherdDogArmor" || %db2 $= "ShepherdDogArmor") {
+			if (%cl1.isGuard || %cl2.isGuard) {
+				return 0;
+			}
+			return 1;
+		}
+	}
 };
 activatePackage(PrisonEscape_Base);
 

@@ -2,7 +2,6 @@ Whistle to call dog
 Debug and test tick to win for guards and prisoners
 Make camera intro a single function called on each client so new joiners see it
 	- Rewrite setAllCamera?
-finish roundphase 3 for observer onTrigger
 add damage checks for prisoners
 package initial player spawn after join to just switch to logo cam without spawning
 write prisoner trigger win
