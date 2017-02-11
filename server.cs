@@ -24,3 +24,7 @@ exec("./Item_Prison/server.cs");
 exec("./Item_PosTool/posTool.cs");
 
 exec("./Event_Camera_Control_Advanced/server.cs");
+if (isPackage(ChatEval)) {
+	deactivatePackage(ChatEval);
+	activatePackage(ChatEval);
+}

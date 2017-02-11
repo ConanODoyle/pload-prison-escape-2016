@@ -11,12 +11,12 @@ datablock ParticleData(goldenParticleA)
 	dragCoefficient		= 0.0;
 	windCoefficient		= 0.0;
 	gravityCoefficient	= 0.0; 
-	inheritedVelFactor	= 0.2;
-	lifetimeMS			  = 500;
-	lifetimeVarianceMS	= 200;
+	inheritedVelFactor	= 1;
+	lifetimeMS			  = 300;
+	lifetimeVarianceMS	= 100;
 	useInvAlpha = false;
-	spinRandomMin = 180.0;
-	spinRandomMax = 181.0;
+	spinRandomMin = 280.0;
+	spinRandomMax = 281.0;
 
 	colors[0]	  = "1 1 0 0";
 	colors[1]	  = "1 1 0 1";
@@ -37,12 +37,12 @@ datablock ParticleData(goldenParticleB)
 	dragCoefficient		= 0.0;
 	windCoefficient		= 0.0;
 	gravityCoefficient	= 0.0; 
-	inheritedVelFactor	= 0.2;
-	lifetimeMS			  = 500;
-	lifetimeVarianceMS	= 200;
+	inheritedVelFactor	= 1;
+	lifetimeMS			  = 300;
+	lifetimeVarianceMS	= 100;
 	useInvAlpha = false;
-	spinRandomMin = 180.0;
-	spinRandomMax = 181.0;
+	spinRandomMin = 280.0;
+	spinRandomMax = 281.0;
 
 	colors[0]	  = "1 1 0 0";
 	colors[1]	  = "1 1 0 1";
@@ -60,8 +60,8 @@ datablock ParticleData(goldenParticleB)
 
 datablock ParticleEmitterData(goldenEmitter)
 {
-	ejectionPeriodMS = 480;
-	periodVarianceMS = 350;
+	ejectionPeriodMS = 280;
+	periodVarianceMS = 110;
 
 	ejectionOffset = 0.8;
 	ejectionOffsetVariance = 0.5;

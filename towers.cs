@@ -8,6 +8,10 @@ if (!isObject($Server::PrisonEscape::PrisonerSpawnPoints)) {
 	$Server::PrisonEscape::PrisonerSpawnPoints = new SimSet() {};
 }
 
+if (!isObject($Server::PrisonEscape::InfirmarySpawnPoints)) {
+	$Server::PrisonEscape::InfirmarySpawnPoints = new SimSet() {};
+}
+
 $buildBLID = 4928;
 
 function assignBricks() {
@@ -27,6 +31,7 @@ function assignBricks() {
 		}
 	}
 	$Server::PrisonEscape::PrisonerSpawnPoints.clear();
+	$Server::PrisonEscape::InfirmarySpawnPoints.clear();
 	$Server::PrisonEscape::generator = 0;
 	$Server::PrisonEscape::commDish = 0;
 
@@ -116,6 +121,7 @@ function prisonEscape_saveBricks(%brickgroup, %i) {									//would make it easi
 		PPE_messageAdmins("!!! \c5--T4 bc: " @ $Server::PrisonEscape::Towers.tower4.getCount());
 		PPE_messageAdmins("!!! \c5Generator: " @ $Server::PrisonEscape::Generator SPC "CommDish: " @ $Server::PrisonEscape::commDish);
 		PPE_messageAdmins("!!! \c5# Prisoner Spawns: " @ $Server::PrisonEscape::PrisonerSpawnPoints.getcount());
+		PPE_messageAdmins("!!! \c5# Infirmary Spawns: " @ $Server::PrisonEscape::InfirmarySpawnPoints.getcount());
 
 		$Server::PrisonEscape::Towers.tower1.origCount = $Server::PrisonEscape::Towers.tower1.getCount();
 		$Server::PrisonEscape::Towers.tower2.origCount = $Server::PrisonEscape::Towers.tower2.getCount();
@@ -170,8 +176,9 @@ function prisonEscape_saveBricks(%brickgroup, %i) {									//would make it easi
 	} else if (strPos(%brick.getDatablock().getName(), "Spawn") >= 0) {
 		if (%name $= "spawn") {
 			$Server::PrisonEscape::PrisonerSpawnPoints.add(%brick);
-		}
-		else {
+		} else if (%name $= "infirmarySpawn") {
+			$Server::PrisonEscape::InfirmarySpawnPoints.add(%brick);
+		} else {
 			PPE_messageAdmins("!!! \c5Out of place spawnpoint found! ID: " @ %brick);
 		}
 	}

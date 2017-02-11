@@ -3,8 +3,10 @@ function bottomprintTimerLoop(%timeLeft) {
 	if (isEventPending($Server::PrisonEscape::timerSchedule)) {
 		cancel($Server::PrisonEscape::timerSchedule);
 	}
-	if (%timeLeft % 60 == 0) {
+	if (%timeleft == $Server::PrisonEscape::timePerRound * 60 + 1) {
 		spawnDeadPrisoners();
+	} else if (%timeLeft % 60 == 0 && %timeleft) {
+		spawnDeadInfirmary();
 	}
 	//display timeleft to everyone
 	bottomprintAll("<font:Arial Bold:34><just:center>\c6" @ getTimeString(%timeLeft-1) @ " ", -1, 0);
@@ -58,6 +60,33 @@ function resetPrisonerSpawnPointCounts() {
 	}
 }
 
+function pickInfirmarySpawnPoint() {
+	%start = getRandom(0, $Server::PrisonEscape::InfirmarySpawnPoints.getCount() - 1);
+	%count = $Server::PrisonEscape::InfirmarySpawnPoints.getCount();
+	for (%i = 0; %i < %count; %i++)	{
+		%index = (%i + %start) % %count;
+		%brick = $Server::PrisonEscape::InfirmarySpawnPoints.getObject(%index);
+		if (%brick.spawnCount < 2) {
+			break;
+		}
+		%brick = "";
+	}
+	if (isObject(%brick)) {
+		%brick.spawnCount++;
+		return %brick.getSpawnPoint();
+	} else {
+		echo("Can't find an infirmary spawnpoint with less than 1 spawn! Resetting...");
+		resetInfirmarySpawnPointCounts();
+		return $Server::PrisonEscape::InfirmarySpawnPoints.getObject(%start).getSpawnPoint();
+	}
+}
+
+function resetInfirmarySpawnPointCounts() {
+	for (%i = 0; %i < $Server::PrisonEscape::InfirmarySpawnPoints.getCount(); %i++) {
+		$Server::PrisonEscape::InfirmarySpawnPoints.getObject(%i).spawnCount = 0;
+	}
+}
+
 function spawnDeadPrisoners() {
 	for (%i = 0; %i < ClientGroup.getCount(); %i++) {
 		%client = ClientGroup.getObject(%i);
@@ -68,6 +97,18 @@ function spawnDeadPrisoners() {
 		}
 	}
 	resetPrisonerSpawnPointCounts();
+}
+
+function spawnDeadInfirmary() {
+	for (%i = 0; %i < ClientGroup.getCount(); %i++) {
+		%client = ClientGroup.getObject(%i);
+		if (!isObject(%client.player) && !%client.isGuard) {
+			%spawn = pickInfirmarySpawnPoint();
+			%client.createPlayer(%spawn);
+			%client.centerprint("");
+		}
+	}
+	resetInfirmarySpawnPointCounts();
 }
 
 function validateGameWin() {

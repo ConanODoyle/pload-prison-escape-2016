@@ -1,0 +1,56 @@
+smallest_size = 0.0
+smallest_detail_level = 0
+radius = 1.2966994962516574
+radius_tube = 1.2820920968130725
+center = <Vector (-0.5600, -0.2000, -0.1650)>
+bounds = (<Vector (-1.0496, -0.8552, -0.2300)>, <Vector (-0.0704, 0.4552, -0.1000)>)
+Ground frames: 0
+Triggers: 0
+Sequence node rotations: 0
+Sequence node translations: 0
+Sequence node uniform scales: 0
+Sequence node aligned scales: 0
+Sequence node arbitrary scales: 0
+Detail levels (1):
+  LOD 0 Detail32 (size 32)
+    subshape = 0
+    objectDetail = 0
+    polyCount = 0
+Subshapes (1):
+  Subshape 0
+    nodes = 0 -> Shape, 1 -> Detail32, 2 -> __auto_root__
+    objects = 0 -> Cube
+Nodes (3):
+  0 Shape
+    translation = <Vector (0.0000, 0.0000, 0.0000)>
+    rotation = <Quaternion (w=1.0000, x=0.0000, y=0.0000, z=0.0000)>
+  1 Detail32  ->  0 Shape
+    translation = <Vector (0.0000, 0.0000, 0.0000)>
+    rotation = <Quaternion (w=1.0000, x=0.0000, y=0.0000, z=0.0000)>
+  2 __auto_root__
+    translation = <Vector (0.0000, 0.0000, 0.0000)>
+    rotation = <Quaternion (w=0.0000, x=0.0000, y=0.0000, z=0.0000)>
+Object states: 1
+Objects (1):
+  0 Cube in 2 (__auto_root__), meshes = 0
+Materials (1):
+  0 grey30 (195 SWrap TWrap NeverEnvMap NoMipMap)
+    bumpMap = -1, reflectanceMap = -1, detailMap = -1
+    reflectance = 0.0, detailScale = 1.0
+IFL materials (0):
+Meshes (1):
+  Mesh 0 - Standard
+    flags = 0
+    bounds = (<Vector (9999999848243207300000000000000.0000, 9999999848243207300000000000000.0000, 9999999848243207300000000000000.0000)>, <Vector (-9999999848243207300000000000000.0000, -9999999848243207300000000000000.0000, -9999999848243207300000000000000.0000)>)
+    center = <Vector (0.0000, 0.0000, 0.0000)>
+    radius = 0.0
+    + Primitives (1):
+      0->227 536870912 NoExplicitType->Triangles Indexed MaterialMask:0
+    + Vertices (228): <omitted>
+    + Texture coords (228): <omitted>
+Sequences (0):
+Names (4):
+  0 = Shape
+  1 = Detail32
+  2 = __auto_root__
+  3 = Cube
