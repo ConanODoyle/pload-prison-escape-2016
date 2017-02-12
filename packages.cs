@@ -152,7 +152,7 @@ package PrisonEscape_Base
 				return 0;
 			}
 		} else if (%cl1.isGuard == %cl2.isGuard) {
-			return0;
+			return 0;
 		}
 
 		return 1;
