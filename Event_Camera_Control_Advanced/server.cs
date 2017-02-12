@@ -14,18 +14,42 @@ function fxDTSBrick::loopToggle(%this, %time) {
       return;
    }
 
+   if (%this.defaultState $= "") {
+      if (%this.getDatablock().isOpen) {
+         if (%this.getDatablock().getName() $= %this.getDatablock().openCCW) {
+            %this.defaultState = 3;
+         } else {
+            %this.defaultState = 2;
+         }
+      } else {
+         %this.defaultState = 4;
+      }
+   }
+
    if (%this.getDatablock().isOpen) {
       %this.door(4);
    } else { 
-      if (%this.isCCW) {
+      if (%this.isCCW && strPos(%this.getName(), "left") < 0) {
          %this.door(3);
          %this.isCCW = 0;
-      } else {
+      } else if (strPos(%this.getName(), "right") < 0) {
          %this.door(2);
          %this.isCCW = 1;
       }
    }
    %this.loopToggleLoop = %this.schedule(%time / 4, loopToggle, %time);
+}
+
+function fxDTSBrick::endLoopToggle(%this) {
+   if (isEventPending(%this.loopToggleLoop)) {
+      if (%this.numViewers >= 1) {
+         %this.numViewers--;
+      }
+      if (%this.numViewers <= 0) {
+         cancel(%this.loopToggleLoop);
+         %this.door(%this.defaultState);
+      }
+   }
 }
 
 function GameConnection::setCameraView(%client, %posBrickName, %targetBrickName)
@@ -179,7 +203,7 @@ function fxDTSBrick::setPlayerCamera(%this,%option,%client)
       
       //6802.camera.setDollyMode(6802.camera.getPosition(), 6802.camera.getPosition());
    }
-   messageclient(%client,'',"\c2Camera in Static Mode \c6- Use Light key to exit camera");
+   //messageclient(%client,'',"\c2Camera in Static Mode \c6- Use Light key to exit camera");
 }
 
 //returns control back to player with normal camera
@@ -208,6 +232,29 @@ function GameConnection::setCameraNormal(%client)
 
 package CameraControlsExtended
 {
+   function Observer::onTrigger(%this, %obj, %trig, %state) {
+      %client = %obj.getControllingClient();
+      if (%client.player.isPreviewingCameras && %state == 1) {
+         %count = $Server::PrisonEscape::Cameras.getCount();
+         if (%trig == 0) {
+            $Server::PrisonEscape::Cameras.getObject(%cl.currCamera).endLoopToggle();
+            %cl.currCamera = (%cl.currCamera + 1) % %count;
+            $Server::PrisonEscape::Cameras.getObject(%cl.currCamera).setPlayerCamera(0, %cl);
+            $Server::PrisonEscape::Cameras.getObject(%cl.currCamera).numViewers++;
+            $Server::PrisonEscape::Cameras.getObject(%cl.currCamera).loopToggle(5000);
+            return;
+         } else if (%trig == 4) {
+            $Server::PrisonEscape::Cameras.getObject(%cl.currCamera).endLoopToggle();
+            %cl.currCamera = (%cl.currCamera - 1 + %count) % %count;
+            $Server::PrisonEscape::Cameras.getObject(%cl.currCamera).setPlayerCamera(0, %cl);
+            $Server::PrisonEscape::Cameras.getObject(%cl.currCamera).numViewers++;
+            $Server::PrisonEscape::Cameras.getObject(%cl.currCamera).loopToggle(5000);
+            return;
+         }
+      }
+      return parent::onTrigger(%this, %obj, %trig, %state);
+   }
+
    function serverCmdLight(%client)
    {
       if (%client.player.isInCamera && %client.player.canLeaveCamera)
@@ -215,6 +262,7 @@ package CameraControlsExtended
          if (isObject(%client.player))
             %client.setControlObject(%client.player);
          %client.player.isInCamera = 0;
+         %client.player.isPreviewingCameras = 0;
          %client.player.canLeaveCamera = 1;
          return;
       }
@@ -258,3 +306,17 @@ function MiniGameSO::setCameraNormal(%mg, %posBrickName, %targetBrickName)
       %cl.canLeaveCamera = 0;
    }
 } 
+
+function fxDTSBrick::previewCameras(%this, %client) {
+   %client.player.isInCamera = 1;
+   %client.player.isPreviewingCameras = 1;
+   %client.player.canLeaveCamera = 1; 
+
+   if ($Server::PrisonEscape::Cameras.getCount() <= 0) {
+      PPE_messageAdmins("!!! \c6Cannot use camera previews - no cameras in SimSet!");
+      return;
+   }
+
+   messageclient(%client,'',"\c2Camera in Free Mode \c6- Use Light key to exit the cameras");
+   %client.centerprint("<font:Consolas:18><just:left>\c6Left Click<just:right>\c6Right Click<font:Arial Bold:22> <br><just:left>\c3Next Camera<just:right>\c3Prev Camera ");
+}

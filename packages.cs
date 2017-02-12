@@ -20,6 +20,9 @@ package PrisonEscape_Base
 		%client = %obj.getControllingClient();
 		if ((%trig == 0 || %trig == 4) && %state == 1 && $Server::PrisonEscape::roundPhase >= 0)
 		{
+			if (isObject(%pl = %obj.getControllingClient().player) && %pl.isInCamera) {
+				return parent::onTrigger(%this, %obj, %trig, %state);
+			}
 			if ($Server::PrisonEscape::roundPhase < 2)
 				return;
 			if ($Server::PrisonEscape::roundPhase == 2 && !isObject(%client.player) && %state == 1)
@@ -131,7 +134,9 @@ package PrisonEscape_Base
 		if (%this.bl_id !$= "" && strPos($Server::PrisonEscape::Guards, %this.bl_id) >= 0) {
 			serverCmdRemoveGuard($fakeClient, %this.name);
 		}
-		//PPE_messageAdmins("!!! \c6Connection attempt by \c3" @ %this @ "\c6!");
+		if (%this.isGuard) {
+			PPE_messageAdmins("<font:Palatino Linotype:36>!!! \c6Tower \c3" @ %this.tower @ "\c6's guard has just left the game!");
+		}
 		return parent::onDrop(%this, %val);
 	}
 

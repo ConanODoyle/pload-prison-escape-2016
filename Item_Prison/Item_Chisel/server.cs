@@ -168,7 +168,7 @@ function isBreakableBrick(%brick, %player)
 	%plate = "brick1x3fData";
 	%plate2 = "brick1x1fData";
 	%window = "Window";
-	%window2 = "Window";
+	%window2 = "4x4F_GlassPane";
 	%towerSupport = "support";
 	if ((%db $= %pole || %db $= %pole2) && (%brick.getColorID() >= 44 && %brick.getColorID() <= 53))
 		return 2;
