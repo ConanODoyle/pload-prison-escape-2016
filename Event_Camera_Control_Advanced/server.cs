@@ -2,6 +2,7 @@
 registerOutputEvent("GameConnection", "setCameraView", "string 200 156" TAB "string 200 156", 0);
 registerOutputEvent("GameConnection", "setCameraDolly", "string 200 156" TAB "string 200 156", 0);
 registerOutputEvent("fxDTSBrick", "setPlayerCamera", "list Free 0 North 1 East 2 South 3 West 4 Up 5 Down 6", 1);
+registerOutputEvent("fxDTSBrick", "previewCameras", "", 1);
 registerOutputEvent("GameConnection", "setCameraNormal", "", 0);
 
 
@@ -29,7 +30,7 @@ function fxDTSBrick::loopToggle(%this, %time) {
    if (%this.getDatablock().isOpen) {
       %this.door(4);
    } else { 
-      if (%this.isCCW && strPos(%this.getName(), "left") < 0) {
+      if ((%this.isCCW && strPos(%this.getName(), "left") < 0) || strPos(%this.getName(), "right") >= 0) {
          %this.door(3);
          %this.isCCW = 0;
       } else if (strPos(%this.getName(), "right") < 0) {
@@ -233,22 +234,26 @@ function GameConnection::setCameraNormal(%client)
 package CameraControlsExtended
 {
    function Observer::onTrigger(%this, %obj, %trig, %state) {
-      %client = %obj.getControllingClient();
-      if (%client.player.isPreviewingCameras && %state == 1) {
+      %cl = %obj.getControllingClient();
+      if (%cl.player.isPreviewingCameras && %state == 1) {
          %count = $Server::PrisonEscape::Cameras.getCount();
          if (%trig == 0) {
             $Server::PrisonEscape::Cameras.getObject(%cl.currCamera).endLoopToggle();
             %cl.currCamera = (%cl.currCamera + 1) % %count;
-            $Server::PrisonEscape::Cameras.getObject(%cl.currCamera).setPlayerCamera(0, %cl);
-            $Server::PrisonEscape::Cameras.getObject(%cl.currCamera).numViewers++;
-            $Server::PrisonEscape::Cameras.getObject(%cl.currCamera).loopToggle(5000);
+            %brick = $Server::PrisonEscape::Cameras.getObject(%cl.currCamera);
+            %brick.setPlayerCamera(0, %cl);
+            %brick.numViewers++;
+            %brick.loopToggle(5000);
+            %cl.centerprint(getFormattedCameraCenterprint(%brick, %cl.currCamera));
             return;
          } else if (%trig == 4) {
             $Server::PrisonEscape::Cameras.getObject(%cl.currCamera).endLoopToggle();
             %cl.currCamera = (%cl.currCamera - 1 + %count) % %count;
-            $Server::PrisonEscape::Cameras.getObject(%cl.currCamera).setPlayerCamera(0, %cl);
-            $Server::PrisonEscape::Cameras.getObject(%cl.currCamera).numViewers++;
-            $Server::PrisonEscape::Cameras.getObject(%cl.currCamera).loopToggle(5000);
+            %brick = $Server::PrisonEscape::Cameras.getObject(%cl.currCamera);
+            %brick.setPlayerCamera(0, %cl);
+            %brick.numViewers++;
+            %brick.loopToggle(5000);
+            %cl.centerprint(getFormattedCameraCenterprint(%brick, %cl.currCamera));
             return;
          }
       }
@@ -262,8 +267,12 @@ package CameraControlsExtended
          if (isObject(%client.player))
             %client.setControlObject(%client.player);
          %client.player.isInCamera = 0;
+         if (%client.player.isPreviewingCameras) {
+            $Server::PrisonEscape::Cameras.getObject(%client.currCamera).endLoopToggle();
+         }
          %client.player.isPreviewingCameras = 0;
          %client.player.canLeaveCamera = 1;
+         centerprint(%client, "");
          return;
       }
       else
@@ -316,7 +325,32 @@ function fxDTSBrick::previewCameras(%this, %client) {
       PPE_messageAdmins("!!! \c6Cannot use camera previews - no cameras in SimSet!");
       return;
    }
+   if (%client.currCamera $= "") {
+      %client.currCamera = 0;
+   }
+   $Server::PrisonEscape::Cameras.getObject(%client.currCamera).setPlayerCamera(0, %client);
+   $Server::PrisonEscape::Cameras.getObject(%client.currCamera).numViewers++;
+   $Server::PrisonEscape::Cameras.getObject(%client.currCamera).loopToggle(5000);
 
    messageclient(%client,'',"\c2Camera in Free Mode \c6- Use Light key to exit the cameras");
-   %client.centerprint("<font:Consolas:18><just:left>\c6Left Click<just:right>\c6Right Click<font:Arial Bold:22> <br><just:left>\c3Next Camera<just:right>\c3Prev Camera ");
+
+   %client.centerprint(getFormattedCameraCenterprint($Server::PrisonEscape::Cameras.getObject(%client.currCamera), %client.currCamera));
+}
+
+function getFormattedCameraCenterprint(%brick, %index) {
+   %slots = "";
+   for (%i = 0; %i < $Server::PrisonEscape::Cameras.getCount(); %i++) {
+      if (%i != %index) {
+         %slots = trim(%slots SPC "[ ]");
+      } else {
+         %slots = %slots SPC "[\c3X\c5]";
+      }
+   }
+   %slots = "\c5" @ %slots;
+
+   %name = $Server::PrisonEscape::Cameras.getObject(%index).getName();
+   %name = getSubStr(%name, strPos(%name, "_", 1) + 1, strLen(%name));
+   %name = strReplace(%name, "_", " ");
+   %final = "<br><br><br><br><br>\c6" @ %name @ " <br><font:Palatino Linotype:18>\c3Left Click <font:Consolas:20>" @ %slots @ "<font:Palatino Linotype:18> Right Click";
+   return %final;
 }

@@ -151,8 +151,11 @@ package PrisonEscape_Base
 			if (%cl1.isGuard || %cl2.isGuard) {
 				return 0;
 			}
-			return 1;
+		} else if (%cl1.isGuard == %cl2.isGuard) {
+			return0;
 		}
+
+		return 1;
 	}
 };
 activatePackage(PrisonEscape_Base);
