@@ -423,7 +423,7 @@ function EatSteak(%obj, %eatTime)
 {
 	//talk("Dog starting to eat for " @ %eatTime);
 	//make it hold the steak
-	%obj.mountImage(SteakDogImage, 0);
+	%obj.mountImage(SteakDogImage, 1);
 	%obj.playThread(0, sit);
 
 	//stop bot hole activity
@@ -488,3 +488,9 @@ function StopEatSteak(%obj)
 		%obj.setDamageLevel(%obj.getDamageLevel() - 30);
 	}
 }
+
+datablock ShapeBaseImageData(dogYellowKeyImage : yellowKeyImage) {
+	offset = "-0.4 0.03 0.3";
+	rotation = eulerToMatrix("90 0 0");
+	mountPoint = 0;
+};

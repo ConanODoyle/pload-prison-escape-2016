@@ -163,12 +163,12 @@ function fxDTSBrick::setPlayerCamera(%this,%option,%client)
    switch (%option)
    {
       case 1:  %rot = "1 0 0 0";
-      case 2:  %rot = "0 0 1 1.5708";
-      case 3:  %rot = "0 0 1 3.14159";
-      case 4:  %rot = "0 0 -1 1.5708";
-      case 5:  %rot = "-1 0 0 1.5708";
-      case 6:  %rot = "1 0 0 1.5708";
-      default: %rot = "0 0 0 0";
+      case 2:  %rot = "0 0 1 1.5708";  //n
+      case 3:  %rot = "0 0 1 3.14159"; //e
+      case 4:  %rot = "0 0 -1 1.5708"; //s
+      case 5:  %rot = "-1 0 0 1.5708"; //w
+      case 6:  %rot = "1 0 0 1.5708";  //u
+      default: %rot = "0 0 0 0";       //d
    }
    
    if (%option)
@@ -181,7 +181,15 @@ function fxDTSBrick::setPlayerCamera(%this,%option,%client)
    else
    {
       %camera.setMode(Observer);      
+      %angleID = %this.getAngleID();
+      switch (%angleID) {
+         case 0: %rot = "0 0 1 1.5708"; %pos = vectorAdd(%pos, "0.5 0 0");
+         case 1: %rot = "0 0 1 3.1416"; %pos = vectorAdd(%pos, "0 -0.5 0");
+         case 2: %rot = "0 0 1 -1.5708"; %pos = vectorAdd(%pos, "-0.5 0 0");
+         case 3: %rot = "0 0 1 0"; %pos = vectorAdd(%pos, "0 0.5 0");
+      }
       %camera.setDollyMode(%pos, %pos);
+      %camera.setTransform(%pos SPC %rot);
       %camera.setControlObject(%camera);
    }
 
@@ -317,6 +325,10 @@ function MiniGameSO::setCameraNormal(%mg, %posBrickName, %targetBrickName)
 } 
 
 function fxDTSBrick::previewCameras(%this, %client) {
+   if (getSimTime() - %client.lastClickedTime < 2000 || %client.player.isInCamera) {
+      return;
+   }
+   %client.lastClickedTime = getSimTime();
    %client.player.isInCamera = 1;
    %client.player.isPreviewingCameras = 1;
    %client.player.canLeaveCamera = 1; 
@@ -328,6 +340,8 @@ function fxDTSBrick::previewCameras(%this, %client) {
    if (%client.currCamera $= "") {
       %client.currCamera = 0;
    }
+   %count = $Server::PrisonEscape::Cameras.getCount();
+   %client.currCamera = (%client.currCamera - 1 + %count) % %count;
    $Server::PrisonEscape::Cameras.getObject(%client.currCamera).setPlayerCamera(0, %client);
    $Server::PrisonEscape::Cameras.getObject(%client.currCamera).numViewers++;
    $Server::PrisonEscape::Cameras.getObject(%client.currCamera).loopToggle(5000);
@@ -351,6 +365,6 @@ function getFormattedCameraCenterprint(%brick, %index) {
    %name = $Server::PrisonEscape::Cameras.getObject(%index).getName();
    %name = getSubStr(%name, strPos(%name, "_", 1) + 1, strLen(%name));
    %name = strReplace(%name, "_", " ");
-   %final = "<br><br><br><br><br>\c6" @ %name @ " <br><font:Palatino Linotype:18>\c3Left Click <font:Consolas:20>" @ %slots @ "<font:Palatino Linotype:18> Right Click";
+   %final = "<br><br><br><br><br>\c6" @ %name @ " <br><font:Palatino Linotype:18>\c3Left Click <font:Consolas:18>" @ %slots @ "<font:Palatino Linotype:18>\c3 Right Click ";
    return %final;
 }
