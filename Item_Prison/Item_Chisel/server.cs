@@ -168,12 +168,13 @@ function isBreakableBrick(%brick, %player)
 	%plate = "brick1x3fData";
 	%plate2 = "brick1x1fData";
 	%window = "Window";
+	%window2 = "4x4F_GlassPane";
 	%towerSupport = "support";
-	if ((%db $= %pole || %db $= %pole2) && (%brick.getColorID() >= 44 && %brick.getColorID() <= 53)
+	if ((%db $= %pole || %db $= %pole2) && (%brick.getColorID() >= 44 && %brick.getColorID() <= 53))
 		return 2;
 	if ((%db $= %plate || %db $= %plate2) && (getRegion(%player) $= "Yard" || getRegion(%player) $="Outside"))
 		return 1;
-	if (strPos(%db, %window) >= 0 || strPos(%brick.getName(), %towerSupport) >= 0)
+	if (strPos(%db, %window) >= 0 || strPos(%db, %window2) >= 0 || strPos(%brick.getName(), %towerSupport) >= 0)
 		return 3;
 	
 	return 0;
@@ -241,7 +242,7 @@ function FxDTSBrick::damage(%brick, %damage)
 	if(!%brick.maxDamage)
 	{
 		%db = %brick.getDatablock().getName();
-		if (strPos(%db, "Window") >= 0) {
+		if (strPos(%this.getName(), "tower") < 0) {
 			%brick.maxDamage = $windowDamage;
 			%brick.playSound(glassExplosionSound);
 		} else {

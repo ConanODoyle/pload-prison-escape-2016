@@ -8,7 +8,7 @@ exec("./chat.cs");
 exec("./stun.cs");
 exec("./globalcams.cs");
 exec("./rounds.cs");
-exec("./towers.cs");
+exec("./collection.cs");
 exec("./vip.cs");
 
 exec("./Brick_Prison/server.cs");
