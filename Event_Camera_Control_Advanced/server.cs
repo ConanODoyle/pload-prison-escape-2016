@@ -29,13 +29,14 @@ function fxDTSBrick::loopToggle(%this, %time) {
 
    if (%this.getDatablock().isOpen) {
       %this.door(4);
-   } else { 
-      if ((%this.isCCW && strPos(%this.getName(), "left") < 0) || strPos(%this.getName(), "right") >= 0) {
-         %this.door(3);
-         %this.isCCW = 0;
-      } else if (strPos(%this.getName(), "right") < 0) {
+   } else {
+      %name = strlwr(%this.getName());
+      if (strPos(%name, "left") >= 0 || (!%this.nextTurnRight && strPos(%name, "right") < 0 && strPos(%name, "left") < 0)) {
          %this.door(2);
-         %this.isCCW = 1;
+         %this.nextTurnRight = 1;
+      } else {//if (strPos(%name, "right") < 0 || !%this.nextTurnRight) {
+         %this.door(3);
+         %this.nextTurnRight = 0;
       }
    }
    %this.loopToggleLoop = %this.schedule(%time / 4, loopToggle, %time);
@@ -245,7 +246,7 @@ package CameraControlsExtended
       %cl = %obj.getControllingClient();
       if (%cl.player.isPreviewingCameras && %state == 1) {
          %count = $Server::PrisonEscape::Cameras.getCount();
-         if (%trig == 0) {
+         if (%trig == 4) {
             $Server::PrisonEscape::Cameras.getObject(%cl.currCamera).endLoopToggle();
             %cl.currCamera = (%cl.currCamera + 1) % %count;
             %brick = $Server::PrisonEscape::Cameras.getObject(%cl.currCamera);
@@ -254,7 +255,7 @@ package CameraControlsExtended
             %brick.loopToggle(5000);
             %cl.centerprint(getFormattedCameraCenterprint(%brick, %cl.currCamera));
             return;
-         } else if (%trig == 4) {
+         } else if (%trig == 0) {
             $Server::PrisonEscape::Cameras.getObject(%cl.currCamera).endLoopToggle();
             %cl.currCamera = (%cl.currCamera - 1 + %count) % %count;
             %brick = $Server::PrisonEscape::Cameras.getObject(%cl.currCamera);
