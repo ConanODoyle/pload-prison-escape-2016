@@ -140,14 +140,34 @@ package PrisonEscape_Base
 		return parent::onDrop(%this, %val);
 	}
 
+	function Armor::onCollision(%this, %obj, %col, %vel, %speed) {
+		if (%obj.getDatablock().getName() $= "BuffArmor" && %col.getClassName() $= "Item") {
+			return;
+		} else if (%col.getDatablock().getName() $= "SmokeGrenadeItem" && isObject(%col.spawnBrick)) {
+			%ret = parent::onCollision(%this, %obj, %col, %vel, %speed);
+			%col.spawnBrick.originalItem = "SmokeGrenadeItem";
+			%col.delete();
+			return %ret;
+		}
+		return parent::onCollision(%this, %obj, %col, %vel, %speed);
+	}
+
 	function minigameCanDamage(%obj1, %obj2) {
-		%cl1 = %obj1.client;
-		%cl2 = %obj2.client;
+		if (%obj1.getClassName() !$= "GameConnection") {
+			%cl1 = %obj1.client;
+			%db1 = %obj1.getDatablock().getName();
+		} else {
+			%cl1 = %obj1;
+		}
 
-		%db1 = %obj1.getDatablock().getName();
-		%db2 = %obj2.getDatablock().getName();
+		if (%obj2.getClassName() !$= "GameConnection") {
+			%db2 = %obj2.getDatablock().getName();
+			%cl2 = %obj2.client;
+		} else {
+			%cl2 = %obj2;
+		}
 
-		if (%db1 $= "ShepherdDogArmor" || %db2 $= "ShepherdDogArmor") {
+		if (%db1 $= "ShepherdDogHoleBot" || %db2 $= "ShepherdDogHoleBot") {
 			if (%cl1.isGuard || %cl2.isGuard) {
 				return 0;
 			}
@@ -156,6 +176,23 @@ package PrisonEscape_Base
 		}
 
 		return 1;
+	}
+
+	function WeaponImage::onMount(%this, %obj, %slot) {
+		if (%obj.getDatablock().getName() $= "BuffArmor" && %this.getName() !$= "BuffBashImage") {
+			if (isObject(%cl = %obj.client)) {
+				%cl.centerPrint("\c6You can't equip items as Bronson!", 1);
+				%obj.unMountImage(%slot);
+			}
+			return;
+		} else if (isObject(%mnt = %obj.getObjectMount()) && %mnt.getDatablock().getName() $= "LaundryCartArmor" && %obj.getMountNode() $= 0) {
+			if (isObject(%cl = %obj.client)) {
+				%cl.centerPrint("\c6You can't equip items as while pushing a cart!", 1);
+				%obj.unMountImage(%slot);
+			}
+			return;
+		}
+		return parent::onMount(%this, %obj, %slot); 
 	}
 };
 activatePackage(PrisonEscape_Base);

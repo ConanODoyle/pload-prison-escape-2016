@@ -93,9 +93,9 @@ datablock PlayerData(ShepherdDogHoleBot : ShepherdDogArmor)
 	hEmote = 1;
 };
 
-function ShepherdDogHoleBot::onAdd(%this,%obj)
+function ShepherdDogHoleBot::onAdd(%this, %obj)
 {
-	armor::onAdd(%this,%obj);
+	%ret = parent::onAdd(%this,%obj);
 	
 	%color = getRandom(0,3);
 	if(%color == 0)
@@ -112,8 +112,10 @@ function ShepherdDogHoleBot::onAdd(%this,%obj)
 	GameConnection::ApplyBodyParts(%obj);
 	GameConnection::ApplyBodyColors(%obj);
 	
+	%obj.mountImage(dogYellowKeyImage, 2);
 	// allow people to take control of the bot when they mount it
 	//%obj.controlOnMount = 1;
+	return %ret;
 }
 
 
@@ -293,6 +295,20 @@ package BotHole_Dogs
 		holeBotDisabled(%obj);
 		serverPlay3D("ShepherdDogDeath" @ getRandom(1, 2) @ "Sound", %obj.getPosition());
 		%obj.playThread(2, "death1");
+
+		%i = new Item()
+		{
+			minigame = %obj.client.minigame;
+			datablock = yellowKeyItem;
+			canPickup = true;
+			rotate = false;
+			position = %obj.getPosition();
+			initialVelocity = "0 0 30";
+		};
+		MissionCleanup.add(%i);
+		talk(%i);
+		%i.schedule(60000, fadeOut);
+		%i.schedule(61000, delete);
 	}
 
 	function ShepherdDogArmor::onDisabled(%this, %obj, %state) //for players; slightly different behavior

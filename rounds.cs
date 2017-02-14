@@ -104,6 +104,10 @@ function serverCmdSetPhase(%client, %phase)
 		//autocall phase 2
 		//call through the caminations, when they're done
 		schedule(5000, 0, serverCmdSetPhase, %cl, 2);
+		startLightBeamLoop($Server::PrisonEscape::Towers.tower1.spotlight);
+		startLightBeamLoop($Server::PrisonEscape::Towers.tower2.spotlight);
+		startLightBeamLoop($Server::PrisonEscape::Towers.tower3.spotlight);
+		startLightBeamLoop($Server::PrisonEscape::Towers.tower4.spotlight);
 		$Server::PrisonEscape::roundPhase = 1;
 	}
 	else if (%phase == 2) //start round loops, like timer + win conditions check

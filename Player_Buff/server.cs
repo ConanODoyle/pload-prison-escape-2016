@@ -245,10 +245,13 @@ function BuffArmor::onAdd(%this,%obj)
 {
    // Vehicle timeout
    %obj.mountVehicle = true;
+   %obj.unMountImage(0);
+   %obj.unMountImage(1);
+   %obj.unMountImage(2);
+   %obj.unMountImage(3);
 
    // Default dynamic armor stats
    %obj.setRepairRate(0);
-
 }
 
 
@@ -257,4 +260,75 @@ function BuffArmor::onAdd(%this,%obj)
 function BuffArmor::onDriverLeave(%obj, %player)
 {
 	//do nothing
+}
+
+datablock ProjectileData(BuffBashProjectile : ChiselProjectile)
+{
+   explosion           = BuffBashExplosion;
+
+   muzzleVelocity      = 50;
+   velInheritFactor    = 1;
+
+   armingDelay         = 0;
+   lifetime            = 100;
+   fadeDelay           = 70;
+   bounceElasticity    = 0;
+   bounceFriction      = 0;
+   isBallistic         = false;
+   gravityMod = 0.0;
+
+   hasLight    = false;
+   lightRadius = 3.0;
+   lightColor  = "0 0 0.5";
+};
+
+datablock ExplosionData(BuffBashExplosion : PushBroomExplosion) {
+   explosionScale = "0.5 0.5 0.5";
+   lifetimeMS = 200;
+   lifetimeVariance = 50;
+   damageRadius = 0.2;
+   radiusDamage = 0;
+   impulseForce = 0;
+   impulseRadius = 0;
+
+   hasLight = false;
+};
+
+datablock ItemData(BuffBashItem : ChiselItem) {
+   shapeFile = "";
+   uiName = "Buff Bash";
+   image = BuffBashImage;
+};
+
+datablock ShapeBaseImageData(BuffBashImage : ChiselImage) {
+   item = BuffBashItem;
+   armReady = false;
+
+   projectile = BuffBashProjectile;
+   projectileType = Projectile;
+
+   stateName[0]        = "Activate";
+   stateTimeoutValue[0]    = 0.3;
+   stateTransitionOnTimeout[0]   = "Ready";
+   stateSound[0]              = weaponSwitchSound;
+
+   stateName[1]         = "Ready";
+   stateTransitionOnTriggerDown[1]  = "Fire";
+   stateAllowImageChange[1]   = true;
+
+   stateName[2]         = "Fire";
+   stateTransitionOnTimeout[2]   = "Cooldown";
+   stateTimeoutValue[2]    = 0.4;
+   stateFire[2]         = true;
+   stateScript[2]       = "onFire";
+   stateWaitForTimeout[2]     = true;
+   stateAllowImageChange[2]   = true;
+
+   stateName[3]         = "Cooldown";
+   stateTransitionOnTriggerUp[3] = "Ready";
+};
+
+function BuffBashImage::onFire(%this, %obj, %slot) {
+   %obj.playThread(2, activate2);
+   return parent::onFire(%this, %obj, %slot);
 }

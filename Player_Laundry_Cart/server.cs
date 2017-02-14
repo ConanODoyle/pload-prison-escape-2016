@@ -265,6 +265,9 @@ package LaundryCartPackage {
    function Armor::onMount(%this, %obj, %vehi, %mountPoint) {
       %db = %vehi.getDatablock().getName();
       if (%db $= "LaundryCartArmor" && %mountPoint == 0) {
+         if (%vehi.isSliding) {
+            return %obj.dismount();
+         }
          %vehi.unHideNode("lshoe");
          %vehi.unHideNode("rshoe");
 
@@ -349,7 +352,13 @@ package LaundryCartPackage {
 
          %vec = vectorNormalize(getWords(%this.getForwardVector(), 0, 1) SPC 0.01);
          %this.getDatablock().doDismount(%this);
-         %vehi.doLaundrySlide(0);
+         if (%this.getDatablock().getName() $= "BuffArmor"){
+            %vehi.doLaundrySlide(0, 1.);
+         } else {
+            %vehi.doLaundrySlide(0, 1);
+         }
+
+
          if (isObject(%pl = %vehi.getMountedObject(0))) {
             //%pl.schedule(1000, dismount);
             //schedule(1000, %pl, tumble, %pl);
@@ -396,11 +405,11 @@ function LaundryCartArmor::onDriverLeave(%obj, %player)
 	//do nothing
 }
 
-function Player::doLaundrySlide(%pl,%tick)
+function Player::doLaundrySlide(%pl, %tick, %initialVel)
 {
    if(%tick == 0){
       %pl.isSliding = 1;
-      %pl.setMaxForwardSpeed(%pl.getDatablock().slideSpeed);
+      %pl.setMaxForwardSpeed(%pl.getDatablock().slideSpeed * %initialVel);
       %pl.addVelocity(vectorScale(%pl.getForwardVector(), %pl.getDatablock().slideSpeed));
    }
    cancel(%pl.laundrySlideSched);

@@ -163,7 +163,7 @@ function chiselImage::onAbortCharge(%this, %obj, %slot)
 function isBreakableBrick(%brick, %player)
 {
 	%db = %brick.getDatablock().getName();
-	%pole = "brick1x1HorizPoleData";
+	%pole = "brick1x1fHorizPoleData";
 	%pole2 = "brick1x1PoleData";
 	%plate = "brick1x3fData";
 	%plate2 = "brick1x1fData";
@@ -244,7 +244,6 @@ function FxDTSBrick::damage(%brick, %damage)
 		%db = %brick.getDatablock().getName();
 		if (strPos(%this.getName(), "tower") < 0) {
 			%brick.maxDamage = $windowDamage;
-			%brick.playSound(glassExplosionSound);
 		} else {
 			%brick.maxDamage = $towerDamage * $towerStages;
 			%brick.isTowerSupport = 1;
@@ -253,8 +252,15 @@ function FxDTSBrick::damage(%brick, %damage)
 	}
 
 	%brick.damage += %damage;
+	if (strPos(%this.getName(), "tower") < 0) {
+		%brick.playSound(trayDeflect3Sound);
+	}
+
 	if (%brick.damage >= %brick.maxDamage) {
 		%brick.killDelete();
+		if (strPos(%this.getName(), "tower") < 0) {
+			%brick.playSound(glassExplosionSound);
+		}
 		return;
 	}
 

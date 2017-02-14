@@ -142,6 +142,10 @@ function prisonEscape_saveBricks(%brickgroup, %i) {									//would make it easi
 	//reset brick health
 	%brick.damage = 0;
 
+	if (isObject(%brick.originalItem)) {
+		%brick.setItem(%brick.originalItem);
+	}
+
 	//skip if there is no name
 	if (%name $= "") {
 		schedule(0, 0, prisonEscape_saveBricks, %brickgroup, %i+1);
