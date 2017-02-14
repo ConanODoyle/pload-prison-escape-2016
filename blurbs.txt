@@ -1,0 +1,29 @@
+Tray
+Blocks one sniper shot
+
+Bucket
+Blocks one shot to the head
+
+Smoke Grenade
+Conceal an area for 10 seconds
+
+Steak
+Distracts and heals the dog
+
+Generator
+Break in to disable the spotlights
+
+Satellite Dish
+Break to disable cameras
+
+Bronson
+Destroys towers and walls with ease
+
+Cameras
+Spy on the prisoners!
+
+Sniper Rifle
+Comes with spotlight targeting systems
+
+Laundry Carts
+Push your teammates!

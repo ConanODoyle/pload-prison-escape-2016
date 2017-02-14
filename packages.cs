@@ -354,3 +354,5 @@ function Player::addItem(%this, %item, %client)
 		}
 	}
 }
+
+registerOutputEvent("Player", "addItem", "datablock ItemData", 1);

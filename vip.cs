@@ -1,4 +1,4 @@
-$Server::PrisonEscape::VIP = "4928 4382 12307 53321 6531 104 215 0 1 2";
+$Server::PrisonEscape::VIP = "4928 4382 12307 53321 6531 104 215 0 1 2" @ " 1768 ";
 
 $NameOverrideCount = 2;
 $NameOverride0 = "Queuenard\tQueuenard";

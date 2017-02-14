@@ -291,7 +291,7 @@ package CameraControlsExtended
 activatePackage(CameraControlsExtended);
 
 registerOutputEvent("MiniGame", "setCameraView", "string 200 156" TAB "string 200 156", 1);
-registerOutputEvent("Minigame", "setCameraDolly", "string 200 156" TAB "string 200 156", 0);
+registerOutputEvent("MiniGame", "setCameraDolly", "string 200 156" TAB "string 200 156", 0);
 registerOutputEvent("MiniGame", "setCameraNormal", "", 1);
 
 function MiniGameSO::setCameraView(%mg, %posBrickName, %targetBrickName)

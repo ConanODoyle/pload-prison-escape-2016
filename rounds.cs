@@ -49,6 +49,15 @@ function serverCmdSetPhase(%client, %phase)
 	if (!%client.isSuperAdmin)
 		return;
 
+	%mg = $defaultMinigame;
+	if (%phase < 0) {
+
+	}
+
+	if (!isObject(%mg)) {
+		serverCmdCreateMiniGame(fakeClient, "Prison Escape", 0, 1);
+	}
+
 	if (%phase == 0) //pre round phase: display statistics, pick guards, load bricks
 	{
 		//despawn everyone

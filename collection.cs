@@ -37,8 +37,8 @@ function assignBricks() {
 	$Server::PrisonEscape::PrisonerSpawnPoints.clear();
 	$Server::PrisonEscape::InfirmarySpawnPoints.clear();
 	$Server::PrisonEscape::Cameras.clear();
-	$Server::PrisonEscape::generator = 0;
-	$Server::PrisonEscape::commDish = 0;
+	$Server::PrisonEscape::Generator = 0;
+	$Server::PrisonEscape::CommDish = 0;
 
 	PPE_messageAdmins("!!! \c5Beginning search for gamemode bricks...");
 	PPE_messageAdmins("!!! \c5Brickgroup brickcount: " @ %brickgroup.getCount());
@@ -126,7 +126,7 @@ function prisonEscape_saveBricks(%brickgroup, %i) {									//would make it easi
 		PPE_messageAdmins("!!! \c5--T2 bc: " @ $Server::PrisonEscape::Towers.tower2.getCount());
 		PPE_messageAdmins("!!! \c5--T3 bc: " @ $Server::PrisonEscape::Towers.tower3.getCount());
 		PPE_messageAdmins("!!! \c5--T4 bc: " @ $Server::PrisonEscape::Towers.tower4.getCount());
-		PPE_messageAdmins("!!! \c5Generator: " @ $Server::PrisonEscape::Generator SPC "CommDish: " @ $Server::PrisonEscape::commDish);
+		PPE_messageAdmins("!!! \c5Generator: " @ $Server::PrisonEscape::Generator SPC "CommDish: " @ $Server::PrisonEscape::CommDish);
 		PPE_messageAdmins("!!! \c5# Prisoner Spawns: " @ $Server::PrisonEscape::PrisonerSpawnPoints.getcount());
 		PPE_messageAdmins("!!! \c5# Infirmary Spawns: " @ $Server::PrisonEscape::InfirmarySpawnPoints.getcount());
 
@@ -180,10 +180,10 @@ function prisonEscape_saveBricks(%brickgroup, %i) {									//would make it easi
 			$Server::PrisonEscape::Towers.tower[%tower].spotlight = %brick.vehicle;
 		}
 		%brick.tower = %tower;
-	} else if (strPos(%name, "generator") >= 0) {
-		$Server::PrisonEscape::generator = %brick;
-	} else if (strPos(%name, "commDish") >= 0) {
-		$Server::PrisonEscape::commDish = %brick; 
+	} else if (strPos(%name, "Generator") >= 0) {
+		$Server::PrisonEscape::Generator = %brick;
+	} else if (strPos(%name, "CommDish") >= 0) {
+		$Server::PrisonEscape::CommDish = %brick; 
 	} else if (strPos(%name, "camera") >= 0) {
 		$Server::PrisonEscape::Cameras.add(%brick);
 	} else if (strPos(%brick.getDatablock().getName(), "Spawn") >= 0) {

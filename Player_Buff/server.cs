@@ -295,12 +295,13 @@ datablock ExplosionData(BuffBashExplosion : PushBroomExplosion) {
 };
 
 datablock ItemData(BuffBashItem : ChiselItem) {
-   shapeFile = "";
+   shapeFile = "base/data/shapes/empty.dts";
    uiName = "Buff Bash";
    image = BuffBashImage;
 };
 
 datablock ShapeBaseImageData(BuffBashImage : ChiselImage) {
+   shapeFile = "base/data/shapes/empty.dts";
    item = BuffBashItem;
    armReady = false;
 
@@ -332,3 +333,4 @@ function BuffBashImage::onFire(%this, %obj, %slot) {
    %obj.playThread(2, activate2);
    return parent::onFire(%this, %obj, %slot);
 }
+

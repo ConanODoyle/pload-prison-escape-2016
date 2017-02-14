@@ -353,7 +353,7 @@ package LaundryCartPackage {
          %vec = vectorNormalize(getWords(%this.getForwardVector(), 0, 1) SPC 0.01);
          %this.getDatablock().doDismount(%this);
          if (%this.getDatablock().getName() $= "BuffArmor"){
-            %vehi.doLaundrySlide(0, 1.);
+            %vehi.doLaundrySlide(0, 1.8);
          } else {
             %vehi.doLaundrySlide(0, 1);
          }

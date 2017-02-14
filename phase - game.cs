@@ -181,3 +181,48 @@ function guardsWin() {
 
 	//playsound on clients
 }
+
+package PrisonEscape_GamePhase {
+	function fxDTSBrick::killDelete(%this) {
+		if ($Server::PrisonEscape::Generator == %this) {
+			disableSpotlights();
+		} else if ($Server::PrisonEscape::CommDish == %this) {
+			disableCameras();
+		}
+
+		return parent::killDelete(%this);
+	}
+};
+activatePackage(PrisonEscape_GamePhase);
+
+function disableSpotlights() {
+	if (!$Server::PrisonEscape::Towers.tower1.isDestroyed) {
+		clearLightBeam($Server::PrisonEscape::Towers.tower1.spotlight);
+	}
+	if (!$Server::PrisonEscape::Towers.tower2.isDestroyed) {
+		clearLightBeam($Server::PrisonEscape::Towers.tower2.spotlight);
+	}
+	if (!$Server::PrisonEscape::Towers.tower3.isDestroyed) {
+		clearLightBeam($Server::PrisonEscape::Towers.tower3.spotlight);
+	}
+	if (!$Server::PrisonEscape::Towers.tower4.isDestroyed) {
+		clearLightBeam($Server::PrisonEscape::Towers.tower4.spotlight);
+	}
+	messageAll('MsgStartUpload', "\c4The spotlights have been disabled!");
+}
+
+function disableCameras() {
+	if ($Server::PrisonEscape::Towers.tower1.guard.player.isInCamera) {
+		serverCmdLight($Server::PrisonEscape::Towers.tower1.guard);
+	}
+	if ($Server::PrisonEscape::Towers.tower2.guard.player.isInCamera) {
+		serverCmdLight($Server::PrisonEscape::Towers.tower2.guard);
+	}
+	if ($Server::PrisonEscape::Towers.tower3.guard.player.isInCamera) {
+		serverCmdLight($Server::PrisonEscape::Towers.tower3.guard);
+	}
+	if ($Server::PrisonEscape::Towers.tower4.guard.player.isInCamera) {
+		serverCmdLight($Server::PrisonEscape::Towers.tower4.guard);
+	}
+	messageAll('MsgStartUpload', "\c4The cameras have been disabled!");
+}

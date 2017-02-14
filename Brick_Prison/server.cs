@@ -23,4 +23,16 @@ datablock fxDTSBrickData(brickGeneratorData)
 	subCategory = "Misc";
 	uiName = "Generator";
 	iconName = "";
+	orientationFix = 1;
+	//collisionShapeName = "./generator.dts";
+};
+
+datablock fxDTSBrickData(brickSatDishData)
+{
+	brickFile = "./satdish.blb";
+	category = "Special";
+	subCategory = "Misc";
+	uiName = "Satellite Dish";
+	iconName = "";
+	//collisionShapeName = "./generator.dts";
 };
