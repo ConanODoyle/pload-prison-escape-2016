@@ -143,7 +143,7 @@ function prisonersWin(%brick) {
 		}
 		%start = %brick.getPosition();
 		%end = vectorAdd(%vec, %start);
-		setAllCamerasView(%end, %start, 0, 90);
+		setAllCamerasView(%end, %start);
 		returnAllPlayerControlCamera();
 	}
 
@@ -183,11 +183,11 @@ function guardsWin() {
 }
 
 package PrisonEscape_GamePhase {
-	function fxDTSBrick::killDelete(%this) {
+	function fxDTSBrick::killDelete(%this, %player) {
 		if ($Server::PrisonEscape::Generator == %this) {
-			disableSpotlights();
+			disableSpotlights(%player.client);
 		} else if ($Server::PrisonEscape::CommDish == %this) {
-			disableCameras();
+			disableCameras(%player.client);
 		}
 
 		return parent::killDelete(%this);
@@ -195,7 +195,13 @@ package PrisonEscape_GamePhase {
 };
 activatePackage(PrisonEscape_GamePhase);
 
-function disableSpotlights() {
+registerOutputEvent("fxDTSBrick", "disableSpotlights", "", 1);
+
+function fxDTSBrick::disableSpotlights(%this, %client) {
+	disableSpotlights(%client);
+}
+
+function disableSpotlights(%client) {
 	if (!$Server::PrisonEscape::Towers.tower1.isDestroyed) {
 		clearLightBeam($Server::PrisonEscape::Towers.tower1.spotlight);
 	}
@@ -208,10 +214,14 @@ function disableSpotlights() {
 	if (!$Server::PrisonEscape::Towers.tower4.isDestroyed) {
 		clearLightBeam($Server::PrisonEscape::Towers.tower4.spotlight);
 	}
-	messageAll('MsgStartUpload', "\c4The spotlights have been disabled!");
+	if (!isObject(%client)) {
+		messageAll('MsgStartUpload', "\c4The spotlights have been disabled!");
+	} else {
+		messageAll('MsgStartUpload', "\c4The spotlights have been disabled by \c3" @ %client.name @ "\c4!");
+	}
 }
 
-function disableCameras() {
+function disableCameras(%client) {
 	if ($Server::PrisonEscape::Towers.tower1.guard.player.isInCamera) {
 		serverCmdLight($Server::PrisonEscape::Towers.tower1.guard);
 	}
@@ -224,5 +234,9 @@ function disableCameras() {
 	if ($Server::PrisonEscape::Towers.tower4.guard.player.isInCamera) {
 		serverCmdLight($Server::PrisonEscape::Towers.tower4.guard);
 	}
-	messageAll('MsgStartUpload', "\c4The cameras have been disabled!");
+	if (!isObject(%client)) {
+		messageAll('MsgStartUpload', "\c4The cameras have been disabled!");
+	} else {
+		messageAll('MsgStartUpload', "\c4The cameras have been disabled by \c3" @ %client.name @ "\c4!");
+	}
 }

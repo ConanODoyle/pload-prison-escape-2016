@@ -88,7 +88,7 @@ datablock PlayerData(BuffArmor)
    mass = 140;
    drag = 0.1;
    density = 0.7;
-   maxDamage = 400;
+   maxDamage = 600;
    maxEnergy =  10;
    repairRate = 0.33;
 
@@ -229,14 +229,6 @@ datablock PlayerData(BuffArmor)
 	brickImage = brickImage;	//the imageData to use for brick deployment
 
    numMountPoints = 0;
-   mountThread[0] = "armReadyBoth";
-   mountNode[0] = 0;
-
-   mountThread[1] = "root";
-   mountNode[1] = 1;
-
-   mountThread[1] = "root";
-   mountNode[1] = 2;
 };
 
 
@@ -245,10 +237,6 @@ function BuffArmor::onAdd(%this,%obj)
 {
    // Vehicle timeout
    %obj.mountVehicle = true;
-   %obj.unMountImage(0);
-   %obj.unMountImage(1);
-   %obj.unMountImage(2);
-   %obj.unMountImage(3);
 
    // Default dynamic armor stats
    %obj.setRepairRate(0);
@@ -262,11 +250,48 @@ function BuffArmor::onDriverLeave(%obj, %player)
 	//do nothing
 }
 
-datablock ProjectileData(BuffBashProjectile : ChiselProjectile)
-{
-   explosion           = BuffBashExplosion;
+datablock ExplosionData(BuffBashExplosion) {
+   lifetimeMS = 400;
 
-   muzzleVelocity      = 50;
+   emitter[0] = pushBroomSparkEmitter;
+   particleEmitter = pushBroomExplosionEmitter;
+   particleDensity = 80;
+   particleRadius = 1.0;
+
+   cameraShakeFalloff = false;
+   camShakeFreq = "2.0 3.0 1.0";
+   camShakeAmp = "1.0 1.0 1.0";
+   camShakeDuration = 2.5;
+   camShakeRadius = 2;
+   camShakeFalloff = 1;
+
+   soundProfile = spearExplosionSound;
+
+   uiName = "Buff Bash";
+
+   //explosionShape = "";
+   lifeTimeMS = 400;
+   
+   faceViewer     = true;
+   explosionScale = "1 1 1";
+
+   // Dynamic light
+   lightStartRadius = 0;
+   lightEndRadius = 0;
+   lightStartColor = "0.0 0.0 0.0";
+   lightEndColor = "0 0 0";
+};
+
+datablock ProjectileData(BuffBashProjectile)
+{
+   //projectileShapeName = "~/data/shapes/arrow.dts";
+   directDamage        = 0;
+   impactImpulse       = 0;
+   verticalImpulse     = 0;
+   explosion           = BuffBashExplosion;
+   //particleEmitter     = as;
+
+   muzzleVelocity      = 40;
    velInheritFactor    = 1;
 
    armingDelay         = 0;
@@ -280,38 +305,61 @@ datablock ProjectileData(BuffBashProjectile : ChiselProjectile)
    hasLight    = false;
    lightRadius = 3.0;
    lightColor  = "0 0 0.5";
+   uiName = "Buff Bash Projectile";
 };
 
-datablock ExplosionData(BuffBashExplosion : PushBroomExplosion) {
-   explosionScale = "0.5 0.5 0.5";
-   lifetimeMS = 200;
-   lifetimeVariance = 50;
-   damageRadius = 0.2;
-   radiusDamage = 0;
-   impulseForce = 0;
-   impulseRadius = 0;
+datablock ItemData(BuffBashItem) {
+   category = "Weapon";  // Mission editor category
+   className = "Weapon"; // For inventory system
 
-   hasLight = false;
-};
-
-datablock ItemData(BuffBashItem : ChiselItem) {
    shapeFile = "base/data/shapes/empty.dts";
+   mass = 1;
+   density = 0.2;
+   elasticity = 0.2;
+   friction = 0.6;
+   emap = true;
+
    uiName = "Buff Bash";
+   iconName = "";
+   doColorShift = false;
+   colorShiftColor = "0.4 0.4 0.4 1.000";
+
    image = BuffBashImage;
+   canDrop = true;
 };
 
-datablock ShapeBaseImageData(BuffBashImage : ChiselImage) {
+datablock ShapeBaseImageData(BuffBashImage) {
    shapeFile = "base/data/shapes/empty.dts";
+   emap = true;
+
    item = BuffBashItem;
    armReady = false;
 
+   offset = "0 0 0";
+
+   mountPoint = 0;
+
+   correctMuzzleVector = true;
+
+   // Add the WeaponImage namespace as a parent, WeaponImage namespace
+   // provides some hooks into the inventory system.
+   className = "WeaponImage";
+
+   ammo = " ";
    projectile = BuffBashProjectile;
    projectileType = Projectile;
+
+   melee = false;
+   //raise your arm up or not
+   armReady = false;
+
+   //casing = " ";
+   doColorShift = true;
+   colorShiftColor = "0.4 0.4 0.4 1.000";
 
    stateName[0]        = "Activate";
    stateTimeoutValue[0]    = 0.3;
    stateTransitionOnTimeout[0]   = "Ready";
-   stateSound[0]              = weaponSwitchSound;
 
    stateName[1]         = "Ready";
    stateTransitionOnTriggerDown[1]  = "Fire";
@@ -319,7 +367,7 @@ datablock ShapeBaseImageData(BuffBashImage : ChiselImage) {
 
    stateName[2]         = "Fire";
    stateTransitionOnTimeout[2]   = "Cooldown";
-   stateTimeoutValue[2]    = 0.4;
+   stateTimeoutValue[2]    = 0.38;
    stateFire[2]         = true;
    stateScript[2]       = "onFire";
    stateWaitForTimeout[2]     = true;
@@ -330,7 +378,59 @@ datablock ShapeBaseImageData(BuffBashImage : ChiselImage) {
 };
 
 function BuffBashImage::onFire(%this, %obj, %slot) {
-   %obj.playThread(2, activate2);
+   %obj.client.buffAttack++;
+   $Server::PrisonEscape::buffAttacks++;
+
+   %obj.playThread(1, activate2);
    return parent::onFire(%this, %obj, %slot);
 }
 
+package BuffHit
+{
+   function BuffBashProjectile::onCollision(%data, %obj, %col, %fade, %pos, %normal)
+   {
+      if (%col.getClassName() $= "FxDTSBrick" && %obj.sourceObject.getClassName() $= "Player")
+      {
+         %type = isBreakableBrick(%col, %obj.sourceObject);
+         if (%type > 0)
+         {
+            //statistics
+            %obj.client.buffHit++;
+            if (%type == 1)
+               %col.killDelete();
+            else if (%type == 2) {
+               %col.killbrick();
+            }
+            else {
+               %col.damage(1, %obj);
+            }
+            %obj.client.incScore(1);
+         }
+      }
+      return parent::onCollision(%data, %obj, %col, %fade, %pos, %normal);
+   }
+};
+activatePackage(BuffHit);
+
+// package Buff {
+//    function GameConnection::applyBodyColors(%this)
+//    {
+//       if (isObject(%this.player) && %this.player.getDatablock().getName() $= "BuffArmor") 
+//       {
+//          %color = %this.headColor;
+//          %tint = max(getWord(%this.headColor, 0) - 0.14, 0) SPC max(getWord(%this.headColor, 1) - 0.16, 0) SPC getWords(%this.headColor, 2, 3);
+
+//          %this.player.setNodeColor("ALL", %color);
+//          %this.player.setNodeColor("nipples", %tint);
+//          %this.player.setNodeColor("face", "0 0 0 1");
+//          %this.player.setNodeColor("pants", %this.hipColor);
+//          %this.player.setNodeColor("lShoe", %this.llegColor);
+//          %this.player.setNodeColor("rShoe", %this.rlegColor);
+//       }
+//       else
+//       {
+//          return parent::applyBodyColors(%this);
+//       }
+//    }
+// };
+// activatePackage(Buff);

@@ -23,7 +23,7 @@ datablock fxDTSBrickData(brickGeneratorData)
 	subCategory = "Misc";
 	uiName = "Generator";
 	iconName = "";
-	orientationFix = 1;
+	//orientationFix = 1;
 	//collisionShapeName = "./generator.dts";
 };
 

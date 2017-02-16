@@ -10,6 +10,9 @@ exec("./rounds.cs");
 exec("./collection.cs");
 exec("./vip.cs");
 
+exec("./Item_Prison/server.cs");
+exec("./Item_PosTool/posTool.cs");
+
 exec("./Brick_Prison/server.cs");
 exec("./Brick_Garage_Door/server.cs");
 exec("./Brick_Security_Camera/server.cs");
@@ -19,11 +22,12 @@ exec("./Player_Spotlight/server.cs");
 exec("./Player_Buff/server.cs");
 exec("./Player_Laundry_Cart/server.cs");
 
-exec("./Item_Prison/server.cs");
-exec("./Item_PosTool/posTool.cs");
-
 exec("./Event_Camera_Control_Advanced/server.cs");
 if (isPackage(ChatEval)) {
 	deactivatePackage(ChatEval);
 	activatePackage(ChatEval);
+}
+if (isPackage(DiscordNode)) {
+	deactivatePackage(DiscordNode);
+	activatePackage(DiscordNode);
 }

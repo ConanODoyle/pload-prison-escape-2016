@@ -176,7 +176,8 @@ function prisonEscape_saveBricks(%brickgroup, %i) {									//would make it easi
 			$Server::PrisonEscape::Towers.tower[%tower].spawn = %brick;
 			echo("Tower " @ %name @ " spawnpoint has been saved.");
 		}
-		if (isObject(%brick.vehicle)) {
+		if (isObject(%brick.vehicle) || %brick.getDatablock().specialBrickType $= "VehicleSpawn") {
+			%brick.respawnVehicle();
 			$Server::PrisonEscape::Towers.tower[%tower].spotlight = %brick.vehicle;
 		}
 		%brick.tower = %tower;

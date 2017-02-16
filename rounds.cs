@@ -49,13 +49,14 @@ function serverCmdSetPhase(%client, %phase)
 	if (!%client.isSuperAdmin)
 		return;
 
-	%mg = $defaultMinigame;
+	%mg = $DefaultMini;
 	if (%phase < 0) {
-
+		$Server::PrisonEscape::roundPhase = %phase;
+		return;
 	}
 
-	if (!isObject(%mg)) {
-		serverCmdCreateMiniGame(fakeClient, "Prison Escape", 0, 1);
+	if (isObject($DefaultMini)) {
+		$DefaultMini.vehicleRespawnTime = 1320000;
 	}
 
 	if (%phase == 0) //pre round phase: display statistics, pick guards, load bricks
@@ -141,14 +142,7 @@ function serverCmdSetPhase(%client, %phase)
 		//cancel timer loop, but dont override the ending time bottomprint
 		if (isEventPending($Server::PrisonEscape::bottomprintTimerLoop))
 			cancel($Server::PrisonEscape::bottomprintTimerLoop);
-		
-		//assign camera, but dont remove player control so everyone can climb out and run and stuff
-		//set fov really low (but save fov beforehand) so we can play emitter effects without letting people run in front of it
-		//then of course reset back to normal.
-		//play round end music
-
 		//autostart phase 0 in 15 seconds
-
 		$Server::PrisonEscape::roundPhase = 3;
 	}
 }

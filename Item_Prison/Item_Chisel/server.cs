@@ -34,7 +34,6 @@ datablock ItemData(chiselItem)
 	category = "Weapon";  // Mission editor category
 	className = "Weapon"; // For inventory system
 
-	 // Basic Item Properties
 	shapeFile = "./Chisel.dts";
 	mass = 1;
 	density = 0.2;
@@ -42,26 +41,15 @@ datablock ItemData(chiselItem)
 	friction = 0.6;
 	emap = true;
 
-	//gui stuff
 	uiName = "Chisel";
 	iconName = "./knife";
 	doColorShift = true;
 	colorShiftColor = "0.4 0.4 0.4 1.000";
 
-	 // Dynamic properties defined by the scripts
 	image = chiselImage;
 	canDrop = true;
 };
 
-//function chisel::onUse(%this,%user)
-//{
-//	//mount the image in the right hand slot
-//	%user.mountimage(%this.image, $RightHandSlot);
-//}
-
-////////////////
-//weapon image//
-////////////////
 datablock ShapeBaseImageData(chiselImage)
 {
    // Basic Item properties
@@ -172,17 +160,20 @@ function isBreakableBrick(%brick, %player)
 	%towerSupport = "support";
 	if ((%db $= %pole || %db $= %pole2) && (%brick.getColorID() >= 44 && %brick.getColorID() <= 53))
 		return 2;
-	if ((%db $= %plate || %db $= %plate2) && (getRegion(%player) $= "Yard" || getRegion(%player) $="Outside"))
+	if ((%db $= %plate || %db $= %plate2) && (getRegion(%brick) $= "Yard" || getRegion(%brick) $= "Outside"))
 		return 1;
 	if (strPos(%db, %window) >= 0 || strPos(%db, %window2) >= 0 || strPos(%brick.getName(), %towerSupport) >= 0)
 		return 3;
+	if (%brick == $Server::PrisonEscape::Generator || %brick == $Server::PrisonEscape::SatDish) {
+		return 3;
+	}
 	
 	return 0;
 }
 
 function FxDTSBrick::killDelete(%this) {
 	%this.fakeKillBrick((getRandom()-0.5)*20 SPC (getRandom()-0.5)*20 SPC -1, 2);
-	%this.schedule(2000, delete);
+	%this.schedule(2000, disappear, -1);
 	serverPlay3D("brickBreakSound", %this.getPosition());
 
 	if (%this.tower > 0) {
@@ -207,7 +198,7 @@ package ChiselHit
 					%col.killbrick();
 				}
 				else {
-					%col.damage(1);
+					%col.damage(1, %obj);
 				}
 				%obj.client.incScore(1);
 			}
@@ -229,7 +220,7 @@ $towerColor5 = 55;
 $towerColor6 = 54;
 $damageFlashColor = 45;
 
-function FxDTSBrick::damage(%brick, %damage)
+function FxDTSBrick::damage(%brick, %damage, %player)
 {
 	if(isEventPending(%brick.recolorSchedule))
 		cancel(%brick.recolorSchedule);
@@ -242,23 +233,32 @@ function FxDTSBrick::damage(%brick, %damage)
 	if(!%brick.maxDamage)
 	{
 		%db = %brick.getDatablock().getName();
-		if (strPos(%this.getName(), "tower") < 0) {
+		if (strPos(%brick.getName(), "tower") < 0) {
 			%brick.maxDamage = $windowDamage;
-		} else {
+		} else if (strPos(%brick.getName(), "tower") >= 0) {
 			%brick.maxDamage = $towerDamage * $towerStages;
 			%brick.isTowerSupport = 1;
 			%brick.colorStage = 0;
+		} else if (%brick == $Server::PrisonEscape::Generator) {
+			%brick.maxDamage = 10;
+		} else if (%brick == $Server::PrisonEscape::SatDish) {
+			%brick.maxDamage = 20;
 		}
 	}
 
 	%brick.damage += %damage;
-	if (strPos(%this.getName(), "tower") < 0) {
+	if (strPos(%brick.getName(), "tower") < 0) {
 		%brick.playSound(trayDeflect3Sound);
+	}
+	if (%brick == $Server::PrisonEscape::SatDish) {
+		if (getRandom() > 0.5) {
+			%player.electrocute(2);
+		}
 	}
 
 	if (%brick.damage >= %brick.maxDamage) {
 		%brick.killDelete();
-		if (strPos(%this.getName(), "tower") < 0) {
+		if (strPos(%brick.getName(), "tower") < 0) {
 			%brick.playSound(glassExplosionSound);
 		}
 		return;

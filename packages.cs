@@ -143,9 +143,9 @@ package PrisonEscape_Base
 	function Armor::onCollision(%this, %obj, %col, %vel, %speed) {
 		if (%obj.getDatablock().getName() $= "BuffArmor" && %col.getClassName() $= "Item") {
 			return;
-		} else if (%col.getDatablock().getName() $= "SmokeGrenadeItem" && isObject(%col.spawnBrick)) {
+		} else if (%col.getDatablock().getName() $= "riotSmokeGrenadeItem" && isObject(%col.spawnBrick)) {
 			%ret = parent::onCollision(%this, %obj, %col, %vel, %speed);
-			%col.spawnBrick.originalItem = "SmokeGrenadeItem";
+			%col.spawnBrick.originalItem = "riotSmokeGrenadeItem";
 			%col.delete();
 			return %ret;
 		}
