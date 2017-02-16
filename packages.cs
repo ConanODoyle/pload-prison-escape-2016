@@ -208,6 +208,7 @@ function max(%a, %b) {
 }
 
 $Skill4LifePink = "0.963 0.341 0.313 1";
+$SwollowColor = ".9 .34 .08 1";
 
 function GameConnection::applyUniform(%this)
 {
@@ -252,6 +253,12 @@ function GameConnection::applyUniform(%this)
 				%color = $Skill4LifePink;
 				%this.player.unHideNode($secondpack[2]);
 				%this.player.setNodeColor($secondpack[2], "1 1 0 1");
+			} else if (%this.bl_id == 6531) {
+				%color = $SwollowColor;
+				%this.player.unHideNode($pack[3]);
+				%this.player.setNodeColor($pack[3], "0.388 0 0.117 1");
+				%this.player.unHideNode($secondpack[6]);
+				%this.player.setNodeColor($secondpack[6], "0.388 0 0.117 1");
 			}
 			%player.hideNode(lPeg);
 			%player.hideNode(rPeg);

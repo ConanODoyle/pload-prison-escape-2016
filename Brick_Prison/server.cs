@@ -34,5 +34,5 @@ datablock fxDTSBrickData(brickSatDishData)
 	subCategory = "Misc";
 	uiName = "Satellite Dish";
 	iconName = "";
-	//collisionShapeName = "./generator.dts";
+	collisionShapeName = "./dishCOL.dts";
 };

@@ -1,7 +1,7 @@
 //handles chat manipulation
 
 //identifies the location of a player
-exec("./location.cs");
+exec("./locations.cs");
 
 package PrisonChatSystem
 {

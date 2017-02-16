@@ -164,7 +164,7 @@ function isBreakableBrick(%brick, %player)
 		return 1;
 	if (strPos(%db, %window) >= 0 || strPos(%db, %window2) >= 0 || strPos(%brick.getName(), %towerSupport) >= 0)
 		return 3;
-	if (%brick == $Server::PrisonEscape::Generator || %brick == $Server::PrisonEscape::SatDish) {
+	if (%brick == $Server::PrisonEscape::Generator || %brick == $Server::PrisonEscape::CommDish) {
 		return 3;
 	}
 	
@@ -195,7 +195,7 @@ package ChiselHit
 				if (%type == 1)
 					%col.killDelete();
 				else if (%type == 2) {
-					%col.killbrick();
+					%col.killDelete();
 				}
 				else {
 					%col.damage(1, %obj);
@@ -241,7 +241,7 @@ function FxDTSBrick::damage(%brick, %damage, %player)
 			%brick.colorStage = 0;
 		} else if (%brick == $Server::PrisonEscape::Generator) {
 			%brick.maxDamage = 10;
-		} else if (%brick == $Server::PrisonEscape::SatDish) {
+		} else if (%brick == $Server::PrisonEscape::CommDish) {
 			%brick.maxDamage = 20;
 		}
 	}
@@ -250,7 +250,7 @@ function FxDTSBrick::damage(%brick, %damage, %player)
 	if (strPos(%brick.getName(), "tower") < 0) {
 		%brick.playSound(trayDeflect3Sound);
 	}
-	if (%brick == $Server::PrisonEscape::SatDish) {
+	if (%brick == $Server::PrisonEscape::CommDish) {
 		if (getRandom() > 0.5) {
 			%player.electrocute(2);
 		}

@@ -399,7 +399,7 @@ package BuffHit
             if (%type == 1)
                %col.killDelete();
             else if (%type == 2) {
-               %col.killbrick();
+               %col.killDelete();
             }
             else {
                %col.damage(1, %obj);

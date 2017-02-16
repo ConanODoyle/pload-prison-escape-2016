@@ -150,6 +150,8 @@ function serverCmdLockPos(%cl) {
     } else {
         messageClient(%cl, '', "!!! \c6Current location does not have a second position!");
     }
+
+    export("$location*", "Add-ons/Gamemode_PPE/locations.cs");
 }
 
 function serverCmdLP(%cl) {
@@ -236,6 +238,18 @@ function isPosInBounds(%pos, %a, %b) {
     %x = getWord(%pos, 0); %y = getWord(%pos, 1); %z = getWord(%pos, 2);
 
     return (%x <= %xUpper && %y <= %yUpper && %z <= %zUpper && %x >= %xLower && %y >= %yLower && %z >= %zLower);
+}
+
+function getRegion(%obj) {
+    %pos = %obj.getPosition();
+    for (%i = 0; %i < $locationNum; %i++) {
+        %pos0 = $location[%i @ "::pos0"];
+        %pos1 = $location[%i @ "::pos1"];
+        if (isPosInBounds(%pos, %pos0, %pos1)) {
+            return $location[%i @ "::name"];
+        }
+    }
+    return "Outside";
 }
 
 
