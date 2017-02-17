@@ -1,4 +1,4 @@
-$Server::PrisonEscape::VIP = "4928 4382 12307 53321 6531 104 215 117 0 1 2" @ " 1768 67024 34944 169132 177375 196624 15144 26663 32660 200355 18569 20419 33303";
+$Server::PrisonEscape::VIP = "4928 4382 12307 53321 6531 104 215 117 0 1 2" @ " 1768 67024 34944 169132 177375 196624 15144 26663 32660 200355 18569 20419 33303 11532 67024 38483 48871 166247 41072";
 
 $NameOverrideCount = 2;
 $NameOverride0 = "Queuenard\tQueuenard";
@@ -28,7 +28,8 @@ package PrisonEscape_VIP {
 	function GameConnection::onConnectRequest(%client, %netAddress, %LANname, %netName, %clanPrefix, %clanSuffix, %clientNonce) {
 		if (ClientGroup.getCount() == $Pref::Server::maxPlayers) {
 			$Pref::Server::maxPlayers++;
-			$Pref::Server::reservedSlot = trim($Pref::Server::reservedSlot SPC %netName);
+		} else if (ClientGroup.getCount() > $Pref::Server::maxPlayers) {
+			$Pref::Server::maxPlayers = ClientGroup.getCount() + 1;
 		}
 		for (%i = 0; %i < $NameOverrideCount; %i++) {
 			if (%netName $= getField($NameOverride[%i], 0)) {
@@ -40,7 +41,7 @@ package PrisonEscape_VIP {
 	}
 
 	function GameConnection::onDrop(%client) {
-		if ($Pref::Server::maxPlayers > $Server::PrisonEscape::maxPlayers) {
+		if ($Pref::Server::maxPlayers > $Server::PrisonEscape::maxPlayers && $Pref::Server::maxPlayers > ClientGroup.getCount()) {
 			$Pref::Server::maxPlayers--;
 			updateServerInformation();
 		}
@@ -70,8 +71,8 @@ package PrisonEscape_VIP {
 			echo("    VIP status not found");
 			if ($Pref::Server::maxPlayers > $Server::PrisonEscape::maxPlayers) {
 				%cl.isBanReject = 1;
-				%cl.schedule(10, delete, "This server is full");
-				$Pref::Server::maxPlayers--;
+				%cl.schedule(10, delete, "The server is full");
+				schedule(10, 0, eval, "$Pref::Server::maxPlayers--;");
 				return;
 			}
 
@@ -85,3 +86,13 @@ package PrisonEscape_VIP {
 	}
 };
 activatePackage(PrisonEscape_VIP);
+
+function serverCmdSetPlayerCount(%cl, %count) {
+	if (!%cl.isSuperAdmin) {
+		return;
+	}
+	$Server::PrisonEscape::maxPlayers = %count;
+	$Pref::Server::maxPlayers = %count;
+	updateServerInformation();
+	PPE_MessageAdmins("!!! - \c3" @ %cl.name @ "\c6 set the max playercount to \c4" @ %count);
+}

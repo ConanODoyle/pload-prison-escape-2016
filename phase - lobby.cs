@@ -10,6 +10,10 @@ function serverCmdAddGuard(%client, %name)
 		return;
 
 	%targ = findclientbyname(%name);
+	if (!isObject(%targ)) {
+		messageAdmins("!!! \c5Cannot add \c3" @ %targ.name @ "\c5 to guard list - client does not exist! \c7(" @ %client.name @ ")");
+		return;
+	}
 	if (strPos($Server::PrisonEscape::Guards, %targ) >= 0) {
 		messageAdmins("!!! \c5Cannot add \c3" @ %targ.name @ "\c5 to guard list - already in list! \c7(" @ %client.name @ ")");
 		return;
@@ -79,7 +83,7 @@ function displayRoundLoadingInfo()
 function generateBottomPrint() 
 {
 	%header = "<just:center><font:Arial Bold:38><shadowcolor:666666><shadow:0:4><color:E65714>JailBreak! <br><font:Arial Bold:30>\c7-      - <br>";
-	%footer = "<shadow:0:3><color:ffffff>Please wait until the next round to play<font:Impact:1> <br>";
+	%footer = "<shadow:0:3><color:ffffff>Please wait for the next round to start<font:Impact:1> <br>";
 	return %header @ %footer;
 }
 

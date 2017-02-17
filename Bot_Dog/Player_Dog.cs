@@ -98,7 +98,7 @@ datablock PlayerData(ShepherdDogArmor)
    runEnergyDrain = 0;
    minRunEnergy = 0;
    maxStepHeight= "1";
-   maxForwardSpeed = 11;
+   maxForwardSpeed = 8;
    maxBackwardSpeed = 6;
    maxSideSpeed = 4;
 

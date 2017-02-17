@@ -6,6 +6,10 @@ chatspam check
 bronson dust
 have spotlights scan
 make laundrycart work on node coloring?? will affect painted color?
+on join spawn players in infirmary/cells not by default
+event win bricks to decollide all win bricks
+add getting proper spawnp oint to getSpawnPoint
+flash red when damaged
 
 donor hat
 donor sniper gold

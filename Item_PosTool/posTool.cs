@@ -165,6 +165,12 @@ if ($locationNum $= "") {
     $locationNum = 0;
 }
 
+function serverCmdSetColor(%cl, %i, %r, %g, %b, %a) {
+    setSprayCanColorI(%i, %r SPC %g SPC %b SPC %a);
+    clientCmdPlayGui_LoadPaint();
+    transmitDatablocks();
+}
+
 function roundVectorToBrickGrid(%pos) {
     %x = getWord(%pos, 0);
     %y = getWord(%pos, 1);

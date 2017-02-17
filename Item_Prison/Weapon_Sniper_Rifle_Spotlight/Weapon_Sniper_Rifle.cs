@@ -93,7 +93,7 @@ AddDamageType("SniperrifleSpotlight",   '<bitmap:Add-Ons/Item_Prison/Weapon_Snip
 datablock ProjectileData(SniperRifleSpotlightProjectile)
 {
    projectileShapeName = "./bullet.dts";
-   directDamage        = 150;
+   directDamage        = 100;
    directDamageType    = $DamageType::SniperrifleSpotlight;
    radiusDamageType    = $DamageType::SniperrifleSpotlight;
 
@@ -103,8 +103,8 @@ datablock ProjectileData(SniperRifleSpotlightProjectile)
    brickExplosionMaxVolume = 25;          //max volume of bricks that we can destroy
    brickExplosionMaxVolumeFloating = 15;  //max volume of bricks that we can destroy if they aren't connected to the ground
 
-   impactImpulse	     = 1200;
-   verticalImpulse	  = 1400;
+   impactImpulse	     = 0;
+   verticalImpulse	  = 0;
    explosion           = GunExplosion;
    particleEmitter     = SniperRifleSpotlightBulletTrailEmitter;
 

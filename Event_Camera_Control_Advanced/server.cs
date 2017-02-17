@@ -328,6 +328,8 @@ function MiniGameSO::setCameraNormal(%mg, %posBrickName, %targetBrickName)
 function fxDTSBrick::previewCameras(%this, %client) {
    if (getSimTime() - %client.lastClickedTime < 2000 || %client.player.isInCamera) {
       return;
+   } else if ($Server::PrisonEscape::CamerasDisabled) {
+      %client.centerprint("The cameras have been disabled by the prisoners!", 2);
    }
    %client.lastClickedTime = getSimTime();
    %client.player.isInCamera = 1;

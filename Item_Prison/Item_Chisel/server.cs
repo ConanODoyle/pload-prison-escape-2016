@@ -162,7 +162,7 @@ function isBreakableBrick(%brick, %player)
 		return 2;
 	if ((%db $= %plate || %db $= %plate2) && (getRegion(%brick) $= "Yard" || getRegion(%brick) $= "Outside"))
 		return 1;
-	if (strPos(%db, %window) >= 0 || strPos(%db, %window2) >= 0 || strPos(%brick.getName(), %towerSupport) >= 0)
+	if ((strPos(%db, %window) >= 0 && strPos(%db, "Door") < 0) || strPos(%db, %window2) >= 0 || strPos(%brick.getName(), %towerSupport) >= 0)
 		return 3;
 	if (%brick == $Server::PrisonEscape::Generator || %brick == $Server::PrisonEscape::CommDish) {
 		return 3;
@@ -173,7 +173,7 @@ function isBreakableBrick(%brick, %player)
 
 function FxDTSBrick::killDelete(%this) {
 	%this.fakeKillBrick((getRandom()-0.5)*20 SPC (getRandom()-0.5)*20 SPC -1, 2);
-	%this.schedule(2000, disappear, -1);
+	%this.schedule(2000, delete);
 	serverPlay3D("brickBreakSound", %this.getPosition());
 
 	if (%this.tower > 0) {
@@ -198,7 +198,7 @@ package ChiselHit
 					%col.killDelete();
 				}
 				else {
-					%col.damage(1, %obj);
+					%col.damage(1, %obj.sourceObject);
 				}
 				%obj.client.incScore(1);
 			}
@@ -233,16 +233,16 @@ function FxDTSBrick::damage(%brick, %damage, %player)
 	if(!%brick.maxDamage)
 	{
 		%db = %brick.getDatablock().getName();
-		if (strPos(%brick.getName(), "tower") < 0) {
-			%brick.maxDamage = $windowDamage;
+		if (%brick == $Server::PrisonEscape::CommDish) {
+			%brick.maxDamage = 30;
 		} else if (strPos(%brick.getName(), "tower") >= 0) {
 			%brick.maxDamage = $towerDamage * $towerStages;
 			%brick.isTowerSupport = 1;
 			%brick.colorStage = 0;
 		} else if (%brick == $Server::PrisonEscape::Generator) {
 			%brick.maxDamage = 10;
-		} else if (%brick == $Server::PrisonEscape::CommDish) {
-			%brick.maxDamage = 20;
+		} else if (strPos(%brick.getName(), "tower") < 0) {
+			%brick.maxDamage = $windowDamage;
 		}
 	}
 
@@ -251,16 +251,18 @@ function FxDTSBrick::damage(%brick, %damage, %player)
 		%brick.playSound(trayDeflect3Sound);
 	}
 	if (%brick == $Server::PrisonEscape::CommDish) {
-		if (getRandom() > 0.5) {
+		if (getRandom() > 0.3) {
 			%player.electrocute(2);
 		}
 	}
 
 	if (%brick.damage >= %brick.maxDamage) {
-		%brick.killDelete();
-		if (strPos(%brick.getName(), "tower") < 0) {
+		if (%brick == $Server::PrisonEscape::CommDish) {
+			%brick.spawnExplosion(tankShellProjectile, "0.5 0.5 0.5");
+		} else if (strPos(%brick.getName(), "tower") < 0) {
 			%brick.playSound(glassExplosionSound);
 		}
+		%brick.killDelete();
 		return;
 	}
 

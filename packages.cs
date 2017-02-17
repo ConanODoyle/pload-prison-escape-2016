@@ -9,7 +9,7 @@ package PrisonEscape_Base
 
 	function serverCmdDropTool(%client, %slot) 
 	{
-		if (%client.isGuard && isObject(%player = %client.player) && %player.tool[%slot] !$= "SteakItem") 
+		if (%client.isGuard && isObject(%player = %client.player) && %player.tool[%slot].getName() !$= "SteakItem") 
 		{
 			return;
 		}
@@ -172,6 +172,8 @@ package PrisonEscape_Base
 				return 0;
 			}
 		} else if (%cl1.isGuard == %cl2.isGuard) {
+			return 0;
+		} else if (%db1 $= "SpotlightArmor" || %db1 $= "SpotlightArmor") {
 			return 0;
 		}
 

@@ -21,6 +21,7 @@ exec("./Bot_Dog/server.cs");
 exec("./Player_Spotlight/server.cs");
 exec("./Player_Buff/server.cs");
 exec("./Player_Laundry_Cart/server.cs");
+schedule(10000, 0, eval, "$Game::Item::PopTime = 60000;");
 
 exec("./Event_Camera_Control_Advanced/server.cs");
 if (isPackage(ChatEval)) {

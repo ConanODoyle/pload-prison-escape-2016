@@ -100,9 +100,9 @@ function killTower(%id) {
 	%tower.isDestroyed = 1;
 	%client = %tower.guard;
 
-	//kill the guard
+	//remove the guard's items
 	if (isObject(%client.player))
-		%client.player.kill();
+		%client.player.clearTools();
 
 	//destroy the bricks but sequentially as to not lag everyone to death
 	%tower.destroy();
@@ -134,6 +134,7 @@ function prisonEscape_saveBricks(%brickgroup, %i) {									//would make it easi
 		$Server::PrisonEscape::Towers.tower2.origCount = $Server::PrisonEscape::Towers.tower2.getCount();
 		$Server::PrisonEscape::Towers.tower3.origCount = $Server::PrisonEscape::Towers.tower3.getCount();
 		$Server::PrisonEscape::Towers.tower4.origCount = $Server::PrisonEscape::Towers.tower4.getCount();
+		$Server::PrisonEscape::haveAssignedBricks = 1;
 		return;
 	}
 	%brick = %brickgroup.getObject(%i);
@@ -142,8 +143,16 @@ function prisonEscape_saveBricks(%brickgroup, %i) {									//would make it easi
 	//reset brick health
 	%brick.damage = 0;
 
+	if (%brick.getDatablock().isOpen) {
+		%brick.door(4);
+	}
+
 	if (isObject(%brick.originalItem)) {
 		%brick.setItem(%brick.originalItem);
+	}
+
+	if (%brick.getDatablock().specialBrickType $= "VehicleSpawn") {
+		%brick.respawnVehicle();
 	}
 
 	//skip if there is no name
@@ -176,19 +185,32 @@ function prisonEscape_saveBricks(%brickgroup, %i) {									//would make it easi
 			$Server::PrisonEscape::Towers.tower[%tower].spawn = %brick;
 			echo("Tower " @ %name @ " spawnpoint has been saved.");
 		}
-		if (isObject(%brick.vehicle) || %brick.getDatablock().specialBrickType $= "VehicleSpawn") {
-			%brick.respawnVehicle();
+		if (isObject(%brick.vehicle)) {
 			$Server::PrisonEscape::Towers.tower[%tower].spotlight = %brick.vehicle;
+			%brick.vehicle.setShapeName("Tower " @ %tower, "8564862");
 		}
 		%brick.tower = %tower;
 	} else if (strPos(%name, "Generator") >= 0) {
 		$Server::PrisonEscape::Generator = %brick;
+		%brick.setRaycasting(1);
+		%brick.setColorFX(4);
+	} else if (strPos(%name, "indicator") >= 0) {
+		%brick.setColor(4);
+	} else if (strPos(%name, "generatorDoors") >= 0) {
+		%brick.setRaycasting(1);
+	} else if (strPos(%name, "generatorDoor") >= 0) {
+		%brick.setEventEnabled("2", 0);
+		%brick.setEventEnabled("0 1", 1);
+	} else if (strPos(%name, "winBrick") >= 0) {
+		%brick.setColliding(1);
+	} else if (strPos(%name, "dog_spawn") >= 0) {
+		%brick.setBotType(ShepherdDogHoleBot.getID());
 	} else if (strPos(%name, "CommDish") >= 0) {
 		$Server::PrisonEscape::CommDish = %brick; 
 	} else if (strPos(%name, "camera") >= 0) {
 		$Server::PrisonEscape::Cameras.add(%brick);
-	} else if (strPos(%brick.getDatablock().getName(), "Spawn") >= 0) {
-		if (%name $= "spawn") {
+	} else if (strPos(strlwr(%name), "spawn") >= 0) {
+		if (%name $= "Spawn") {
 			$Server::PrisonEscape::PrisonerSpawnPoints.add(%brick);
 		} else if (%name $= "infirmarySpawn") {
 			$Server::PrisonEscape::InfirmarySpawnPoints.add(%brick);

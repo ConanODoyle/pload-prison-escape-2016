@@ -108,7 +108,7 @@ package SteakItemCollision
 	function Armor::onCollision(%this, %obj, %col, %a, %b, %c, %d, %e, %f)
 	{
 		%db = %col.getDatablock().getName();
-		if (%db $= "SteakItem" && %obj.getDatablock().getName() $= "ShepherdDogHoleBot" && !%obj.isDisabled())
+		if (%db $= "SteakItem" && !isObject(%col.spawnBrick) && %obj.getDatablock().getName() $= "ShepherdDogHoleBot" && !%obj.isDisabled())
 		{
 			if (%obj.isEating)
 				return;
@@ -135,7 +135,7 @@ package SteakItemCollision
 
 	function ItemData::onAdd(%this, %obj) {
 		%ret = parent::onAdd(%this, %obj);
-		if (%this.getName() $= "SteakItem") {
+		if (%this.getName() $= "SteakItem" && !isObject(%obj.spawnBrick)) {
 			$SteakGroup.schedule(1, add, %obj);
 			if ($justDroppedItem) {
 				%obj.timeToFinish = 15000;

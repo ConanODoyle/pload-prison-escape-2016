@@ -57,16 +57,24 @@ function serverCmdSetPhase(%client, %phase)
 
 	if (isObject($DefaultMini)) {
 		$DefaultMini.vehicleRespawnTime = 1320000;
+		$DefaultMini.vehicleRespawnTime = 1320000;
 	}
 
 	if (%phase == 0) //pre round phase: display statistics, pick guards, load bricks
 	{
+		$Server::PrisonEscape::Guards = "";
+		$Server::PrisonEscape::haveAssignedBricks = "";
 		//despawn everyone
 		despawnAll();
 		setAllCamerasView($Server::PrisonEscape::LoadingCamBrick.getPosition(), $Server::PrisonEscape::LoadingCamBrickTarget.getPosition());
+		for (%i = 0; %i < ClientGroup.getCount(); %i++)
+		{
+			%client = ClientGroup.getObject(%i);
+			%client.isGuard = 0; %client.tower = "";
+		}
 		//reload bricks
 		//serverDirectSaveFileLoad("saves/Prison Escape.bls", 3, "", 0, 1); //1 for silent
-		serverDirectSaveFileLoad("config/NewDuplicator/Saves/testPrison.bls", 3, "", 0, 1); //1 for silent
+		//serverDirectSaveFileLoad("config/NewDuplicator/Saves/testPrison.bls", 3, "", 0, 1); //1 for silent
 		//reset guard picks and after load is complete add new named bricks to tower scriptobjs
 		//also add the comms dish and the generator to special global vars
 		PPE_messageAdmins("\c4Loading bricks...");
@@ -86,6 +94,9 @@ function serverCmdSetPhase(%client, %phase)
 		if (!isObject($Server::PrisonEscape::commDish) || !isObject($Server::PrisonEscape::generator) || $Server::PrisonEscape::PrisonerSpawnPoints.getCount() <= 0) {
 			PPE_messageAdmins("!!! \c5Cannot start round: Bricks missing!");
 			return;
+		} else if (!$Server::PrisonEscape::haveAssignedBricks) {
+			PPE_messageAdmins("!!! \c5Cannot start round: bricks have not been assigned!");
+			return;
 		}
 		//reset statistics here because alivetime matters
 		clearStatistics();
@@ -96,8 +107,8 @@ function serverCmdSetPhase(%client, %phase)
 		//assign guards
 		for (%i = 0; %i < 4; %i++)
 		{
-			%client = getWord($Server::PrisonEscape::Guards, %i);
-			assignGuard(%client);
+			%guardClient = getWord($Server::PrisonEscape::Guards, %i);
+			assignGuard(%guardClient);
 		}
 		//spawn guards
 		spawnGuards();
@@ -113,17 +124,20 @@ function serverCmdSetPhase(%client, %phase)
 
 		//autocall phase 2
 		//call through the caminations, when they're done
-		schedule(5000, 0, serverCmdSetPhase, %cl, 2);
-		startLightBeamLoop($Server::PrisonEscape::Towers.tower1.spotlight);
-		startLightBeamLoop($Server::PrisonEscape::Towers.tower2.spotlight);
-		startLightBeamLoop($Server::PrisonEscape::Towers.tower3.spotlight);
-		startLightBeamLoop($Server::PrisonEscape::Towers.tower4.spotlight);
+		talk("Scheduling start of game using client " @ %client.name);
+		schedule(10000, %client, serverCmdSetPhase, %client, 2);
+
+		startSpotlights();
 		$Server::PrisonEscape::roundPhase = 1;
 	}
 	else if (%phase == 2) //start round loops, like timer + win conditions check
 	{
-		//turn on all the spotlights
-		//iterate through brickgroup ntname "tower[#]" and manually toggle them on.
+		bottomprintTimerLoop($Server::PrisonEscape::timePerRound * 60 + 1);
+
+		$Server::PrisonEscape::CamerasDisabled = 0;
+		startLightBeamLoop($Server::PrisonEscape::Towers.tower2.spotlight);
+		startLightBeamLoop($Server::PrisonEscape::Towers.tower3.spotlight);
+		startLightBeamLoop($Server::PrisonEscape::Towers.tower4.spotlight);
 
 		//give players control of themselves
 		for (%i = 0; %i < ClientGroup.getCount(); %i++)
@@ -132,7 +146,6 @@ function serverCmdSetPhase(%client, %phase)
 			%cl.setControlObject(%cl.player);
 		}
 		//start round timer
-		bottomprintTimerLoop($Server::PrisonEscape::timePerRound * 60 + 1);
 		
 		$guardCount = 4;
 		$Server::PrisonEscape::roundPhase = 2;
@@ -140,8 +153,8 @@ function serverCmdSetPhase(%client, %phase)
 	else if (%phase == 3) //end of round phase
 	{
 		//cancel timer loop, but dont override the ending time bottomprint
-		if (isEventPending($Server::PrisonEscape::bottomprintTimerLoop))
-			cancel($Server::PrisonEscape::bottomprintTimerLoop);
+		if (isEventPending($Server::PrisonEscape::timerSchedule))
+			cancel($Server::PrisonEscape::timerSchedule);
 		//autostart phase 0 in 15 seconds
 		$Server::PrisonEscape::roundPhase = 3;
 	}

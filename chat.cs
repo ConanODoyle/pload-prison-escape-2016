@@ -16,9 +16,9 @@ package PrisonChatSystem
 			%location = getRegion(%cl.player);
 		else
 			%location = "DEAD";
-		%isOutside = (%location $= "Outside" || %location $= "Yard");
+		%isOutside = (%location $= "Outside" || %location $= "Yard" || strPos(%location, "Tower") >= 0);
 		if (!%cl.isGuard)
-			%name = "<color:E65714>" @ (%cl.fakeName $= "" ? %cl.name : %cl.fakeName) @ "\c6: ";
+			%name = "<color:EE8724>" @ (%cl.fakeName $= "" ? %cl.name : %cl.fakeName) @ "\c6: ";
 		else
 			%name = "<color:8AB28D>" @ (%cl.fakeName $= "" ? %cl.name : %cl.fakeName) @ "\c6: ";
 
@@ -29,11 +29,22 @@ package PrisonChatSystem
 			return;
 		}
 
+		if (%msg $= %cl.lastMessage && getRealTime() - %cl.lastMessageTime < 3000) {
+			messageClient(%cl, '', "Do not repeat yourself");
+			return;
+		} else if (getRealTime() - %cl.lastMessageTime < 100) {
+			messageClient(%cl, '', "Do not spam");
+			%cl.lastMessageTime = getRealTime();
+			return;
+		}
+		%cl.lastMessage = %msg;
+		%cl.lastMessageTime = getRealTime();
+
 		//set donator message
 		if (%isDonator)
 			%msg = "<shadow:-2:2><shadowcolor:ffffff>" @ %msg;
 
-		if (%phase == 0) //loading in between rounds
+		if (%phase != 2) //loading in between rounds
 		{
 			//all chat can be seen by everyone
 			//admins get special blue color
@@ -48,7 +59,7 @@ package PrisonChatSystem
 
 			//bold messages with "guard" in it for admins so they can see who's requesting guard??
 		}
-		else if (%phase == 1 || %phase == 2 || %phase == 3) //pre-round, during-round, post round win camera
+		else if (%phase == 2) //pre-round, during-round, post round win camera
 		{
 			//statistics
 			if (%cl.isGuard)
@@ -73,7 +84,7 @@ package PrisonChatSystem
 					%targetLocation = getRegion(%target.player);
 				else
 					%targetLocation = "DEAD";
-				%targetIsOutside = (%targetLocation $= "Outside" || %targetLocation $= "Yard");
+				%targetIsOutside = (%targetLocation $= "Outside" || %targetLocation $= "Yard" || strPos(%targetLocation, "Tower") >= 0);
 
 				//message people on same team
 				if (%location !$= "DEAD" && %targetTeam == %team)
@@ -81,7 +92,7 @@ package PrisonChatSystem
 				//and if outside, anyone else outside/in the yard
 				else if (%targetIsOutside && %isOutside)
 					messageClient(%target, '', %message);
-				else if (%location $= "DEAD") //all dead players can chat
+				else if (%location $= "DEAD" || !%targetIsAlive) //all dead players can chat
 					messageClient(%target, '', %message);
 			}
 

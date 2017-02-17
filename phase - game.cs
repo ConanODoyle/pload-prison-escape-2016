@@ -158,6 +158,8 @@ function prisonersWin(%brick) {
 		}
 	}
 	//playsound on clients
+	
+	schedule(10000, 0, serverCmdSetPhase, $fakeClient, 3);
 }
 
 function guardsWin() {
@@ -180,6 +182,8 @@ function guardsWin() {
 	//set cameras up
 
 	//playsound on clients
+
+	schedule(10000, 0, serverCmdSetPhase, $fakeClient, 3);
 }
 
 package PrisonEscape_GamePhase {
@@ -234,6 +238,7 @@ function disableCameras(%client) {
 	if ($Server::PrisonEscape::Towers.tower4.guard.player.isInCamera) {
 		serverCmdLight($Server::PrisonEscape::Towers.tower4.guard);
 	}
+	$Server::PrisonEscape::CamerasDisabled = 1;
 	if (!isObject(%client)) {
 		messageAll('MsgStartUpload', "\c4The cameras have been disabled!");
 	} else {

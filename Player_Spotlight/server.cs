@@ -323,10 +323,6 @@ package SpotlightPackage
 					ServerCmdUnUseTool(%client);
 				
 				//create new shape if needed
-				if (!isObject(%mount.lightbeam))
-					%mount.lightbeam = new StaticShape(){
-						datablock = SpotlightBeamShape;
-					};
 				
 				//check if there's a refresh loop running - toggle it on/off
 				if (isEventPending(%mount.lightbeamloop))
@@ -457,6 +453,12 @@ function startLightBeamLoop(%obj)
 		clearLightBeam(%obj);
 	}
 
+	if (!isObject(%obj.lightbeam)) {
+		%obj.lightbeam = new StaticShape(SpotlightBeam){
+			datablock = SpotlightBeamShape;
+		};
+	}
+
 	//draw lightbeam
 	%scaleFactor = getWord(%obj.getScale(), 2);
 	%start = %obj.getEyePoint();
@@ -499,7 +501,7 @@ function whiteOutPlayers(%obj, %start, %end, %i)
 	if (%i < ClientGroup.getCount())
 	{
 		%client = ClientGroup.getObject(%i);
-		if (isObject(%pl = %client.player) && %pl !$= %obj && !%pl.isGuard)
+		if (isObject(%pl = %client.player) && %pl !$= %obj && !%client.isGuard)
 		{
 			%pos = %pl.getEyePoint();
 			%dist = distanceFromVector(%start, %end, %pos);

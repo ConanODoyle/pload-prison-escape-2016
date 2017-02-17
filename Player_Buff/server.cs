@@ -285,7 +285,7 @@ datablock ExplosionData(BuffBashExplosion) {
 datablock ProjectileData(BuffBashProjectile)
 {
    //projectileShapeName = "~/data/shapes/arrow.dts";
-   directDamage        = 0;
+   directDamage        = 50;
    impactImpulse       = 0;
    verticalImpulse     = 0;
    explosion           = BuffBashExplosion;

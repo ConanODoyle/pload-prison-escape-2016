@@ -59,7 +59,7 @@ function clearStatistics()
 
 	for (%i = 0; %i < ClientGroup.getCount(); %i++)
 	{
-		%client = ClientGroup.getObjects(%i);
+		%client = ClientGroup.getObject(%i);
 		%client.isGuard = 0; %client.tower = "";
 
 		%client.shotsHit = 0; %client.shotsFired = 0;
