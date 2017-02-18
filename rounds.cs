@@ -62,6 +62,7 @@ function serverCmdSetPhase(%client, %phase)
 
 	if (%phase == 0) //pre round phase: display statistics, pick guards, load bricks
 	{
+		$prisonersHaveWon = 0;
 		$Server::PrisonEscape::Guards = "";
 		$Server::PrisonEscape::haveAssignedBricks = "";
 		//despawn everyone

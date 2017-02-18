@@ -108,7 +108,7 @@ datablock ProjectileData(SniperRifleSpotlightProjectile)
    explosion           = GunExplosion;
    particleEmitter     = SniperRifleSpotlightBulletTrailEmitter;
 
-   muzzleVelocity      = 200;
+   muzzleVelocity      = 120;
    velInheritFactor    = 1;
 
    armingDelay         = 00;
@@ -325,7 +325,7 @@ package SniperRifleSpotlight
 			return parent::onCollision(%data, %obj, %col, %fade, %pos, %normal);
 
 		//track player if hit player directly
-		if (%col.getClassName() $= "Player" && !%col.isGuard)
+		if (%col.getClassName() $= "Player" && !%col.isGuard && isObject($Server::PrisonEscape::CommDish))
 		{
 			%target.spotLightTarget = %col;
 			%target.spotLightTargetLocation = "";
@@ -335,6 +335,11 @@ package SniperRifleSpotlight
 		}
 		else
 		{
+			if (!isObject($Server::PrisonEscape::CommDish)) {
+				%target.spotLightTarget = 0;
+				%target.spotLightTargetLocation = %pos;	
+				return parent::onCollision(%data, %obj, %col, %fade, %pos, %normal);
+			}
 			//do container search for nearby players (4x stud radius) to track
 			initContainerRadiusSearch(%pos, 2, $TypeMasks::PlayerObjectType);
 			%player = 0;
@@ -357,13 +362,6 @@ package SniperRifleSpotlight
 				%target.spotLightTarget = %player;
 				%target.spotLightTargetLocation = "";	
 			}	
-		}
-
-		//dont be able to hurt the dog
-		if (%col.getDatablock().getName() $= "ShepherdDogArmor")
-		{
-			%obj.delete();
-			return;
 		}
 
 		parent::onCollision(%data, %obj, %col, %fade, %pos, %normal);

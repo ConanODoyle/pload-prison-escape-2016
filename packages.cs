@@ -145,9 +145,13 @@ package PrisonEscape_Base
 			return;
 		} else if (%col.getDatablock().getName() $= "riotSmokeGrenadeItem" && isObject(%col.spawnBrick)) {
 			%ret = parent::onCollision(%this, %obj, %col, %vel, %speed);
-			%col.spawnBrick.originalItem = "riotSmokeGrenadeItem";
-			%col.delete();
-			return %ret;
+			if (isEventPending(%col.fadeInSchedule)) {
+				%col.spawnBrick.originalItem = "riotSmokeGrenadeItem";
+				%col.delete();
+				return %ret;
+			} else {
+				return parent::onCollision(%this, %obj, %col, %vel, %speed);
+			}
 		}
 		return parent::onCollision(%this, %obj, %col, %vel, %speed);
 	}
@@ -196,8 +200,91 @@ package PrisonEscape_Base
 		}
 		return parent::onMount(%this, %obj, %slot); 
 	}
+
+	function Armor::onDisabled(%this, %obj, %enabled) {
+		for (%i = 0; %i < %this.maxTools; %i++) {
+			if (%obj.tool[%i].getName() $= "yellowKeyItem") {
+				%i = new Item()
+				{
+					datablock = yellowKeyItem;
+					canPickup = true;
+					rotate = false;
+					position = %obj.getHackPosition();
+					minigame = getMinigameFromObject(%obj);
+				};
+				MissionCleanup.add(%i);
+				%i.setVelocity("0 0 15");
+				%i.schedule(60000, fadeOut);
+				%i.schedule(61000, delete);
+			}
+		}
+		return parent::onDisabled(%this, %obj, %enabled);
+	}
+
+    function ServerCmdLeaveMinigame(%client) {
+		if(%client.minigame == $DefaultMini && !%client.isadmin && !%client.issuperadmin) {
+		    messageclient(%client, '', "You cannot leave the default minigame unless you are an admin.");
+		} else {
+		    parent::ServerCmdLeaveMinigame(%client);
+		}
+    }
+
+    function GameConnection::onClientEnterGame(%client) {
+    	%ret = parent::onClientEnterGame(%client);
+	    if (isObject($DefaultMini)) {
+			$DefaultMini.addmember(%client);
+
+			%phase = $Server::PrisonEscape::roundPhase;
+			if (%phase >= 0) {
+				if (isObject(%client.player)) { 
+					%client.player.delete();
+					%client.setControlObject(%client.camera);
+					%client.camera.setControlObject(%client.dummycamera);
+				}
+				if (%phase == 0) {
+					%client.setCameraView($Server::PrisonEscape::LoadingCamBrick, $Server::PrisonEscape::LoadingCamBrickTarget);
+				} else if (%phase == 1) {
+					%client.centerprint("<font:Arial Bold:34><shadowcolor:666666><shadow:0:4><color:E65714>JailBreak! <br><font:Arial Bold:26><color:ffffff>Team up and escape!", 10);
+					%client.setCameraView($Server::PrisonEscape::PrisonPreview, $Server::PrisonEscape::PrisonPreviewTarget);
+				} else if (%phase >= 2) {
+					%client.camera.setControlObject(%client.camera);
+					spectateNextPlayer(%cl, 0);
+				}
+			}
+	    }
+		return %ret;
+    }
 };
 activatePackage(PrisonEscape_Base);
+
+function ServerCmdSetDefaultMinigame(%client)
+{
+	if (!%client.isSuperAdmin) {
+		return;
+	}
+
+    if(isObject(%client.minigame)) {
+	    $DefaultMini = %client.minigame;
+	    activatepackage(DefaultMini);
+	    for(%i = 0; %i < ClientGroup.getCount();%i++) {
+			%target = ClientGroup.getObject(%i);
+
+			if(!%target.hasSpawnedOnce)
+			    continue;
+
+			if(%target.minigame != $DefaultMini) {
+			    if(isObject(%target.minigame)) {
+					%target.minigame.removeMember(%target);
+			    }
+			    $DefaultMini.addMember(%target);
+			}
+	    }
+	    messageall('', "A default minigame has been set by \c2" @ %client.getPlayerName());
+    } else {
+		messageclient(%client, '', "You are not in a minigame!");
+    }
+}
+
 
 function max(%a, %b) {
 	if (%a < %b) {

@@ -312,7 +312,6 @@ package BotHole_Dogs
 
 		%i = new Item()
 		{
-			minigame = %obj.client.minigame;
 			datablock = yellowKeyItem;
 			canPickup = true;
 			rotate = false;
@@ -323,7 +322,7 @@ package BotHole_Dogs
 		%i.setVelocity("0 0 15");
 		%i.schedule(60000, fadeOut);
 		%i.schedule(61000, delete);
-		//return parent::onDisabled(%this, %obj, %state);
+		//return parent::onDisabled(%this, %obj, %state); //disabled to prevent dog body from despawning
 	}
 
 	function ShepherdDogArmor::onDisabled(%this, %obj, %state) //for players; slightly different behavior
@@ -354,16 +353,22 @@ package BotHole_Dogs
 
 		if (%col.getType() & $TypeMasks::PlayerObjectType)
 		{
-			if (%col.isTumbling)
+			if (%col.client.isBeingStunned)
 				return;
-			if (!parent::hMeleeAttack(%obj, %col))
-				return;
+			if (!(%ret = parent::hMeleeAttack(%obj, %col)))
+				return %ret;
 
-			%col.setVelocity(vectorAdd(%col.getVelocity(), vectorAdd("0 0 5", vectorScale(%obj.getForwardVector(), 3))));
-			tumble(%col, 40);
-			schedule(2000, 0, clearTumble, %col);
-			%col.isTumbling = true;
+			%col.setVelocity(vectorScale(%obj.getForwardVector(), 10));
+			stun(%col, 2);
+			return %ret;
 		}
+	}
+
+	function AIPlayer::activateStuff(%this) {
+		if (%this.getDatablock().getName() $= ShepherdDogHoleBot) {
+			return;
+		}
+		return parent::activateStuff(%this);
 	}
 
 	function Observer::onTrigger(%this, %obj, %triggerNum, %val)
@@ -418,21 +423,6 @@ package BotHole_Dogs
 	}
 };
 activatePackage(BotHole_Dogs);
-
-function clearTumble(%player)
-{
-	echo("clearing tumble");
-
-	if(isObject(%player))
-	{
-		%player.canDismount = true;
-		%player.stopSkiing();
-		%player.dismount();
-		%player.isTumbling = false;
-		if (isObject(%player.client))
-			%player.client.setControlObject(%player);
-	}
-}
 
 datablock ShapeBaseImageData(healingImage)
 {

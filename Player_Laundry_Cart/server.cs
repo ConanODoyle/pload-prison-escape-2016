@@ -176,8 +176,8 @@ datablock PlayerData(LaundryCartArmor)
    upResistSpeed = 25;
    upResistFactor = 0.01;
 
-   slideSpeed = 12;
-   slowdownMax = 80;
+   slideSpeed = 18;
+   slowdownMax = 40;
    
    footstepSplashHeight = 0.35;
 
@@ -222,7 +222,7 @@ datablock PlayerData(LaundryCartArmor)
 	uiName = "LaundryCart";
 	rideable = true;
 	lookUpLimit = 0.585398;
-	lookDownLimit = 0.585398;
+	lookDownLimit = 0.385398;
 
 	canRide = false;
 	showEnergyBar = false;
@@ -263,16 +263,23 @@ $pushForce = 20;
 
 package LaundryCartPackage {
    function Armor::onMount(%this, %obj, %vehi, %mountPoint) {
+      %obj.mountedVehicleTime = getSimTime();
       %db = %vehi.getDatablock().getName();
       if (%db $= "LaundryCartArmor" && %mountPoint == 0) {
          if (%vehi.isSliding) {
-            return %obj.dismount();
+            %vehi.isSliding = 0;
+            cancel(%vehi.laundrySlideSched);
+            %vehi.setMoveY(0);
+            %vehi.setMaxForwardSpeed(%db.maxForwardSpeed);
          }
+         %obj.unMountImage(0);
          %vehi.unHideNode("lshoe");
          %vehi.unHideNode("rshoe");
 
-         %vehi.setNodeColor("lshoe", %obj.client.llegcolor);
-         %vehi.setNodeColor("rshoe", %obj.client.rlegcolor);
+         // %vehi.setNodeColor("lshoe", %obj.client.llegcolor);
+         // %vehi.setNodeColor("rshoe", %obj.client.rlegcolor);
+         %vehi.setNodeColor("rshoe", "0.1 0.1 0.1 1");
+         %vehi.setNodeColor("lshoe", "0.1 0.1 0.1 1");
 
          if (%obj.isNodeVisible("lhand")) {
             %vehi.unHideNode("lhand");
@@ -341,21 +348,20 @@ package LaundryCartPackage {
             if (!isObject(%this.getObjectMount())) {
                %this.setTransform(%originalPos);
             } else if (%this.getMountNode() == 0) {
-               %this.getObjectMount().setTransform(%originalPos);
+               %this.getObjectMount().setTransform(%this.getObjectMount().getPosition() SPC getWords(%originalPos, 3, 6));
             }
          }
-         %this.mountedVehicleTime = getSimTime();
       } else if (isObject(%vehi) && %this.getMountNode() == 0 && %vehi.getDatablock().getName() $= "LaundryCartArmor" && !%vehi.isSliding) {
-         if (getSimTime() - %this.mountedVehicleTime < 1500 || isObject(%this.getObjectMount().getObjectMount())) {
+         if (getSimTime() - %this.mountedVehicleTime < 500 || isObject(%this.getObjectMount().getObjectMount())) {
             return parent::activateStuff(%this);
          }
 
          %vec = vectorNormalize(getWords(%this.getForwardVector(), 0, 1) SPC 0.01);
-         %this.getDatablock().doDismount(%this);
+         %this.dismount();
          if (%this.getDatablock().getName() $= "BuffArmor"){
             %vehi.doLaundrySlide(0, 1.8);
          } else {
-            %vehi.doLaundrySlide(0, 1);
+            %vehi.doLaundrySlide(0, 1.2);
          }
 
 
@@ -411,8 +417,16 @@ function Player::doLaundrySlide(%pl, %tick, %initialVel)
       %pl.isSliding = 1;
       %pl.setMaxForwardSpeed(%pl.getDatablock().slideSpeed * %initialVel);
       %pl.addVelocity(vectorScale(%pl.getForwardVector(), %pl.getDatablock().slideSpeed));
+      %pl.lastSpeed = strLen(%pl.getVelocity());
    }
    cancel(%pl.laundrySlideSched);
+   if (%pl.lastSpeed - vectorLen(%pl.getVelocity()) > 2) {
+      %pl.isSliding = 0;
+      %pl.setMoveY(0);
+      %pl.setMaxForwardSpeed(%pl.getDatablock().maxForwardSpeed);
+      return;
+   }
+   %pl.lastSpeed = vectorLen(%pl.getVelocity());
    %max = LaundryCartArmor.slowdownMax;
    %p = 1-(%tick/%max);
    %pl.setMoveY(%p);

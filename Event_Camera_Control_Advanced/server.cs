@@ -54,17 +54,15 @@ function fxDTSBrick::endLoopToggle(%this) {
    }
 }
 
-function GameConnection::setCameraView(%client, %posBrickName, %targetBrickName)
+function GameConnection::setCameraView(%client, %posBrick, %targetBrick)
 {
    %camera = %client.camera;
    if(!isObject(%camera))
       return; //should never happen
 
    //translate name into brick object
-   %posBrick = ("_" @ %posBrickName).getId();
    if(!isObject(%posBrick))
       return;
-   %targetBrick = ("_" @ %targetBrickName).getId();
    if(!isObject(%targetBrick))
       return;
 
@@ -93,7 +91,7 @@ function GameConnection::setCameraView(%client, %posBrickName, %targetBrickName)
    if(isObject(%player))
    {
       %client.player.isInCamera = 1;
-      %client.player.canLeaveCamera = 1;
+      %client.player.canLeaveCamera = 0;
       %camera.setControlObject(%client.dummyCamera);
    }
    else
@@ -101,11 +99,11 @@ function GameConnection::setCameraView(%client, %posBrickName, %targetBrickName)
       //do something to make the camera immobile?
       //%camera.setDollyMode(%camera.getPosition(), %camera.getPosition());
       %camera.setControlObject(%client.dummyCamera);
-      %client.player.canLeaveCamera = 1;
+      %client.player.canLeaveCamera = 0;
       
       //6802.camera.setDollyMode(6802.camera.getPosition(), 6802.camera.getPosition());
    }
-   messageclient(%client,'',"\c2Camera in Static Mode \c6- Use Light key to exit camera");
+   //messageclient(%client,'',"\c2Camera in Static Mode \c6- Use Light key to exit camera");
 }
 
 function GameConnection::setCameraDolly(%client, %posBrickName, %targetBrickName)
@@ -330,6 +328,7 @@ function fxDTSBrick::previewCameras(%this, %client) {
       return;
    } else if ($Server::PrisonEscape::CamerasDisabled) {
       %client.centerprint("The cameras have been disabled by the prisoners!", 2);
+      return;
    }
    %client.lastClickedTime = getSimTime();
    %client.player.isInCamera = 1;

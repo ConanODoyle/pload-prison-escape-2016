@@ -113,18 +113,24 @@ function stun(%player, %time) {
 		cancel(%player.stunLoop);
 	if (%time <= 0)
 	{
-		clearTumble(%player);
+		%player.dismount();
 		%client.isBeingStunned = 0;
 		%player.unmountImage(3);
 		%player.setControlObject(%player);
+		%client.setControlObject(%player);
+		%player.playThread(3, root);
 		return;
 	} else if (!%client.isBeingStunned) {
 		%player.setControlObject(%client.camera);
-		%player.setVelocity(vectorAdd(%player.getVelocity(), getRandom() * 3 SPC getRandom() * 3 SPC "5"));
+		%player.setVelocity(vectorAdd(%player.getVelocity(), getRandom() * 3 SPC getRandom() * 3 SPC "3"));
 		%player.mountImage(stunImage, 3);
-		tumble(%player, %time);
-		%client.setControlObject(%player);
-		serverPlay3D(playerMountSound, %player.getHackPosition());
+		
+		%client.camera.setMode(Corpse, %player);
+		%client.setControlObject(%client.camera);
+
+		%player.playThread(3, sit);
+
+		%player.setVelocity(vectorAdd("0 0 5", %player.getVelocity()));
 	}
 
 	%client.stunnedTime += 1;

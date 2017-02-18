@@ -97,12 +97,14 @@ function PrisonTrayGoldenImage::onMount(%this, %obj, %slot)
 {
 	%obj.playThread(2, armReadyBoth);
 	%obj.isHoldingTray = 1;
+	return parent::onMount(%this, %obj, %slot);
 }
 
 function PrisonTrayGoldenImage::onUnMount(%this, %obj, %slot)
 {
 	%obj.playThread(2, root);
 	%obj.isHoldingTray = 0;
+	return parent::onUnMount(%this, %obj, %slot);
 }
 
 datablock DebrisData(PrisonTrayGoldenDebris)

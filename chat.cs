@@ -18,9 +18,9 @@ package PrisonChatSystem
 			%location = "DEAD";
 		%isOutside = (%location $= "Outside" || %location $= "Yard" || strPos(%location, "Tower") >= 0);
 		if (!%cl.isGuard)
-			%name = "<color:EE8724>" @ (%cl.fakeName $= "" ? %cl.name : %cl.fakeName) @ "\c6: ";
+			%name = "<color:ff8724>" @ (%cl.fakeName $= "" ? %cl.name : %cl.fakeName);
 		else
-			%name = "<color:8AB28D>" @ (%cl.fakeName $= "" ? %cl.name : %cl.fakeName) @ "\c6: ";
+			%name = "<color:8AB28D>" @ (%cl.fakeName $= "" ? %cl.name : %cl.fakeName);
 
 		//skip everything if off mode is enabled
 		if (%phase == -1)
@@ -53,9 +53,9 @@ package PrisonChatSystem
 
 			//admins also get a sound accompanying their message
 			if (!%cl.isAdmin)
-				messageAll('', %name @ %msg);
+				messageAll('', %name @ "\c6: " @ %msg);
 			else
-				messageAll('MsgUploadEnd', %name @ %msg);
+				messageAll('MsgUploadEnd', %name @ "\c6: " @ %msg);
 
 			//bold messages with "guard" in it for admins so they can see who's requesting guard??
 		}
@@ -70,9 +70,9 @@ package PrisonChatSystem
 
 			//prefix location before name in message
 			if (%location !$= "DEAD")
-				%message = "\c6[\c4" @ %location @ "\c6] " @ %name @ %msg;
+				%message = %name @ "\c6 [\c1" @ %location @ "\c6]: " @ %msg;
 			else
-				%message = "\c7[DEAD] " @ %name @ %msg;
+				%message = %name @ "\c7 [DEAD]\c6: " @ %msg;
 
 
 			for (%i = 0; %i < ClientGroup.getCount(); %i++)

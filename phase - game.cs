@@ -158,7 +158,7 @@ function prisonersWin(%brick) {
 		}
 	}
 	//playsound on clients
-	
+
 	schedule(10000, 0, serverCmdSetPhase, $fakeClient, 3);
 }
 
@@ -228,20 +228,64 @@ function disableSpotlights(%client) {
 function disableCameras(%client) {
 	if ($Server::PrisonEscape::Towers.tower1.guard.player.isInCamera) {
 		serverCmdLight($Server::PrisonEscape::Towers.tower1.guard);
+		$Server::PrisonEscape::Towers.tower1.guard.player.setDamageFlash(50);
 	}
 	if ($Server::PrisonEscape::Towers.tower2.guard.player.isInCamera) {
 		serverCmdLight($Server::PrisonEscape::Towers.tower2.guard);
+		$Server::PrisonEscape::Towers.tower2.guard.player.setDamageFlash(50);
 	}
 	if ($Server::PrisonEscape::Towers.tower3.guard.player.isInCamera) {
 		serverCmdLight($Server::PrisonEscape::Towers.tower3.guard);
+		$Server::PrisonEscape::Towers.tower3.guard.player.setDamageFlash(50);
 	}
 	if ($Server::PrisonEscape::Towers.tower4.guard.player.isInCamera) {
 		serverCmdLight($Server::PrisonEscape::Towers.tower4.guard);
+		$Server::PrisonEscape::Towers.tower4.guard.player.setDamageFlash(50);
 	}
 	$Server::PrisonEscape::CamerasDisabled = 1;
 	if (!isObject(%client)) {
-		messageAll('MsgStartUpload', "\c4The cameras have been disabled!");
+		messageAll('MsgStartUpload', "\c4The cameras and spotlight auto tracking have been disabled!");
 	} else {
-		messageAll('MsgStartUpload', "\c4The cameras have been disabled by \c3" @ %client.name @ "\c4!");
+		messageAll('MsgStartUpload', "\c4The cameras and spotlight auto tracking have been disabled by \c3" @ %client.name @ "\c4!");
 	}
 }
+
+function validatePlayerPosition(%player) {
+	%scale = %player.getScale(); //usually 1
+	%pos = %player.getHackPosition();
+	%box = vectorScale("1.25 1.25 2", getWord(%scale, 2));
+
+	initContainerBoxSearch(%pos, %boxSize, $TypeMasks::fxBrickObjectType);
+	if (isObject(%brick = containerSearchNext())) {
+		%xOff0 = 0; %xOff1 = 0.8; %xOff2 = 0; %xOff3 = -0.8;
+		%yOff0 = 0.8; %yOff1 = 0; %yOff2 = -0.8; %yOff3 = 0;
+		for (%i = 0; %i < 4; %i++) {
+			%end = vectorAdd(%player.getPosition(), %xOff[%i] SPC %yOff[%i] SPC 0);
+			%ray = containerRaycast(%pos, %end, $TypeMasks::fxBrickObjectType);
+			if (!isObject(getWord(%ray, 0))) {
+				%player.setTransform(%end SPC getWords(%player.getTransform(), 3, 6));
+			}
+		}
+		return 1;
+	}
+	return 0;
+}
+
+function Player::removeItems(%player, %string, %client) {
+	if (!isObject(%player)) {
+		return;
+	}
+
+	for (%i = 0; %i < getWordCount(%string); %i++) {
+		%word = getWord(%string, %i);
+		for (%j = 0; %j < %player.getDatablock().maxTools; %j++) {
+			if (strPos(%player.tool[%j].getName(), %word) >= 0) {
+				%player.tool[%i] = "";
+				%player.weaponCount--;
+				messageClient(%client, 'MsgItemPickup', '', %j, "");
+			}
+		}
+	}
+}
+
+registerOutputEvent("Player", "removeItems", "string 200 156", 1);

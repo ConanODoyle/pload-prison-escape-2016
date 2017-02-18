@@ -1,4 +1,6 @@
-$Server::PrisonEscape::VIP = "4928 4382 12307 53321 6531 104 215 117 0 1 2" @ " 1768 67024 34944 169132 177375 196624 15144 26663 32660 200355 18569 20419 33303 11532 67024 38483 48871 166247 41072";
+$Server::PrisonEscape::VIP = "4928 4382 12307 53321 6531 104 215 117 0 1 2" @ " 1768 67024 34944 169132 177375 196624 15144 26663 32660 200355 18569 20419 33303 11532 67024 38483 48871 166247 41072 22556 26586 15144 109211 44383";
+$Server::PrisonEscape::SpecialBan0 = "49581 have fun not playing on my server asshole";
+$Server::PrisonEscape::SpecialBan1 = "49070 have fun not playing on my server asshole";
 
 $NameOverrideCount = 2;
 $NameOverride0 = "Queuenard\tQueuenard";
@@ -74,9 +76,22 @@ package PrisonEscape_VIP {
 				%cl.schedule(10, delete, "The server is full");
 				schedule(10, 0, eval, "$Pref::Server::maxPlayers--;");
 				return;
+			} else {
+				%i = 0;
+				while ($Server::PrisonEscape::SpecialBan[%i] !$= "") {
+					%str = $Server::PrisonEscape::SpecialBan[%i];
+					if (%blid == getWord(%str, 0)) {
+						%cl.isBanReject = 1;
+						%cl.schedule(10, delete, getWords(%str, 1, getWordCount(%str)));
+						schedule(10, 0, eval, "$Pref::Server::maxPlayers--;");
+						return;
+					}
+					%i++;
+				}
+				echo("    Special case ban not found");
 			}
 
-			schedule(30, 0, updateServerInformation);
+			//schedule(30, 0, updateServerInformation);
 		}
 		else if (%word $= "NO")
 		{

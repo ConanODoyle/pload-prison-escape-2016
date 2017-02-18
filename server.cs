@@ -32,3 +32,11 @@ if (isPackage(DiscordNode)) {
 	deactivatePackage(DiscordNode);
 	activatePackage(DiscordNode);
 }
+
+function serverCmdWrench(%cl) {
+	if (!isObject(%pl = %cl.player) || !%cl.isAdmin) {
+		return;
+	}
+	%pl.mountImage(WrenchImage, 0);
+	%pl.playThread(1, armReadyRight);
+}

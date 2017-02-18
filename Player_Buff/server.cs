@@ -88,7 +88,7 @@ datablock PlayerData(BuffArmor)
    mass = 140;
    drag = 0.1;
    density = 0.7;
-   maxDamage = 600;
+   maxDamage = 900;
    maxEnergy =  10;
    repairRate = 0.33;
 
@@ -254,7 +254,7 @@ datablock ExplosionData(BuffBashExplosion) {
    lifetimeMS = 400;
 
    emitter[0] = pushBroomSparkEmitter;
-   particleEmitter = pushBroomExplosionEmitter;
+   particleEmitter = spearExplosionEmitter;
    particleDensity = 80;
    particleRadius = 1.0;
 
@@ -262,7 +262,7 @@ datablock ExplosionData(BuffBashExplosion) {
    camShakeFreq = "2.0 3.0 1.0";
    camShakeAmp = "1.0 1.0 1.0";
    camShakeDuration = 2.5;
-   camShakeRadius = 2;
+   camShakeRadius = 3;
    camShakeFalloff = 1;
 
    soundProfile = spearExplosionSound;
@@ -335,11 +335,11 @@ datablock ShapeBaseImageData(BuffBashImage) {
    item = BuffBashItem;
    armReady = false;
 
-   offset = "0 0 0";
+   offset = "-1 -0.5 0";
 
    mountPoint = 0;
 
-   correctMuzzleVector = true;
+   correctMuzzleVector = false;
 
    // Add the WeaponImage namespace as a parent, WeaponImage namespace
    // provides some hooks into the inventory system.
@@ -367,14 +367,16 @@ datablock ShapeBaseImageData(BuffBashImage) {
 
    stateName[2]         = "Fire";
    stateTransitionOnTimeout[2]   = "Cooldown";
-   stateTimeoutValue[2]    = 0.38;
+   stateTimeoutValue[2]    = 0.1;
    stateFire[2]         = true;
    stateScript[2]       = "onFire";
    stateWaitForTimeout[2]     = true;
    stateAllowImageChange[2]   = true;
 
    stateName[3]         = "Cooldown";
-   stateTransitionOnTriggerUp[3] = "Ready";
+   stateTransitionOnTimeout[3] = "Ready";
+   stateTimeoutValue[3]    = 0.1;
+   //stateTransitionOnTriggerUp[3] = "Ready";
 };
 
 function BuffBashImage::onFire(%this, %obj, %slot) {

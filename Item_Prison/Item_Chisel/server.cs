@@ -1,6 +1,28 @@
 //projectile
 AddDamageType("chiselDirect",   '<bitmap:add-ons/Gamemode_PPE/Item_Prison/Item_chisel/CI_chisel> %1',       '%2 <bitmap:add-ons/Gamemode_PPE/Item_Prison/Item_chisel/CI_chisel> %1',1,1);
 
+datablock AudioProfile(glassChip1Sound)
+{
+   filename    = "./glassChip01.wav";
+   description = AudioClose3d;
+   preload = true;
+};
+
+datablock AudioProfile(glassChip2Sound)
+{
+   filename    = "./glassChip02.wav";
+   description = AudioClose3d;
+   preload = true;
+};
+
+datablock AudioProfile(glassChip3Sound)
+{
+   filename    = "./glassChip03.wav";
+   description = AudioClose3d;
+   preload = true;
+};
+
+
 datablock ProjectileData(chiselProjectile)
 {
    directDamage        = 8;
@@ -208,7 +230,7 @@ package ChiselHit
 };
 activatePackage(ChiselHit);
 
-$windowDamage = 15;
+$windowDamage = 10;
 $towerDamage = 9;
 $towerStages = 4;
 $towerColor0 = 60;
@@ -234,7 +256,7 @@ function FxDTSBrick::damage(%brick, %damage, %player)
 	{
 		%db = %brick.getDatablock().getName();
 		if (%brick == $Server::PrisonEscape::CommDish) {
-			%brick.maxDamage = 30;
+			%brick.maxDamage = 14;
 		} else if (strPos(%brick.getName(), "tower") >= 0) {
 			%brick.maxDamage = $towerDamage * $towerStages;
 			%brick.isTowerSupport = 1;
@@ -248,10 +270,10 @@ function FxDTSBrick::damage(%brick, %damage, %player)
 
 	%brick.damage += %damage;
 	if (strPos(%brick.getName(), "tower") < 0) {
-		%brick.playSound(trayDeflect3Sound);
+		%brick.playSound("glassChip" @ getRandom(1, 3) @ "Sound");
 	}
 	if (%brick == $Server::PrisonEscape::CommDish) {
-		if (getRandom() > 0.3) {
+		if (getRandom() > 0.8) {
 			%player.electrocute(2);
 		}
 	}

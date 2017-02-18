@@ -162,6 +162,7 @@ function prisonEscape_saveBricks(%brickgroup, %i) {									//would make it easi
 	}
 	%name = getSubStr(%name, 1, strLen(%name)); //removes underscore in name
 
+	%brick.endLoopToggle();
 	if (%name $= "LoadingCamBrick") {
 		$Server::PrisonEscape::LoadingCamBrick = %brick;
 	} else if (%name $= "LoadingCamBrickTarget") {
@@ -185,6 +186,9 @@ function prisonEscape_saveBricks(%brickgroup, %i) {									//would make it easi
 			$Server::PrisonEscape::Towers.tower[%tower].spawn = %brick;
 			echo("Tower " @ %name @ " spawnpoint has been saved.");
 		}
+		if (strPos(%name, "support") >= 0) {
+			%brick.setColor($towerColor0);
+		}
 		if (isObject(%brick.vehicle)) {
 			$Server::PrisonEscape::Towers.tower[%tower].spotlight = %brick.vehicle;
 			%brick.vehicle.setShapeName("Tower " @ %tower, "8564862");
@@ -201,10 +205,19 @@ function prisonEscape_saveBricks(%brickgroup, %i) {									//would make it easi
 	} else if (strPos(%name, "generatorDoor") >= 0) {
 		%brick.setEventEnabled("2", 0);
 		%brick.setEventEnabled("0 1", 1);
+	} else if (strPos(%name, "garageDoor") >= 0) {
+		%brick.door(4);
+	} else if (strPos(%name, "garageDoorSwitch") >= 0) {
+		%brick.setEventEnabled("2 5 6", 0);
+		%brick.setEventEnabled("1 3 4", 1);
+		%brick.setColor(4);
+	} else if (strPos(%name, "smokeGrenadeDoor") >= 0) {
+		%brick.door(4);
 	} else if (strPos(%name, "winBrick") >= 0) {
 		%brick.setColliding(1);
 	} else if (strPos(%name, "dog_spawn") >= 0) {
 		%brick.setBotType(ShepherdDogHoleBot.getID());
+		%brick.respawnBot();
 	} else if (strPos(%name, "CommDish") >= 0) {
 		$Server::PrisonEscape::CommDish = %brick; 
 	} else if (strPos(%name, "camera") >= 0) {

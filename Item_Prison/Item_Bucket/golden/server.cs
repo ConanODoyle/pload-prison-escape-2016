@@ -144,6 +144,7 @@ function PrisonBucketGoldenImage::onMount(%this, %obj, %slot)
 		return;
 	}
 	%obj.playThread(2, armReadyBoth);
+	return parent::onMount(%this, %obj, %slot);
 	//unequip hat
 	// %player = %obj;
 	// %client = %obj.client;
@@ -160,6 +161,7 @@ function PrisonBucketGoldenImage::onMount(%this, %obj, %slot)
 function PrisonBucketGoldenImage::onUnMount(%this, %obj, %slot)
 {
 	%obj.playThread(2, root);
+	return parent::onUnMount(%this, %obj, %slot);
 }
 
 function PrisonBucketGoldenImage::onEquip(%this, %obj, %slot)
