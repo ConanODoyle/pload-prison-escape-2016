@@ -269,7 +269,9 @@ function FxDTSBrick::damage(%brick, %damage, %player)
 	}
 
 	%brick.damage += %damage;
-	if (strPos(%brick.getName(), "tower") < 0) {
+	if (%brick == $Server::PrisonEscape::CommDish) {
+		%brick.playSound(trayDeflect1Sound);
+	} else if (strPos(%brick.getName(), "tower") < 0) {
 		%brick.playSound("glassChip" @ getRandom(1, 3) @ "Sound");
 	}
 	if (%brick == $Server::PrisonEscape::CommDish) {

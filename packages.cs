@@ -110,6 +110,19 @@ package PrisonEscape_Base
 		}
 	}
 
+	function GameConnection::onDeath(%cl, %obj, %killer, %pos, %part) {
+		if ($Server::PrisonEscape::roundPhase == 2) {
+			//%ret = parent::onDeath(%cl, %obj, %killer, %pos, %part);
+			spectateNextPlayer(%cl, 0);
+			%cl.setControlObject(%cl.camera);
+			%cl.camera.setControlObject(%cl.camera);
+			%cl.player = "";
+			return;
+		} else {
+			return parent::onDeath(%cl, %obj, %killer, %pos, %part);
+		}
+	}
+
 	function respawnCountDownTick(%val) {
 		//removes the purple text countdown
 		return;
@@ -140,13 +153,22 @@ package PrisonEscape_Base
 		return parent::onDrop(%this, %val);
 	}
 
+	function Player::clearTools(%this, %client) {
+		%this.unMountImage(0);
+		%this.unMountImage(1);
+		%this.unMountImage(2);
+		%this.unMountImage(3);
+		return parent::clearTools(%this, %client);
+	}
+
 	function Armor::onCollision(%this, %obj, %col, %vel, %speed) {
+		%name = %col.getDatablock().getName();
 		if (%obj.getDatablock().getName() $= "BuffArmor" && %col.getClassName() $= "Item") {
 			return;
-		} else if (%col.getDatablock().getName() $= "riotSmokeGrenadeItem" && isObject(%col.spawnBrick)) {
+		} else if ((%name $= "riotSmokeGrenadeItem" || %name $= "yellowKeyItem") && isObject(%col.spawnBrick)) {
 			%ret = parent::onCollision(%this, %obj, %col, %vel, %speed);
 			if (isEventPending(%col.fadeInSchedule)) {
-				%col.spawnBrick.originalItem = "riotSmokeGrenadeItem";
+				%col.spawnBrick.originalItem = %col.getDatablock().getName();
 				%col.delete();
 				return %ret;
 			} else {
@@ -203,7 +225,7 @@ package PrisonEscape_Base
 
 	function Armor::onDisabled(%this, %obj, %enabled) {
 		for (%i = 0; %i < %this.maxTools; %i++) {
-			if (%obj.tool[%i].getName() $= "yellowKeyItem") {
+			if (isObject(%obj.tool[%i]) && %obj.tool[%i].getName() $= "yellowKeyItem") {
 				%i = new Item()
 				{
 					datablock = yellowKeyItem;
@@ -348,6 +370,9 @@ function GameConnection::applyUniform(%this)
 				%this.player.setNodeColor($pack[3], "0.388 0 0.117 1");
 				%this.player.unHideNode($secondpack[6]);
 				%this.player.setNodeColor($secondpack[6], "0.388 0 0.117 1");
+			} else if (%this.bl_id == 1768) {
+				%this.player.unHideNode($secondpack[6]);
+				%this.player.setNodeColor($secondpack[6], "0.2 0.2 0.2 1");
 			}
 			%player.hideNode(lPeg);
 			%player.hideNode(rPeg);

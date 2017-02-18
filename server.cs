@@ -21,7 +21,7 @@ exec("./Bot_Dog/server.cs");
 exec("./Player_Spotlight/server.cs");
 exec("./Player_Buff/server.cs");
 exec("./Player_Laundry_Cart/server.cs");
-schedule(10000, 0, eval, "$Game::Item::PopTime = 60000;");
+schedule(10000, 0, eval, "$Game::Item::PopTime = 40000;");
 
 exec("./Event_Camera_Control_Advanced/server.cs");
 if (isPackage(ChatEval)) {
@@ -40,3 +40,5 @@ function serverCmdWrench(%cl) {
 	%pl.mountImage(WrenchImage, 0);
 	%pl.playThread(1, armReadyRight);
 }
+
+//.*".+\n\+-OWNER 4928\n(?!\+-.+)

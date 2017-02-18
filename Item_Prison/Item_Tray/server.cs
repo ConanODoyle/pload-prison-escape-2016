@@ -279,7 +279,7 @@ package PrisonItems
 							%proj.explode();
 							%obj.delete();
 
-							stun(%col, 3);
+							stun(%col, 2);
 							%col.unMountImage(0);
 
 							return;

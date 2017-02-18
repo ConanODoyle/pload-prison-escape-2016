@@ -1,13 +1,6 @@
 Whistle to call dog
-Make camera intro a single function called on each client so new joiners see it
-	- Rewrite setAllCamera?
-package initial player spawn after join to just switch to logo cam without spawning
-chatspam check
 bronson dust
-have spotlights scan
 make laundrycart work on node coloring?? will affect painted color?
-on join spawn players in infirmary/cells not by default
-event win bricks to decollide all win bricks
 flash red when damaged
 prevent momoji from registering vip kicks
 

@@ -102,7 +102,7 @@ function killTower(%id) {
 
 	//remove the guard's items
 	if (isObject(%client.player))
-		%client.player.clearTools();
+		%client.player.kill();
 
 	//destroy the bricks but sequentially as to not lag everyone to death
 	%tower.destroy();

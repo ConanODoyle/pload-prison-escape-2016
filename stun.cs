@@ -122,7 +122,7 @@ function stun(%player, %time) {
 		return;
 	} else if (!%client.isBeingStunned) {
 		%player.setControlObject(%client.camera);
-		%player.setVelocity(vectorAdd(%player.getVelocity(), getRandom() * 3 SPC getRandom() * 3 SPC "3"));
+		%player.setVelocity(vectorAdd(%player.getVelocity(), getRandom() * 2 SPC getRandom() * 2 SPC "3"));
 		%player.mountImage(stunImage, 3);
 		
 		%client.camera.setMode(Corpse, %player);

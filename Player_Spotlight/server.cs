@@ -426,7 +426,7 @@ function AIPlayer::lookAtPlayer_Spotlight( %obj, %opt, %client )
 		%player = %obj.spotlightTarget;
 		if (isObject(%player))
 		{
-			if (%player.isShrouded) {
+			if (%player.isShrouded || !isObject($Server::PrisonEscape::CommDish)) {
 				%obj.spotlightTargetLocation = %player.getEyePoint();
 				%obj.setAimLocation(%obj.spotlightTargetLocation);
 				%obj.spotlightTarget = "";
