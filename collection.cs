@@ -200,6 +200,8 @@ function prisonEscape_saveBricks(%brickgroup, %i) {									//would make it easi
 		%brick.setColorFX(4);
 	} else if (strPos(%name, "indicator") >= 0) {
 		%brick.setColor(4);
+	} else if (%name $= "BronsonDoor") {
+		%brick.setRaycasting(1);
 	} else if (strPos(%name, "generatorDoors") >= 0) {
 		%brick.setRaycasting(1);
 	} else if (strPos(%name, "generatorDoor") >= 0) {

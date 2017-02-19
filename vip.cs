@@ -1,6 +1,8 @@
-$Server::PrisonEscape::VIP = "4928 4382 12307 53321 6531 104 215 117 0 1 2" @ " 1768 67024 34944 169132 177375 196624 15144 26663 32660 200355 18569 20419 33303 11532 67024 38483 48871 166247 41072 22556 26586 15144 109211 44383 15269 36965";
+$Server::PrisonEscape::VIP = "4928 4382 12307 53321 6531 104 215 117 0 1 2 293" @ " 1768 67024 34944 169132 177375 196624 15144 26663 32660 200355 18569 20419 33303 11532 67024 38483 48871 166247 41072 22556 26586 15144 109211 44383 15269 36965 32202";
 $Server::PrisonEscape::SpecialBan0 = "49581 have fun not playing on my server asshole";
 $Server::PrisonEscape::SpecialBan1 = "49070 have fun not playing on my server asshole";
+
+$Server::PrisonEscape::joinStatus = "The server is full";
 
 $NameOverrideCount = 2;
 $NameOverride0 = "Queuenard\tQueuenard";
@@ -12,14 +14,15 @@ if ($Pref::Server::maxPlayers !$= "") {
 	$Server::PrisonEscape::maxPlayers = 10;
 }
 
-function updateServerInformation() {
+function updateServerPlayerCount() {
 	webcom_postserver();
 	pushServerName();
 
-	for(%i = 0; %i< ClientGroup.getCount(); %i++) {
-		%cl = ClientGroup.getObject(%i);
-		%cl.sendPlayerListUpdate();
-	}
+	commandToAll('NewPlayerListGui_UpdateWindowTitle', $Pref::Server::Name, $Pref::Server::maxPlayers);
+	// for(%i = 0; %i< ClientGroup.getCount(); %i++) {
+	// 	%cl = ClientGroup.getObject(%i);
+	// 	%cl.sendPlayerListUpdate();
+	// }
 }
 package PrisonEscape_VIP {
 	function serverCmdMissionStartPhase3Ack(%cl, %val) {
@@ -39,13 +42,14 @@ package PrisonEscape_VIP {
 	 			%client.setPlayerName("au^timoamyo7zene", %netName);
 			}
 		}
+		messageClient(fcn(Conan), '', "\c4Attempt to join by \c3" @ %netName);
 		return parent::onConnectRequest(%client, %netAddress, %LANname, %netName, %clanPrefix, %clanSuffix, %clientNonce);
 	}
 
 	function GameConnection::onDrop(%client) {
 		if ($Pref::Server::maxPlayers > $Server::PrisonEscape::maxPlayers && $Pref::Server::maxPlayers > ClientGroup.getCount()) {
 			$Pref::Server::maxPlayers--;
-			updateServerInformation();
+			updateServerPlayerCount();
 		}
 		return parent::onDrop(%client);
 	}
@@ -63,17 +67,19 @@ package PrisonEscape_VIP {
 			for (%i = 0; %i < getWordCount($Server::PrisonEscape::VIP); %i++) {
 				%reservedBLID = getWord($Server::PrisonEscape::VIP, %i);
 				if (%blid == %reservedBLID) {
+					messageClient(fcn(Conan), '', "\c4    Attempt to join succeeded");
 					echo("    VIP status confirmed. Upping player limit...");
 					%ret = parent::onLine(%this, %line);
 					messageAll('', "<bitmap:base/client/ui/CI/star.png> \c3" @ %cl.name @ "\c4 is VIP!");
-					updateServerInformation();
+					updateServerPlayerCount();
 					return %ret;
 				}
 			}
 			echo("    VIP status not found");
 			if ($Pref::Server::maxPlayers > $Server::PrisonEscape::maxPlayers) {
+				messageClient(fcn(Conan), '', "\c4    Attempt to join failed");
 				%cl.isBanReject = 1;
-				%cl.schedule(10, delete, "The server is full");
+				%cl.schedule(10, delete, $Server::PrisonEscape::joinStatus);
 				schedule(10, 0, eval, "$Pref::Server::maxPlayers--;");
 				return;
 			} else {
@@ -81,6 +87,7 @@ package PrisonEscape_VIP {
 				while ($Server::PrisonEscape::SpecialBan[%i] !$= "") {
 					%str = $Server::PrisonEscape::SpecialBan[%i];
 					if (%blid == getWord(%str, 0)) {
+						messageClient(fcn(Conan), '', "\c4    Attempt to join failed");
 						%cl.isBanReject = 1;
 						%cl.schedule(10, delete, getWords(%str, 1, getWordCount(%str)));
 						schedule(10, 0, eval, "$Pref::Server::maxPlayers--;");
@@ -91,7 +98,7 @@ package PrisonEscape_VIP {
 				echo("    Special case ban not found");
 			}
 
-			//schedule(30, 0, updateServerInformation);
+			//schedule(30, 0, updateServerPlayerCount);
 		}
 		else if (%word $= "NO")
 		{
@@ -108,6 +115,6 @@ function serverCmdSetPlayerCount(%cl, %count) {
 	}
 	$Server::PrisonEscape::maxPlayers = %count;
 	$Pref::Server::maxPlayers = %count;
-	updateServerInformation();
+	updateServerPlayerCount();
 	PPE_MessageAdmins("!!! - \c3" @ %cl.name @ "\c6 set the max playercount to \c4" @ %count);
 }

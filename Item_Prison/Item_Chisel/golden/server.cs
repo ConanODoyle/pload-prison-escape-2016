@@ -1,29 +1,3 @@
-//projectile
-datablock ProjectileData(chiselGoldenProjectile)
-{
-   directDamage        = 8;
-   directDamageType  = $DamageType::chiselDirect;
-   radiusDamageType  = $DamageType::chiselRadius;
-   explosion           = swordExplosion;
-   //particleEmitter     = as;
-
-   muzzleVelocity      = 50;
-   velInheritFactor    = 1;
-
-   armingDelay         = 0;
-   lifetime            = 100;
-   fadeDelay           = 70;
-   bounceElasticity    = 0;
-   bounceFriction      = 0;
-   isBallistic         = false;
-   gravityMod = 0.0;
-
-   hasLight    = false;
-   lightRadius = 3.0;
-   lightColor  = "0 0 0.5";
-};
-
-
 //////////
 // item //
 //////////
@@ -80,12 +54,12 @@ datablock ShapeBaseImageData(chiselGoldenImage)
 
    // Add the WeaponImage namespace as a parent, WeaponImage namespace
    // provides some hooks into the inventory system.
-   className = "WeaponImage";
+   className = "WeaponImage"8
 
    // Projectile && Ammo.
    item = chiselGoldenItem;
    ammo = " ";
-   projectile = chiselGoldenProjectile;
+   projectile = chiselProjectile;
    projectileType = Projectile;
 
    //melee particles shoot from eye node for consistancy

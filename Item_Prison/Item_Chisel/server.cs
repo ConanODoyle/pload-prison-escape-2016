@@ -231,7 +231,7 @@ package ChiselHit
 activatePackage(ChiselHit);
 
 $windowDamage = 10;
-$towerDamage = 9;
+$towerDamage = 14;
 $towerStages = 4;
 $towerColor0 = 60;
 $towerColor1 = 59;
@@ -263,6 +263,8 @@ function FxDTSBrick::damage(%brick, %damage, %player)
 			%brick.colorStage = 0;
 		} else if (%brick == $Server::PrisonEscape::Generator) {
 			%brick.maxDamage = 10;
+		} else if (%brick.getDatablock().uiname $= "4x4f Glass Pane") {
+			%brick.maxDamage = 35;
 		} else if (strPos(%brick.getName(), "tower") < 0) {
 			%brick.maxDamage = $windowDamage;
 		}

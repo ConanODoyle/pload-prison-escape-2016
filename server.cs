@@ -13,6 +13,8 @@ exec("./vip.cs");
 exec("./Item_Prison/server.cs");
 exec("./Item_PosTool/posTool.cs");
 
+exec("./Emitters/server.cs");
+
 exec("./Brick_Prison/server.cs");
 exec("./Brick_Garage_Door/server.cs");
 exec("./Brick_Security_Camera/server.cs");

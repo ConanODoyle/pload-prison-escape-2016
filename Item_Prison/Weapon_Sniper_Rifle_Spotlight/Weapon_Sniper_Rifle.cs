@@ -98,17 +98,17 @@ datablock ProjectileData(SniperRifleSpotlightProjectile)
    radiusDamageType    = $DamageType::SniperrifleSpotlight;
 
    brickExplosionRadius = 0;
-   brickExplosionImpact = true;          //destroy a brick if we hit it directly?
-   brickExplosionForce  = 25;
-   brickExplosionMaxVolume = 25;          //max volume of bricks that we can destroy
-   brickExplosionMaxVolumeFloating = 15;  //max volume of bricks that we can destroy if they aren't connected to the ground
+   brickExplosionImpact = false;          //destroy a brick if we hit it directly?
+   brickExplosionForce  = 0;
+   brickExplosionMaxVolume = 0;          //max volume of bricks that we can destroy
+   brickExplosionMaxVolumeFloating = 0;  //max volume of bricks that we can destroy if they aren't connected to the ground
 
    impactImpulse	     = 0;
    verticalImpulse	  = 0;
    explosion           = GunExplosion;
    particleEmitter     = SniperRifleSpotlightBulletTrailEmitter;
 
-   muzzleVelocity      = 120;
+   muzzleVelocity      = 200;
    velInheritFactor    = 1;
 
    armingDelay         = 00;
@@ -211,7 +211,7 @@ datablock ShapeBaseImageData(SniperRifleSpotlightImage)
 
    // Initial start up state
 	stateName[0]                    = "Activate";
-	stateTimeoutValue[0]            = 0.05;
+	stateTimeoutValue[0]            = 0.15;
 	stateTransitionOnTimeout[0]		= "PreReady";
 	stateSequence[0]				= "Ready";
 	stateSound[0]					= SniperRifleSpotlightUnholsterSound;

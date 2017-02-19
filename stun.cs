@@ -120,7 +120,7 @@ function stun(%player, %time) {
 		%client.setControlObject(%player);
 		%player.playThread(3, root);
 		return;
-	} else if (!%client.isBeingStunned) {
+	} else if (!%client.isBeingStunned && isObject(%client.player)) {
 		%player.setControlObject(%client.camera);
 		%player.setVelocity(vectorAdd(%player.getVelocity(), getRandom() * 2 SPC getRandom() * 2 SPC "3"));
 		%player.mountImage(stunImage, 3);
@@ -131,6 +131,8 @@ function stun(%player, %time) {
 		%player.playThread(3, sit);
 
 		%player.setVelocity(vectorAdd("0 0 5", %player.getVelocity()));
+	} else {
+		return;
 	}
 
 	%client.stunnedTime += 1;

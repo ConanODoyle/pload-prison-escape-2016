@@ -9,8 +9,9 @@ package PrisonEscape_Base
 
 	function serverCmdDropTool(%client, %slot) 
 	{
-		if (%client.isGuard && isObject(%player = %client.player) && %player.tool[%slot].getName() !$= "SteakItem") 
-		{
+		if (%client.isGuard && isObject(%player = %client.player) && %player.tool[%slot].getName() !$= "SteakItem") {
+			return;
+		} else if (isObject(%player) && %client.player.getDatablock().getName() $= "BuffArmor") {
 			return;
 		}
 		return parent::serverCmdDropTool(%client, %slot);
@@ -59,7 +60,7 @@ package PrisonEscape_Base
 		else
 		{
 			%this.player.setShapeNameColor(".54 .7 .55");
-			%this.player.setShapeNameDistance(20);
+			%this.player.setShapeNameDistance(300);
 		}
 
 		giveItems(%this);
@@ -112,11 +113,10 @@ package PrisonEscape_Base
 
 	function GameConnection::onDeath(%cl, %obj, %killer, %pos, %part) {
 		if ($Server::PrisonEscape::roundPhase == 2) {
+			%cl.player = "";
+			%cl.isBeingStunned = 0;
 			//%ret = parent::onDeath(%cl, %obj, %killer, %pos, %part);
 			spectateNextPlayer(%cl, 0);
-			%cl.setControlObject(%cl.camera);
-			%cl.camera.setControlObject(%cl.camera);
-			%cl.player = "";
 			return;
 		} else {
 			return parent::onDeath(%cl, %obj, %killer, %pos, %part);
@@ -253,6 +253,7 @@ package PrisonEscape_Base
 
     function GameConnection::onClientEnterGame(%client) {
     	%ret = parent::onClientEnterGame(%client);
+    	%client.hasSpawnedOnce = 1;
 	    if (isObject($DefaultMini)) {
 			$DefaultMini.addmember(%client);
 

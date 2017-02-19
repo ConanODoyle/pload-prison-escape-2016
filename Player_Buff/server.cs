@@ -88,7 +88,7 @@ datablock PlayerData(BuffArmor)
    mass = 140;
    drag = 0.1;
    density = 0.7;
-   maxDamage = 900;
+   maxDamage = 400;
    maxEnergy =  10;
    repairRate = 0.33;
 
@@ -254,7 +254,7 @@ datablock ExplosionData(BuffBashExplosion) {
    lifetimeMS = 400;
 
    emitter[0] = pushBroomSparkEmitter;
-   particleEmitter = spearExplosionEmitter;
+   particleEmitter = pushBroomExplosionEmitter;
    particleDensity = 80;
    particleRadius = 1.0;
 
@@ -358,7 +358,7 @@ datablock ShapeBaseImageData(BuffBashImage) {
    colorShiftColor = "0.4 0.4 0.4 1.000";
 
    stateName[0]        = "Activate";
-   stateTimeoutValue[0]    = 0.3;
+   stateTimeoutValue[0]    = 1.3;
    stateTransitionOnTimeout[0]   = "Ready";
 
    stateName[1]         = "Ready";
@@ -367,16 +367,14 @@ datablock ShapeBaseImageData(BuffBashImage) {
 
    stateName[2]         = "Fire";
    stateTransitionOnTimeout[2]   = "Cooldown";
-   stateTimeoutValue[2]    = 0.1;
+   stateTimeoutValue[2]    = 0.2;
    stateFire[2]         = true;
    stateScript[2]       = "onFire";
    stateWaitForTimeout[2]     = true;
    stateAllowImageChange[2]   = true;
 
    stateName[3]         = "Cooldown";
-   stateTransitionOnTimeout[3] = "Ready";
-   stateTimeoutValue[3]    = 0.1;
-   //stateTransitionOnTriggerUp[3] = "Ready";
+   stateTransitionOnTriggerUp[3] = "Ready";
 };
 
 function BuffBashImage::onFire(%this, %obj, %slot) {

@@ -5,7 +5,7 @@ function bottomprintTimerLoop(%timeLeft) {
 	}
 	if (%timeleft == $Server::PrisonEscape::timePerRound * 60 + 1) {
 		spawnDeadPrisoners();
-	} else if (%timeLeft % 60 == 0 && %timeleft) {
+	} else if (%timeLeft % 120 == 0 && %timeleft) {
 		spawnDeadInfirmary();
 	}
 	//display timeleft to everyone
@@ -280,6 +280,7 @@ function Player::removeItems(%player, %string, %client) {
 		%word = getWord(%string, %i);
 		for (%j = 0; %j < %player.getDatablock().maxTools; %j++) {
 			if (strPos(%player.tool[%j].getName(), %word) >= 0) {
+				serverCmdunUseTool(%client);
 				%player.tool[%i] = "";
 				%player.weaponCount--;
 				messageClient(%client, 'MsgItemPickup', '', %j, "");
@@ -289,3 +290,7 @@ function Player::removeItems(%player, %string, %client) {
 }
 
 registerOutputEvent("Player", "removeItems", "string 200 156", 1);
+
+datablock ProjectileData(woodShard : gunProjectile) {
+
+}
