@@ -1,4 +1,5 @@
-$Server::PrisonEscape::VIP = "4928 4382 12307 53321 6531 104 215 117 0 1 2 293" @ " 1768 67024 34944 169132 177375 196624 15144 26663 32660 200355 18569 20419 33303 11532 67024 38483 48871 166247 41072 22556 26586 15144 109211 44383 15269 36965 32202";
+$Server::PrisonEscape::VIP = "4382 4928 12307 53321 6531 2143 8139 104 215 117 0 1 2 293" @ " 1768 67024 34944 169132 177375 196624 15144 32660 200355 18569 20419 33303 11532 67024 38483 48871 166247 41072 22556 26586 15144 109211 15269 36965 32202 40788 21120 12247 38424";
+$Server::PrisonEscape::Donator = "33935 20419 44383 2127 12027 19101 40725 26663 3306 30139";
 $Server::PrisonEscape::SpecialBan0 = "49581 have fun not playing on my server asshole";
 $Server::PrisonEscape::SpecialBan1 = "49070 have fun not playing on my server asshole";
 
@@ -47,8 +48,11 @@ package PrisonEscape_VIP {
 	}
 
 	function GameConnection::onDrop(%client) {
-		if ($Pref::Server::maxPlayers > $Server::PrisonEscape::maxPlayers && $Pref::Server::maxPlayers > ClientGroup.getCount()) {
+		if ($Pref::Server::maxPlayers > $Server::PrisonEscape::maxPlayers) {
 			$Pref::Server::maxPlayers--;
+			updateServerPlayerCount();
+		} else if ($Pref::Server::maxPlayers > ClientGroup.getCount() && ClientGroup.getCount() > $Server::PrisonEscape::maxPlayers) {
+			$Pref::Server::maxPlayers = $Server::PrisonEscape::maxPlayers;
 			updateServerPlayerCount();
 		}
 		return parent::onDrop(%client);
@@ -76,6 +80,19 @@ package PrisonEscape_VIP {
 				}
 			}
 			echo("    VIP status not found");
+			for (%i = 0; %i < getWordCount($Server::PrisonEscape::Donator); %i++) {
+				%reservedBLID = getWord($Server::PrisonEscape::Donator, %i);
+				if (%blid == %reservedBLID) {
+					messageClient(fcn(Conan), '', "\c4    Attempt to join succeeded");
+					echo("    Donator status confirmed. Upping player limit...");
+					%ret = parent::onLine(%this, %line);
+					messageAll('', "<bitmap:base/client/ui/CI/star.png> \c3" @ %cl.name @ "\c4 is a Donator!");
+					updateServerPlayerCount();
+					%cl.isDonator = 1;
+					return %ret;
+				}
+			}
+			echo("    Donator status not found");
 			if ($Pref::Server::maxPlayers > $Server::PrisonEscape::maxPlayers) {
 				messageClient(fcn(Conan), '', "\c4    Attempt to join failed");
 				%cl.isBanReject = 1;
@@ -87,7 +104,7 @@ package PrisonEscape_VIP {
 				while ($Server::PrisonEscape::SpecialBan[%i] !$= "") {
 					%str = $Server::PrisonEscape::SpecialBan[%i];
 					if (%blid == getWord(%str, 0)) {
-						messageClient(fcn(Conan), '', "\c4    Attempt to join failed");
+						messageClient(fcn(Conan), '', "\c4    Attempt to join failed due to special ban");
 						%cl.isBanReject = 1;
 						%cl.schedule(10, delete, getWords(%str, 1, getWordCount(%str)));
 						schedule(10, 0, eval, "$Pref::Server::maxPlayers--;");
@@ -105,6 +122,14 @@ package PrisonEscape_VIP {
 			return parent::onLine(%this, %line);
 		}
 		return parent::onLine(%this, %line);
+	}
+
+	function WeaponImage::onMount(%this, %obj, %slot) {
+		if (isObject(%cl = %obj.client) && %cl.isDonator && isObject(%this.goldenImage)) {
+			%obj.mountImage(%this.goldenImage, %slot);
+			return;
+		}
+		return parent::onMount(%this, %obj, %slot);
 	}
 };
 activatePackage(PrisonEscape_VIP);

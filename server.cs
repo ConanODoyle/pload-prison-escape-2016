@@ -9,9 +9,11 @@ exec("./globalcams.cs");
 exec("./rounds.cs");
 exec("./collection.cs");
 exec("./vip.cs");
+exec("./audio.cs");
 
 exec("./Item_Prison/server.cs");
 exec("./Item_PosTool/posTool.cs");
+exec("./Item_Logo/server.cs");
 
 exec("./Emitters/server.cs");
 
@@ -43,4 +45,13 @@ function serverCmdWrench(%cl) {
 	%pl.playThread(1, armReadyRight);
 }
 
+WrenchImage.canMountToBronson = 1;
+hammerImage.canMountToBronson = 1;
+printGunImage.canMountToBronson = 1;
+
+AddDamageType("Satellite",	'<bitmap:Add-Ons/Gamemode_PPE/ci/CI_Satellite> %1',	 '%2 <bitmap:Add-Ons/Gamemode_PPE/ci/CI_Satellite> %1',0.2,1);
+AddDamageType("Generator",	'<bitmap:Add-Ons/Gamemode_PPE/ci/CI_Generator> %1',	 '%2 <bitmap:Add-Ons/Gamemode_PPE/ci/CI_Generator> %1',0.2,1);
+AddDamageType("Tower",	'<bitmap:Add-Ons/Gamemode_PPE/ci/CI_Tower> %1',	 '%2 <bitmap:Add-Ons/Gamemode_PPE/ci/CI_Tower> %1',0.2,1);
+AddDamageType("Dog",	'<bitmap:Add-Ons/Gamemode_PPE/ci/Dog> %1',	 '%2 <bitmap:Add-Ons/Gamemode_PPE/ci/Dog> %1',0.2,1);
 //.*".+\n\+-OWNER 4928\n(?!\+-.+)
+//https://www.youtube.com/watch?v=lnGnJWKyBak

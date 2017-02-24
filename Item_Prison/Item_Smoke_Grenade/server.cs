@@ -136,7 +136,7 @@ datablock ItemData(riotSmokeGrenadeItem)
 
 	//gui stuff
 	uiName = "Smoke Grenade";
-	iconName = "";
+	iconName = "Add-ons/Gamemode_PPE/icons/smoke";
 	doColorShift = true;
 	colorShiftColor = "0.5 0.5 0.5 1.000";
 
@@ -176,6 +176,8 @@ datablock ShapeBaseImageData(riotSmokeGrenadeImage)
 	// provides some hooks into the inventory system.
 	className = "WeaponImage";
 
+	goldenImage = riotSmokeGrenadeGoldenImage;
+
 	// Projectile && Ammo.
 	item = riotSmokeGrenadeItem;
 	ammo = " ";
@@ -214,11 +216,11 @@ datablock ShapeBaseImageData(riotSmokeGrenadeImage)
 	stateScript[2]			= "oncharge";
 	stateWaitForTimeout[2]		= false;
 	stateTransitionOnTriggerUp[2]	= "AbortCharge";
-	stateAllowImageChange[2]		  = false;
+	stateAllowImageChange[2]		  = true;
 	
 	stateName[3]			= "Armed";
 	stateTransitionOnTriggerUp[3]	= "Fire";
-	stateAllowImageChange[3]	= false;
+	stateAllowImageChange[3]	= true;
 
 	stateName[4]			= "Fire";
 	stateTransitionOnTimeout[4]	= "Ready";
@@ -226,7 +228,7 @@ datablock ShapeBaseImageData(riotSmokeGrenadeImage)
 	stateFire[4]			= true;
 	stateScript[4]			= "onFire";
 	stateWaitForTimeout[4]		= true;
-	stateAllowImageChange[4]	= false;
+	stateAllowImageChange[4]	= true;
 
 	stateName[5]			= "AbortCharge";
 	stateScript[5]			= "onAbortCharge";
@@ -241,8 +243,8 @@ function riotSmokeGrenadeImage::onCharge(%this, %obj, %slot)
 function riotSmokeGrenadeImage::onFire(%this, %obj, %slot)
 {
 	//statistics
-	%obj.client.smokeGrenadesThrown++;
-	$Server::PrisonEscape::smokeGrenadesThrown++;
+	setStatistic("SmokeGrenadesThrown", getStatistic("SmokeGrenadesThrown", %obj.client) + 1, %obj.client);
+	setStatistic("SmokeGrenadesThrown", getStatistic("SmokeGrenadesThrown") + 1);
 
 	%obj.playthread(2, spearThrow);
 	%ret = Parent::onFire(%this, %obj, %slot);
@@ -269,7 +271,7 @@ function RiotSmokeGrenadeProjectile::onCollision(%this, %obj, %col, %fade, %pos,
 }
 
 if ($smokeTime $= "") {
-	$smokeTime = 10000;
+	$smokeTime = 40000;
 }
 
 function RiotSmokeGrenadeProjectile::onExplode(%this, %proj, %pos) {

@@ -13,7 +13,11 @@ function spawnGuard(%towerNum, %suppress) {
 	if (isObject(%tower.guard.player)) {
 		%tower.guard.player.delete();
 	}
+	if (!isObject(%tower.guard)) {
+		PPE_messageAdmins("\c3!!! \c6Warning: guard not found for tower "@ %towerNum);
+	}
 	%tower.guard.createPlayer(%spawnpoint);
+	setStatistic("Tower" @ %towerNum @ "Guard", trim(getStatistic("Tower" @ %towerNum @ "Guard") SPC %tower.guard.bl_id));
 	if (!%suppress) {
 		messageAll('', "\c3" @ %tower.guard.name @ "\c4 has been deployed at tower " @ %towerNum @ "!");
 	}
@@ -37,9 +41,9 @@ function displayIntroCenterprint() {
 	for (%i = 0; %i < ClientGroup.getCount(); %i++) {
 		%cl = ClientGroup.getObject(%i);
 		if (%cl.isGuard) {
-			%cl.centerprint("<font:Arial Bold:34><shadowcolor:666666><shadow:0:4><color:E65714>JailBreak! <br><font:Arial Bold:26><color:ffffff>Prevent the prisoners from escaping!", 10);
+			%cl.centerprint("<br><br><br><br><br><font:Arial Black:48><shadowcolor:555555><shadow:0:4><color:E65714>Conan's Prison Break! <br><font:Arial Bold:26><color:ffffff>Prevent the prisoners from escaping!", 20);
 		} else {
-			%cl.centerprint("<font:Arial Bold:34><shadowcolor:666666><shadow:0:4><color:E65714>JailBreak! <br><font:Arial Bold:26><color:ffffff>Team up and escape!", 10);
+			%cl.centerprint("<br><br><br><br><br><font:Arial Black:48><shadowcolor:555555><shadow:0:4><color:E65714>Conan's Prison Break! <br><font:Arial Bold:26><color:ffffff>Team up and escape!", 20);
 		}
 	}
 }

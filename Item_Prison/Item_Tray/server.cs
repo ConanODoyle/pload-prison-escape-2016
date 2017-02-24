@@ -1,28 +1,28 @@
 datablock AudioProfile(trayDeflect1Sound)
 {
    filename    = "./tray1.wav";
-   description = AudioClosest3d;
+   description = AudioClose3d;
    preload = true;
 };
 
 datablock AudioProfile(trayDeflect2Sound)
 {
    filename    = "./tray2.wav";
-   description = AudioClosest3d;
+   description = AudioClose3d;
    preload = true;
 };
 
 datablock AudioProfile(trayDeflect3Sound)
 {
    filename    = "./tray3.wav";
-   description = AudioClosest3d;
+   description = AudioClose3d;
    preload = true;
 };
 
 datablock AudioProfile(trayEquipSound)
 {
    filename    = "./tray_pullup1.wav";
-   description = AudioClosest3d;
+   description = AudioClose3d;
    preload = true;
 };
 
@@ -42,7 +42,7 @@ datablock ItemData(PrisonTrayItem)
 
 	//gui stuff
 	uiName = "Tray";
-	iconName = "";
+	iconName = "Add-ons/Gamemode_PPE/icons/tray";
 	doColorShift = true;
 	colorshiftColor = "0.5 0.5 0.5 1";
 	rotation = eulerToMatrix("0 90 0");
@@ -77,6 +77,8 @@ datablock ShapeBaseImageData(PrisonTrayImage)
 	// Add the WeaponImage namespace as a parent, WeaponImage namespace
 	// provides some hooks into the inventory system.
 	className = "WeaponImage";
+
+	goldenImage = PrisonTrayGoldenImage;
 
 	// Projectile && Ammo.
 	item = PrisonTrayItem;
@@ -187,7 +189,7 @@ datablock ProjectileData(PrisonTrayProjectile)
 package PrisonItems
 {
 	function serverCmdDropTool(%cl, %slot) {
-		if (!isObject(%pl = %cl.player)) {
+		if (!isObject(%pl = %cl.player) || !isObject(%pl.tool[%slot])) {
 			return parent::serverCmdDropTool(%cl, %slot);
 		}
 
@@ -195,6 +197,8 @@ package PrisonItems
 			%pl.unmountImage(2);
 			%pl.unmountImage(0);
 			%pl.isWearingBucket = 0;
+		} else if (%pl.tool[%slot].getName() $= "PrisonTrayItem" || %pl.tool[%slot].getName() $= "PrisonTrayGoldenItem") {
+			%pl.unMountImage(0);
 		}
 		return parent::serverCmdDropTool(%cl, %slot);
 	}
@@ -211,9 +215,9 @@ package PrisonItems
 				{
 					%gold = %col.tool[%col.currtool].getName() $= "PrisonTrayItem" ? PrisonTrayProjectile : PrisonTrayGoldProjectile;
 					//statistics
-					$Server::PrisonEscape::TraysUsed++;
-					%col.client.traysUsed++;
-					%obj.sourceObject.client.traysPlonked++;
+					setStatistic("TraysUsed", getStatistic("TraysUsed", %col.client) + 1, %col.client);
+					setStatistic("TraysUsed", getStatistic("TraysUsed") + 1);
+					setStatistic("TraysDestroyed", getStatistic("TraysDestroyed", %obj.sourceObject.client) + 1, %obj.sourceObject.client);
 
 					%col.tool[%col.currtool] = 0;
 					%col.weaponCount--;
@@ -249,9 +253,9 @@ package PrisonItems
 						{
 							%gold = %col.tool[%i].getName() $= "PrisonBucketItem" ? PrisonBucketProjectile : PrisonBucketGoldProjectile;
 							//statistics
-							$Server::PrisonEscape::BucketsUsed++;
-							%col.client.bucketsUsed++;
-							%obj.sourceObject.client.bucketPlonked++;
+							setStatistic("BucketsUsed", getStatistic("BucketsUsed", %col.client) + 1, %col.client);
+							setStatistic("BucketsUsed", getStatistic("BucketsUsed") + 1);
+							setStatistic("BucketsDestroyed", getStatistic("BucketsDestroyed", %obj.sourceObject.client) + 1, %obj.sourceObject.client);
 
 							%col.tool[%i] = 0;
 							%col.weaponCount--;
@@ -279,7 +283,7 @@ package PrisonItems
 							%proj.explode();
 							%obj.delete();
 
-							stun(%col, 2);
+							stun(%col, 3);
 							%col.unMountImage(0);
 
 							return;

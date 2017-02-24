@@ -5,22 +5,36 @@ exec("./locations.cs");
 
 package PrisonChatSystem
 {
+	function serverCmdLeaveMinigame(%cl) {
+
+	}
+
 	function serverCmdMessageSent(%cl, %msg)
 	{
 		//-1 for debug/off, 0 for loading, 1 for round start, 2 for round in session, 3 for round end
+
 		%phase = $Server::PrisonEscape::roundPhase;
 		%isAlive = isObject(%cl.player);
 		%team = %cl.isGuard;
 		%isDonator = %cl.isDonator;
+		%msg = stripMLControlChars(%msg);
 		if (%isAlive)
 			%location = getRegion(%cl.player);
-		else
+		else if (%cl.hasSpawnedOnce)
 			%location = "DEAD";
+		else 
+			%location = "LOADING";
+
 		%isOutside = (%location $= "Outside" || %location $= "Yard" || strPos(%location, "Tower") >= 0);
 		if (!%cl.isGuard)
 			%name = "<color:ff8724>" @ (%cl.fakeName $= "" ? %cl.name : %cl.fakeName);
 		else
 			%name = "<color:8AB28D>" @ (%cl.fakeName $= "" ? %cl.name : %cl.fakeName);
+
+		if ((strPos(strlwr(%msg), "\@here") >= 0 || strPos(strlwr(%msg), "\@everyone") >= 0) && %cl.bl_id != 4928) {
+			messageClient(%cl, '', "You are not allowed to @mention the discord users");
+			return;
+		}
 
 		//skip everything if off mode is enabled
 		if (%phase == -1)
@@ -42,14 +56,14 @@ package PrisonChatSystem
 
 		//set donator message
 		if (%isDonator)
-			%msg = "<shadow:-2:2><shadowcolor:ffffff>" @ %msg;
+			%msg = "<color:ffaaaa>" @ %msg;
 
 		if (%phase != 2) //loading in between rounds
 		{
 			//all chat can be seen by everyone
 			//admins get special blue color
 			if (%cl.isAdmin)
-				%name = "\c1" @ %cl.name @ "\c6: ";
+				%name = "\c1" @ %cl.name ;
 
 			//admins also get a sound accompanying their message
 			if (!%cl.isAdmin)
@@ -62,17 +76,18 @@ package PrisonChatSystem
 		else if (%phase == 2) //pre-round, during-round, post round win camera
 		{
 			//statistics
-			if (%cl.isGuard)
-				$Server::PrisonEscape::GuardMessagesSent++;
-			else
-				$Server::PrisonEscape::PrisonerMessagesSent++;
-			%cl.messagesSent++;
+			if (%cl.isGuard) {
+				setStatistic("GuardMessagesSent", getStatistic("GuardMessagesSent") + 1);
+			} else {
+				setStatistic("PrisonerMessagesSent", getStatistic("PrisonerMessagesSent") + 1);
+			}
+			setStatistic("MessagesSent", getStatistic("MessagesSent") + 1);
 
 			//prefix location before name in message
-			if (%location !$= "DEAD")
+			if (%location !$= "DEAD" && %location !$= "LOADING")
 				%message = %name @ "\c6 [\c1" @ %location @ "\c6]: " @ %msg;
 			else
-				%message = %name @ "\c7 [DEAD]\c6: " @ %msg;
+				%message = %name @ "\c7 [" @ %location @ "]\c6: " @ %msg;
 
 
 			for (%i = 0; %i < ClientGroup.getCount(); %i++)
@@ -82,8 +97,10 @@ package PrisonChatSystem
 				%targetTeam = %target.isGuard;
 				if (%targetIsAlive)
 					%targetLocation = getRegion(%target.player);
-				else
+				else if (%target.hasSpawnedOnce)
 					%targetLocation = "DEAD";
+				else 
+					%targetLocation = "LOADING";
 				%targetIsOutside = (%targetLocation $= "Outside" || %targetLocation $= "Yard" || strPos(%targetLocation, "Tower") >= 0);
 
 				//message people on same team
@@ -93,6 +110,8 @@ package PrisonChatSystem
 				else if (%targetIsOutside && %isOutside)
 					messageClient(%target, '', %message);
 				else if (%location $= "DEAD" && %targetTeam == %team) //all dead players can chat
+					messageClient(%target, '', %message);
+				else if (%targetLocation $= "LOADING")
 					messageClient(%target, '', %message);
 			}
 

@@ -1,80 +1,209 @@
+//statistics are now all global vars
+exec("./roundNum.cs");
+if ($Statistics::round $= "") {
+	$Statistics::round = 0;
+}
+
+function setStatistic(%statistic, %val, %client) {
+	//talk("Setting statistic of " @ %statistic);
+	if (isObject(%client)) {
+		$Statistics::round[$Statistics::round @ "_" @ %statistic @ "_" @ %client.bl_id] = %val;
+	} else {
+		$Statistics::round[$Statistics::round @ "_" @ %statistic @ "_Total"] = %val;
+	}
+	return %val;
+}
+
+function testingStatistic() {
+
+}
+
+function getStatistic(%statistic, %client) {
+	//talk("Getting statistic of " @ %statistic);
+	if (isObject(%client)) {
+		return $Statistics::round[$Statistics::round @ "_" @ %statistic @ "_" @ %client.bl_id];
+	} else {
+		return $Statistics::round[$Statistics::round @ "_" @ %statistic @ "_Total"];
+	}
+}
+
 function collectStatistics()
 {
-	//calculate just as round ends so players leaving right after round ends still show up on the list
-	//optionally package gameconnection::onDisconnect to save the stats into global vars. Nice touch to have.
-	//do the second option once the fundamentals for the gamemode are complete
-	%mvpAcc = 0;
-	%mvpChisel = 0;
-	%mostAcc = 0;
-	//iterate through clients and calculate statistics
-	for (%i = 0; %i < ClientGroup.getCount(); %i++)
-	{
+	for (%i = 0; %i < ClientGroup.getCount(); %i++) {
 		%client = ClientGroup.getObject(%i);
-		//find mvp guard, mvp prisoner
-		//have a baseline cutoff for MVP status
-		//guard accuracy weighted based on number of kills
-		%client.weightedaccuracy = (%client.shotsHit+%client.getScore()/2)/%client.shotsFired;
-		%client.accuracy = %client.shotsHit/%client.shotsFired;
-		%client.efficiency = %client.chiselHit/%client.chiselAttack;
 
-		if (%client.isGuard && %client.accuracy > %mostAcc) 
-		{
-			$Server::PrisonEscape::SharpshooterGuard = %client;
-			%mostAcc = %client.accuracy;
-		}
-		if (%client.isGuard && %client.weightedaccuracy > %mvpAcc) 
-		{
-			$Server::PrisonEscape::MVPGuard = %client;
-			%mvpAcc = %client.weightedaccuracy;
-		}
-		else if (!%client.isGuard && %client.chiselHit > %mvpChisel)
-		{
-			$Server::PrisonEscape::MVPPrisoner = %client;
-			%mvpChisel = %client.chiselHit;
+		if (%client.isGuard) {
+			if (%bestGuard $= "") {
+				%bestGuard = %client.bl_id;
+				%shotsHit = getStatistic("SniperShotsHit", %client);
+				%shotsMissed = getStatistic("SniperShotsMissed", %client);
+				%kills = %client.score;
+				continue;
+			} else {
+				%newShotsHit = getStatistic("SniperShotsHit", %client);
+				%newShotsMissed = getStatistic("SniperShotsMissed", %client);
+				%newKills = %client.score;
+
+				if (%newShotsHit > %shotsHit) {
+					%bestGuard = %client.bl_id;
+					%shotsHit = %newShotsHit;
+					%shotsMissed = %newShotsMissed;
+					%kills = %newKills;
+				} else if (%newShotsHit == %shotsHit && %newShotsMissed < %shotsMissed) {
+					%bestGuard = %client.bl_id;
+					%shotsHit = %newShotsHit;
+					%shotsMissed = %newShotsMissed;
+					%kills = %newKills;
+				} else if (%newShotsHit == %shotsHit && %newShotsMissed == %shotsMissed && %newKills > %kills) {
+					%bestGuard = %client.bl_id;
+					%shotsHit = %newShotsHit;
+					%shotsMissed = %newShotsMissed;
+					%kills = %newKills;
+				}
+			}
+		} else {
+			if (%bestPrisoner $= "") {
+				%bestPrisoner = %client.bl_id;
+				%objectiveHits = getNumObjectiveHits(%client);
+				%deaths = getStatistic("Deaths", %client);
+				%totalHits = getStatistic("ChiselHits", %client);
+				%timeAlive = getStatistic("timeAlive", %client);
+				continue;
+			} else {
+				%newObjectiveHits = getNumObjectiveHits(%client);
+				%newDeaths = getStatistic("Deaths", %client);
+				%newTotalHits = getStatistic("ChiselHits", %client);
+				%newTimeAlive = getStatistic("timeAlive", %client);
+
+				if (%newObjectiveHits > %objectiveHits) {
+					%bestPrisoner = %client.bl_id;
+					%objectiveHits = %newObjectiveHits;
+					%deaths = %newDeaths;
+					%totalHits = %newTotalHits;
+					%timeAlive = %newTimeAlive;
+				} else if (%newObjectiveHits == %objectiveHits && %newDeaths < %deaths) {
+					%bestPrisoner = %client.bl_id;
+					%objectiveHits = %newObjectiveHits;
+					%deaths = %newDeaths;
+					%totalHits = %newTotalHits;
+					%timeAlive = %newTimeAlive;
+				} else if (%newObjectiveHits == %objectiveHits && %newDeaths == %deaths && %newTotalHits > %totalHits) {
+					%bestPrisoner = %client.bl_id;
+					%objectiveHits = %newObjectiveHits;
+					%deaths = %newDeaths;
+					%totalHits = %newTotalHits;
+					%timeAlive = %newTimeAlive;
+				} else if (%newObjectiveHits == %objectiveHits && %newDeaths == %deaths && %newTotalHits == %totalHits && %newTimeAlive > %timeAlive) {
+					%bestPrisoner = %client.bl_id;
+					%objectiveHits = %newObjectiveHits;
+					%deaths = %newDeaths;
+					%totalHits = %newTotalHits;
+					%timeAlive = %newTimeAlive;
+				}
+			}
 		}
 	}
-	$Server::PrisonEscape::TopAcc = %mvpAcc;
-	$Server::PrisonEscape::TopChisel = %mvpChisel;
+
+	$bestPrisoner = %bestPrisoner;
+	$bestPrisonerName = findClientByBL_ID(%bestPrisoner).name;
+	$bestGuard = %bestGuard;
+	$bestGuardName = findClientByBL_ID(%bestGuard).name;
 }
+
+function getNumObjectiveHits(%client) {
+	if (%client.isGuard) {
+		return 0;
+	}
+
+	%commDish = getStatistic("CommDishHit", %client);
+	%plates = getStatistic("PlatesHit", %client);
+	%supports = getStatistic("TowerSupportsHit", %client);
+
+	return %commDish + %plates + %supports;
+}
+
+// function collectStatistics()
+// {
+// 	//calculate just as round ends so players leaving right after round ends still show up on the list
+// 	//optionally package gameconnection::onDisconnect to save the stats into global vars. Nice touch to have.
+// 	//do the second option once the fundamentals for the gamemode are complete
+// 	%mvpAcc = 0;
+// 	%mvpChisel = 0;
+// 	%mostAcc = 0;
+// 	//iterate through clients and calculate statistics
+// 	for (%i = 0; %i < ClientGroup.getCount(); %i++)
+// 	{
+// 		%client = ClientGroup.getObject(%i);
+// 		//find mvp guard, mvp prisoner
+// 		//have a baseline cutoff for MVP status
+// 		//guard accuracy weighted based on number of kills
+// 		%client.weightedaccuracy = (%client.shotsHit+%client.getScore()/2)/%client.shotsFired;
+// 		%client.accuracy = %client.shotsHit/%client.shotsFired;
+// 		%client.efficiency = %client.chiselHit/%client.chiselAttack;
+
+// 		if (%client.isGuard && %client.accuracy > %mostAcc) 
+// 		{
+// 			$Server::PrisonEscape::SharpshooterGuard = %client;
+// 			%mostAcc = %client.accuracy;
+// 		}
+// 		if (%client.isGuard && %client.weightedaccuracy > %mvpAcc) 
+// 		{
+// 			$Server::PrisonEscape::MVPGuard = %client;
+// 			%mvpAcc = %client.weightedaccuracy;
+// 		}
+// 		else if (!%client.isGuard && %client.chiselHit > %mvpChisel)
+// 		{
+// 			$Server::PrisonEscape::MVPPrisoner = %client;
+// 			%mvpChisel = %client.chiselHit;
+// 		}
+// 	}
+// 	$Server::PrisonEscape::TopAcc = %mvpAcc;
+// 	$Server::PrisonEscape::TopChisel = %mvpChisel;
+// }  
 
 function clearStatistics()
 {
-	$Server::PrisonEscape::TopAcc = 0;
-	$Server::PrisonEscape::TopChisel = 0;
-	$Server::PrisonEscape::MVPGuard = 0;
-	$Server::PrisonEscape::SharpshooterGuard = 0;
-	$Server::PrisonEscape::MVPPrisoner = 0;
-	$Server::PrisonEscape::GuardMessagesSent = 0;
-	$Server::PrisonEscape::PrisonerMessagesSent = 0;
-	$Server::PrisonEscape::PrisonerDeaths = 0;
-	$Server::PrisonEscape::BricksDestroyed = 0;
-	$Server::PrisonEscape::SniperRifleBullets = 0;
-	$Server::PrisonEscape::ChiselAttacks = 0;
-	$Server::PrisonEscape::TraysUsed = 0;
-	$Server::PrisonEscape::BucketsUsed = 0;
-	$Server::PrisonEscape::SteaksEaten = 0;
-	$Server::PrisonEscape::SmokeGrenadesThrown = 0;
-	$Server::PrisonEscape::firstPrisonerOut = 0;
+	$Statistics::round[$Statistics::round @ "_Date"] = getDateTime();
+	export("$Statistics::round" @ $Statistics::round @ "*", "config/PPE Statistics/Round " @ $Statistics::round @ ".cs");
+	$Statistics::round++;
+	export("$Statistics::round", "Add-ons/Gamemode_PPE/roundNum.cs");
+	// $Server::PrisonEscape::TopAcc = 0;
+	// $Server::PrisonEscape::TopChisel = 0;
+	// $Server::PrisonEscape::MVPGuard = 0;
+	// $Server::PrisonEscape::SharpshooterGuard = 0;
+	// $Server::PrisonEscape::MVPPrisoner = 0;
+	// $Server::PrisonEscape::GuardMessagesSent = 0;
+	// $Server::PrisonEscape::PrisonerMessagesSent = 0;
+	// $Server::PrisonEscape::PrisonerDeaths = 0;
+	// $Server::PrisonEscape::BricksDestroyed = 0;
+	// $Server::PrisonEscape::SniperRifleBullets = 0;
+	// $Server::PrisonEscape::ChiselAttacks = 0;
+	// $Server::PrisonEscape::TraysUsed = 0;
+	// $Server::PrisonEscape::BucketsUsed = 0;
+	// $Server::PrisonEscape::SteaksEaten = 0;
+	// $Server::PrisonEscape::SmokeGrenadesThrown = 0;
+	// $Server::PrisonEscape::firstPrisonerOut = 0;
+	// $Server::PrisonEscape::soapThrown = 0;
 
 
-	for (%i = 0; %i < ClientGroup.getCount(); %i++)
-	{
-		%client = ClientGroup.getObject(%i);
-		%client.isGuard = 0; %client.tower = "";
+	// for (%i = 0; %i < ClientGroup.getCount(); %i++)
+	// {
+	// 	%client = ClientGroup.getObject(%i);
+	// 	%client.isGuard = 0; %client.tower = "";
 
-		%client.shotsHit = 0; %client.shotsFired = 0;
-		%client.chiselAttack = 0; %client.chiselHit = 0;
-		%client.bucketsUsed = 0; %client.traysUsed = 0;
+	// 	%client.shotsHit = 0; %client.shotsFired = 0;
+	// 	%client.chiselAttack = 0; %client.chiselHit = 0;
+	// 	%client.bucketsUsed = 0; %client.traysUsed = 0;
 
-		%client.whiteOutTime = 0; %client.stunnedTime = 0;
-		%client.electrocutedTime = 0; %client.aliveTime = 0;
+	// 	%client.whiteOutTime = 0; %client.stunnedTime = 0;
+	// 	%client.electrocutedTime = 0; %client.aliveTime = 0;
 
-		%client.SmokeGrenadesThrown = 0;
-		%client.trays = 0; %client.bucketsPlonked = 0;
+	// 	%client.SmokeGrenadesThrown = 0;
+	// 	%client.trays = 0; %client.bucketsPlonked = 0;
 
-		%client.accuracy = 0; %client.weightedaccuracy = 0; %client.efficiency = 0;
-		%client.setScore(0);
-	}
+	// 	%client.accuracy = 0; %client.weightedaccuracy = 0; %client.efficiency = 0;
+	// 	%client.setScore(0);
+	// }
 }
 
 //statistics to store:
@@ -93,73 +222,63 @@ function clearStatistics()
 //%client.whiteOutTime
 //%client.trays/bucketsPlonked
 
-$Server::PrisonEscape::GuardMessagesSent = 0;
-$Server::PrisonEscape::MVPGuard = 0;
-$Server::PrisonEscape::SharpshooterGuard = 0;
-$Server::PrisonEscape::MVPPrisoner = 0;
-$Server::PrisonEscape::PrisonerMessagesSent = 0;
-$Server::PrisonEscape::PrisonerDeaths = 0;
-$Server::PrisonEscape::BricksDestroyed = 0;
-$Server::PrisonEscape::SniperRifleBullets = 0;
-$Server::PrisonEscape::ChiselAttacks = 0;
-$Server::PrisonEscape::TraysUsed = 0;
-$Server::PrisonEscape::BucketsUsed = 0;
-$Server::PrisonEscape::SteaksEaten = 0;
-$Server::PrisonEscape::SmokeGrenadesThrown = 0;
-$Server::PrisonEscape::firstPrisonerOut = 0;
+// $Server::PrisonEscape::GuardMessagesSent = 0;
+// $Server::PrisonEscape::MVPGuard = 0;
+// $Server::PrisonEscape::SharpshooterGuard = 0;
+// $Server::PrisonEscape::MVPPrisoner = 0;
+// $Server::PrisonEscape::PrisonerMessagesSent = 0;
+// $Server::PrisonEscape::PrisonerDeaths = 0;
+// $Server::PrisonEscape::BricksDestroyed = 0;
+// $Server::PrisonEscape::SniperRifleBullets = 0;
+// $Server::PrisonEscape::ChiselAttacks = 0;
+// $Server::PrisonEscape::TraysUsed = 0;
+// $Server::PrisonEscape::BucketsUsed = 0;
+// $Server::PrisonEscape::SteaksEaten = 0;
+// $Server::PrisonEscape::SmokeGrenadesThrown = 0;
+// $Server::PrisonEscape::firstPrisonerOut = 0;
 
-package PrisonStatistics
-{
-	function GameConnection::createPlayer(%client, %pos)
-	{
-		if (%client.spawnTime !$= "") {
-			%client.aliveTime += $Sim::Time - %client.spawnTime;
-		}
-		%client.spawnTime = $Sim::Time;
-		return parent::createPlayer(%client, %pos);
-	}
+// package PrisonStatistics
+// {
+// 	function GameConnection::createPlayer(%client, %pos)
+// 	{
+// 		if (%client.spawnTime !$= "") {
+// 			%client.aliveTime += $Sim::Time - %client.spawnTime;
+// 		}
+// 		%client.spawnTime = $Sim::Time;
+// 		return parent::createPlayer(%client, %pos);
+// 	}
 
-	function Armor::onRemove(%this, %obj)
-	{
-		if (isObject(%client = %obj.client))
-		{
-			%client.aliveTime += $Sim::Time - %client.spawnTime;
-			%client.spawnTime = "";
-			if (!%client.isGuard)
-				$Server::PrisonEscape::PrisonerDeaths++;
-		}
-		return parent::onRemove(%this, %obj);
-	}
+// 	function Armor::onRemove(%this, %obj)
+// 	{
+// 		if (isObject(%client = %obj.client))
+// 		{
+// 			%client.aliveTime += $Sim::Time - %client.spawnTime;
+// 			%client.spawnTime = "";
+// 			if (!%client.isGuard)
+// 				$Server::PrisonEscape::PrisonerDeaths++;
+// 		}
+// 		return parent::onRemove(%this, %obj);
+// 	}
 
-	function fxDTSBrick::onDeath(%brick)
-	{
-		$Server::PrisonEscape::BricksDestroyed++;
-		return parent::onDeath(%brick);
-	}
-};
-activatePackage(PrisonStatistics);
+// 	function fxDTSBrick::onDeath(%brick)
+// 	{
+// 		$Server::PrisonEscape::BricksDestroyed++;
+// 		return parent::onDeath(%brick);
+// 	}
+// };
+// activatePackage(PrisonStatistics);
 
-function getStatistic() {
+function getStatisticToDisplay() {
 	switch ($Server::PrisonEscape::currentStatistic)
 	{
-		case 0: %stat = "Sharpshooter\c6: " @ 
-			(strLen($Server::PrisonEscape::SharpshooterGuard.name) > 10 ? getSubStr($Server::PrisonEscape::SharpshooterGuard.name, 9) @ "." : $Server::PrisonEscape::SharpshooterGuard.name)
-			SPC "-" SPC ($Server::PrisonEscape::TopAcc <= 0 ? 0 : $Server::PrisonEscape::TopAcc) SPC "acc";
-		case 1: %stat = "Escape Artist\c6: " @ 
-			(strLen($Server::PrisonEscape::MVPPrisoner.name) > 10 ? getSubStr($Server::PrisonEscape::MVPPrisoner.name, 9) @ "." : $Server::PrisonEscape::MVPPrisoner.name)
-			SPC "-" SPC ($Server::PrisonEscape::TopChisel <= 0 ? 0 : $Server::PrisonEscape::TopChisel) SPC "bricks";
-		case 2: %stat = "Riot Control\c6: "	@
-			(strLen($Server::PrisonEscape::MVPGuard.name) > 10 ? getSubStr($Server::PrisonEscape::MVPGuard.name, 9) @ "." : $Server::PrisonEscape::MVPGuard.name)
-			SPC "-" SPC ($Server::PrisonEscape::MVPGuard.getScore() <= 0 ? 0 : $Server::PrisonEscape::MVPGuard.getScore()) SPC "kills";
-		case 3: %stat = "Guard Messages Sent\c6: " @ ($Server::PrisonEscape::GuardMessagesSent <= 0 ? 0 : $Server::PrisonEscape::GuardMessagesSent);
-		case 4: %stat = "Prisoner Messages Sent\c6: " @ ($Server::PrisonEscape::PrisonerMessagesSent <= 0 ? 0 : $Server::PrisonEscape::PrisonerMessagesSent);
-		case 5: %stat = "Prisoner Deaths\c6: " @ ($Server::PrisonEscape::PrisonerDeaths <= 0 ? 0 : $Server::PrisonEscape::PrisonerDeaths);
-		case 6: %stat = "Bricks Destroyed\c6: " @ ($Server::PrisonEscape::BricksDestroyed <= 0 ? 0 : $Server::PrisonEscape::BricksDestroyed);
-		case 7: %stat = "Bullets Fired\c6: " @ ($Server::PrisonEscape::SniperRifleBullets <= 0 ? 0 : $Server::PrisonEscape::SniperRifleBullets);
-		case 8: %stat = "Chisel Swings\c6: " @ ($Server::PrisonEscape::ChiselAttacks <= 0 ? 0 : $Server::PrisonEscape::ChiselAttacks);
-		case 9: %stat = "Trays Used\c6: " @ ($Server::PrisonEscape::TraysUsed <= 0 ? 0 : $Server::PrisonEscape::TraysUsed);
-		case 10: %stat = "Buckets Used\c6: " @ ($Server::PrisonEscape::BucketsUsed <= 0 ? 0 : $Server::PrisonEscape::BucketsUsed);
-		case 11: %stat = "Steaks Eaten\c6: " @ ($Server::PrisonEscape::SteaksEaten <= 0 ? 0 : $Server::PrisonEscape::SteaksEaten);
+		case 0: %stat = "\c2MVP Guard\c6: " @ $bestGuardname;
+		case 1: %stat = "<color:ff8724>MVP Prisoner\c6: " @ $bestPrisonername;
+		case 2: %stat = "Trays Used\c6: " @ getStatistic("TraysPickedUp") + 0;
+		case 3: %stat = "Buckets Used\c6: " @ getStatistic("BucketsPickedUp") + 0;		
+		case 4: %stat = "Bricks Destroyed\c6: " @ getStatistic("BricksDestroyed") + 0;
+		case 5: %stat = "Prisoners Killed\c6: " @ getStatistic("Deaths") + 0;
 	}
+	$Server::PrisonEscape::currentStatistic++;
+	$Server::PrisonEscape::currentStatistic %= 6;
 	return %stat;
 }

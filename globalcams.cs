@@ -33,15 +33,15 @@ function setCameraViewLoop(%transform, %i, %nocontrol, %FOV)
 
 	%camera.setFlyMode();
 	%camera.mode = "Observer";
-	if (%nocontrol)
+	if (%nocontrol) {
 		%camera.setControlObject(%client.dummyCamera);
-		////////////////////////////////package onTrigger or respawnplayer to prevent players from spawning
+	}
 	if (%FOV > 0) {
 		%client.setControlCameraFOV(%FOV);
 	} else if (%client.originalFOV > 0) {
 		%client.setControlCameraFOV(%client.originalFOV);
 	}
-	schedule(0, 0, setCameraViewLoop, %transform, %i+1, %nocontrol);
+	schedule(0, 0, setCameraViewLoop, %transform, %i+1, %nocontrol, %FOV);
 }
 
 function allCameraPan(%pos1, %pos2, %speed, %targetPos)
@@ -85,6 +85,12 @@ function returnAllPlayerControlCamera()
 
 function spectateNextPlayer(%client, %num)
 {
+	if (isObject(%client.player)) {
+		%client.setControlObject(%client.player);
+		return;
+	}
+	%client.setControlObject(%client.camera);
+	%client.camera.setControlObject(%client.camera);
 	if (%num > 0) {
 		%dir = 1;
 	} else {

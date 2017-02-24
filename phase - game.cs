@@ -5,23 +5,137 @@ function bottomprintTimerLoop(%timeLeft) {
 	}
 	if (%timeleft == $Server::PrisonEscape::timePerRound * 60 + 1) {
 		spawnDeadPrisoners();
-	} else if (%timeLeft % 120 == 0 && %timeleft) {
+	} else if (%timeLeft % 90 == 0 && %timeleft) {
 		spawnDeadInfirmary();
 	}
 	//display timeleft to everyone
 	bottomprintAll("<font:Arial Bold:34><just:center>\c6" @ getTimeString(%timeLeft-1) @ " ", -1, 0);
 	if (%timeleft == 0) {
-		//guards win
-		//schedule(1000, 0, guards)
-
-		//color the bottomprint timer to indicate its up
-		//and play win/lose sound on client
 		guardsWin();
-		return;
+		return; 
 	}
-	$Server::PrisonEscape::currTime = %timeLeft; //respawn wave every minute
+
+	%prisoners = $prisonerCount["Total"] > 1 ? "Prisoners" : "Prisoner";
+	for (%i = 0; %i < ClientGroup.getCount(); %i++) {
+		%client = ClientGroup.getObject(%i);
+		if (%client.isGuard) {
+			continue;
+		}
+
+		if (!isObject(%client.player)) {
+			%client.bottomprint("<font:Arial Bold:34><just:center>\c6" @ getTimeString(%timeLeft-1) @ " <br><font:Impact:30>\c0Time to respawn: " @ getTimeString(%timeLeft % 90));
+		} else {
+			%underStr = "\c6[\c1" @ %client.location @ "\c6] <br>\c3" @ $prisonerCount[%client.location] @ "/" @ $prisonerCount["Total"] SPC %prisoners;
+			%client.bottomprint("<font:Arial Bold:34><just:center>\c6" @ getTimeString(%timeLeft-1) @ " <br><font:Arial Bold:24>" @ %underStr, 2, 1);
+		}
+	}
+
+	deleteVariables("$prisonerCount*");
+	prisonerCountCheck(0);
+	if (!isObject($Server::PrisonEscape::CommDish)) {
+		$countCheckInProgress = 0;
+	}
+
+	$Server::PrisonEscape::currTime = %timeLeft;
 	$Server::PrisonEscape::timerSchedule = schedule(1000, 0, bottomprintTimerLoop, %timeleft-1);
 }
+
+$alarmGuardsThreshold = 6;
+
+function prisonerCountCheck(%i) {
+
+	if (%i >= ClientGroup.getCount()) {
+		$countCheckInProgress = 0;
+		%offset = "<br><br><br><br><br><br><font:Arial Bold:24>";
+
+		//guards EWS centerprint
+		if (isObject($Server::PrisonEscape::CommDish)) {
+			displayPrisonerCountToGuards();
+		} else {
+			centerPrint(%offset @ "Early Warning System Disabled!");
+		}
+		
+		//Prisoners bottomprint
+		%timeLeft = $Server::PrisonEscape::currTime;
+		for (%i = 0; %i < ClientGroup.getCount(); %i++) {
+			%client = ClientGroup.getObject(%i);
+			if (%client.isGuard) {
+				continue;
+			}
+
+			%prisoners = $prisonerCount["Total"] > 1 ? "Prisoners" : "Prisoner";
+			if (!isObject(%client.player)) {
+				%client.bottomprint("<font:Arial Bold:34><just:center>\c6" @ getTimeString(%timeLeft-1) @ " <br><font:Impact:30>\c0Time to respawn: " @ getTimeString(%timeLeft % 90));
+			} else {
+				%underStr = "\c6[\c1" @ %client.location @ "\c6] <br>\c3" @ $prisonerCount[%client.location] @ "/" @ $prisonerCount["Total"] SPC %prisoners;
+				%client.bottomprint("<font:Arial Bold:34><just:center>\c6" @ getTimeString(%timeLeft-1) @ " <br><font:Arial Bold:24>" @ %underStr, 2, 1);
+			}
+		}
+		return $prisonerCount["Total"];
+	}
+
+	$countCheckInProgress = 1;
+	//talk("Count Check " @ %i);
+	%cl = ClientGroup.getObject(%i);
+	if (!isObject(%pl = %cl.player) || %cl.isGuard) {
+		schedule(1, 0, prisonerCountCheck, %i + 1);
+		return;
+	} else if ((%loc = getRegion(%pl)) $= "Outside" || %loc $= "Yard") {
+		$prisonerCount["Outside"]++;
+	}
+
+	if (%loc !$= "Outside") {
+		$prisonerCount[%loc]++;
+	}
+	$prisonerCount["Total"]++;
+	%cl.location = %loc;
+	schedule(1, 0, prisonerCountCheck, %i + 1);
+}
+
+function displayPrisonerCountToGuards() {
+	%offset = "<br><br><br><br><br><br><font:Arial Bold:24>";
+	if (!$isAlarmActive && $prisonerCount["Outside"] > $alarmGuardsThreshold) {
+		//alarm guards
+		serverPlay2D(Beep_Siren_Sound);
+		setRiotMusic(1);
+		$isAlarmActive = 1;
+	} else if ($isAlarmActive && $prisonerCount["Outside"] <= $alarmGuardsThreshold) {
+		serverPlay2D(RiotOverSound);
+		setRiotMusic(3);
+		$isAlarmActive = 0;
+	}
+	for (%i = 0; %i < $prisonerCount["Outside"]; %i++) {
+		%Xstring = "X" SPC %Xstring;
+	}
+	%print = %offset @ "\c6Prisoners Outside: " @ $prisonerCount["Outside"] + 0 @ "<br><font:Consolas:18>\c3" @ %Xstring;
+	%redprint = %offset @ "\c0Prisoners Outside: " @ $prisonerCount["Outside"] + 0 @ "<br><font:Consolas:18>\c3" @ %Xstring;
+
+	if ($isAlarmActive) {
+		centerprintGuards(%redprint, 1);
+		schedule(500, $Server::PrisonEscape::CommDish, centerprintGuards, %print, 1);
+	} else {
+		centerprintGuards(%print, 2);
+	}
+}
+
+function playSoundOnGuards(%sound) {
+	for (%i = 1; %i < 5; %i++) {
+		%tower = $Server::PrisonEscape::Towers.tower[%i];
+		if (!%tower.isDestroyed && isObject(%cl = %tower.guard) && isObject(%cl.player)) {
+			%cl.playSound(%sound);
+		}
+	}
+}
+
+function centerprintGuards(%msg, %time) {
+	for (%i = 1; %i < 5; %i++) {
+		%tower = $Server::PrisonEscape::Towers.tower[%i];
+		if (!%tower.isDestroyed && isObject(%cl = %tower.guard) && isObject(%cl.player)) {
+			%cl.centerprint(%msg, %time);
+		}
+	}
+}
+
 
 registerOutputEvent("fxDTSBrick", "prisonersWin", "", 1);
 
@@ -73,7 +187,7 @@ function pickInfirmarySpawnPoint() {
 	}
 	if (isObject(%brick)) {
 		%brick.spawnCount++;
-		return %brick.getSpawnPoint();
+		return %brick.getPosition() SPC getWords(%brick.getSpawnPoint(), 3, 6);
 	} else {
 		echo("Can't find an infirmary spawnpoint with less than 1 spawn! Resetting...");
 		resetInfirmarySpawnPointCounts();
@@ -94,6 +208,7 @@ function spawnDeadPrisoners() {
 			%spawn = pickPrisonerSpawnPoint();
 			%client.createPlayer(%spawn);
 			%client.centerprint("");
+			%client.spawnTime = getSimTime();
 		}
 	}
 	resetPrisonerSpawnPointCounts();
@@ -102,10 +217,17 @@ function spawnDeadPrisoners() {
 function spawnDeadInfirmary() {
 	for (%i = 0; %i < ClientGroup.getCount(); %i++) {
 		%client = ClientGroup.getObject(%i);
-		if (!isObject(%client.player) && !%client.isGuard) {
+		if (%client.isGuard) {
+			continue;
+		}
+
+		if (!isObject(%client.player)) {
 			%spawn = pickInfirmarySpawnPoint();
 			%client.createPlayer(%spawn);
 			%client.centerprint("");
+			%client.spawnTime = getSimTime();
+		} else if (isObject(%client.player) && %client.getControlObject() != %client.player) {
+			%client.setControlObject(%client.player);
 		}
 	}
 	resetInfirmarySpawnPointCounts();
@@ -128,18 +250,21 @@ function prisonersWin(%brick) {
 		cancel($Server::PrisonEscape::timerSchedule);
 
 	$prisonersHaveWon = 1;
-
+	
+	setStatistic("Winner", "Prisoners");
 	//set cameras up
 	if (!isObject(%brick)) {
+		setStatistic("WinnerMethod", "Towers");
 		%winString = "<font:Palatino Linotype:24>\c6All the towers have been destroyed! ";
 	} else {
+		setStatistic("WinnerMethod", "Wall");
 		%winString = "<font:Palatino Linotype:24>\c6The prisoners have escaped! ";
 		%id = %brick.getAngleID();
 		switch (%id) {
-			case 0: %vec = "0 15 5";
-			case 1: %vec = "-15 0 5";
-			case 2: %vec = "0 -15 5";
-			case 3: %vec = "15 0 5";
+			case 0: %vec = "0 5 2";
+			case 1: %vec = "-5 0 2";
+			case 2: %vec = "0 -5 2";
+			case 3: %vec = "5 0 2";
 		}
 		%start = %brick.getPosition();
 		%end = vectorAdd(%vec, %start);
@@ -159,7 +284,22 @@ function prisonersWin(%brick) {
 	}
 	//playsound on clients
 
-	schedule(10000, 0, serverCmdSetPhase, $fakeClient, 3);
+	schedule(100, 0, serverCmdSetPhase, $fakeClient, 3);
+}
+
+function CamTest(%brick) {
+	%winString = "<font:Palatino Linotype:24>\c6Testing cams ";
+	%id = %brick.getAngleID();
+	switch (%id) {
+		case 0: %vec = "0 5 2";
+		case 1: %vec = "-5 0 2";
+		case 2: %vec = "0 -5 2";
+		case 3: %vec = "5 0 2";
+	}
+	%start = %brick.getPosition();
+	%end = vectorAdd(%vec, %start);
+	setAllCamerasView(%end, %start);
+	returnAllPlayerControlCamera();
 }
 
 function guardsWin() {
@@ -168,6 +308,7 @@ function guardsWin() {
 	if (isEventPending($Server::PrisonEscape::timerSchedule))
 		cancel($Server::PrisonEscape::timerSchedule);
 
+	setStatistic("Winner", "Guards");
 	for (%i = 0; %i < ClientGroup.getCount(); %i++) {
 		%client = ClientGroup.getObject(%i);
 		if (%client.isGuard) {
@@ -183,7 +324,7 @@ function guardsWin() {
 
 	//playsound on clients
 
-	schedule(10000, 0, serverCmdSetPhase, $fakeClient, 3);
+	schedule(100, 0, serverCmdSetPhase, $fakeClient, 3);
 }
 
 package PrisonEscape_GamePhase {
@@ -218,57 +359,56 @@ function disableSpotlights(%client) {
 	if (!$Server::PrisonEscape::Towers.tower4.isDestroyed) {
 		clearLightBeam($Server::PrisonEscape::Towers.tower4.spotlight);
 	}
+
+	%type = $DamageType::Generator;
+
 	if (!isObject(%client)) {
-		messageAll('MsgStartUpload', "\c4The spotlights have been disabled!");
+		centerprintAll("<font:Impact:30>\c4The spotlights have been disabled!", 20);
+		%msg = $DamageType::SuicideBitmap[%type];
 	} else {
-		messageAll('MsgStartUpload', "\c4The spotlights have been disabled by \c3" @ %client.name @ "\c4!");
+		centerprintAll("<font:Impact:30>\c4The spotlights have been disabled by \c3" @ %client.name @ "\c4!", 20);
+		%msg = $DamageType::MurderBitmap[%type];
 	}
+
+	messageAll('MsgStartUpload', %client.name @ " <bitmap:" @ %msg @ "> [" @ getTimeString($Server::PrisonEscape::currTime-1) @ "]");
+
+	setStatistic("Generator" @ %id @ "Disabled", $Server::PrisonEscape::currTime);
 }
 
 function disableCameras(%client) {
 	if ($Server::PrisonEscape::Towers.tower1.guard.player.isInCamera) {
 		serverCmdLight($Server::PrisonEscape::Towers.tower1.guard);
-		$Server::PrisonEscape::Towers.tower1.guard.player.setDamageFlash(50);
 	}
 	if ($Server::PrisonEscape::Towers.tower2.guard.player.isInCamera) {
 		serverCmdLight($Server::PrisonEscape::Towers.tower2.guard);
-		$Server::PrisonEscape::Towers.tower2.guard.player.setDamageFlash(50);
 	}
 	if ($Server::PrisonEscape::Towers.tower3.guard.player.isInCamera) {
 		serverCmdLight($Server::PrisonEscape::Towers.tower3.guard);
-		$Server::PrisonEscape::Towers.tower3.guard.player.setDamageFlash(50);
 	}
 	if ($Server::PrisonEscape::Towers.tower4.guard.player.isInCamera) {
 		serverCmdLight($Server::PrisonEscape::Towers.tower4.guard);
-		$Server::PrisonEscape::Towers.tower4.guard.player.setDamageFlash(50);
 	}
+	
+	$Server::PrisonEscape::Towers.tower1.guard.player.setDamageFlash(50);
+	$Server::PrisonEscape::Towers.tower2.guard.player.setDamageFlash(50);
+	$Server::PrisonEscape::Towers.tower3.guard.player.setDamageFlash(50);
+	$Server::PrisonEscape::Towers.tower4.guard.player.setDamageFlash(50);
+
 	$Server::PrisonEscape::CamerasDisabled = 1;
+	
+	%type = $DamageType::Satellite;
+
 	if (!isObject(%client)) {
-		messageAll('MsgStartUpload', "\c4The cameras and spotlight auto tracking have been disabled!");
+		centerprintAll("<font:Impact:30>\c4The cameras and spotlight auto tracking have been disabled!", 20);
+		%msg = $DamageType::SuicideBitmap[%type];
 	} else {
-		messageAll('MsgStartUpload', "\c4The cameras and spotlight auto tracking have been disabled by \c3" @ %client.name @ "\c4!");
+		centerprintAll("<font:Impact:30>\c4The cameras and spotlight auto tracking have been disabled by \c3" @ %client.name @ "\c4!", 20);
+		%msg = $DamageType::MurderBitmap[%type];
 	}
-}
 
-function validatePlayerPosition(%player) {
-	%scale = %player.getScale(); //usually 1
-	%pos = %player.getHackPosition();
-	%box = vectorScale("1.25 1.25 2", getWord(%scale, 2));
+	messageAll('MsgStartUpload', %client.name @ " <bitmap:" @ %msg @ "> [" @ getTimeString($Server::PrisonEscape::currTime-1) @ "]");
 
-	initContainerBoxSearch(%pos, %boxSize, $TypeMasks::fxBrickObjectType);
-	if (isObject(%brick = containerSearchNext())) {
-		%xOff0 = 0; %xOff1 = 0.8; %xOff2 = 0; %xOff3 = -0.8;
-		%yOff0 = 0.8; %yOff1 = 0; %yOff2 = -0.8; %yOff3 = 0;
-		for (%i = 0; %i < 4; %i++) {
-			%end = vectorAdd(%player.getPosition(), %xOff[%i] SPC %yOff[%i] SPC 0);
-			%ray = containerRaycast(%pos, %end, $TypeMasks::fxBrickObjectType);
-			if (!isObject(getWord(%ray, 0))) {
-				%player.setTransform(%end SPC getWords(%player.getTransform(), 3, 6));
-			}
-		}
-		return 1;
-	}
-	return 0;
+	setStatistic("CommDish" @ %id @ "Destroyed", $Server::PrisonEscape::currTime);
 }
 
 function Player::removeItems(%player, %string, %client) {
@@ -281,7 +421,7 @@ function Player::removeItems(%player, %string, %client) {
 		for (%j = 0; %j < %player.getDatablock().maxTools; %j++) {
 			if (strPos(%player.tool[%j].getName(), %word) >= 0) {
 				serverCmdunUseTool(%client);
-				%player.tool[%i] = "";
+				%player.tool[%j] = "";
 				%player.weaponCount--;
 				messageClient(%client, 'MsgItemPickup', '', %j, "");
 			}
@@ -291,6 +431,91 @@ function Player::removeItems(%player, %string, %client) {
 
 registerOutputEvent("Player", "removeItems", "string 200 156", 1);
 
-datablock ProjectileData(woodShard : gunProjectile) {
+function spawnEmittersLoop(%i) {
+	if (isEventPending($infoEmitterLoop) || $Server::PrisonEscape::roundPhase < 1) {
+		return;
+	}
 
+	%brick = $Server::PrisonEscape::InfoBricks.getObject(%i);
+	%name = getSubStr(%brick.getName(), 1, strLen(%brick.getName()));
+	%type = getSubStr(%name, strPos(%name, "info") + 4, strLen(%name));
+	switch$ (%type) {
+		case "Bronson": %data = InfoBronsonProjectile;
+		case "Bucket": %data = InfoBucketProjectile;
+		case "Tray": %data = InfoTrayProjectile;
+		case "LaundryCart": %data = InfoLaundryCartProjectile;
+		case "Generator": %data = InfoGeneratorProjectile;
+		case "SniperRifle": %data = InfoSniperRifleProjectile;
+		case "Cameras": %data = InfoCamerasProjectile;
+		case "SmokeGrenade": %data = InfoSmokeGrenadeProjectile;
+		case "SatDish": %data = InfoSatDishProjectile;
+		case "Soap": %data = InfoSoapProjectile;
+		default: %data = "";
+	}
+	if (isObject(%data)) {
+		%proj = new Projectile(Info) {
+			datablock = %data;
+			initialPosition = %brick.getPosition();
+			initialVelocity = "0 0 1";
+		};
+		%proj.explode();
+		$infoEmitterLoop = schedule(500, 0, spawnEmittersLoop, (%i + 1) % $Server::PrisonEscape::InfoBricks.getCount());
+	} else {
+		$infoEmitterLoop = schedule(1, 0, spawnEmittersLoop, (%i + 1) % $Server::PrisonEscape::InfoBricks.getCount());
+	}
+}
+
+function killTower(%id) {
+	%tower = $Server::PrisonEscape::Towers.tower[%id];
+	%tower.isDestroyed = 1;
+	%client = %tower.guard;
+
+	setStatistic("Tower" @ %id @ "Destroyed", $Server::PrisonEscape::currTime);
+
+	//remove the guard's items
+	if (isObject(%client.player))
+		%client.player.kill();
+
+	//destroy the bricks but sequentially as to not lag everyone to death
+	%tower.destroy();
+	centerPrintAll("<font:Impact:40>\c4Tower \c3" @ %id @ "\c4 has fallen!", 20);
+	
+	%type = $DamageType::MurderBitmap[$DamageType::Tower];
+	messageAll('', "<bitmap:" @ %type @ "> " @ %id @ " [" @ getTimeString($Server::PrisonEscape::currTime-1) @ "]");
+}
+
+function validateTower(%id, %brick) {
+	%tower = $Server::PrisonEscape::Towers.tower[%id];
+	%tower.remove(%brick);
+	if (%tower.getCount() <= %tower.origCount - 4) {
+		killTower(%id);
+	}
+	validateGameWin();
+}
+
+function SimSet::destroy(%this) {
+	if (%this.getCount() <= 0)
+		return;
+	%brick = %this.getObject(%this.getCount()-1);
+	%brick.fakeKillBrick((getRandom()-0.5)*20 SPC (getRandom()-0.5)*20 SPC 15, 2);
+	%brick.schedule(2000, delete);
+	%this.remove(%brick);
+	if (isObject(%brick.item))
+		%brick.item.delete();
+	if (isObject(%brick.vehicle))
+		%brick.vehicle.kill();
+	serverPlay3D("brickBreakSound", %brick.getPosition());
+
+	%this.schedule(1, destroy);
+}
+
+function serverCmdSpawnItem(%cl, %item) {
+	if (!%cl.isJanitor) {
+		return;
+	} else if (!isObject(%item) || !isObject(%cl.player)) {
+		return;
+	}
+
+	%cl.player.addItem(%item, %cl);
+	messageAll('', "\c4The janitor has left some items around the prison!");
 }

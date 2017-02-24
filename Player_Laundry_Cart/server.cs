@@ -283,11 +283,19 @@ package LaundryCartPackage {
 
          if (%obj.isNodeVisible("lhand")) {
             %vehi.unHideNode("lhand");
-            %vehi.setNodeColor("lhand", %obj.client.lhandcolor);
+            if (%obj.getDatablock().getName() $= "BuffArmor") {
+               %vehi.setNodeColor("lhand", %obj.client.headColor);
+            } else {
+               %vehi.setNodeColor("lhand", %obj.client.lhandcolor);
+            }
          }
          if (%obj.isNodeVisible("rhand")) {
             %vehi.unHideNode("rhand");
-            %vehi.setNodeColor("rhand", %obj.client.rhandcolor);
+            if (%obj.getDatablock().getName() $= "BuffArmor") {
+               %vehi.setNodeColor("rhand", %obj.client.headColor);
+            } else {
+               %vehi.setNodeColor("rhand", %obj.client.rhandcolor);
+            }
          }
 
          if (%obj.isNodeVisible("lhook")) {
@@ -359,9 +367,9 @@ package LaundryCartPackage {
          %vec = vectorNormalize(getWords(%this.getForwardVector(), 0, 1) SPC 0.01);
          %this.dismount();
          if (%this.getDatablock().getName() $= "BuffArmor"){
-            %vehi.doLaundrySlide(0, 1.8);
+            %vehi.doLaundrySlide(0, 3.8);
          } else {
-            %vehi.doLaundrySlide(0, 1.2);
+            %vehi.doLaundrySlide(0, 1.9);
          }
 
 
@@ -416,8 +424,8 @@ function Player::doLaundrySlide(%pl, %tick, %initialVel)
    if(%tick == 0){
       %pl.isSliding = 1;
       %pl.setMaxForwardSpeed(%pl.getDatablock().slideSpeed * %initialVel);
-      %pl.addVelocity(vectorScale(%pl.getForwardVector(), %pl.getDatablock().slideSpeed));
-      %pl.lastSpeed = strLen(%pl.getVelocity());
+      %pl.setVelocity(vectorScale(%pl.getForwardVector(), %pl.getDatablock().slideSpeed));
+      %pl.lastSpeed = vectorLen(%pl.getVelocity());
    }
    cancel(%pl.laundrySlideSched);
    if (%pl.lastSpeed - vectorLen(%pl.getVelocity()) > 2) {

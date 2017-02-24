@@ -514,13 +514,15 @@ function whiteOutPlayers(%obj, %start, %end, %i)
 			if (%dist < %radius && %angle < 1.8)
 			{
 				%pl.setWhiteOut(1);
-				%pl.client.whiteOutTime++;
+				setStatistic("whiteOutTime", getStatistic("whiteOutTime", %pl.client) + 1, %pl.client);
+				setStatistic("whiteOutTime", getStatistic("whiteOutTime") + 1);
 				%proj = new Projectile(){
 					datablock = PlayerTeleportProjectile;
 					initialPosition = %pos;
 					initialVelocity = "0 0 0";
 				};
 				MissionCleanup.add(%proj);
+				//%proj.explode();
 			}
 		}
 		schedule(0, 0, whiteOutPlayers, %obj, %start, %end, %i+1);

@@ -64,7 +64,7 @@ datablock ItemData(chiselItem)
 	emap = true;
 
 	uiName = "Chisel";
-	iconName = "./knife";
+	iconName = "Add-ons/Gamemode_PPE/icons/chisel";
 	doColorShift = true;
 	colorShiftColor = "0.4 0.4 0.4 1.000";
 
@@ -93,6 +93,8 @@ datablock ShapeBaseImageData(chiselImage)
    // Add the WeaponImage namespace as a parent, WeaponImage namespace
    // provides some hooks into the inventory system.
    className = "WeaponImage";
+
+   goldenImage = ChiselGoldenImage;
 
    // Projectile && Ammo.
    item = chiselItem;
@@ -159,8 +161,8 @@ function chiselImage::onCharge(%this, %obj, %slot)
 function chiselImage::onFire(%this, %obj, %slot)
 {
 	//statistics
-	%obj.client.chiselAttack++;
-	$Server::PrisonEscape::chiselAttacks++;
+	setStatistic("ChiselAttacks", getStatistic("ChiselAttacks", %obj.client) + 1, %obj.client);
+	setStatistic("ChiselAttacks", getStatistic("ChiselAttacks") + 1);
 
 	%obj.playthread(2, spearThrow);
 	Parent::onFire(%this, %obj, %slot);
@@ -175,14 +177,13 @@ function isBreakableBrick(%brick, %player)
 	%db = %brick.getDatablock().getName();
 	%pole = "brick1x1fHorizPoleData";
 	%pole2 = "brick1x1PoleData";
-	%plate = "brick1x3fData";
-	%plate2 = "brick1x1fData";
+	%plate = "brick1x1fData";
 	%window = "Window";
 	%window2 = "4x4F_GlassPane";
 	%towerSupport = "support";
 	if ((%db $= %pole || %db $= %pole2) && (%brick.getColorID() >= 44 && %brick.getColorID() <= 53))
 		return 2;
-	if ((%db $= %plate || %db $= %plate2) && (getRegion(%brick) $= "Yard" || getRegion(%brick) $= "Outside"))
+	if (%db $= %plate && getRegion(%brick) $= "Outside")
 		return 1;
 	if ((strPos(%db, %window) >= 0 && strPos(%db, "Door") < 0) || strPos(%db, %window2) >= 0 || strPos(%brick.getName(), %towerSupport) >= 0)
 		return 3;
@@ -197,6 +198,8 @@ function FxDTSBrick::killDelete(%this) {
 	%this.fakeKillBrick((getRandom()-0.5)*20 SPC (getRandom()-0.5)*20 SPC -1, 2);
 	%this.schedule(2000, delete);
 	serverPlay3D("brickBreakSound", %this.getPosition());
+
+	setStatistic("BricksDestroyed", getStatistic("BricksDestroyed") + 1);
 
 	if (%this.tower > 0) {
 		validateTower(%this.tower, %this);
@@ -213,10 +216,16 @@ package ChiselHit
 			if (%type > 0)
 			{
 				//statistics
-				%obj.client.chiselHit++;
-				if (%type == 1)
+				setStatistic("ChiselHits", getStatistic("ChiselHits", %obj.client) + 1, %obj.client);
+				setStatistic("ChiselHits", getStatistic("ChiselHits") + 1);
+
+				if (%type == 1) {
+					setStatistic("PlatesHit", getStatistic("PlatesHit", %obj.client) + 1, %obj.client);
+					setStatistic("PlatesHit", getStatistic("PlatesHit") + 1);
 					%col.killDelete();
-				else if (%type == 2) {
+				} else if (%type == 2) {
+					setStatistic("PolesHit", getStatistic("PolesHit", %obj.client) + 1, %obj.client);
+					setStatistic("PolesHit", getStatistic("PolesHit") + 1);
 					%col.killDelete();
 				}
 				else {
@@ -256,7 +265,7 @@ function FxDTSBrick::damage(%brick, %damage, %player)
 	{
 		%db = %brick.getDatablock().getName();
 		if (%brick == $Server::PrisonEscape::CommDish) {
-			%brick.maxDamage = 14;
+			%brick.maxDamage = 20;
 		} else if (strPos(%brick.getName(), "tower") >= 0) {
 			%brick.maxDamage = $towerDamage * $towerStages;
 			%brick.isTowerSupport = 1;
@@ -272,12 +281,19 @@ function FxDTSBrick::damage(%brick, %damage, %player)
 
 	%brick.damage += %damage;
 	if (%brick == $Server::PrisonEscape::CommDish) {
+		setStatistic("CommDishHit", getStatistic("CommDishHit", %player.client) + 1, %player.client);
+		setStatistic("CommDishHit", getStatistic("CommDishHit") + 1);
 		%brick.playSound(trayDeflect1Sound);
 	} else if (strPos(%brick.getName(), "tower") < 0) {
+		setStatistic("WindowsHit", getStatistic("WindowsHit", %player.client) + 1, %player.client);
+		setStatistic("WindowsHit", getStatistic("WindowsHit") + 1);
 		%brick.playSound("glassChip" @ getRandom(1, 3) @ "Sound");
+	} else {
+		setStatistic("TowerSupportsHit", getStatistic("TowerSupportsHit", %player.client) + 1, %player.client);
+		setStatistic("TowerSupportsHit", getStatistic("TowerSupportsHit") + 1);
 	}
 	if (%brick == $Server::PrisonEscape::CommDish) {
-		if (getRandom() > 0.8) {
+		if (getRandom() > 0.7) {
 			%player.electrocute(2);
 		}
 	}

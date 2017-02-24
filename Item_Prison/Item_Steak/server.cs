@@ -14,7 +14,7 @@ datablock ItemData(SteakItem)
 
 	//gui stuff
 	uiName = "Steak";
-	iconName = "";
+	iconName = "Add-ons/Gamemode_PPE/icons/steak";
 	doColorShift = true;
 	colorshiftColor = "1 1 1 1";
 

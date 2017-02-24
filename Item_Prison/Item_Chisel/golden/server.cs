@@ -54,7 +54,7 @@ datablock ShapeBaseImageData(chiselGoldenImage)
 
    // Add the WeaponImage namespace as a parent, WeaponImage namespace
    // provides some hooks into the inventory system.
-   className = "WeaponImage"8
+   className = "WeaponImage";
 
    // Projectile && Ammo.
    item = chiselGoldenItem;
@@ -132,20 +132,19 @@ datablock ShapeBaseImageData(chiselGoldenImage)
 	stateEmitterTime[5]				= 1000;
 };
 
-function chiselGoldenImage::onCharge(%this, %obj, %slot)
-{
+function chiselGoldenImage::onCharge(%this, %obj, %slot) {
 	%obj.playthread(2, spearReady);
 }
-function chiselGoldenImage::onFire(%this, %obj, %slot)
-{
+
+function chiselGoldenImage::onFire(%this, %obj, %slot) {
 	//statistics
-	%obj.client.chiselAttack++;
-	$Server::PrisonEscape::chiselAttacks++;
+	setStatistic("ChiselAttacks", getStatistic("ChiselAttacks", %obj.client) + 1, %obj.client);
+	setStatistic("ChiselAttacks", getStatistic("ChiselAttacks") + 1);
 
 	%obj.playthread(2, spearThrow);
 	Parent::onFire(%this, %obj, %slot);
 }
-function chiselGoldenImage::onAbortCharge(%this, %obj, %slot)
-{
+
+function chiselGoldenImage::onAbortCharge(%this, %obj, %slot) {
 	%obj.playthread(2, spearThrow);
 }

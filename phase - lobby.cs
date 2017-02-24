@@ -23,7 +23,7 @@ function serverCmdAddGuard(%client, %name)
 		return;
 	}
 	$Server::PrisonEscape::Guards = trim($Server::PrisonEscape::Guards SPC findclientbyname(%name));
-	PPE_messageAdmins("!!! \c7" @ %client.name @ " added " @ findclientbyname(%name).name @ " to the guard list.");
+	messageAll('', "\c3" @ %client.name @ " added " @ findclientbyname(%name).name @ " to the guard list.");
 	displayRoundLoadingInfo();
 }
 
@@ -49,7 +49,7 @@ function serverCmdRemoveGuard(%client, %name)
 		$Server::PrisonEscape::Guards = strReplace($Server::PrisonEscape::Guards, "  ", " ");
 		$Server::PrisonEscape::Guarsd = trim($Server::PrisonEscape::Guards);
 	}
-	PPE_messageAdmins("!!! \c7" @ %client.name @ " removed " @ %guard.name @ " from the guard list.");
+	messageAll('', "\c2" @ %client.name @ " removed " @ %guard.name @ " from the guard list.");
 	displayRoundLoadingInfo();
 }
 
@@ -75,14 +75,14 @@ function displayRoundLoadingInfo()
 	%guards1 = getGuardNames();
 	%guards2 = getSubStr(%guards1, strPos(%guards1, "Guard 2 <br>") + 12, strLen(%guards1));
 	%guards1 = " \c6" @ getSubStr(%guards1, 0, strPos(%guards1, "Guard 2 <br>") + 12);
-	%centerprintString = "<font:Arial Bold:20>" @ %guards1 @ "<just:center>\c3" @ %statisticString @ "<just:right>" @ %guards2 @ "<br><br><br>";
+	%centerprintString = "<font:Arial Bold:20>" @ %guards1 @ "<just:center><font:Arial Bold:22>\c3" @ %statisticString @ "<font:Arial Bold:20><just:right>" @ %guards2 @ "<br><br><br>";
 	centerprintAll(%centerprintString);
 	bottomprintAll(generateBottomPrint(), -1, 1);
 }
 
 function generateBottomPrint() 
 {
-	%header = "<just:center><font:Arial Bold:38><shadowcolor:666666><shadow:0:4><color:E65714>JailBreak! <br><font:Arial Bold:30>\c7-      - <br>";
+	%header = "<just:center><font:Arial Black:48><shadowcolor:555555><shadow:0:4><color:E65714>Conan's Prison Break <br><font:Arial Bold:30>\c7-      - <br>";
 	%footer = "<shadow:0:3><color:ffffff>Please wait for the next round to start<font:Impact:1> <br>";
 	return %header @ %footer;
 }
@@ -92,11 +92,9 @@ function swapStatistics()
 	if (isEventPending($Server::PrisonEscape::statisticLoop))
 		return;
 
-	%stat = getStatistic();
+	%stat = getStatisticToDisplay();
 
 	$Server::PrisonEscape::statisticString = %stat;
-	$Server::PrisonEscape::currentStatistic++;
-	$Server::PrisonEscape::currentStatistic %= 12;
 	$Server::PrisonEscape::statisticLoop = schedule(6000, 0, swapStatistics);
 	displayRoundLoadingInfo();
 }

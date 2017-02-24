@@ -24,11 +24,7 @@ datablock PlayerData(ShepherdDogHoleBot : ShepherdDogArmor)
 	maxItems   = 0;
 	maxWeapons = 0;
 	maxTools = 0;
-	//runforce = 100 * 90;
-	//maxForwardSpeed = 8;
-	//maxBackwardSpeed = 4;
-	//maxSideSpeed = 8;
-	//attackpower = 10;
+	
 	rideable = false;
 	canRide = true;
 
@@ -91,6 +87,8 @@ datablock PlayerData(ShepherdDogHoleBot : ShepherdDogArmor)
 	    hIdleSpam = 0;//Makes them spam click and spam hammer/spraycan
 	  hSpasticLook = 1;//Makes them look around their environment a bit more.
 	hEmote = 1;
+
+	hMeleeCI = "Dog";
 };
 
 function ShepherdDogHoleBot::onAdd(%this, %obj)
@@ -181,12 +179,12 @@ function ShepherdDogHoleBot::onBotLoop(%this,%obj)
 		%obj.lastEmote = getSimTime();
 	} 
 	//look for a steak if its not targeting anyone
-	else if (!%obj.hFollowing && !%obj.isFollowingWhistle)
+	else if (!%obj.isFollowingWhistle)
 	{
 		%distance = 10000;
 		%pos = %obj.getEyePoint();
-		%typeMasks = $Typemasks::FxBrickObjectType | $Typemasks::TerrainObjectType | 
-			$TypeMasks::StaticObjectType;
+		%typemasks = $TypeMasks::FxBrickObjectType | $TypeMasks::TerrainObjectType | 
+			$TypeMasks::StaticObjectType | $TypeMasks::PlayerObjectType;
 
 		//iterate through backwards in case a steak gets deleted while searching for one
 		for (%i = $SteakGroup.getCount()-1; %i >= 0; %i--)
@@ -212,11 +210,14 @@ function ShepherdDogHoleBot::onBotLoop(%this,%obj)
 				if (%distanceToSteak > 2)
 				{
 					echo("    Steak is far away - checking for LOS");
-					%ray = containerRaycast(%pos, %steakPos, %typemasks);
+					%ray = containerRaycast(%pos, %steakPos, %typemasks, %obj);
 					if (!isObject(getWord(%ray, 0)))
 					{
+						echo("    Steak is visible - pathing");
 						%distance = %distanceToSteak;
 						%closestSteak = %steak;
+					} else {
+						talk(%ray);
 					}
 				}
 				else
@@ -322,6 +323,12 @@ package BotHole_Dogs
 		%i.setVelocity("0 0 15");
 		%i.schedule(60000, fadeOut);
 		%i.schedule(61000, delete);
+
+		centerprintAll("<font:Impact:30>The guard dog has died and dropped its key!", 20);
+		setStatistic("GuardDogDied", $Server::PrisonEscape::currTime);
+
+		messageAll('', "<bitmap:" @ $DamageType::MurderBitmap[$DamageType::Dog] @ "> [" @ getTimeString($Server::PrisonEscape::currTime) @ "]");
+		
 		//return parent::onDisabled(%this, %obj, %state); //disabled to prevent dog body from despawning
 	}
 

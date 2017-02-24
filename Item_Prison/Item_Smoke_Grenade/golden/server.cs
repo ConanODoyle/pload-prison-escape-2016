@@ -189,14 +189,14 @@ datablock ShapeBaseImageData(riotSmokeGrenadeGoldenImage)
 	stateScript[2]			= "oncharge";
 	stateWaitForTimeout[2]		= false;
 	stateTransitionOnTriggerUp[2]	= "AbortCharge";
-	stateAllowImageChange[2]		  = false;
+	stateAllowImageChange[2]		  = true;
 	stateEmitter[2]					= GoldenEmitter;
 	stateEmitterNode[2]				= "emitterPoint";
 	stateEmitterTime[2]				= 1000;
 	
 	stateName[3]			= "Armed";
 	stateTransitionOnTriggerUp[3]	= "Fire";
-	stateAllowImageChange[3]	= false;
+	stateAllowImageChange[3]	= true;
 	stateEmitter[3]					= GoldenEmitter;
 	stateEmitterNode[3]				= "emitterPoint";
 	stateEmitterTime[3]				= 1000;
@@ -207,7 +207,7 @@ datablock ShapeBaseImageData(riotSmokeGrenadeGoldenImage)
 	stateFire[4]			= true;
 	stateScript[4]			= "onFire";
 	stateWaitForTimeout[4]		= true;
-	stateAllowImageChange[4]	= false;
+	stateAllowImageChange[4]	= true;
 	stateEmitter[4]					= GoldenEmitter;
 	stateEmitterNode[4]				= "emitterPoint";
 	stateEmitterTime[4]				= 1000;
@@ -228,8 +228,8 @@ function riotSmokeGrenadeGoldenImage::onCharge(%this, %obj, %slot)
 function riotSmokeGrenadeGoldenImage::onFire(%this, %obj, %slot)
 {
 	//statistics
-	%obj.client.smokeGrenadesThrown++;
-	$Server::PrisonEscape::smokeGrenadesThrown++;
+	setStatistic("SmokeGrenadesThrown", getStatistic("SmokeGrenadesThrown", %obj.client) + 1, %obj.client);
+	setStatistic("SmokeGrenadesThrown", getStatistic("SmokeGrenadesThrown") + 1);
 
 	%obj.playthread(2, spearThrow);
 	%ret = Parent::onFire(%this, %obj, %slot);
@@ -262,70 +262,4 @@ if ($smokeTime $= "") {
 function RiotSmokeGrenadeGoldenProjectile::onExplode(%this, %proj, %pos) {
 	createSmokeScreenAt(%pos, $smokeTime);
 	serverPlay3D("riotSmokeGrenadeExplodeSound", %pos);
-}
-
-
-
-
-datablock StaticShapeData(SmokeGrenadeGoldenShape)
-{
-	shapeFile = "./smoke sphere.dts";
-};
-
-function createSmokeSphereAt(%pos) {
-	%shape = new StaticShape(Smoke) {
-		datablock = SmokeGrenadeGoldenShape;
-		position = %pos;	
-	};
-	MissionCleanup.add(%shape);
-	return (%shape);
-}
-
-function createSmokeScreenAt(%pos, %time) {
-	%shape = createSmokeSphereAt(%pos);
-	%shape.setScale("7 7 7");
-	%shape.startFade(0, 0, 1);
-	smokeShape_fadeIn(%shape, 0);
-	%smokeScreenEmitter = new ParticleEmitterNode(Smoke)
-	{
-		dataBlock = GenericEmitterNode;
-		emitter = smokeAEmitter;
-		scale = "1 1 1";
-		position = %pos;
-	};
-	MissionCleanup.add(%smokeScreenEmitter);
-
-	schedule(%time, %shape, smokeScreen_fadeOut, %shape, %smokeScreenEmitter);
-}
-
-function smokeScreen_fadeOut(%shape, %emitter) {
-	%emitter.delete();
-	smokeShape_fadeOut(%shape, 0.99);
-}
-
-function smokeShape_fadeOut(%shape, %alpha) {
-	if (isEventPending(%shape.fadeOutLoop)) {
-		cancel(%shape.fadeOutLoop);
-	}
-
-	if (%alpha <= 0) {
-		%shape.delete();
-		return;
-	}
-
-	%shape.setNodeColor("ALL", "1 1 1 " @ %alpha);
-	%shape.fadeOutLoop = schedule(30, %shape, smokeShape_fadeOut, %shape, %alpha - 0.01);
-}
-
-function smokeShape_fadeIn(%shape, %alpha) {
-	if (isEventPending(%shape.fadeOutLoop)) {
-		cancel(%shape.fadeOutLoop);
-	}
-
-	if (%alpha >= 0.99 || !isObject(%shape)) {
-		return;
-	}
-
-	%shape.setNodeColor("ALL", "1 1 1 " @ %alpha);
-	%shape.fadeOutLoop = schedule(30, %shape, smokeShape_fadeIn, %shape, %alpha + 0.01);
 }

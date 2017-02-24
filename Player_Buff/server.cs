@@ -88,7 +88,7 @@ datablock PlayerData(BuffArmor)
    mass = 140;
    drag = 0.1;
    density = 0.7;
-   maxDamage = 400;
+   maxDamage = 600;
    maxEnergy =  10;
    repairRate = 0.33;
 
@@ -339,6 +339,8 @@ datablock ShapeBaseImageData(BuffBashImage) {
 
    mountPoint = 0;
 
+   canMountToBronson = 1;
+
    correctMuzzleVector = false;
 
    // Add the WeaponImage namespace as a parent, WeaponImage namespace
@@ -378,30 +380,26 @@ datablock ShapeBaseImageData(BuffBashImage) {
 };
 
 function BuffBashImage::onFire(%this, %obj, %slot) {
-   %obj.client.buffAttack++;
-   $Server::PrisonEscape::buffAttacks++;
+   setStatistic("BuffAttacks", getStatistic("BuffAttacks", %obj.client) + 1, %obj.client);
+   setStatistic("BuffAttacks", getStatistic("BuffAttacks") + 1);
 
    %obj.playThread(1, activate2);
    return parent::onFire(%this, %obj, %slot);
 }
 
-package BuffHit
-{
-   function BuffBashProjectile::onCollision(%data, %obj, %col, %fade, %pos, %normal)
-   {
-      if (%col.getClassName() $= "FxDTSBrick" && %obj.sourceObject.getClassName() $= "Player")
-      {
+package BuffHit {
+   function BuffBashProjectile::onCollision(%data, %obj, %col, %fade, %pos, %normal) {
+      if (%col.getClassName() $= "FxDTSBrick" && %obj.sourceObject.getClassName() $= "Player") {
          %type = isBreakableBrick(%col, %obj.sourceObject);
-         if (%type > 0)
-         {
+         if (%type > 0) {
             //statistics
-            %obj.client.buffHit++;
-            if (%type == 1)
+            setStatistic("BuffHits", getStatistic("BuffHits", %obj.client) + 1, %obj.client);
+            setStatistic("BuffHits", getStatistic("BuffHits") + 1);
+            if (%type == 1) {
                %col.killDelete();
-            else if (%type == 2) {
+            } else if (%type == 2) {
                %col.killDelete();
-            }
-            else {
+            } else {
                %col.damage(1, %obj);
             }
             %obj.client.incScore(1);

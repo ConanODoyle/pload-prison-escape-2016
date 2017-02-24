@@ -47,7 +47,7 @@ function fxDTSBrick::endLoopToggle(%this) {
       if (%this.numViewers >= 1) {
          %this.numViewers--;
       }
-      if (%this.numViewers <= 0) {
+      if (%this.numViewers <= 0 && %this.defaultState !$= "") {
          cancel(%this.loopToggleLoop);
          %this.door(%this.defaultState);
       }

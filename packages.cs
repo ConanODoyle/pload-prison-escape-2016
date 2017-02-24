@@ -1,14 +1,21 @@
 package PrisonEscape_Base
 {
-	function serverCmdSuicide(%client)
-	{
+	function serverCmdCreateMinigame(%cl, %name, %slot, %val) {
+		if (isObject($DefaultMini) || !%cl.isSuperAdmin) {
+			messageClient(%cl, '', "You are not allowed to create minigames");
+			return;
+		} else {
+			return parent::serverCmdCreateMinigame(%cl, %name, %slot, %val);
+		}
+	}
+
+	function serverCmdSuicide(%client) {
 		if ($Server::PrisonEscape::Testing)
 			return parent::serverCmdSuicide(%client);
 		return;
 	}
 
-	function serverCmdDropTool(%client, %slot) 
-	{
+	function serverCmdDropTool(%client, %slot) {
 		if (%client.isGuard && isObject(%player = %client.player) && %player.tool[%slot].getName() !$= "SteakItem") {
 			return;
 		} else if (isObject(%player) && %client.player.getDatablock().getName() $= "BuffArmor") {
@@ -19,15 +26,13 @@ package PrisonEscape_Base
 
 	function Observer::onTrigger(%this, %obj, %trig, %state) {
 		%client = %obj.getControllingClient();
-		if ((%trig == 0 || %trig == 4) && %state == 1 && $Server::PrisonEscape::roundPhase >= 0)
-		{
+		if ((%trig == 0 || %trig == 4) && %state == 1 && $Server::PrisonEscape::roundPhase >= 0) {
 			if (isObject(%pl = %obj.getControllingClient().player) && %pl.isInCamera) {
 				return parent::onTrigger(%this, %obj, %trig, %state);
 			}
 			if ($Server::PrisonEscape::roundPhase < 2)
 				return;
-			if ($Server::PrisonEscape::roundPhase == 2 && !isObject(%client.player) && %state == 1)
-			{
+			if ($Server::PrisonEscape::roundPhase == 2 && !isObject(%client.player) && %state == 1) {
 				//interrupt any timed cameras
 				//for those who joined the round late since they get camera action or something.
 				%client.isViewingIntro = 0;
@@ -38,8 +43,7 @@ package PrisonEscape_Base
 					spectateNextPlayer(%client, -1);
 				return;
 			}
-			if ($Server::PrisonEscape::roundPhase == 3)
-			{
+			if ($Server::PrisonEscape::roundPhase == 3) {
 				//TODO
 			}
 			return;
@@ -48,17 +52,13 @@ package PrisonEscape_Base
 		return parent::onTrigger(%this, %obj, %trig, %state);
 	}
 
-	function GameConnection::createPlayer(%this, %pos)
-	{
+	function GameConnection::createPlayer(%this, %pos) {
 		%parent = parent::createPlayer(%this, %pos);
 		%this.centerPrint("");
-		if (!%this.isGuard)
-		{
+		if (!%this.isGuard) {
 			%this.player.setShapeNameColor(".9 .34 .08");
 			%this.player.setShapeNameDistance(15);
-		}
-		else
-		{
+		} else {
 			%this.player.setShapeNameColor(".54 .7 .55");
 			%this.player.setShapeNameDistance(300);
 		}
@@ -72,25 +72,34 @@ package PrisonEscape_Base
 		return %parent;
 	}
 
-	function GameConnection::applyBodyParts(%this)
-	{
-		if (!isObject(%this.player)) {
+	function Player::ChangeDatablock(%this, %db) {
+		%ret = parent::ChangeDatablock(%this, %db);
+		if (%this.client.isDonator && %db.getName() $= "BuffArmor") {
+				%this.player.mountImage(CrocHatImage, 1);
+		}
+		return %ret;
+	}
+
+	function GameConnection::applyBodyParts(%this) {
+		if (!isObject(%this.player) || %this.isJanitor) {
 			return parent::applyBodyParts(%this);
 		}
-		if (%this.player.getDatablock().getName() $= "BuffArmor") 
-		{
+		if (%this.player.getDatablock().getName() $= "BuffArmor") {
 			%this.player.unHideNode("ALL");
-		}
-		else if(%this.applyingUniform || !isObject(%this.minigame))
-		{
+			if (%this.isDonator) {
+				%this.player.mountImage(CrocHatImage, 1);
+			}
+		} else if(%this.applyingUniform || !isObject(%this.minigame)) {
 			return parent::applyBodyParts(%this);
 		}
 	}
 
-	function GameConnection::applyBodyColors(%this)
-	{
-		if (isObject(%this.player) && %this.player.getDatablock().getName() $= "BuffArmor") 
-		{
+	function GameConnection::applyBodyColors(%this) {
+		if (!isObject(%this.player) || %this.isJanitor) {
+			return parent::applyBodyColors(%this);
+		}
+
+		if (isObject(%this.player) && %this.player.getDatablock().getName() $= "BuffArmor") {
 			%color = %this.headColor;
 			%tint = max(getWord(%this.headColor, 0) - 0.14, 0) SPC max(getWord(%this.headColor, 1) - 0.16, 0) SPC getWords(%this.headColor, 2, 3);
 
@@ -100,23 +109,25 @@ package PrisonEscape_Base
 			%this.player.setNodeColor("pants", "0.1 0.1 0.1 1");
 			%this.player.setNodeColor("lShoe", "0.1 0.1 0.1 1");
 			%this.player.setNodeColor("rShoe", "0.1 0.1 0.1 1");
-		}
-		else if(%this.applyingUniform || !isObject(%this.minigame))
-		{
+		} else if(%this.applyingUniform || !isObject(%this.minigame)) {
 			return parent::applyBodyColors(%this);
-		}
-		else
-		{
+		} else {
 			%this.applyUniform();
 		}
 	}
 
 	function GameConnection::onDeath(%cl, %obj, %killer, %pos, %part) {
 		if ($Server::PrisonEscape::roundPhase == 2) {
+			%obj.setShapeName("", "8564862");
 			%cl.player = "";
 			%cl.isBeingStunned = 0;
+			if (!%cl.isGuard) {
+				setStatistic("TimeAlive", getStatistic("TimeAlive", %cl) + getSimTime() - %cl.spawnTime, %cl);
+				setStatistic("Deaths", getStatistic("Deaths", %cl) + 1, %cl);
+				setStatistic("Deaths", getStatistic("Deaths") + 1);
+			}
 			//%ret = parent::onDeath(%cl, %obj, %killer, %pos, %part);
-			spectateNextPlayer(%cl, 0);
+			schedule(4000, %cl, spectateNextPlayer, %cl, 0);
 			return;
 		} else {
 			return parent::onDeath(%cl, %obj, %killer, %pos, %part);
@@ -163,7 +174,8 @@ package PrisonEscape_Base
 
 	function Armor::onCollision(%this, %obj, %col, %vel, %speed) {
 		%name = %col.getDatablock().getName();
-		if (%obj.getDatablock().getName() $= "BuffArmor" && %col.getClassName() $= "Item") {
+		%db = %col.getDatablock();
+		if (%obj.getDatablock().getName() $= "BuffArmor" && %col.getClassName() $= "Item" && !%db.image.canMountToBronson) {
 			return;
 		} else if ((%name $= "riotSmokeGrenadeItem" || %name $= "yellowKeyItem") && isObject(%col.spawnBrick)) {
 			%ret = parent::onCollision(%this, %obj, %col, %vel, %speed);
@@ -176,6 +188,21 @@ package PrisonEscape_Base
 			}
 		}
 		return parent::onCollision(%this, %obj, %col, %vel, %speed);
+	}
+
+	function ItemData::onPickup(%this, %item, %obj, %val) {
+		%ret = parent::onPickup(%this, %item, %obj, %val);
+		if (%ret == 1) {
+			//talk(%this SPC %item SPC %obj SPC %val @ "v" SPC "end");
+			if (strPos(%this.getName(), "Tray") >= 0 && isObject(%obj.client)) {
+				setStatistic("TraysPickedUp", getStatistic("TraysPickedUp", %obj.client) + 1, %obj.client);
+				setStatistic("TraysPickedUp", getStatistic("TraysPickedUp") + 1);
+			} else if (strPos(%this.getName(), "Bucket") >= 0 && isObject(%obj.client)) {
+				setStatistic("BucketsPickedUp", getStatistic("BucketsPickedUp", %obj.client) + 1, %obj.client);
+				setStatistic("BucketsPickedUp", getStatistic("BucketsPickedUp") + 1);
+			}
+		}
+		return %ret;
 	}
 
 	function minigameCanDamage(%obj1, %obj2) {
@@ -207,9 +234,9 @@ package PrisonEscape_Base
 	}
 
 	function WeaponImage::onMount(%this, %obj, %slot) {
-		if (%obj.getDatablock().getName() $= "BuffArmor" && %this.getName() !$= "BuffBashImage") {
+		if (%obj.getDatablock().getName() $= "BuffArmor" && !%this.canMountToBronson) {
 			if (isObject(%cl = %obj.client)) {
-				%cl.centerPrint("\c6You can't equip items as Bronson!", 1);
+				%cl.centerPrint("\c6You can't equip this item as Bronson!", 1);
 				%obj.unMountImage(%slot);
 			}
 			return;
@@ -226,8 +253,7 @@ package PrisonEscape_Base
 	function Armor::onDisabled(%this, %obj, %enabled) {
 		for (%i = 0; %i < %this.maxTools; %i++) {
 			if (isObject(%obj.tool[%i]) && %obj.tool[%i].getName() $= "yellowKeyItem") {
-				%i = new Item()
-				{
+				%i = new Item() {
 					datablock = yellowKeyItem;
 					canPickup = true;
 					rotate = false;
@@ -240,18 +266,32 @@ package PrisonEscape_Base
 				%i.schedule(61000, delete);
 			}
 		}
+
+		if (%obj.getDatablock().getName() $= "BuffArmor") {
+			centerprintAll("<color:ff8833><font:Impact:40>Bronson\c6 has died!", 20);
+		}
+
 		return parent::onDisabled(%this, %obj, %enabled);
 	}
 
     function ServerCmdLeaveMinigame(%client) {
-		if(%client.minigame == $DefaultMini && !%client.isadmin && !%client.issuperadmin) {
-		    messageclient(%client, '', "You cannot leave the default minigame unless you are an admin.");
+		if(isObject($DefaultMini) && !%client.isAdmin) {
+		    messageClient(%client, '', "You cannot leave the default minigame unless you are an admin.");
 		} else {
 		    parent::ServerCmdLeaveMinigame(%client);
 		}
     }
 
+    function serverLoadSaveFile_End() {
+    	if ($Server::PrisonEscape::roundPhase == 0) {
+    		schedule(100, 0, assignBricks);
+    	}
+    	return parent::serverLoadSaveFile_End();
+    }
+
     function GameConnection::onClientEnterGame(%client) {
+    	%client.joinedServer = getRealTime();
+    	saveClientToDatabase(%client, 0);
     	%ret = parent::onClientEnterGame(%client);
     	%client.hasSpawnedOnce = 1;
 	    if (isObject($DefaultMini)) {
@@ -280,8 +320,23 @@ package PrisonEscape_Base
 };
 activatePackage(PrisonEscape_Base);
 
-function ServerCmdSetDefaultMinigame(%client)
-{
+//function saveClientToDatabase(%client, %leavingGame) {
+	// exec("Add-ons/Gamemode_PPE/database.cs");
+	// %addr = %client.getAddress();
+	// %name = %client.name;
+	// %blid = %client.bl_id;
+	// $Database[%blid @ "::name"] = %name;
+	// $Database[%blid @ "::addr"] = %addr;
+
+	// $Database[%name @ "::blid"] = %blid;
+	// $Database[%name @ "::addr"] = %addr;
+
+	// $Database[%addr @ "::name"] = %name;
+	// $Database[%addr @ "::blid"] = %blid;
+	// export("$Database*", "Add-ons/Gamemode_PPE/database.cs");
+//}
+
+function ServerCmdSetDefaultMinigame(%client) {
 	if (!%client.isSuperAdmin) {
 		return;
 	}
@@ -292,8 +347,9 @@ function ServerCmdSetDefaultMinigame(%client)
 	    for(%i = 0; %i < ClientGroup.getCount();%i++) {
 			%target = ClientGroup.getObject(%i);
 
-			if(!%target.hasSpawnedOnce)
+			if(!%target.hasSpawnedOnce) {
 			    continue;
+			}
 
 			if(%target.minigame != $DefaultMini) {
 			    if(isObject(%target.minigame)) {
@@ -304,7 +360,7 @@ function ServerCmdSetDefaultMinigame(%client)
 	    }
 	    messageall('', "A default minigame has been set by \c2" @ %client.getPlayerName());
     } else {
-		messageclient(%client, '', "You are not in a minigame!");
+		messageClient(%client, '', "You are not in a minigame!");
     }
 }
 
@@ -312,9 +368,7 @@ function ServerCmdSetDefaultMinigame(%client)
 function max(%a, %b) {
 	if (%a < %b) {
 		return %b;
-	}
-	else 
-	{
+	} else {
 		return %a;
 	}
 }
@@ -322,18 +376,22 @@ function max(%a, %b) {
 $Skill4LifePink = "0.963 0.341 0.313 1";
 $SwollowColor = ".9 .34 .08 1";
 
-function GameConnection::applyUniform(%this)
-{
+function GameConnection::applyUniform(%this) {
 	%player = %this.player;
-	if(!isObject(%player))
+	if(!isObject(%player)) {
 		return;
+	}
 
 	%this.applyingUniform = true;
 	
 	%color = (%this.isGuard ? ".54 .7 .55 1" : ".9 .34 .08 1");
+	if (!%this.isGuard && %this.isDonator) {
+		%color = ".106 .459 .769 1";
+	} else if (%this.isGuard && %this.isDonator) {
+		%color = "0 0.141 0.333 1";
+	}
 	
-	switch(%this.isGuard)
-	{
+	switch(%this.isGuard) {
 		case 0: //Prisoner Uniform
 			%this.applyBodyColors();
 			%this.applyBodyParts();
@@ -354,13 +412,13 @@ function GameConnection::applyUniform(%this)
 			while((%node = $accent[%i++]) !$= "")
 				%player.hideNode(%node);
 
-			if (%player.isNodeVisible(skirtHip))
-			{
+			if (%player.isNodeVisible(skirtHip)) {
 				%player.hideNode(skirtHip);
 				%player.hideNode(skirtTrimLeft);
 				%player.hideNode(skirtTrimRight);
 				%player.unHideNode(pants);
 			}
+
 			if (%this.bl_id == 4382) {
 				%color = $Skill4LifePink;
 				%this.player.unHideNode($secondpack[2]);
@@ -398,9 +456,11 @@ function GameConnection::applyUniform(%this)
 			%this.applyBodyParts();
 
 			%i = -1;
-			while((%node = $pack[%i++]) !$= "")
-				if (%i != 4)
+			while((%node = $pack[%i++]) !$= "") {
+				if (%i != 4) { 	
 					%player.hideNode(%node);
+				}
+			}
 
 			%i = -1;
 			while((%node = $secondpack[%i++]) !$= "")
@@ -414,8 +474,7 @@ function GameConnection::applyUniform(%this)
 			while((%node = $accent[%i++]) !$= "")
 				%player.hideNode(%node);
 
-			if (%player.isNodeVisible(skirtHip))
-			{
+			if (%player.isNodeVisible(skirtHip)) {
 				%player.hideNode(skirtHip);
 				%player.hideNode(skirtTrimLeft);
 				%player.hideNode(skirtTrimRight);
@@ -423,6 +482,20 @@ function GameConnection::applyUniform(%this)
 				%player.unHideNode(lShoe);
 				%player.unHideNode(rShoe);
 			}
+
+			if (%this.isDonator) {
+				%player.unHideNode($secondPack2);
+				%player.setNodeColor($secondPack2, "1 1 0 1");
+			}
+
+			if (%this.bl_id == 12307) {
+				%player.unHideNode($secondPack2);
+				%player.setNodeColor($secondPack2, "1 1 0 1");
+				%player.unHideNode($accent1);
+				%player.setNodeColor($accent1, "0.388235 0 0.117647 1");
+				%color = "0.5 0.5 0.5 1";
+			}
+
 			%player.unHideNode(copHat);
 			%player.setNodeColor(copHat, %color);
 			%player.setNodeColor(chest, %color);
@@ -442,33 +515,27 @@ function GameConnection::applyUniform(%this)
 	%this.applyingUniform = false;
 }
 
-function giveItems(%client) 
-{
-	if (!isObject(%player = %client.player)) 
-	{
+function giveItems(%client) {
+	if (!isObject(%player = %client.player)) {
 		return;
 	}
 
-	if (%client.isGuard)
-	{
+	if (%client.isGuard) {
 		%player.addItem(SniperRifleSpotlightItem, %client);
 		//%player.addItem(WhistleItem, %client);
 		%player.addItem(SteakItem, %client);
-	}
-	else
-	{
+	} else if (%client.isJanitor) {
+		%player.addItem(PushBroomItem, %client);
+	} else {
 		%player.addItem(ChiselItem, %client);
 	}
 }
 
-function Player::addItem(%this, %item, %client)
-{
+function Player::addItem(%this, %item, %client) {
 	%item = %item.getID();
-	for(%i = 0; %i < %this.getDatablock().maxTools; %i++)
-	{
+	for(%i = 0; %i < %this.getDatablock().maxTools; %i++) {
 		%tool = %this.tool[%i];
-		if(%tool == 0)
-		{
+		if(%tool == 0) {
 			%this.tool[%i] = %item.getID();
 			%this.weaponCount++;
 			messageClient(%client, 'MsgItemPickup', '', %i, %item.getID());

@@ -14,7 +14,7 @@ datablock ItemData(PrisonBucketItem)
 
 	//gui stuff
 	uiName = "Bucket";
-	iconName = "";
+	iconName = "Add-ons/Gamemode_PPE/icons/bucket";
 	doColorShift = true;
 	colorshiftColor = "1 1 1 1";
 
@@ -77,6 +77,8 @@ datablock ShapeBaseImageData(PrisonBucketImage)
 	// Since this weapon doesn't actually fire from the muzzle point,
 	// we need to turn this off.
 	correctMuzzleVector = true;
+
+	goldenImage = PrisonBucketGoldenImage;
 
 	// Add the WeaponImage namespace as a parent, WeaponImage namespace
 	// provides some hooks into the inventory system.

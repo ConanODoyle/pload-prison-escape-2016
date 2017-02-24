@@ -29,82 +29,6 @@ package EventElectrocute {
 };
 activatePackage(EventElectrocute);
 
-datablock WheeledVehicleData(deathVehicle)
-{
-	//tagged fields
-	doSimpleDismount = true;		//just unmount the player, dont look for a free space
-
-
-   category = "Vehicles";
-   shapeFile = "./deathVehicle.dts";
-   emap = true;
-
-   maxDamage = 1.0;
-   destroyedLevel = 0.5;
-
-   maxSteeringAngle = 0.885;  // Maximum steering angle, should match animation
-   //tireEmitter = TireEmitter; // All the tires use the same dust emitter
-
-   // 3rd person camera settings
-   cameraRoll = false;         // Roll the camera with the vehicle
-   cameraMaxDist = 6;         // Far distance from vehicle
-   cameraOffset = 0;        // Vertical offset from camera mount point
-   cameraLag = 0.0;           // Velocity lag of camera
-   cameraDecay = 0.0;        // Decay per sec. rate of velocity lag
-
-   // Rigid Body
-   mass = 90;		//3100 lbs
-   density = 0.5;
-   massCenter = "0.0 0.0 1.25";    // Center of mass for rigid body
-   massBox = "1.25 1.25 2.65";         // Size of box used for moment of inertia,
-                              // if zero it defaults to object bounding box
-   drag = 0.6;                // Drag coefficient
-   bodyFriction = 0.6;
-   bodyRestitution = 0.7;
-   minImpactSpeed = 5;        // Impacts over this invoke the script callback
-   softImpactSpeed = 1;       // Play SoftImpact Sound
-   hardImpactSpeed = 1;      // Play HardImpact Sound
-   integration = 10;          // Physics integration: TickSec/Rate
-   collisionTol = 0.1;        // Collision distance tolerance
-   contactTol = 0.1;          // Contact velocity tolerance
-
-   // Engine
-   engineTorque = 0;       // Engine power
-   engineBrake = 0;         // Braking when throttle is 0
-   brakeTorque = 0;        // When brakes are applied
-   maxWheelSpeed = 0;        // Engine scale by current speed / max speed
-
-	forwardThrust		= 0;
-	reverseThrust		= 0;
-	lift			= 0;
-	maxForwardVel		= 40;
-	maxReverseVel		= 10;
-	horizontalSurfaceForce	= 0;   // Horizontal center "wing" (provides "bite" into the wind for climbing/diving and turning)
-	verticalSurfaceForce	= 0; 
-	rollForce		= 0;
-	yawForce		= 0;
-	pitchForce		= 0;
-	rotationalDrag		= 1.0;
-	stallSpeed		= 0;
-
-
-   // Energy
-   maxEnergy = 0;
-   jetForce = 0;
-   minJetEnergy = 0;
-   jetEnergyDrain = 0;
-
-   // Sounds
-//   jetSound = ScoutThrustSound;
-   //engineSound = Impact1ASound;
-   //squealSound = Impact1ASound;
-   softImpactSound = Impact2ASound;
-   hardImpactSound = Impact2ASound;
-   //wheelImpactSound = Impact1BSound;
-
-//   explosion = VehicleExplosion;
-};
-
 function stun(%player, %time) {
 	if (!isObject(%client = %player.client))
 		return;
@@ -113,6 +37,10 @@ function stun(%player, %time) {
 		cancel(%player.stunLoop);
 	if (%time <= 0)
 	{
+		if (%player.isDisabled()) {
+			%client.setControlObject(%client.camera);
+			return;
+		}
 		%player.dismount();
 		%client.isBeingStunned = 0;
 		%player.unmountImage(3);
@@ -131,17 +59,15 @@ function stun(%player, %time) {
 		%player.playThread(3, sit);
 
 		%player.setVelocity(vectorAdd("0 0 5", %player.getVelocity()));
-	} else {
-		return;
 	}
 
-	%client.stunnedTime += 1;
+	setStatistic("StunTime", getStatistic("StunTime", %player.client) + 1, %player.client);
+	setStatistic("StunTime", getStatistic("StunTime") + 1);
 	%client.isBeingStunned = 1;
 	
 	//emitter here
 
-
-	%player.stunLoop = schedule(1000, 0, stun, %player, %time - 1);
+	%player.stunLoop = schedule(1000, %player, stun, %player, %time - 1);
 }
 
 function electrocute(%player, %time)
@@ -160,6 +86,9 @@ function electrocute(%player, %time)
 		return;
 	}
 
+	setStatistic("ElectrocutedTime", getStatistic("ElectrocutedTime", %player.client) + 1, %player.client);
+	setStatistic("ElectrocutedTime", getStatistic("ElectrocutedTime") + 1);
+	
 	%client.isBeingStunned = 1;
 
 	%player.setNodeColor("ALL", "1 1 1 1");

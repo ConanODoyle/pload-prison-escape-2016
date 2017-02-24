@@ -12,6 +12,10 @@ if (!isObject($Server::PrisonEscape::InfirmarySpawnPoints)) {
 	$Server::PrisonEscape::InfirmarySpawnPoints = new SimSet() {};
 }
 
+if (!isObject($Server::PrisonEscape::InfoBricks)) {
+	$Server::PrisonEscape::InfoBricks = new SimSet() {};
+}
+
 if (!isObject($Server::PrisonEscape::Cameras)) {
 	$Server::PrisonEscape::Cameras = new SimSet() {};
 }
@@ -36,9 +40,11 @@ function assignBricks() {
 	}
 	$Server::PrisonEscape::PrisonerSpawnPoints.clear();
 	$Server::PrisonEscape::InfirmarySpawnPoints.clear();
+	$Server::PrisonEscape::InfoBricks.clear();
 	$Server::PrisonEscape::Cameras.clear();
 	$Server::PrisonEscape::Generator = 0;
 	$Server::PrisonEscape::CommDish = 0;
+	$Server::PrisonEscape::DogSpawn = 0;
 
 	PPE_messageAdmins("!!! \c5Beginning search for gamemode bricks...");
 	PPE_messageAdmins("!!! \c5Brickgroup brickcount: " @ %brickgroup.getCount());
@@ -66,8 +72,15 @@ function assignGuard(%client) {
 	$Server::PrisonEscape::Towers.tower[%towernum].guard = %client;
 }
 
-function replaceGuard(%client, %towerNum) {
-	%tower = $Server::PrisonEsape::Towers.tower[%towerNum];
+function serverCmdReplaceGuard(%cl, %towerNum, %name) {
+	if (!%cl.isAdmin) {
+		return;
+	}
+	%client = fcn(%name);
+	if (!isObject(%client)) {
+		return;
+	}
+	%tower = $Server::PrisonEscape::Towers.tower[%towerNum];
 	if (!isObject(%tower) || %tower.isDestroyed) {
 		PPE_messageAdmins("!!! \c5Failed to replace guard at tower " @ %tower @ " - tower does not exist!");
 		return;
@@ -93,28 +106,6 @@ function removeGuard(%client) {
 		}
 	}
 	echo("Cannot find " @ %client.name @ " in the list of guards!");
-}
-
-function killTower(%id) {
-	%tower = $Server::PrisonEscape::Towers.tower[%id];
-	%tower.isDestroyed = 1;
-	%client = %tower.guard;
-
-	//remove the guard's items
-	if (isObject(%client.player))
-		%client.player.kill();
-
-	//destroy the bricks but sequentially as to not lag everyone to death
-	%tower.destroy();
-}
-
-function validateTower(%id, %brick) {
-	%tower = $Server::PrisonEscape::Towers.tower[%id];
-	%tower.remove(%brick);
-	if (%tower.getCount() <= %tower.origCount - 4) {
-		killTower(%id);
-	}
-	validateGameWin();
 }
 
 function prisonEscape_saveBricks(%brickgroup, %i) {									//would make it easier to spawn spotlights and such
@@ -162,6 +153,7 @@ function prisonEscape_saveBricks(%brickgroup, %i) {									//would make it easi
 	}
 	%name = getSubStr(%name, 1, strLen(%name)); //removes underscore in name
 
+	%brick.numViewers = 0;
 	%brick.endLoopToggle();
 	if (%name $= "LoadingCamBrick") {
 		$Server::PrisonEscape::LoadingCamBrick = %brick;
@@ -189,11 +181,18 @@ function prisonEscape_saveBricks(%brickgroup, %i) {									//would make it easi
 		if (strPos(%name, "support") >= 0) {
 			%brick.setColor($towerColor0);
 		}
+		if (strPos(%name, "info") >= 0) {
+			$Server::PrisonEscape::InfoBricks.add(%brick);
+		}
 		if (isObject(%brick.vehicle)) {
 			$Server::PrisonEscape::Towers.tower[%tower].spotlight = %brick.vehicle;
 			%brick.vehicle.setShapeName("Tower " @ %tower, "8564862");
 		}
 		%brick.tower = %tower;
+	} else if (strPos(%name, "info") >= 0) {
+		$Server::PrisonEscape::InfoBricks.add(%brick);
+	} else if (strPos(%name, "dogSpawn") >= 0) {
+		$Server::PrisonEscape::DogSpawn = %brick;
 	} else if (strPos(%name, "Generator") >= 0) {
 		$Server::PrisonEscape::Generator = %brick;
 		%brick.setRaycasting(1);
@@ -235,20 +234,4 @@ function prisonEscape_saveBricks(%brickgroup, %i) {									//would make it easi
 	}
 
 	schedule(1, %brickgroup, prisonEscape_saveBricks, %brickgroup, %i+1);
-}
-
-function SimSet::destroy(%this) {
-	if (%this.getCount() <= 0)
-		return;
-	%brick = %this.getObject(%this.getCount()-1);
-	%brick.fakeKillBrick((getRandom()-0.5)*20 SPC (getRandom()-0.5)*20 SPC 15, 2);
-	%brick.schedule(2000, delete);
-	%this.remove(%brick);
-	if (isObject(%brick.item))
-		%brick.item.delete();
-	if (isObject(%brick.vehicle))
-		%brick.vehicle.kill();
-	serverPlay3D("brickBreakSound", %brick.getPosition());
-
-	%this.schedule(1, destroy);
 }

@@ -2,7 +2,6 @@ Whistle to call dog
 bronson dust
 make laundrycart work on node coloring?? will affect painted color?
 flash red when damaged
-prevent momoji from registering vip kicks
 
 donor hat
 donor sniper gold

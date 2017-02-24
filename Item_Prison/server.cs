@@ -3,7 +3,9 @@ exec("./Item_Bucket/server.cs");
 exec("./Weapon_Sniper_Rifle_Spotlight/server.cs");
 exec("./Item_Smoke_Grenade/server.cs");
 exec("./Item_Chisel/server.cs");
+exec("./Item_Soap/server.cs");
 exec("./Item_Steak/server.cs");
+exec("./Hat_Croc/server.cs");
 
 datablock ParticleData(goldenParticleA)
 {
@@ -82,9 +84,45 @@ datablock ParticleEmitterData(goldenEmitter)
 	uiName = "Golden Shine";
 };
 
+datablock ParticleData(goldenParticleProjectileA : goldenParticleA)
+{
+	inheritedVelFactor	= 0;
+};
+
+datablock ParticleData(goldenParticleProjectileB : goldenParticleB)
+{
+	inheritedVelFactor	= 0;
+};
+
+
+datablock ParticleEmitterData(projectileGoldenEmitter)
+{
+	ejectionPeriodMS = 5  ;
+	periodVarianceMS = 5;
+
+	ejectionOffset = 0;
+	ejectionOffsetVariance = 0.6;
+	
+	ejectionVelocity = 0;
+	velocityVariance = 0;
+
+	thetaMin			= 0.0;
+	thetaMax			= 180.0;  
+
+	phiReferenceVel  = 0;
+	phiVariance		= 360;
+
+	particles = "goldenParticleProjectileA goldenParticleProjectileB";
+
+	useEmitterColors = false;
+
+	uiName = "Golden Shine";
+};
+
 
 exec("./Item_Tray/golden/server.cs");
 exec("./Item_Bucket/golden/server.cs");
-//exec("./Weapon_Sniper_Rifle_Spotlight/golden/server.cs");
+exec("./Item_Soap/golden/server.cs");
+exec("./Weapon_Sniper_Rifle_Spotlight/golden/server.cs");
 exec("./Item_Smoke_Grenade/golden/server.cs");
 exec("./Item_Chisel/golden/server.cs");
