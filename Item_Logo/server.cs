@@ -108,7 +108,7 @@ function displayLogo(%camPos, %targetPos, %logo, %bg) {
 
     $LogoShape = new StaticShape(Logo) {
         datablock = %logo;
-        scale = "1 1 1";
+        scale = "0.9 0.9 0.9";
     };
     if (%bg) {
         if (isObject($LogoDish)) {

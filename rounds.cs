@@ -4,7 +4,7 @@ if ($Server::PrisonEscape::roundPhase $= "") {
 	$Server::PrisonEscape::winCamTarget = "";
 	$Server::PrisonEscape::currentStatistic = 0;
 	$Server::PrisonEscape::roundPhase = -1;
-	$Server::PrisonEscape::timePerRound = 22;
+	$Server::PrisonEscape::timePerRound = 20;
 }
 
 if (!isObject($fakeClient)) {
@@ -80,6 +80,7 @@ function serverCmdSetPhase(%client, %phase)
 			%client = ClientGroup.getObject(%i);
 			%client.isGuard = 0; %client.tower = "";
 			%client.setScore(0);
+			commandToClient(%client, 'showBricks', 0);
 		}
 		//reload bricks
 		//serverDirectSaveFileLoad("saves/Prison Escape.bls", 3, "", 0, 1); //1 for silent
@@ -189,7 +190,7 @@ function serverCmdSetPhase(%client, %phase)
 		returnAllPlayerControlCamera();
 		schedule(15000, 0, serverCmdSetPhase, $fakeClient, 0);
 		collectStatistics();
-		clearStatistics();
+		//clearStatistics();
 		if (isObject(SM_Music)) {
 			SM_Music.delete();
 		}

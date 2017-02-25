@@ -271,7 +271,7 @@ function clearStatistics()
 function getStatisticToDisplay() {
 	switch ($Server::PrisonEscape::currentStatistic)
 	{
-		case 0: %stat = "\c2MVP Guard\c6: " @ $bestGuardname;
+		case 0: %stat = "<color:8AD88D>MVP Guard\c6: " @ $bestGuardname;
 		case 1: %stat = "<color:ff8724>MVP Prisoner\c6: " @ $bestPrisonername;
 		case 2: %stat = "Trays Used\c6: " @ getStatistic("TraysPickedUp") + 0;
 		case 3: %stat = "Buckets Used\c6: " @ getStatistic("BucketsPickedUp") + 0;		

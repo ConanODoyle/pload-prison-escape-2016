@@ -421,6 +421,9 @@ function LaundryCartArmor::onDriverLeave(%obj, %player)
 
 function Player::doLaundrySlide(%pl, %tick, %initialVel)
 {
+   if (!isObject(%pl)) {
+      return;
+   }
    if(%tick == 0){
       %pl.isSliding = 1;
       %pl.setMaxForwardSpeed(%pl.getDatablock().slideSpeed * %initialVel);

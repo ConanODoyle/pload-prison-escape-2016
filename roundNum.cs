@@ -1,1 +1,1 @@
-$Statistics::round = 26;
+$Statistics::round = 50;

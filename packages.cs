@@ -77,6 +77,7 @@ package PrisonEscape_Base
 		if (%this.client.isDonator && %db.getName() $= "BuffArmor") {
 				%this.player.mountImage(CrocHatImage, 1);
 		}
+		setStatistic("BronsonUnlocked", $Server::PrisonEscape::currTime);
 		return %ret;
 	}
 
@@ -524,6 +525,7 @@ function giveItems(%client) {
 		%player.addItem(SniperRifleSpotlightItem, %client);
 		//%player.addItem(WhistleItem, %client);
 		%player.addItem(SteakItem, %client);
+		%player.addItem(LightMachineGunItem, %client);
 	} else if (%client.isJanitor) {
 		%player.addItem(PushBroomItem, %client);
 	} else {

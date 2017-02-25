@@ -18,6 +18,12 @@ package PrisonChatSystem
 		%team = %cl.isGuard;
 		%isDonator = %cl.isDonator;
 		%msg = stripMLControlChars(%msg);
+
+		if (%cl.isMuted || $isMuted[%cl.bl_id]) {
+			messageClient('', "You are muted");
+			return;
+		}
+
 		if (%isAlive)
 			%location = getRegion(%cl.player);
 		else if (%cl.hasSpawnedOnce)
@@ -29,12 +35,16 @@ package PrisonChatSystem
 		if (!%cl.isGuard)
 			%name = "<color:ff8724>" @ (%cl.fakeName $= "" ? %cl.name : %cl.fakeName);
 		else
-			%name = "<color:8AB28D>" @ (%cl.fakeName $= "" ? %cl.name : %cl.fakeName);
+			%name = "<color:8AD88D>" @ (%cl.fakeName $= "" ? %cl.name : %cl.fakeName);
 
 		if ((strPos(strlwr(%msg), "\@here") >= 0 || strPos(strlwr(%msg), "\@everyone") >= 0) && %cl.bl_id != 4928) {
 			messageClient(%cl, '', "You are not allowed to @mention the discord users");
 			return;
+		} else if (trim(%msg) $= "") {
+			return;
 		}
+
+		%msg = strReplace(%msg, "hacker", "good shot");
 
 		//skip everything if off mode is enabled
 		if (%phase == -1)

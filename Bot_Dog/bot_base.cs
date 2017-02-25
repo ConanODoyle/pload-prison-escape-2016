@@ -217,7 +217,7 @@ function ShepherdDogHoleBot::onBotLoop(%this,%obj)
 						%distance = %distanceToSteak;
 						%closestSteak = %steak;
 					} else {
-						talk(%ray);
+						//talk(%ray);
 					}
 				}
 				else

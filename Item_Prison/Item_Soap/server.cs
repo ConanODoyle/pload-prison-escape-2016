@@ -264,6 +264,9 @@ datablock PlayerData(EmptyHoleBot : PlayerNoJet) {
 
 function Player::doSoapSlide(%pl, %tick, %initialVel, %golden) {
 	%mount = %pl.getMountedObject(0);
+	if (!isObject(%pl)) {
+		return;
+	}
 	if(%tick == 0) {
 		if (%golden) {
 			%pl.mountImage(PrisonBucketGoldenEquippedImage, 0);

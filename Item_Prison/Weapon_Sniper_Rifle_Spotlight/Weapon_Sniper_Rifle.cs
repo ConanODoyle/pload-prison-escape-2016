@@ -251,7 +251,7 @@ datablock ProjectileData(SniperRifleSpotlightProjectile)
 //////////
 // item //
 //////////
-datablock ItemData(SniperRifleSpotlightItem)
+datablock ItemData(SniperRifleSpotlightItemA)
 {
 	category = "Weapon";  // Mission editor category
 	className = "Weapon"; // For inventory system
@@ -267,7 +267,7 @@ datablock ItemData(SniperRifleSpotlightItem)
 
 	//gui stuff
 	uiName = "Sniper Rifle Spotlight";
-	iconName = "./icon_sniperrifle";
+	iconName = "Add-ons/Gamemode_PPE/icons/sniper";
 	doColorShift = false;
 	colorShiftColor = "0.25 0.25 0.25 1.000";
 
@@ -368,7 +368,7 @@ datablock ShapeBaseImageData(SniperRifleSpotlightImage)
 
 	stateName[3] 					= "Smoke";
 	stateEmitter[3]					= SniperRifleSpotlightSmokeEmitter;
-	stateEmitterTime[3]				= 0.8;
+	stateEmitterTime[3]				= 0.5;
 	stateEmitterNode[3]				= "muzzlePoint";
 	stateTimeoutValue[3]				= 0.8;
 	stateTransitionOnTimeout[3]	  = "Reload";

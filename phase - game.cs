@@ -130,7 +130,7 @@ function playSoundOnGuards(%sound) {
 function centerprintGuards(%msg, %time) {
 	for (%i = 1; %i < 5; %i++) {
 		%tower = $Server::PrisonEscape::Towers.tower[%i];
-		if (!%tower.isDestroyed && isObject(%cl = %tower.guard) && isObject(%cl.player)) {
+		if (!%tower.isDestroyed && isObject(%cl = %tower.guard) && isObject(%cl.player) && !%cl.isInCamera) {
 			%cl.centerprint(%msg, %time);
 		}
 	}
@@ -209,6 +209,7 @@ function spawnDeadPrisoners() {
 			%client.createPlayer(%spawn);
 			%client.centerprint("");
 			%client.spawnTime = getSimTime();
+			commandToClient(%client, 'showBricks', 0);
 		}
 	}
 	resetPrisonerSpawnPointCounts();
@@ -229,6 +230,7 @@ function spawnDeadInfirmary() {
 		} else if (isObject(%client.player) && %client.getControlObject() != %client.player) {
 			%client.setControlObject(%client.player);
 		}
+		commandToClient(%client, 'showBricks', 0);
 	}
 	resetInfirmarySpawnPointCounts();
 }
@@ -372,7 +374,7 @@ function disableSpotlights(%client) {
 
 	messageAll('MsgStartUpload', %client.name @ " <bitmap:" @ %msg @ "> [" @ getTimeString($Server::PrisonEscape::currTime-1) @ "]");
 
-	setStatistic("Generator" @ %id @ "Disabled", $Server::PrisonEscape::currTime);
+	setStatistic("GeneratorDisabled", $Server::PrisonEscape::currTime);
 }
 
 function disableCameras(%client) {
@@ -408,7 +410,7 @@ function disableCameras(%client) {
 
 	messageAll('MsgStartUpload', %client.name @ " <bitmap:" @ %msg @ "> [" @ getTimeString($Server::PrisonEscape::currTime-1) @ "]");
 
-	setStatistic("CommDish" @ %id @ "Destroyed", $Server::PrisonEscape::currTime);
+	setStatistic("CommDishDestroyed", $Server::PrisonEscape::currTime);
 }
 
 function Player::removeItems(%player, %string, %client) {
@@ -518,4 +520,24 @@ function serverCmdSpawnItem(%cl, %item) {
 
 	%cl.player.addItem(%item, %cl);
 	messageAll('', "\c4The janitor has left some items around the prison!");
+}
+
+function serverCmdGiveGuardsItem(%cl, %item) {
+	if (!%cl.isSuperAdmin || !isObject(%item)) {
+		return;
+	}
+
+	if (isObject(%pl = $Server::PrisonEscape::Towers.tower1.guard.player)) {
+		%pl.addItem(%item, $Server::PrisonEscape::Towers.tower1.guard);
+	}
+	if (isObject(%pl = $Server::PrisonEscape::Towers.tower2.guard.player)) {
+		%pl.addItem(%item, $Server::PrisonEscape::Towers.tower2.guard);
+	}
+	if (isObject(%pl = $Server::PrisonEscape::Towers.tower3.guard.player)) {
+		%pl.addItem(%item, $Server::PrisonEscape::Towers.tower3.guard);
+	}
+	if (isObject(%pl = $Server::PrisonEscape::Towers.tower4.guard.player)) {
+		%pl.addItem(%item, $Server::PrisonEscape::Towers.tower4.guard);
+	}
+
 }

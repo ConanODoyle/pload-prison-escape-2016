@@ -187,6 +187,7 @@ function prisonEscape_saveBricks(%brickgroup, %i) {									//would make it easi
 		if (isObject(%brick.vehicle)) {
 			$Server::PrisonEscape::Towers.tower[%tower].spotlight = %brick.vehicle;
 			%brick.vehicle.setShapeName("Tower " @ %tower, "8564862");
+			%brick.vehicle.setShapeNameDistance(300);
 		}
 		%brick.tower = %tower;
 	} else if (strPos(%name, "info") >= 0) {
