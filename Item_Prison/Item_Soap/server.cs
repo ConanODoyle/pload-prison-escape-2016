@@ -232,7 +232,7 @@ function PrisonSoapImage::onFire(%this, %obj, %slot) {
 	};
 	%i.setCollisionTimeout(%obj);
 	%i.mountImage(PrisonSoapPickupImage, 0);
-	%i.setVelocity(VectorScale(%obj.getMuzzleVector(%slot), 20.0 * getword(%obj.getScale(), 2)));
+	%i.setVelocity(VectorScale(%obj.getMuzzleVector(%slot), 30.0 * getword(%obj.getScale(), 2)));
 	%i.schedulePop();
 	//%ret = Parent::onFire(%this, %obj, %slot);
 
@@ -328,11 +328,12 @@ package SoapItem {
 				%golden = 1;
 			}
 			%col.delete();
-			if (!%col.isSliding) {
-				if (isObject(%cl = %col.client) && %cl.isGuard) {
+			if (!%obj.isSliding) {
+				if (isObject(%cl = %obj.client) && %cl.isGuard) {
 					setStatistic("GuardsSoaped", getStatistic("GuardsSoaped") + 1);
-					%col.setWhiteOut(0.8);
-					stun(%col, 3);
+					%obj.setWhiteOut(0.8);
+					stun(%obj, 3);
+					removeUniform(%obj);
 				} else {
 					setStatistic("SoapUsed", getStatistic("SoapUsed", %obj.client) + 1, %obj.client);
 					setStatistic("SoapUsed", getStatistic("SoapUsed") + 1);

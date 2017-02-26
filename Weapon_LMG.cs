@@ -17,7 +17,7 @@ AddDamageType("LMG",   '<bitmap:add-ons/Weapon_Package_Tier2/ci_lmg1> %1',    '%
 datablock ProjectileData(LightMachinegunProjectile)
 {
    projectileShapeName = "add-ons/Weapon_Gun/bullet.dts";
-   directDamage        = 22;
+   directDamage        = 25;
    directDamageType    = $DamageType::LMG;
    radiusDamageType    = $DamageType::LMG;
 
@@ -39,8 +39,8 @@ datablock ProjectileData(LightMachinegunProjectile)
    fadeDelay           = 3500;
    bounceElasticity    = 0.0;
    bounceFriction      = 0.0;
-   isBallistic         = true;
-   gravityMod = 0.2;
+   isBallistic         = false;
+   gravityMod = 0.1;
    explodeOnDeath = true;
    explodeOnPlayerImpact = false;
 
@@ -268,11 +268,11 @@ function LightMachinegunImage::onFire(%this,%obj,%slot)
 	
 	if(vectorLen(%obj.getVelocity()) < 0.1 && (getSimTime() - %obj.lastShotTime) > 1000)
 	{
-		%spread = 0.00016;
+		%spread = 0.00056 * (%obj.LMGHeat / $LMGMaxHeat) * (%obj.LMGHeat / $LMGMaxHeat);
 	}
 	else
 	{
-		%spread = 0.00025;
+		%spread = 0.00085 * (%obj.LMGHeat / $LMGMaxHeat) * (%obj.LMGHeat / $LMGMaxHeat);
 	}
 
 	%projectile = LightMachinegunProjectile;
@@ -283,7 +283,7 @@ function LightMachinegunImage::onFire(%this,%obj,%slot)
 	%obj.LMGHeat++;
 	%obj.isFiring = 1;
 
-	commandToClient(%obj.client,'bottomPrint',"<just:right><font:impact:24><color:fff000>Heat <font:impact:34>\c6" @ %obj.LMGHeat @ "/" @ $LMGMaxHeat, 4, 2, 3, 4); 
+	commandToClient(%obj.client,'bottomPrint',"<just:right><font:impact:24><color:fff000>Heat <font:impact:28>" @ %obj.heatColor @ %obj.LMGHeat @ "/" @ $LMGMaxHeat, 4, 2, 3, 4); 
 
 	%obj.spawnExplosion(TTLittleRecoilProjectile,"1 1 1");
 
@@ -347,7 +347,7 @@ function LightMachinegunImage::onFire(%this,%obj,%slot)
 // 	%shellcount = 1;
 // 	if($Pref::Server::TTAmmo == 0 || $Pref::Server::TTAmmo == 1)
 // 	{
-// 		commandToClient(%obj.client,'bottomPrint',"<just:right><font:impact:24><color:fff000>Heat <font:impact:34>\c6" @ %obj.LMGHeat @ "/" @ $LMGMaxHeat, 4, 2, 3, 4); 
+// 		commandToClient(%obj.client,'bottomPrint',"<just:right><font:impact:24><color:fff000>Heat <font:impact:28>" @ %obj.heatColor @ %obj.LMGHeat @ "/" @ $LMGMaxHeat, 4, 2, 3, 4); 
 // 	}
 
 // 	%obj.spawnExplosion(TTLittleRecoilProjectile,"1 1 1");
@@ -380,7 +380,7 @@ function LightMachinegunImage::onFire(%this,%obj,%slot)
 
 function LightMachinegunImage::onReloadStart(%this,%obj,%slot)
 {           		
-	commandToClient(%obj.client,'bottomPrint',"<just:right><font:impact:24><color:fff000>Heat <font:impact:34>\c6" @ %obj.LMGHeat @ "/" @ $LMGMaxHeat, 4, 2, 3, 4); 
+	commandToClient(%obj.client,'bottomPrint',"<just:right><font:impact:24><color:fff000>Heat <font:impact:28>" @ %obj.heatColor @ %obj.LMGHeat @ "/" @ $LMGMaxHeat, 4, 2, 3, 4); 
 	if(%obj.LMGHeat >= 1 && !isEventPending(%obj.heatSchedule))
 	{
 		releaseHeat(%obj);
@@ -389,7 +389,7 @@ function LightMachinegunImage::onReloadStart(%this,%obj,%slot)
 
 function LightMachinegunImage::onReloadWait(%this,%obj,%slot)
 {
-	commandToClient(%obj.client,'bottomPrint',"<just:right><font:impact:24><color:fff000>Heat <font:impact:34>\c6" @ %obj.LMGHeat @ "/" @ $LMGMaxHeat, 4, 2, 3, 4); 
+	commandToClient(%obj.client,'bottomPrint',"<just:right><font:impact:24><color:fff000>Heat <font:impact:28>" @ %obj.heatColor @ %obj.LMGHeat @ "/" @ $LMGMaxHeat, 4, 2, 3, 4); 
 }
 
 function LightMachinegunImage::onReloaded(%this,%obj,%slot)
@@ -401,7 +401,7 @@ function LightMachinegunImage::onHalt(%this,%obj,%slot)
 {
 	if($Pref::Server::TTAmmo == 0 || $Pref::Server::TTAmmo == 1)
 	{
-        commandToClient(%obj.client,'bottomPrint',"<just:right><font:impact:24><color:fff000>Heat <font:impact:34>\c6" @ %obj.LMGHeat @ "/" @ $LMGMaxHeat, 4, 2, 3, 4);
+        commandToClient(%obj.client,'bottomPrint',"<just:right><font:impact:24><color:fff000>Heat <font:impact:28>" @ %obj.heatColor @ %obj.LMGHeat @ "/" @ $LMGMaxHeat, 4, 2, 3, 4);
 	}
 	%obj.isFiring = 0;
 }
@@ -411,7 +411,7 @@ function LightMachinegunImage::onMount(%this,%obj,%slot)
    Parent::onMount(%this,%obj,%slot);
 	if($Pref::Server::TTAmmo == 0 || $Pref::Server::TTAmmo == 1)
 	{
-		commandToClient(%obj.client,'bottomPrint',"<just:right><font:impact:24><color:fff000>Heat <font:impact:34>\c6" @ %obj.LMGHeat @ "/" @ $LMGMaxHeat, 4, 2, 3, 4);
+		commandToClient(%obj.client,'bottomPrint',"<just:right><font:impact:24><color:fff000>Heat <font:impact:28>" @ %obj.heatColor @ %obj.LMGHeat @ "/" @ $LMGMaxHeat, 4, 2, 3, 4);
 	}
 }
 
@@ -430,7 +430,15 @@ function LightMachinegunImage::onLoadCheck(%this,%obj,%slot)
 	if (%obj.LMGHeat $= "") {
 		%obj.LMGHeat = 0;
 	}
-	commandToClient(%obj.client,'bottomPrint',"<just:right><font:impact:24><color:fff000>Heat <font:impact:34>\c6" @ %obj.LMGHeat @ "/" @ $LMGMaxHeat, 4, 2, 3, 4);
+
+	if (%obj.LMGHeat <= $LMGMaxHeat / 3) {
+		%obj.heatColor = "\c6";
+	} else if (%obj.LMGHeat <= $LMGMaxHeat / 4 * 3) {
+		%obj.heatColor = "\c3";
+	} else {
+		%obj.heatColor = "\c0";
+	}
+	commandToClient(%obj.client,'bottomPrint',"<just:right><font:impact:24><color:fff000>Heat <font:impact:28>" @ %obj.heatColor @ %obj.LMGHeat @ "/" @ $LMGMaxHeat, 4, 2, 3, 4);
 
 	if(%obj.LMGHeat >= 1 && !isEventPending(%obj.heatSchedule))
 	{

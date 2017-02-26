@@ -219,7 +219,7 @@ function PrisonSoapGoldenImage::onFire(%this, %obj, %slot)
 	};
 	%i.setCollisionTimeout(%obj);
 	%i.mountImage(PrisonSoapGoldenPickupImage, 0);
-	%i.setVelocity(VectorScale(%obj.getMuzzleVector(%slot), 20.0 * getword(%obj.getScale(), 2)));
+	%i.setVelocity(VectorScale(%obj.getMuzzleVector(%slot), 30.0 * getword(%obj.getScale(), 2)));
 	%i.schedulePop();
 	//%ret = Parent::onFire(%this, %obj, %slot);
 
