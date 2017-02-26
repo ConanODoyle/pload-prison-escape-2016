@@ -166,7 +166,7 @@ datablock ShapeBaseImageData(SniperRifleSpotlightGoldenImage)
 	stateEmitter[3]					= SniperRifleSpotlightSmokeEmitter;
 	stateEmitterTime[3]				= 0.5;
 	stateEmitterNode[3]				= "muzzlePoint";
-	stateTimeoutValue[3]				= 0.8;
+	stateTimeoutValue[3]				= 0.7;
 	stateTransitionOnTimeout[3]	  = "Reload";
 	stateWaitForTimeout[3]			= true;
 

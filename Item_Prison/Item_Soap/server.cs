@@ -1,4 +1,4 @@
-00//projectile
+//projectile
 datablock ParticleData(soapParticleA)
 {
 	textureName			 = "base/data/particles/bubble";

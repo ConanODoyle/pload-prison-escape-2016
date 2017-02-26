@@ -72,6 +72,11 @@ datablock ItemData(PrisonSoapGoldenPickupItem  : PrisonSoapGoldenItem)
 datablock ShapeBaseImageData(PrisonSoapGoldenPickupImage)
 {
 	shapeFile = "base/data/shapes/empty.dts";
+
+	mountPoint = 7;
+
+	canMountToBronson = 1;
+
 	stateName[0]			= "Activate";
 	stateTimeoutValue[0]		= 0.5;
 	stateTransitionOnTimeout[0]	= "Ready";

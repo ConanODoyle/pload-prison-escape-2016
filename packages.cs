@@ -75,7 +75,8 @@ package PrisonEscape_Base
 	function Player::ChangeDatablock(%this, %db) {
 		%ret = parent::ChangeDatablock(%this, %db);
 		if (%this.client.isDonator && %db.getName() $= "BuffArmor") {
-				%this.player.mountImage(CrocHatImage, 1);
+			%this.mountImage(CrocHatImage, 1);
+			%this.mountImage(PrisonSoapGoldenPickupImage, 2);
 		}
 		setStatistic("BronsonUnlocked", $Server::PrisonEscape::currTime);
 		return %ret;
