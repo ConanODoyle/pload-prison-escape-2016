@@ -251,7 +251,7 @@ datablock ProjectileData(SniperRifleSpotlightProjectile)
 //////////
 // item //
 //////////
-datablock ItemData(SniperRifleSpotlightItemA)
+datablock ItemData(SniperRifleSpotlightItem)
 {
 	category = "Weapon";  // Mission editor category
 	className = "Weapon"; // For inventory system
