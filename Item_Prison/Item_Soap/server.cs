@@ -1,4 +1,4 @@
-//projectile
+00//projectile
 datablock ParticleData(soapParticleA)
 {
 	textureName			 = "base/data/particles/bubble";
@@ -92,7 +92,7 @@ datablock ItemData(PrisonSoapItem)
 
 	//gui stuff
 	uiName = "Soap";
-	iconName = "";
+	iconName = "Add-ons/Gamemode_PPE/icons/soap";
 	doColorShift = true;
 	colorShiftColor = "0.95 0.6 0.57 1.000";
 
@@ -101,7 +101,7 @@ datablock ItemData(PrisonSoapItem)
 	canDrop = true;
 };
 
-datablock ItemData(PrisonSoapPickupItem  : PrisonSoapItem)
+datablock ItemData(PrisonSoapPickupItem : PrisonSoapItem)
 {
 	isSlidingItem = 1;
 	uiname = "";
@@ -329,17 +329,23 @@ package SoapItem {
 			}
 			%col.delete();
 			if (!%col.isSliding) {
-				setStatistic("SoapUsed", getStatistic("SoapUsed", %obj.client) + 1, %obj.client);
-				setStatistic("SoapUsed", getStatistic("SoapUsed") + 1);
-				//talk("Soap!");
-				%soap = new AIPlayer(Soap) {
-					datablock = EmptyHoleBot;
-				};
-				%soap.setTransform(%obj.getTransform());
-				%vel = %obj.getVelocity();
-				%soap.mountObject(%obj, 1);
-				%soap.doSoapSlide(0, vectorLen(%vel) + 3, %golden);
-				%obj.playThread(0, sit);
+				if (isObject(%cl = %col.client) && %cl.isGuard) {
+					setStatistic("GuardsSoaped", getStatistic("GuardsSoaped") + 1);
+					%col.setWhiteOut(0.8);
+					stun(%col, 3);
+				} else {
+					setStatistic("SoapUsed", getStatistic("SoapUsed", %obj.client) + 1, %obj.client);
+					setStatistic("SoapUsed", getStatistic("SoapUsed") + 1);
+					//talk("Soap!");
+					%soap = new AIPlayer(Soap) {
+						datablock = EmptyHoleBot;
+					};
+					%soap.setTransform(%obj.getTransform());
+					%vel = %obj.getVelocity();
+					%soap.mountObject(%obj, 1);
+					%soap.doSoapSlide(0, vectorLen(%vel) + 3, %golden);
+					%obj.playThread(0, sit);
+				}
 			}
 			return;
 		}
