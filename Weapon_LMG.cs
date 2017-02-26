@@ -14,7 +14,7 @@ datablock AudioProfile(LightMachinegunClickSound)
 };
 
 AddDamageType("LMG",   '<bitmap:add-ons/Weapon_Package_Tier2/ci_lmg1> %1',    '%2 <bitmap:add-ons/Weapon_Package_Tier2/ci_lmg1> %1',0.75,1);
-datablock ProjectileData(LightMachinegunProjectile1)
+datablock ProjectileData(LightMachinegunProjectile)
 {
    projectileShapeName = "add-ons/Weapon_Gun/bullet.dts";
    directDamage        = 22;
@@ -23,15 +23,15 @@ datablock ProjectileData(LightMachinegunProjectile1)
 
    brickExplosionRadius = 0;
    brickExplosionImpact = true;          //destroy a brick if we hit it directly?
-   brickExplosionForce  = 10;
-   brickExplosionMaxVolume = 1;          //max volume of bricks that we can destroy
-   brickExplosionMaxVolumeFloating = 2;  //max volume of bricks that we can destroy if they aren't connected to the ground
+   brickExplosionForce  = 0;
+   brickExplosionMaxVolume = 0;          //max volume of bricks that we can destroy
+   brickExplosionMaxVolumeFloating = 0;  //max volume of bricks that we can destroy if they aren't connected to the ground
 
-   impactImpulse	     = 300;
+   impactImpulse	     = 0;
    verticalImpulse     = 20;
    explosion           = gunExplosion;
 
-   muzzleVelocity      = 180;
+   muzzleVelocity      = 200;
    velInheritFactor    = 1;
 
    armingDelay         = 0;
@@ -40,7 +40,7 @@ datablock ProjectileData(LightMachinegunProjectile1)
    bounceElasticity    = 0.0;
    bounceFriction      = 0.0;
    isBallistic         = true;
-   gravityMod = 0.7;
+   gravityMod = 0.2;
    explodeOnDeath = true;
    explodeOnPlayerImpact = false;
 
@@ -77,7 +77,7 @@ datablock ItemData(LightMachinegunItem)
 	canDrop = true;
 	
 	maxAmmo = 70;
-	canReload = 1;
+	canReload = 0;
 };
 
 ////////////////
@@ -109,7 +109,7 @@ datablock ShapeBaseImageData(LightMachinegunImage)
    // Projectile && Ammo.
    item = LightMachinegunItem;
    ammo = " ";
-   projectile = LightMachinegunProjectile1;
+   projectile = LightMachinegunProjectile;
    projectileType = Projectile;
 
    casing = GunShellDebris;
@@ -142,7 +142,7 @@ datablock ShapeBaseImageData(LightMachinegunImage)
 	stateName[1]                     = "Ready";
 	stateTransitionOnNoAmmo[1]       = "LoadCheckA";
 	stateTransitionOnTriggerDown[1]  = "Click";
-	stateTransitionOnTimeout[1]      = "Ready";
+	stateTransitionOnTimeout[1]      = "LoadCheckA";
 	stateTimeoutValue[1]             = 0.3;
 	stateWaitForTimeout[1]           = 0;
 	stateScript[1]                   = "onReady";
@@ -176,13 +176,13 @@ datablock ShapeBaseImageData(LightMachinegunImage)
 	stateTransitionOnNoAmmo[5]		= "Reload";
 
 	stateName[6]				= "Reload";
-	stateTimeoutValue[6]			= 1.4;
+	stateTimeoutValue[6]			= 0.1;
 	stateScript[6]				= "onReloadStart";
 	stateTransitionOnTimeout[6]		= "Wait";
 	stateWaitForTimeout[6]			= true;
 	
 	stateName[7]				= "Wait";
-	stateTimeoutValue[7]			= 0.8;
+	stateTimeoutValue[7]			= 0.1;
 	stateScript[7]				= "onReloadWait";
 	stateTransitionOnTimeout[7]		= "Reloaded";
 	
@@ -217,7 +217,7 @@ datablock ShapeBaseImageData(LightMachinegunImage)
 
 	stateName[13]			= "Halt";
 	stateTransitionOnTimeout[13]     = "Ready";
-	stateTimeoutValue[13]            = 0.3;
+	stateTimeoutValue[13]            = 0.1;
 	stateEmitter[13]					= gunSmokeEmitter;
 	stateEmitterTime[13]				= 0.48;
 	stateEmitterNode[13]				= "muzzleNode";
@@ -268,19 +268,21 @@ function LightMachinegunImage::onFire(%this,%obj,%slot)
 	
 	if(vectorLen(%obj.getVelocity()) < 0.1 && (getSimTime() - %obj.lastShotTime) > 1000)
 	{
-		%spread = 0.0004;
+		%spread = 0.00016;
 	}
 	else
 	{
-		%spread = 0.0007;
+		%spread = 0.00025;
 	}
 
-	%projectile = LightMachinegunProjectile1;
+	%projectile = LightMachinegunProjectile;
 	
 	%obj.playThread(2, plant);
 	%shellcount = 1;
 
 	%obj.LMGHeat++;
+	%obj.isFiring = 1;
+
 	commandToClient(%obj.client,'bottomPrint',"<just:right><font:impact:24><color:fff000>Heat <font:impact:34>\c6" @ %obj.LMGHeat @ "/" @ $LMGMaxHeat, 4, 2, 3, 4); 
 
 	%obj.spawnExplosion(TTLittleRecoilProjectile,"1 1 1");
@@ -311,70 +313,70 @@ function LightMachinegunImage::onFire(%this,%obj,%slot)
 	return %p;
 }
 
-function LightMachinegunImage::onFire2(%this,%obj,%slot)
-{ 
-	%fX = getWord(%fvec,0);
-	%fY = getWord(%fvec,1);
+// function LightMachinegunImage::onFire2(%this,%obj,%slot)
+// { 
+// 	%fX = getWord(%fvec,0);
+// 	%fY = getWord(%fvec,1);
 	
-	%evec = %obj.getEyeVector();
-	%eX = getWord(%evec,0);
-	%eY = getWord(%evec,1);
-	%eZ = getWord(%evec,2);
+// 	%evec = %obj.getEyeVector();
+// 	%eX = getWord(%evec,0);
+// 	%eY = getWord(%evec,1);
+// 	%eZ = getWord(%evec,2);
 	
-	%eXY = mSqrt(%eX*%eX+%eY*%eY);
+// 	%eXY = mSqrt(%eX*%eX+%eY*%eY);
 	
-	%aimVec = %fX*%eXY SPC %fY*%eXY SPC %eZ;
+// 	%aimVec = %fX*%eXY SPC %fY*%eXY SPC %eZ;
 
-	%obj.setVelocity(VectorAdd(%obj.getVelocity(),VectorScale(%aimVec,"-1")));
+// 	%obj.setVelocity(VectorAdd(%obj.getVelocity(),VectorScale(%aimVec,"-1")));
 	
-	%obj.lastShotTime = getSimTime();
-	%shellcount = 1;
+// 	%obj.lastShotTime = getSimTime();
+// 	%shellcount = 1;
 	
-	if(vectorLen(%obj.getVelocity()) < 0.1 && (getSimTime() - %obj.lastShotTime) > 1000)
-	{
-		%spread = 0.0002;
-	}
-	else
-	{
-		%spread = 0.0004;
-	}
+// 	if(vectorLen(%obj.getVelocity()) < 0.1 && (getSimTime() - %obj.lastShotTime) > 1000)
+// 	{
+// 		%spread = 0.0002;
+// 	}
+// 	else
+// 	{
+// 		%spread = 0.0004;
+// 	}
 
-	%projectile = LightMachinegunProjectile1;
+// 	%projectile = LightMachinegunProjectile;
 	
-	%obj.playThread(2, plant);
-	%shellcount = 1;
-	if($Pref::Server::TTAmmo == 0 || $Pref::Server::TTAmmo == 1)
-	{
-		commandToClient(%obj.client,'bottomPrint',"<just:right><font:impact:24><color:fff000>Heat <font:impact:34>\c6" @ %obj.LMGHeat @ "/" @ $LMGMaxHeat, 4, 2, 3, 4); 
-	}
+// 	%obj.playThread(2, plant);
+// 	%shellcount = 1;
+// 	if($Pref::Server::TTAmmo == 0 || $Pref::Server::TTAmmo == 1)
+// 	{
+// 		commandToClient(%obj.client,'bottomPrint',"<just:right><font:impact:24><color:fff000>Heat <font:impact:34>\c6" @ %obj.LMGHeat @ "/" @ $LMGMaxHeat, 4, 2, 3, 4); 
+// 	}
 
-	%obj.spawnExplosion(TTLittleRecoilProjectile,"1 1 1");
+// 	%obj.spawnExplosion(TTLittleRecoilProjectile,"1 1 1");
 
-	for(%shell=0; %shell<%shellcount; %shell++)
-	{
-		%vector = %obj.getMuzzleVector(%slot);
-		%vector1 = VectorScale(%vector, %projectile.muzzleVelocity);
-		%vector2 = VectorScale(%objectVelocity, %projectile.velInheritFactor);
-		%velocity = VectorAdd(%vector1,%vector2);
-		%x = (getRandom() - 0.5) * 10 * 3.1415926 * %spread;
-		%y = (getRandom() - 0.5) * 10 * 3.1415926 * %spread;
-		%z = (getRandom() - 0.5) * 10 * 3.1415926 * %spread;
-		%mat = MatrixCreateFromEuler(%x @ " " @ %y @ " " @ %z);
-		%velocity = MatrixMulVector(%mat, %velocity);
+// 	for(%shell=0; %shell<%shellcount; %shell++)
+// 	{
+// 		%vector = %obj.getMuzzleVector(%slot);
+// 		%vector1 = VectorScale(%vector, %projectile.muzzleVelocity);
+// 		%vector2 = VectorScale(%objectVelocity, %projectile.velInheritFactor);
+// 		%velocity = VectorAdd(%vector1,%vector2);
+// 		%x = (getRandom() - 0.5) * 10 * 3.1415926 * %spread;
+// 		%y = (getRandom() - 0.5) * 10 * 3.1415926 * %spread;
+// 		%z = (getRandom() - 0.5) * 10 * 3.1415926 * %spread;
+// 		%mat = MatrixCreateFromEuler(%x @ " " @ %y @ " " @ %z);
+// 		%velocity = MatrixMulVector(%mat, %velocity);
 
-		%p = new (%this.projectileType)()
-		{
-			dataBlock = %projectile;
-			initialVelocity = %velocity;
-			initialPosition = %obj.getMuzzlePoint(%slot);
-			sourceObject = %obj;
-			sourceSlot = %slot;
-			client = %obj.client;
-		};
-		MissionCleanup.add(%p);
-	}
-	return %p;
-}
+// 		%p = new (%this.projectileType)()
+// 		{
+// 			dataBlock = %projectile;
+// 			initialVelocity = %velocity;
+// 			initialPosition = %obj.getMuzzlePoint(%slot);
+// 			sourceObject = %obj;
+// 			sourceSlot = %slot;
+// 			client = %obj.client;
+// 		};
+// 		MissionCleanup.add(%p);
+// 	}
+// 	return %p;
+// }
 
 function LightMachinegunImage::onReloadStart(%this,%obj,%slot)
 {           		
@@ -388,51 +390,11 @@ function LightMachinegunImage::onReloadStart(%this,%obj,%slot)
 function LightMachinegunImage::onReloadWait(%this,%obj,%slot)
 {
 	commandToClient(%obj.client,'bottomPrint',"<just:right><font:impact:24><color:fff000>Heat <font:impact:34>\c6" @ %obj.LMGHeat @ "/" @ $LMGMaxHeat, 4, 2, 3, 4); 
-    if(%obj.client.quantity["556rounds"] >= 1)
-	{
-		%obj.playThread(2, plant);
-        serverPlay3D(magazineOutSound,%obj.getPosition());
-	}
 }
 
 function LightMachinegunImage::onReloaded(%this,%obj,%slot)
 {
-	//
-	//
-	// RELOAD SEQUENCE LOL
-	// now 30% more modular or so
-	///////////////////////////////////////////////////////////////////////////////////
-
-    if(%obj.client.quantity["556rounds"] >= 1)
-	{
-		%obj.client.quantity["556rounds"] += %obj.toolAmmo[%obj.currTool];
-		%obj.toolAmmo[%obj.currTool] = 0;
-		%obj.playThread(2, plant);
-	        serverPlay3D(reloadClick8Sound,%obj.getPosition());
-
-
-	    if(%obj.client.quantity["556rounds"] > %this.item.maxAmmo)
-		{
-			%obj.client.quantity["556rounds"] -= %this.item.maxAmmo;
-			%obj.toolAmmo[%obj.currTool] = %this.item.maxAmmo;
-			%obj.AmmoSpent[%obj.currTool] = 0;
-			%obj.setImageAmmo(%slot,1);
-
-			commandToClient(%obj.client,'bottomPrint',"<just:right><font:impact:24><color:fff000>Heat <font:impact:34>\c6" @ %obj.LMGHeat @ "/" @ $LMGMaxHeat, 4, 2, 3, 4);
-			return;
-		}
-
-	    if(%obj.client.quantity["556rounds"] <= %this.item.maxAmmo)
-		{
-			%obj.toolAmmo[%obj.currTool] = %obj.client.quantity["556rounds"];
-			%obj.AmmoSpent[%obj.currTool] = 0;
-			%obj.setImageAmmo(%slot,1);
-			%obj.client.quantity["556rounds"] = 0;
-
-			commandToClient(%obj.client,'bottomPrint',"<just:right><font:impact:24><color:fff000>Heat <font:impact:34>\c6" @ %obj.LMGHeat @ "/" @ $LMGMaxHeat, 4, 2, 3, 4);
-			return;
-		}
-	}
+	%obj.isFiring = 0;
 }
 
 function LightMachinegunImage::onHalt(%this,%obj,%slot)
@@ -441,6 +403,7 @@ function LightMachinegunImage::onHalt(%this,%obj,%slot)
 	{
         commandToClient(%obj.client,'bottomPrint',"<just:right><font:impact:24><color:fff000>Heat <font:impact:34>\c6" @ %obj.LMGHeat @ "/" @ $LMGMaxHeat, 4, 2, 3, 4);
 	}
+	%obj.isFiring = 0;
 }
 
 function LightMachinegunImage::onMount(%this,%obj,%slot)
@@ -459,10 +422,15 @@ function LightMachinegunImage::onUnMount(%this,%obj,%slot)
 
 function LightMachinegunImage::onLoadCheck(%this,%obj,%slot)
 {
-	if(%obj.LMGHead >= $LMGMaxHeat) 
+	if(%obj.LMGHeat >= $LMGMaxHeat) 
 		%obj.setImageAmmo(%slot,0);
 	else
 		%obj.setImageAmmo(%slot,1);
+
+	if (%obj.LMGHeat $= "") {
+		%obj.LMGHeat = 0;
+	}
+	commandToClient(%obj.client,'bottomPrint',"<just:right><font:impact:24><color:fff000>Heat <font:impact:34>\c6" @ %obj.LMGHeat @ "/" @ $LMGMaxHeat, 4, 2, 3, 4);
 
 	if(%obj.LMGHeat >= 1 && !isEventPending(%obj.heatSchedule))
 	{
@@ -475,7 +443,7 @@ if ($LMGMaxHeat $= "") {
 }
 
 function releaseHeat(%obj) {
-	if (isEventPending(%obj.heatSchedule)) {
+	if (isEventPending(%obj.heatSchedule) || %obj.isFiring) {
 		return;
 	}
 
