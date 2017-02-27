@@ -17,7 +17,7 @@ AddDamageType("LMG",   '<bitmap:add-ons/Weapon_Package_Tier2/ci_lmg1> %1',    '%
 datablock ProjectileData(LightMachinegunProjectile)
 {
    projectileShapeName = "add-ons/Weapon_Gun/bullet.dts";
-   directDamage        = 25;
+   directDamage        = 20;
    directDamageType    = $DamageType::LMG;
    radiusDamageType    = $DamageType::LMG;
 
@@ -385,6 +385,7 @@ function LightMachinegunImage::onReloadStart(%this,%obj,%slot)
 	{
 		releaseHeat(%obj);
 	}
+	%obj.isFiring = 0;
 }
 
 function LightMachinegunImage::onReloadWait(%this,%obj,%slot)
@@ -408,7 +409,7 @@ function LightMachinegunImage::onHalt(%this,%obj,%slot)
 
 function LightMachinegunImage::onMount(%this,%obj,%slot)
 {
-   Parent::onMount(%this,%obj,%slot);
+   	Parent::onMount(%this,%obj,%slot);
 	if($Pref::Server::TTAmmo == 0 || $Pref::Server::TTAmmo == 1)
 	{
 		commandToClient(%obj.client,'bottomPrint',"<just:right><font:impact:24><color:fff000>Heat <font:impact:28>" @ %obj.heatColor @ %obj.LMGHeat @ "/" @ $LMGMaxHeat, 4, 2, 3, 4);
@@ -417,7 +418,12 @@ function LightMachinegunImage::onMount(%this,%obj,%slot)
 
 function LightMachinegunImage::onUnMount(%this,%obj,%slot)
 {
-   Parent::onUnMount(%this,%obj,%slot);
+	%obj.isFiring = 0;
+	if(%obj.LMGHeat >= 1 && !isEventPending(%obj.heatSchedule))
+	{
+		releaseHeat(%obj);
+	}
+   	Parent::onUnMount(%this,%obj,%slot);
 }
 
 function LightMachinegunImage::onLoadCheck(%this,%obj,%slot)
@@ -447,7 +453,7 @@ function LightMachinegunImage::onLoadCheck(%this,%obj,%slot)
 }
 
 if ($LMGMaxHeat $= "") {
-	$LMGMaxHeat = 50;
+	$LMGMaxHeat = 60;
 }
 
 function releaseHeat(%obj) {

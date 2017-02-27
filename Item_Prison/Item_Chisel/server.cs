@@ -169,7 +169,7 @@ function chiselImage::onFire(%this, %obj, %slot)
 }
 function chiselImage::onAbortCharge(%this, %obj, %slot)
 {
-	%obj.playthread(2, spearThrow);
+	%obj.playthread(2, activate);
 }
 
 function isBreakableBrick(%brick, %player)

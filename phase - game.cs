@@ -22,8 +22,8 @@ function bottomprintTimerLoop(%timeLeft) {
 			continue;
 		}
 
-		if (!isObject(%client.player)) {
-			%client.bottomprint("<font:Arial Bold:34><just:center>\c6" @ getTimeString(%timeLeft-1) @ " <br><font:Impact:30>\c0Time to respawn: " @ getTimeString(%timeLeft % 90));
+		if (!isObject(%client.player)){
+			%client.bottomprint("<font:Arial Bold:34><just:center>\c6" @ getTimeString(%timeLeft-1) @ " <br><font:Impact:30>\c0Time to respawn: " @ getTimeString((%timeLeft - 1) % 90));
 		} else {
 			%underStr = "\c6[\c1" @ %client.location @ "\c6] <br>\c3" @ $prisonerCount[%client.location] @ "/" @ $prisonerCount["Total"] SPC %prisoners;
 			%client.bottomprint("<font:Arial Bold:34><just:center>\c6" @ getTimeString(%timeLeft-1) @ " <br><font:Arial Bold:24>" @ %underStr, 2, 1);
@@ -52,7 +52,7 @@ function prisonerCountCheck(%i) {
 		if (isObject($Server::PrisonEscape::CommDish)) {
 			displayPrisonerCountToGuards();
 		} else {
-			centerPrint(%offset @ "Early Warning System Disabled!");
+			pushCenterprintGuards(%offset @ "Early Warning System Disabled!", 10);
 		}
 		
 		//Prisoners bottomprint
@@ -65,7 +65,7 @@ function prisonerCountCheck(%i) {
 
 			%prisoners = $prisonerCount["Total"] > 1 ? "Prisoners" : "Prisoner";
 			if (!isObject(%client.player)) {
-				%client.bottomprint("<font:Arial Bold:34><just:center>\c6" @ getTimeString(%timeLeft-1) @ " <br><font:Impact:30>\c0Time to respawn: " @ getTimeString(%timeLeft % 90));
+				%client.bottomprint("<font:Arial Bold:34><just:center>\c6" @ getTimeString(%timeLeft-1) @ " <br><font:Impact:30>\c0Time to respawn: " @ getTimeString((%timeLeft - 1) % 90));
 			} else {
 				%underStr = "\c6[\c1" @ %client.location @ "\c6] <br>\c3" @ $prisonerCount[%client.location] @ "/" @ $prisonerCount["Total"] SPC %prisoners;
 				%client.bottomprint("<font:Arial Bold:34><just:center>\c6" @ getTimeString(%timeLeft-1) @ " <br><font:Arial Bold:24>" @ %underStr, 2, 1);
@@ -130,8 +130,17 @@ function playSoundOnGuards(%sound) {
 function centerprintGuards(%msg, %time) {
 	for (%i = 1; %i < 5; %i++) {
 		%tower = $Server::PrisonEscape::Towers.tower[%i];
+		if (!%tower.isDestroyed && isObject(%cl = %tower.guard) && isObject(%cl.player) && !%cl.isInCamera && !%cl.pushedCenterprint) {
+			centerprint(%cl, %msg, %time);
+		}
+	}
+}
+
+function pushCenterprintGuards(%msg, %time) {
+	for (%i = 1; %i < 5; %i++) {
+		%tower = $Server::PrisonEscape::Towers.tower[%i];
 		if (!%tower.isDestroyed && isObject(%cl = %tower.guard) && isObject(%cl.player) && !%cl.isInCamera) {
-			%cl.centerprint(%msg, %time);
+			pushCenterprint(%cl, %msg, %time);
 		}
 	}
 }
@@ -207,7 +216,9 @@ function spawnDeadPrisoners() {
 		if (!isObject(%client.player) && !%client.isGuard) {
 			%spawn = pickPrisonerSpawnPoint();
 			%client.createPlayer(%spawn);
-			%client.centerprint("");
+			if (!%client.pushedCenterprint) {
+				%client.centerprint("");
+			}
 			%client.spawnTime = getSimTime();
 			commandToClient(%client, 'showBricks', 0);
 		}
@@ -225,11 +236,14 @@ function spawnDeadInfirmary() {
 		if (!isObject(%client.player)) {
 			%spawn = pickInfirmarySpawnPoint();
 			%client.createPlayer(%spawn);
-			%client.centerprint("");
+			if (!%client.pushedCenterprint) {
+				%client.centerprint("");
+			}
 			%client.spawnTime = getSimTime();
-		} else if (isObject(%client.player) && %client.getControlObject() != %client.player) {
-			%client.setControlObject(%client.player);
 		}
+		// else if (isObject(%client.player) && %client.getControlObject() != %client.player) {
+		// 	%client.setControlObject(%client.player);
+		// }
 		commandToClient(%client, 'showBricks', 0);
 	}
 	resetInfirmarySpawnPointCounts();
@@ -365,10 +379,10 @@ function disableSpotlights(%client) {
 	%type = $DamageType::Generator;
 
 	if (!isObject(%client)) {
-		centerprintAll("<font:Impact:30>\c4The spotlights have been disabled!", 20);
+		pushCenterprintAll("<font:Impact:30>\c4The spotlights have been disabled!", 20);
 		%msg = $DamageType::SuicideBitmap[%type];
 	} else {
-		centerprintAll("<font:Impact:30>\c4The spotlights have been disabled by \c3" @ %client.name @ "\c4!", 20);
+		pushCenterprintAll("<font:Impact:30>\c4The spotlights have been disabled by \c3" @ %client.name @ "\c4!", 20);
 		%msg = $DamageType::MurderBitmap[%type];
 	}
 
@@ -401,10 +415,10 @@ function disableCameras(%client) {
 	%type = $DamageType::Satellite;
 
 	if (!isObject(%client)) {
-		centerprintAll("<font:Impact:30>\c4The cameras and spotlight auto tracking have been disabled!", 20);
+		pushCenterprintAll("<font:Impact:30>\c4The cameras and spotlight auto tracking have been disabled!", 20);
 		%msg = $DamageType::SuicideBitmap[%type];
 	} else {
-		centerprintAll("<font:Impact:30>\c4The cameras and spotlight auto tracking have been disabled by \c3" @ %client.name @ "\c4!", 20);
+		pushCenterprintAll("<font:Impact:30>\c4The cameras and spotlight auto tracking have been disabled by \c3" @ %client.name @ "\c4!", 20);
 		%msg = $DamageType::MurderBitmap[%type];
 	}
 
@@ -480,7 +494,7 @@ function killTower(%id) {
 
 	//destroy the bricks but sequentially as to not lag everyone to death
 	%tower.destroy();
-	centerPrintAll("<font:Impact:40>\c4Tower \c3" @ %id @ "\c4 has fallen!", 20);
+	pushCenterPrintAll("<font:Impact:40>\c4Tower \c3" @ %id @ "\c4 has fallen!", 20);
 	
 	%type = $DamageType::MurderBitmap[$DamageType::Tower];
 	messageAll('', "<bitmap:" @ %type @ "> " @ %id @ " [" @ getTimeString($Server::PrisonEscape::currTime-1) @ "]");
@@ -539,5 +553,27 @@ function serverCmdGiveGuardsItem(%cl, %item) {
 	if (isObject(%pl = $Server::PrisonEscape::Towers.tower4.guard.player)) {
 		%pl.addItem(%item, $Server::PrisonEscape::Towers.tower4.guard);
 	}
+}
 
+function pushCenterprint(%cl, %msg, %time) {
+	%cl.pushedCenterprint = 1;
+	centerprint(%cl, %msg, %time);
+	schedule(%time * 1000, %cl, popCenterprint, %cl);
+}
+
+function popCenterprint(%cl) {
+	%cl.pushedCenterprint = 0;
+}
+
+function pushCenterprintAll(%cl, %msg, %time) {
+	for (%i = 0; %i < ClientGroup.getCount(); %i++) {
+		%cl = ClientGroup.getObject(%i);
+		%cl.pushedCenterprint = 1;
+		centerprint(%cl, %msg, %time);
+		schedule(%time * 1000, %cl, popCenterprint, %cl);
+	}
+}
+
+function popCenterprint(%cl) {
+	%cl.pushedCenterprint = 0;
 }

@@ -130,6 +130,16 @@ package PrisonChatSystem
 
 	function serverCmdTeamMessageSent(%cl, %msg)
 	{
+		if ($Server::PrisonEscape::roundPhase == 2) {
+			%isOutside = (%location $= "Outside" || %location $= "Yard" || strPos(%location, "Tower") >= 0);
+			if (!%cl.isGuard)
+				%name = "<color:ff8724>" @ (%cl.fakeName $= "" ? %cl.name : %cl.fakeName);
+			else
+				%name = "<color:8AD88D>" @ (%cl.fakeName $= "" ? %cl.name : %cl.fakeName);
+
+			messageAll('', "\c2*GLOBAL* " @ %name @ "\c6: " @ stripMLControlChars(%msg));
+			return;
+		}
 		serverCmdMessageSent(%cl, "\c4" @ %msg);
 	}
 };

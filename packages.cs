@@ -42,9 +42,8 @@ package PrisonEscape_Base
 				else if (%trig == 4)
 					spectateNextPlayer(%client, -1);
 				return;
-			}
-			if ($Server::PrisonEscape::roundPhase == 3) {
-				//TODO
+			} else if (%client.cannotLeaveCamera) {
+				return;
 			}
 			return;
 		}
@@ -54,7 +53,9 @@ package PrisonEscape_Base
 
 	function GameConnection::createPlayer(%this, %pos) {
 		%parent = parent::createPlayer(%this, %pos);
-		%this.centerPrint("");
+		if (!%this.pushedCenterprint) {
+			%this.centerPrint("");
+		}
 		if (!%this.isGuard) {
 			%this.player.setShapeNameColor(".9 .34 .08");
 			%this.player.setShapeNameDistance(15);
@@ -123,6 +124,8 @@ package PrisonEscape_Base
 			%obj.setShapeName("", "8564862");
 			%cl.player = "";
 			%cl.isBeingStunned = 0;
+			%cl.setControlObject(%cl.camera);
+			%cl.camera.setMode("Corpse", %obj);
 			if (!%cl.isGuard) {
 				setStatistic("TimeAlive", getStatistic("TimeAlive", %cl) + getSimTime() - %cl.spawnTime, %cl);
 				setStatistic("Deaths", getStatistic("Deaths", %cl) + 1, %cl);
@@ -160,7 +163,7 @@ package PrisonEscape_Base
 		if (%this.bl_id !$= "" && strPos($Server::PrisonEscape::Guards, %this.bl_id) >= 0) {
 			serverCmdRemoveGuard($fakeClient, %this.name);
 		}
-		if (%this.isGuard) {
+		if (%this.isGuard && !$Server::PrisonEscape::Towers.tower[%this.tower].isDestroyed) {
 			PPE_messageAdmins("<font:Palatino Linotype:36>!!! \c6Tower \c3" @ %this.tower @ "\c6's guard has just left the game!");
 		}
 		return parent::onDrop(%this, %val);
@@ -270,7 +273,7 @@ package PrisonEscape_Base
 		}
 
 		if (%obj.getDatablock().getName() $= "BuffArmor") {
-			centerprintAll("<color:ff8833><font:Impact:40>Bronson\c6 has died!", 20);
+			pushCenterprintAll("<color:ff8833><font:Impact:40>Bronson\c6 has died!", 20);
 		}
 
 		return parent::onDisabled(%this, %obj, %enabled);

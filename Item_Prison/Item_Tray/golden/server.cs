@@ -37,7 +37,7 @@ datablock ShapeBaseImageData(PrisonTrayGoldenImage)
 	// for first person rendering.
 	mountPoint = 0;
 	eyeoffset = "0.563 0.6 -0.4";
-	offset = "0 0.02 -0.12";
+	offset = "0.025	0.02 -0.12";
 	rotation = eulerToMatrix("0 0 0");
 
 	// When firing from a point offset from the eye, muzzle correction
@@ -58,7 +58,7 @@ datablock ShapeBaseImageData(PrisonTrayGoldenImage)
 	//melee particles shoot from eye node for consistancy
 	melee = false;
 	//raise your arm up or not
-	armReady = true;
+	armReady = false;
 
 	doColorShift = true;
 	colorshiftColor = "1 1 0 1";
@@ -75,23 +75,57 @@ datablock ShapeBaseImageData(PrisonTrayGoldenImage)
 	stateTimeoutValue[0]			= 0.1;
 	stateTransitionOnTimeout[0]	 	= "Ready";
 	stateSound[0]					= weaponSwitchSound;
-
+	
 	stateName[1]					= "Ready";
 	stateAllowImageChange[1]		= true;
-	stateTimeoutValue[1]			= 1;
-	stateTransitionOnTimeout[1]		= "postReady";
+	stateTransitionOnTriggerDown[1] = "Fire";
 	stateEmitter[1]					= GoldenEmitter;
 	stateEmitterNode[1]				= "emitterPoint";
 	stateEmitterTime[1]				= 1000;
 
-	stateName[2]					= "postReady";
-	stateAllowImageChange[2]		= true;
+	stateName[2]					= "Fire";
+	stateScript[2]					= "onFire";
 	stateTimeoutValue[2]			= 1;
-	stateTransitionOnTimeout[2]		= "Ready";
-	stateEmitter[2]					= GoldenEmitter;
-	stateEmitterNode[2]				= "emitterPoint";
-	stateEmitterTime[2]				= 1000;
+	stateTransitionOnTimeout[2]		= "PostFire";
+	stateEmitter[1]					= GoldenEmitter;
+	stateEmitterNode[1]				= "emitterPoint";
+	stateEmitterTime[1]				= 1000;
+
+	stateName[3]					= "PostFire";
+	stateScript[3]					= "onPostFire";
+	stateTransitionOnTriggerUp[3]	= "Ready";
+	stateTransitionOnTriggerDown[3] = "ReFire";
+	stateEmitter[1]					= GoldenEmitter;
+	stateEmitterNode[1]				= "emitterPoint";
+	stateEmitterTime[1]				= 1000;
+
+	stateName[4]					= "ReFire";
+	stateScript[4]					= "onReFire";
+	stateTimeoutValue[4]			= 1;
+	stateTransitionOnTimeout[4]		= "PostFire";
+	stateEmitter[1]					= GoldenEmitter;
+	stateEmitterNode[1]				= "emitterPoint";
+	stateEmitterTime[1]				= 1000;
 };
+
+datablock ShapeBaseImageData(PrisonTrayGoldenBackImage : PrisonTrayGoldenImage)
+{
+	shapeFile = "./strapTray.dts";
+	mountPoint = 7;
+	offset = "-0.56 -0.1 0.8";
+	eyeoffset = "0 0 -10";
+	rotation = eulerToMatrix("0 0 180");
+};
+
+function PrisonTrayGoldenBackImage::onMount(%this, %obj, %slot)
+{
+	%obj.hasTrayOnBack = 1;
+}
+
+function PrisonTrayGoldenBackImage::onUnMount(%this, %obj, %slot)
+{
+	%obj.hasTrayOnBack = 0;
+}
 
 function PrisonTrayGoldenImage::onMount(%this, %obj, %slot)
 {
@@ -106,6 +140,69 @@ function PrisonTrayGoldenImage::onUnMount(%this, %obj, %slot)
 	%obj.isHoldingTray = 0;
 	return parent::onUnMount(%this, %obj, %slot);
 }
+
+datablock DebrisData(PrisonTrayGoldenDebris)
+{
+	shapeFile = "./tray.dts";
+
+	lifetime = 5.0;
+	elasticity = 0.5;
+	friction = 0.2;
+	numBounces = 2;
+	staticOnMaxBounce = true;
+	snapOnMaxBounce = false;
+	fade = true;
+	spinSpeed			= 300.0;
+	minSpinSpeed = -600.0;
+	maxSpinSpeed = 600.0;
+
+	gravModifier = 6;
+};
+
+datablock ExplosionData(PrisonTrayGoldenExplosion)
+{
+	//explosionShape = "";
+	soundProfile = "";
+
+	lifeTimeMS = 150;
+
+	debris = PrisonTrayGoldenDebris;
+	debrisNum = 1;
+	debrisNumVariance = 0;
+	debrisPhiMin = 0;
+	debrisPhiMax = 360;
+	debrisThetaMin = 45;
+	debrisThetaMax = 115;
+	debrisVelocity = 9;
+	debrisVelocityVariance = 8;
+
+	faceViewer	  = true;
+	explosionScale = "1 1 1";
+
+	shakeCamera = true;
+	camShakeFreq = "10.0 11.0 10.0";
+	camShakeAmp = "1.0 1.0 1.0";
+	camShakeDuration = 1;
+	camShakeRadius = 2.0;
+
+	// Dynamic light
+	lightStartRadius = 0;
+	lightEndRadius = 2;
+	lightStartColor = "0.3 0.6 0.7";
+	lightEndColor = "0 0 0";
+
+	impulseRadius = 0;
+	impulseForce = 0;
+};
+
+datablock ProjectileData(PrisonTrayGoldenProjectile)
+{
+	projectileShapeName = "";
+	explosion           = PrisonTrayGoldenExplosion;
+	explodeondeath 		= true;
+	armingDelay         = 0;
+	hasLight    = false;
+};
 
 datablock DebrisData(PrisonTrayGoldenDebris)
 {

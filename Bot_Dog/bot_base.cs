@@ -26,7 +26,7 @@ datablock PlayerData(ShepherdDogHoleBot : ShepherdDogArmor)
 	maxTools = 0;
 	
 	rideable = false;
-	canRide = true;
+	canRide = false;
 
 	maxdamage = 125;//Bot Health
 	jumpSound = "";//Removed due to bots jumping a lot

@@ -65,7 +65,7 @@ datablock ShapeBaseImageData(PrisonTrayImage)
 	// for first person rendering.
 	mountPoint = 0;
 	eyeoffset = "0.563 0.6 -0.4";
-	offset = "0 0.02 -0.12";
+	offset = "0.025	0.02 -0.12";
 	rotation = eulerToMatrix("0 0 0");
 
 	// When firing from a point offset from the eye, muzzle correction
@@ -87,7 +87,7 @@ datablock ShapeBaseImageData(PrisonTrayImage)
 	//melee particles shoot from eye node for consistancy
 	melee = false;
 	//raise your arm up or not
-	armReady = true;
+	armReady = false;
 
 	doColorShift = true;
 	colorshiftColor = "0.5 0.5 0.5 1";
@@ -107,7 +107,45 @@ datablock ShapeBaseImageData(PrisonTrayImage)
 
 	stateName[1]					= "Ready";
 	stateAllowImageChange[1]		= true;
+	stateTransitionOnTriggerDown[1] = "Fire";
+
+	stateName[2]					= "Fire";
+	stateScript[2]					= "onFire";
+	stateTimeoutValue[2]			= 1;
+	stateTransitionOnTimeout[2]		= "PostFire";
+
+	stateName[3]					= "PostFire";
+	stateScript[3]					= "onPostFire";
+	stateTransitionOnTriggerUp[3]	= "Ready";
+	stateTransitionOnTriggerDown[3] = "ReFire";
+
+	stateName[4]					= "ReFire";
+	stateScript[4]					= "onReFire";
+	stateTimeoutValue[4]			= 1;
+	stateTransitionOnTimeout[4]		= "PostFire";
 };
+
+
+datablock ShapeBaseImageData(PrisonTrayBackImage : PrisonTrayImage)
+{
+	shapeFile = "./strapTray.dts";
+	mountPoint = 7;
+	offset = "-0.56 -0.1 0.8";
+	eyeoffset = "0 0 -10";
+	rotation = eulerToMatrix("0 0 180");
+
+	goldenImage = PrisonTrayGoldenBackImage;
+};
+
+function PrisonTrayBackImage::onMount(%this, %obj, %slot)
+{
+	%obj.hasTrayOnBack = 1;
+}
+
+function PrisonTrayBackImage::onUnMount(%this, %obj, %slot)
+{
+	%obj.hasTrayOnBack = 0;
+}
 
 function PrisonTrayImage::onMount(%this, %obj, %slot)
 {
@@ -120,7 +158,89 @@ function PrisonTrayImage::onUnMount(%this, %obj, %slot)
 {
 	%obj.playThread(2, root);
 	%obj.isHoldingTray = 0;
+	%obj.progress = 0;
+	%obj.isGivingTray = 0;
+	%obj.givingTrayTarget = 0;
 	return parent::onUnMount(%this, %obj, %slot);
+}
+
+function PrisonTrayImage::onFire(%this, %obj, %slot)
+{
+	%obj.playThread(1, activate);
+	%start = getWords(%obj.getEyeTransform(), 0, 2);
+	%end = vectorAdd(%start, vectorScale(%obj.getMuzzleVector(0), 1.8));
+	%ray = containerRaycast(%start, %end, $TypeMasks::PlayerObjectType, %obj);
+	if (isObject(%hit = getWord(%ray, 0))) {
+		if (%hit.getDatablock().getName() !$= "PlayerNoJet") {
+			return;
+		}
+
+		%targetVector = vectorNormalize(vectorSub(%obj.getPosition(), %hit.getHackPosition()));
+		%angle = mACos(vectorDot(%hit.getForwardVector(), %targetVector));
+		if (%angle < 1.7) {
+			centerprint(%obj.client, "You must be facing a back you can attach this to!", 2);
+			return;
+		}
+
+		if (%hit.hasTrayOnBack) {
+			centerprint(%obj.client, "The person is already wearing a back tray!", 2);
+			return;
+		}
+		%obj.progress = 0;
+
+		%obj.isGivingTray = 1;
+		%obj.givingTrayTarget = %hit;
+
+		checkTrayAttached(%obj, %hit);
+	}
+}
+
+function PrisonTrayImage::onReFire(%this, %obj, %slot) {
+	if (isObject(%hit = %obj.givingTrayTarget) && vectorLen(vectorSub(%hit.getPosition(), %obj.getPosition())) < 2.8) {
+		%obj.playThread(1, activate);
+		%obj.progress++;
+		if (checkTrayAttached(%obj, %hit) == 1) {
+			%obj.progress = 0;
+			%obj.isGivingTray = 0;
+			%obj.givingTrayTarget = 0;
+
+			%hit.mountImage(PrisonTrayBackImage, 1);
+
+			%obj.tool[%obj.currtool] = 0;
+			%obj.weaponCount--;
+			messageClient(%obj.client,'MsgItemPickup','',%obj.currtool,0);
+			serverCmdUnUseTool(%obj.client);
+			%obj.unMountImage(0);
+		}
+	} else {
+		%obj.client.centerprint("Tray attaching canceled", 2);
+		if (isObject(%obj.givingTrayTarget)) {
+			%obj.givingTrayTarget.client.centerprint("Tray attaching canceled", 2);
+		}
+		%player.progress = 0;
+		%obj.isGivingTray = 0;
+		%obj.givingTrayTarget = 0;
+	}
+}
+
+$timeToAttachTray = 5;
+
+function checkTrayAttached(%player, %target) {
+	%player.client.centerprint("\c6Attaching tray...<br>" @ getColoredBars(%player.progress, $timeToAttachTray), 2);
+	%target.client.centerprint("\c6Attaching tray...<br>" @ getColoredBars(%player.progress, $timeToAttachTray), 2);
+	return %player.progress/$timeToAttachTray;
+}
+
+function getColoredBars(%count, %max) {
+	%str = "\c0";
+	for (%i = 0; %i < %count; %i++) {
+		%str = trim(%str @ "|||");
+	}
+	%str = %str @ "\c6";
+	for (%j = %i; %j < %max; %j++) {
+		%str = trim(%str @ "|||");
+	}
+	return %str;
 }
 
 datablock DebrisData(PrisonTrayDebris)
@@ -207,13 +327,43 @@ package PrisonItems
 	{
 		if (%data.getName() !$= "chiselProjectile")
 		{
+			if (%col.hasTrayOnBack)
+			{
+				%targetVector = vectorNormalize(vectorSub(%obj.getPosition(), %col.getHackPosition()));
+				%angle = mACos(vectorDot(vectorScale(%col.getMuzzleVector(0), -1), %targetVector));
+				if (%angle < 0.76)
+				{
+					%gold = %col.client.isDonator == 0 ? PrisonTrayProjectile.getID() : PrisonTrayGoldenProjectile.getID();
+					%col.unMountImage(1);
+					//statistics
+					setStatistic("TraysUsed", getStatistic("TraysUsed", %col.client) + 1, %col.client);
+					setStatistic("TraysUsed", getStatistic("TraysUsed") + 1);
+					setStatistic("TraysDestroyed", getStatistic("TraysDestroyed", %obj.sourceObject.client) + 1, %obj.sourceObject.client);
+
+					%sound = getRandom(1, 3);
+					%sound = "trayDeflect" @ %sound @ "Sound";
+					serverPlay3D(%sound, %col.getHackPosition());
+
+					%proj = new Projectile()
+					{
+						dataBlock = %gold;
+						initialPosition = %col.getHackPosition();
+						initialVelocity = %col.getEyeVector();
+						client = %col.client;
+					};
+					MissionCleanup.add(%proj);
+					%proj.explode();
+					%obj.delete();
+					return;
+				}
+			}
 			if (%col.isHoldingTray)
 			{
 				%targetVector = vectorNormalize(vectorSub(%obj.getPosition(), %col.getHackPosition()));
 				%angle = mACos(vectorDot(%col.getMuzzleVector(0), %targetVector));
 				if (%angle < 0.73)
 				{
-					%gold = %col.tool[%col.currtool].getName() $= "PrisonTrayItem" ? PrisonTrayProjectile : PrisonTrayGoldProjectile;
+					%gold = %col.client.isDonator == 0 ? PrisonTrayProjectile.getID() : PrisonTrayGoldenProjectile.getID();
 					//statistics
 					setStatistic("TraysUsed", getStatistic("TraysUsed", %col.client) + 1, %col.client);
 					setStatistic("TraysUsed", getStatistic("TraysUsed") + 1);
