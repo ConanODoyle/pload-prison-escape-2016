@@ -1,21 +1,14 @@
 Whistle to call dog
-bronson dust
-make laundrycart work on node coloring?? will affect painted color?
 flash red when damaged
+fix Generator Camera
 
-donor hat
-donor sniper gold
+Duct Tape item to attach trays to back of players
+Tray Bag
+Riot Control guard
+Drone guard
+Fire axe??
+bandanas
 
 new ideas/features:
 Ham shank
 Fire Extinguisher
-cardboard box slide
-
-
-- check guard adding/removing
-- check build load and adding bricks
-check prisoner respawn wave
-check guard spawn
-check guard spawn group
-check intro centerprint preserving on respawn
-check spawn function being called every minute

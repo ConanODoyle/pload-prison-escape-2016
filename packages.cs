@@ -25,24 +25,25 @@ package PrisonEscape_Base
 	}
 
 	function Observer::onTrigger(%this, %obj, %trig, %state) {
-		%client = %obj.getControllingClient();
+		%cl = %obj.getControllingClient();
 		if ((%trig == 0 || %trig == 4) && %state == 1 && $Server::PrisonEscape::roundPhase >= 0) {
 			if (isObject(%pl = %obj.getControllingClient().player) && %pl.isInCamera) {
 				return parent::onTrigger(%this, %obj, %trig, %state);
 			}
+			if ($Server::PrisonEscape::roundPhase < 0)
+				return parent::onTrigger(%this, %obj, %trig, %state);
 			if ($Server::PrisonEscape::roundPhase < 2)
 				return;
-			if ($Server::PrisonEscape::roundPhase == 2 && !isObject(%client.player) && %state == 1) {
+			if ($Server::PrisonEscape::roundPhase == 2 && !isObject(%cl.player) && %state == 1) {
 				//interrupt any timed cameras
 				//for those who joined the round late since they get camera action or something.
-				%client.isViewingIntro = 0;
+				%cl.isViewingIntro = 0;
 				//toggle player spectate
-				if (%trig == 0)
-					spectateNextPlayer(%client, 1);
-				else if (%trig == 4)
-					spectateNextPlayer(%client, -1);
-				return;
-			} else if (%client.cannotLeaveCamera) {
+				if (%trig == 0) {
+					spectateNextPlayer(%cl, 1);
+				} else if (%trig == 4) {
+					spectateNextPlayer(%cl, -1);
+				}
 				return;
 			}
 			return;
@@ -395,6 +396,10 @@ function GameConnection::applyUniform(%this) {
 	} else if (%this.isGuard && %this.isDonator) {
 		%color = "0 0.141 0.333 1";
 	}
+
+	%hairUnlocked = $PrisonEscape::Hair::Unlocked[%this.bl_id];
+	%currentHair = $PrisonEscape::Hair::currentHair[%this.bl_id];
+	putOnHair(%player, $Hair[getWord(%hairUnlocked, %currentHair)]);
 	
 	switch(%this.isGuard) {
 		case 0: //Prisoner Uniform

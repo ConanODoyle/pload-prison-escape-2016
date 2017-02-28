@@ -303,21 +303,6 @@ function prisonersWin(%brick) {
 	schedule(100, 0, serverCmdSetPhase, $fakeClient, 3);
 }
 
-function CamTest(%brick) {
-	%winString = "<font:Palatino Linotype:24>\c6Testing cams ";
-	%id = %brick.getAngleID();
-	switch (%id) {
-		case 0: %vec = "0 5 2";
-		case 1: %vec = "-5 0 2";
-		case 2: %vec = "0 -5 2";
-		case 3: %vec = "5 0 2";
-	}
-	%start = %brick.getPosition();
-	%end = vectorAdd(%vec, %start);
-	setAllCamerasView(%end, %start);
-	returnAllPlayerControlCamera();
-}
-
 function guardsWin() {
 	if (isEventPending($Server::PrisonEscape::prisonerWinSchedule))
 		cancel($Server::PrisonEscape::prisonerWinSchedule);

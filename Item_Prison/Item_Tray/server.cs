@@ -114,15 +114,16 @@ datablock ShapeBaseImageData(PrisonTrayImage)
 	stateTimeoutValue[2]			= 1;
 	stateTransitionOnTimeout[2]		= "PostFire";
 
-	stateName[3]					= "PostFire";
+	stateName[3]					= "PostFire";	
 	stateScript[3]					= "onPostFire";
 	stateTransitionOnTriggerUp[3]	= "Ready";
 	stateTransitionOnTriggerDown[3] = "ReFire";
 
 	stateName[4]					= "ReFire";
 	stateScript[4]					= "onReFire";
-	stateTimeoutValue[4]			= 1;
+	stateTimeoutValue[4]			= 0.5;
 	stateTransitionOnTimeout[4]		= "PostFire";
+	stateTransitionOnTriggerUp[4] 	= "Ready";
 };
 
 
@@ -139,6 +140,10 @@ datablock ShapeBaseImageData(PrisonTrayBackImage : PrisonTrayImage)
 
 function PrisonTrayBackImage::onMount(%this, %obj, %slot)
 {
+	if (%obj.client.isDonator) {
+		%obj.mountImage(%this.goldenImage, 1);
+		return;
+	}
 	%obj.hasTrayOnBack = 1;
 }
 
@@ -185,6 +190,9 @@ function PrisonTrayImage::onFire(%this, %obj, %slot)
 		if (%hit.hasTrayOnBack) {
 			centerprint(%obj.client, "The person is already wearing a back tray!", 2);
 			return;
+		} else if (%hit.client.bl_id == 6531) {
+			centerprint(%obj.client, "Swollow's cape rejects the tray", 2);
+			return;
 		}
 		%obj.progress = 0;
 
@@ -212,7 +220,7 @@ function PrisonTrayImage::onReFire(%this, %obj, %slot) {
 			serverCmdUnUseTool(%obj.client);
 			%obj.unMountImage(0);
 		}
-	} else {
+	} else if (%obj.isGivingTray) {
 		%obj.client.centerprint("Tray attaching canceled", 2);
 		if (isObject(%obj.givingTrayTarget)) {
 			%obj.givingTrayTarget.client.centerprint("Tray attaching canceled", 2);
@@ -223,7 +231,7 @@ function PrisonTrayImage::onReFire(%this, %obj, %slot) {
 	}
 }
 
-$timeToAttachTray = 5;
+$timeToAttachTray = 10;
 
 function checkTrayAttached(%player, %target) {
 	%player.client.centerprint("\c6Attaching tray...<br>" @ getColoredBars(%player.progress, $timeToAttachTray), 2);
@@ -234,11 +242,11 @@ function checkTrayAttached(%player, %target) {
 function getColoredBars(%count, %max) {
 	%str = "\c0";
 	for (%i = 0; %i < %count; %i++) {
-		%str = trim(%str @ "|||");
+		%str = trim(%str @ "|");
 	}
 	%str = %str @ "\c6";
 	for (%j = %i; %j < %max; %j++) {
-		%str = trim(%str @ "|||");
+		%str = trim(%str @ "|");
 	}
 	return %str;
 }
