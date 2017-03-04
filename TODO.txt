@@ -2,9 +2,6 @@ Whistle to call dog
 flash red when damaged
 fix Generator Camera
 
-fix spectating dead players
-who killed you/you killed who
-
 Duct Tape item to attach trays to back of players
 Tray Bag
 Riot Control guard

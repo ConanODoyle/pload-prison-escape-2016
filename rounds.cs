@@ -100,12 +100,16 @@ function serverCmdSetPhase(%cl, %phase)
 
 		//start statistics display loop
 		giveRandomHair(findClientByBL_ID($bestPrisoner));
+		messageAll('', "\c3" @ findClientByBL_ID($bestPrisoner).name @ "\c6 unlocked a hairdo for being the <color:ff8724>MVP Prisoner\c6!");
 		giveRandomHair(findClientByBL_ID($bestGuard));
+		messageAll('', "\c3" @ findClientByBL_ID($bestPrisoner).name @ "\c6 unlocked a hairdo for being the \c1MVP Guard\c6!");
+
 		if (getStatistic("Winner") $= "Guards") {
 			for (%i = 1; %i < 5; %i++) {
 				%guards = getStatistic("Tower" @ %i @ "Guard");
 				for (%j = 0; %j < getWordCount(%guards); %j++) {
 					giveRandomHair(findClientByBL_ID(getWord(%guards, %j)));
+					messageAll('', "\c3" @ findClientByBL_ID(getWord(%guards, %j)).name @ "\c6 unlocked a hairdo for winning as Guard!");
 				}
 			}
 		}

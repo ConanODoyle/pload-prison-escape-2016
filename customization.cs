@@ -399,7 +399,6 @@ function giveRandomHair(%cl) {
 		messageClient(%cl, '', "\c6You have been given the \c3" @ strReplace($Hair[%hair], "Hair", "") @ "\c6 hair!");
 		serverCmdGrantHair($fakeClient, %cl.name, %hair);
 	}
-	messageAll('', "\c3" @ %cl.name @ "\c6 unlocked a hairdo!");
 }
 
 function hasHair(%cl, %hair) {

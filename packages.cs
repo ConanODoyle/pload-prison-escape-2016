@@ -143,8 +143,12 @@ package PrisonEscape_Base
 
 				%killer.setScore(%killer.score + 1);
 			}
-			messageClient(%cl, '', %killer.name @ " <bitmap:$" @ DamageType::MurderBitmap[%damageType] @ "> " @ %cl.name);
-			messageClient(%killer, '', %killer.name @ " <bitmap:" @ $DamageType::MurderBitmap[%damageType] @ "> " @ %cl.name);
+			if (%killer == %cl) {
+				messageClient(%cl, '', "<bitmap:" @ $DamageType::SuicideBitmap[%damageType] @ "> " @ %cl.name);
+			} else {
+				messageClient(%cl, '', %killer.name @ " <bitmap:" @ $DamageType::MurderBitmap[%damageType] @ "> " @ %cl.name);
+				messageClient(%killer, '', %killer.name @ " <bitmap:" @ $DamageType::MurderBitmap[%damageType] @ "> " @ %cl.name);
+			}
 			//%ret = parent::onDeath(%cl, %obj, %killer, %pos, %part);
 			schedule(4000, %cl, spectateNextPlayer, %cl, 0);
 			return;

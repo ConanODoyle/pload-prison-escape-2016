@@ -320,7 +320,7 @@ function Player::doSoapSlide(%pl, %tick, %initialVel, %golden) {
 package SoapItem {
 	function Armor::onCollision(%this, %obj, %col, %vel, %speed) {
 		%name = %col.getDatablock().getName();
-		if (strPos(%name, "Soap") && %col.getDatablock().isSlidingItem && %this.getName() !$= "LaundryCartArmor" && %this.getName() !$= "EmptyHoleBot") {
+		if (strPos(%name, "Soap") && %col.getDatablock().isSlidingItem && %this.getName() !$= "LaundryCartArmor" && %this.getName() !$= "EmptyHoleBot" && %this.getName() !$= "SpotlightArmor") {
 			if (getSimTime() - %col.spawnTime < 500 || isObject(%obj.getObjectMount()) || isObject(%obj.getMountedObject(0)) || %obj.isSliding) {
 				return;
 			}

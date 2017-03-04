@@ -26,7 +26,7 @@ function bottomprintTimerLoop(%timeLeft) {
 		}
 
 		if (!isObject(%cl.player)){
-			%cl.bottomprint("<font:Arial Bold:34><just:center>\c6" @ getTimeString(%timeLeft-1) @ " <br><font:Impact:30>\c0Time to respawn: " @ getTimeString((%timeLeft - 1) % 90));
+			%cl.bottomprint("<font:Arial Bold:34><just:center>\c6" @ getTimeString(%timeLeft-1) @ " <br><font:Impact:30>\c0Respawn wave in: " @ getTimeString((%timeLeft - 1) % 90));
 		} else {
 			%underStr = "\c6[\c1" @ %cl.location @ "\c6] <br>\c3" @ $prisonerCount[%cl.location] @ "/" @ $prisonerCount["Total"] SPC %prisoners;
 			%cl.bottomprint("<font:Arial Bold:34><just:center>\c6" @ getTimeString(%timeLeft-1) @ " <br><font:Arial Bold:24>" @ %underStr, 2, 1);
@@ -68,7 +68,7 @@ function prisonerCountCheck(%i) {
 
 			%prisoners = $prisonerCount["Total"] > 1 ? "Prisoners" : "Prisoner";
 			if (!isObject(%cl.player)) {
-				%cl.bottomprint("<font:Arial Bold:34><just:center>\c6" @ getTimeString(%timeLeft-1) @ " <br><font:Impact:30>\c0Time to respawn: " @ getTimeString((%timeLeft - 1) % 90));
+				%cl.bottomprint("<font:Arial Bold:34><just:center>\c6" @ getTimeString(%timeLeft-1) @ " <br><font:Impact:30>\c0Respawn wave in: " @ getTimeString((%timeLeft - 1) % 90));
 			} else {
 				%underStr = "\c6[\c1" @ %cl.location @ "\c6] <br>\c3" @ $prisonerCount[%cl.location] @ "/" @ $prisonerCount["Total"] SPC %prisoners;
 				%cl.bottomprint("<font:Arial Bold:34><just:center>\c6" @ getTimeString(%timeLeft-1) @ " <br><font:Arial Bold:24>" @ %underStr, 2, 1);
