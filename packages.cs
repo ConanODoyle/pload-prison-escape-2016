@@ -20,6 +20,8 @@ package PrisonEscape_Base
 			return;
 		} else if (isObject(%player) && %client.player.getDatablock().getName() $= "BuffArmor") {
 			return;
+		} else if (isObject(%player = %client.player) && %player.tool[%slot].getName() $= "ChiselItem") {
+			return;
 		}
 		return parent::serverCmdDropTool(%client, %slot);
 	}
@@ -54,6 +56,7 @@ package PrisonEscape_Base
 
 	function GameConnection::createPlayer(%this, %pos) {
 		%parent = parent::createPlayer(%this, %pos);
+		%this.isBeingStunned = 0;
 		if (!%this.pushedCenterprint) {
 			%this.centerPrint("");
 		}
@@ -79,6 +82,10 @@ package PrisonEscape_Base
 		if (%this.client.isDonator && %db.getName() $= "BuffArmor") {
 			%this.mountImage(CrocHatImage, 1);
 			%this.mountImage(PrisonSoapGoldenPickupImage, 2);
+		} else if (isObject(%this.client)) {
+			%hairUnlocked = $PrisonEscape::Hair::Unlocked[%this.client.bl_id];
+			%currentHair = $PrisonEscape::Hair::currentHair[%this.client.bl_id];
+			putOnHair(%player, $Hair[getWord(%hairUnlocked, %currentHair)]);
 		}
 		setStatistic("BronsonUnlocked", $Server::PrisonEscape::currTime);
 		return %ret;
@@ -120,18 +127,24 @@ package PrisonEscape_Base
 		}
 	}
 
-	function GameConnection::onDeath(%cl, %obj, %killer, %pos, %part) {
+	function GameConnection::onDeath(%cl, %proj, %killer, %damageType, %part) {
+		%cl.isBeingStunned = 0;
 		if ($Server::PrisonEscape::roundPhase == 2) {
-			%obj.setShapeName("", "8564862");
+			%cl.player.setShapeName("", "8564862");
+			%cl.player.client = "";
+			%cl.camera.setMode("Corpse", %cl.player);
 			%cl.player = "";
 			%cl.isBeingStunned = 0;
 			%cl.setControlObject(%cl.camera);
-			%cl.camera.setMode("Corpse", %obj);
 			if (!%cl.isGuard) {
 				setStatistic("TimeAlive", getStatistic("TimeAlive", %cl) + getSimTime() - %cl.spawnTime, %cl);
 				setStatistic("Deaths", getStatistic("Deaths", %cl) + 1, %cl);
 				setStatistic("Deaths", getStatistic("Deaths") + 1);
+
+				%killer.setScore(%killer.score + 1);
 			}
+			messageClient(%cl, '', %killer.name @ " <bitmap:$" @ DamageType::MurderBitmap[%damageType] @ "> " @ %cl.name);
+			messageClient(%killer, '', %killer.name @ " <bitmap:" @ $DamageType::MurderBitmap[%damageType] @ "> " @ %cl.name);
 			//%ret = parent::onDeath(%cl, %obj, %killer, %pos, %part);
 			schedule(4000, %cl, spectateNextPlayer, %cl, 0);
 			return;
@@ -184,8 +197,15 @@ package PrisonEscape_Base
 		if (%obj.getDatablock().getName() $= "BuffArmor" && %col.getClassName() $= "Item" && !%db.image.canMountToBronson) {
 			return;
 		} else if ((%name $= "riotSmokeGrenadeItem" || %name $= "yellowKeyItem") && isObject(%col.spawnBrick)) {
+			if (%obj.client.hasPickedUpBurger && %name $= "burgerItem") {
+				centerprint(%obj.client, "You already had a burger this round!");
+				return;
+			}
 			%ret = parent::onCollision(%this, %obj, %col, %vel, %speed);
 			if (isEventPending(%col.fadeInSchedule)) {
+				// if (%name $= "burgerItem") {
+				// 	%obj.client.hasPickedUpBurger = 1;
+				// }
 				%col.spawnBrick.originalItem = %col.getDatablock().getName();
 				%col.delete();
 				return %ret;
@@ -311,7 +331,7 @@ package PrisonEscape_Base
 					%client.camera.setControlObject(%client.dummycamera);
 				}
 				if (%phase == 0) {
-					%client.setCameraView($Server::PrisonEscape::LoadingCamBrick, $Server::PrisonEscape::LoadingCamBrickTarget);
+					spawnDeadLobby();
 				} else if (%phase == 1) {
 					%client.centerprint("<font:Arial Bold:34><shadowcolor:666666><shadow:0:4><color:E65714>JailBreak! <br><font:Arial Bold:26><color:ffffff>Team up and escape!", 10);
 					%client.setCameraView($Server::PrisonEscape::PrisonPreview, $Server::PrisonEscape::PrisonPreviewTarget);
@@ -397,9 +417,6 @@ function GameConnection::applyUniform(%this) {
 		%color = "0 0.141 0.333 1";
 	}
 
-	%hairUnlocked = $PrisonEscape::Hair::Unlocked[%this.bl_id];
-	%currentHair = $PrisonEscape::Hair::currentHair[%this.bl_id];
-	putOnHair(%player, $Hair[getWord(%hairUnlocked, %currentHair)]);
 	
 	switch(%this.isGuard) {
 		case 0: //Prisoner Uniform
@@ -523,10 +540,14 @@ function GameConnection::applyUniform(%this) {
 			%player.setDecalName("Mod-Police");
 	}
 	%this.applyingUniform = false;
+
+	%hairUnlocked = $PrisonEscape::Hair::Unlocked[%this.bl_id];
+	%currentHair = $PrisonEscape::Hair::currentHair[%this.bl_id];
+	putOnHair(%player, $Hair[getWord(%hairUnlocked, %currentHair)]);
 }
 
 function giveItems(%client) {
-	if (!isObject(%player = %client.player)) {
+	if (!isObject(%player = %client.player) || $Server::PrisonEscape::roundPhase < 1) {
 		return;
 	}
 

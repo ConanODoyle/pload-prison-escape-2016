@@ -14,10 +14,6 @@ function setStatistic(%statistic, %val, %client) {
 	return %val;
 }
 
-function testingStatistic() {
-
-}
-
 function getStatistic(%statistic, %client) {
 	//talk("Getting statistic of " @ %statistic);
 	if (isObject(%client)) {
@@ -30,75 +26,32 @@ function getStatistic(%statistic, %client) {
 function collectStatistics()
 {
 	for (%i = 0; %i < ClientGroup.getCount(); %i++) {
-		%client = ClientGroup.getObject(%i);
+		%cl = ClientGroup.getObject(%i);
 
-		if (%client.isGuard) {
+		if (%cl.isGuard) {
 			if (%bestGuard $= "") {
-				%bestGuard = %client.bl_id;
-				%shotsHit = getStatistic("SniperShotsHit", %client);
-				%shotsMissed = getStatistic("SniperShotsMissed", %client);
-				%kills = %client.score;
+				%bestGuard = %cl.bl_id;
+				%rank = %cl.rankValue = getGuardRankValue(%cl);
 				continue;
 			} else {
-				%newShotsHit = getStatistic("SniperShotsHit", %client);
-				%newShotsMissed = getStatistic("SniperShotsMissed", %client);
-				%newKills = %client.score;
+				%newGuardRank = %cl.rankValue = getGuardRankValue(%cl);
 
-				if (%newShotsHit > %shotsHit) {
-					%bestGuard = %client.bl_id;
-					%shotsHit = %newShotsHit;
-					%shotsMissed = %newShotsMissed;
-					%kills = %newKills;
-				} else if (%newShotsHit == %shotsHit && %newShotsMissed < %shotsMissed) {
-					%bestGuard = %client.bl_id;
-					%shotsHit = %newShotsHit;
-					%shotsMissed = %newShotsMissed;
-					%kills = %newKills;
-				} else if (%newShotsHit == %shotsHit && %newShotsMissed == %shotsMissed && %newKills > %kills) {
-					%bestGuard = %client.bl_id;
-					%shotsHit = %newShotsHit;
-					%shotsMissed = %newShotsMissed;
-					%kills = %newKills;
+				if (%newGuardRank > %rank) {
+					%rank = %newGuardRank;
+					%bestGuard = %cl.bl_id;
 				}
 			}
 		} else {
 			if (%bestPrisoner $= "") {
-				%bestPrisoner = %client.bl_id;
-				%objectiveHits = getNumObjectiveHits(%client);
-				%deaths = getStatistic("Deaths", %client);
-				%totalHits = getStatistic("ChiselHits", %client);
-				%timeAlive = getStatistic("timeAlive", %client);
+				%bestPrisoner = %cl.bl_id;
+				%rank = %cl.rankValue = getPrisonerRankValue(%cl);
 				continue;
 			} else {
-				%newObjectiveHits = getNumObjectiveHits(%client);
-				%newDeaths = getStatistic("Deaths", %client);
-				%newTotalHits = getStatistic("ChiselHits", %client);
-				%newTimeAlive = getStatistic("timeAlive", %client);
+				%newPrisonerRank = %cl.rankValue = getPrisonerRankValue(%cl);
 
-				if (%newObjectiveHits > %objectiveHits) {
-					%bestPrisoner = %client.bl_id;
-					%objectiveHits = %newObjectiveHits;
-					%deaths = %newDeaths;
-					%totalHits = %newTotalHits;
-					%timeAlive = %newTimeAlive;
-				} else if (%newObjectiveHits == %objectiveHits && %newDeaths < %deaths) {
-					%bestPrisoner = %client.bl_id;
-					%objectiveHits = %newObjectiveHits;
-					%deaths = %newDeaths;
-					%totalHits = %newTotalHits;
-					%timeAlive = %newTimeAlive;
-				} else if (%newObjectiveHits == %objectiveHits && %newDeaths == %deaths && %newTotalHits > %totalHits) {
-					%bestPrisoner = %client.bl_id;
-					%objectiveHits = %newObjectiveHits;
-					%deaths = %newDeaths;
-					%totalHits = %newTotalHits;
-					%timeAlive = %newTimeAlive;
-				} else if (%newObjectiveHits == %objectiveHits && %newDeaths == %deaths && %newTotalHits == %totalHits && %newTimeAlive > %timeAlive) {
-					%bestPrisoner = %client.bl_id;
-					%objectiveHits = %newObjectiveHits;
-					%deaths = %newDeaths;
-					%totalHits = %newTotalHits;
-					%timeAlive = %newTimeAlive;
+				if (%newPrisonerRank > %rank) {
+					%rank = %newPrisonerRank;
+					%bestPrisoner = %cl.bl_id;
 				}
 			}
 		}
@@ -108,18 +61,47 @@ function collectStatistics()
 	$bestPrisonerName = findClientByBL_ID(%bestPrisoner).name;
 	$bestGuard = %bestGuard;
 	$bestGuardName = findClientByBL_ID(%bestGuard).name;
+
+	$fakeClient.bl_id = $bestPrisoner;
+	$fakeClient.bl_id = $bestGuard;
 }
 
-function getNumObjectiveHits(%client) {
-	if (%client.isGuard) {
+function getPrisonerRankValue(%cl) {
+	%chiselAttacks = %cl.chiselAttacks = getStatistic("ChiselAttacks", %cl);
+	%chiselHits = %cl.chiselHits = getStatistic("ChiselHits", %cl);
+
+	%buffHits = %cl.buffHits = getStatistic("BuffHits", %cl);
+
+	%objectiveHits = %cl.objectiveHits = getNumObjectiveHits(%cl);
+	%deaths = %cl.deaths = getStatistic("Deaths", %cl);
+	%timeAlive = %cl.timeAlive = getStatistic("timeAlive", %cl);
+
+	return (%objectiveHits * 2 - %buffHits - %deaths*10 + %timeAlive/1000/60 + (%chiselHits/%chiselAttacks - 0.3) * 20);
+}
+
+function getGuardRankValue(%cl) {
+	%SniperShotsFired = %cl.SniperShotsFired = getStatistic("SniperShotsFired", %cl);
+	%SniperShotsHit = %cl.SniperShotsHit = getStatistic("SniperShotsHit", %cl);
+
+	%LMGShotsFired = %cl.LMGShotsFired = getStatistic("LMGShotsFired", %cl);
+	%LMGShotsHit = %cl.LMGShotsHit = getStatistic("LMGShotsHit", %cl);
+
+	%kills = %cl.score;
+
+	return (%kills * 2 + %SniperShotsHit + (%LMGShotsHit/%LMGShotsFired - 0.2) * 20 + (%SniperShotsHit/%SniperShotsFired) * 100);
+}
+
+function getNumObjectiveHits(%cl) {
+	if (%cl.isGuard) {
 		return 0;
 	}
 
-	%commDish = getStatistic("CommDishHit", %client);
-	%plates = getStatistic("PlatesHit", %client);
-	%supports = getStatistic("TowerSupportsHit", %client);
+	%commDish = getStatistic("CommDishHit", %cl);
+	%plates = getStatistic("PlatesHit", %cl);
+	%supports = getStatistic("TowerSupportsHit", %cl);
+	%generator = getStatistic("GeneratorWindowsHit", %cl);
 
-	return %commDish + %plates + %supports;
+	return %commDish * 2 + %generator * 1.5 + %plates + %supports;
 }
 
 // function collectStatistics()
@@ -167,6 +149,10 @@ function clearStatistics()
 	export("$Statistics::round" @ $Statistics::round @ "*", "config/PPE Statistics/Round " @ $Statistics::round @ ".cs");
 	$Statistics::round++;
 	export("$Statistics::round", "Add-ons/Gamemode_PPE/roundNum.cs");
+
+	for (%i = 0; %i < ClientGroup.getCount(); %i++) {
+		ClientGroup.getObject(%i).setScore(0);
+	}
 	// $Server::PrisonEscape::TopAcc = 0;
 	// $Server::PrisonEscape::TopChisel = 0;
 	// $Server::PrisonEscape::MVPGuard = 0;
@@ -281,4 +267,14 @@ function getStatisticToDisplay() {
 	$Server::PrisonEscape::currentStatistic++;
 	$Server::PrisonEscape::currentStatistic %= 6;
 	return %stat;
+}
+
+function displayScoreBoard(%stat) {
+	if (!isObject($textGroup)) {
+		$textGroup = new ScriptGroup(TextGroup) {};
+	}
+
+	for (%i = 1; %i < 9; %i++) {
+
+	}
 }

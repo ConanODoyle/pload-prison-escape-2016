@@ -130,6 +130,9 @@ package PrisonChatSystem
 
 	function serverCmdTeamMessageSent(%cl, %msg)
 	{
+		if (%cl.isMuted) {
+			return;
+		}
 		if ($Server::PrisonEscape::roundPhase == 2) {
 			%isOutside = (%location $= "Outside" || %location $= "Yard" || strPos(%location, "Tower") >= 0);
 			if (!%cl.isGuard)

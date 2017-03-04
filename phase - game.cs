@@ -17,16 +17,19 @@ function bottomprintTimerLoop(%timeLeft) {
 
 	%prisoners = $prisonerCount["Total"] > 1 ? "Prisoners" : "Prisoner";
 	for (%i = 0; %i < ClientGroup.getCount(); %i++) {
-		%client = ClientGroup.getObject(%i);
-		if (%client.isGuard) {
+		%cl = ClientGroup.getObject(%i);
+		if (isObject(%pl = %cl.player) && isObject(%m = %cl.player.getMountedImage(0)) && %m.getName() $= "LightMachineGunImage") {
+			%cl.bottomprint("<font:Arial Bold:34><just:center>\c6" @ getTimeString(%timeLeft-1) @ "<just:right><font:impact:24><color:fff000>Heat <font:impact:28>" @ %pl.heatColor @ %pl.LMGHeat @ "/" @ $LMGMaxHeat, 2, 1);
+		}
+		if (%cl.isGuard) {
 			continue;
 		}
 
-		if (!isObject(%client.player)){
-			%client.bottomprint("<font:Arial Bold:34><just:center>\c6" @ getTimeString(%timeLeft-1) @ " <br><font:Impact:30>\c0Time to respawn: " @ getTimeString((%timeLeft - 1) % 90));
+		if (!isObject(%cl.player)){
+			%cl.bottomprint("<font:Arial Bold:34><just:center>\c6" @ getTimeString(%timeLeft-1) @ " <br><font:Impact:30>\c0Time to respawn: " @ getTimeString((%timeLeft - 1) % 90));
 		} else {
-			%underStr = "\c6[\c1" @ %client.location @ "\c6] <br>\c3" @ $prisonerCount[%client.location] @ "/" @ $prisonerCount["Total"] SPC %prisoners;
-			%client.bottomprint("<font:Arial Bold:34><just:center>\c6" @ getTimeString(%timeLeft-1) @ " <br><font:Arial Bold:24>" @ %underStr, 2, 1);
+			%underStr = "\c6[\c1" @ %cl.location @ "\c6] <br>\c3" @ $prisonerCount[%cl.location] @ "/" @ $prisonerCount["Total"] SPC %prisoners;
+			%cl.bottomprint("<font:Arial Bold:34><just:center>\c6" @ getTimeString(%timeLeft-1) @ " <br><font:Arial Bold:24>" @ %underStr, 2, 1);
 		}
 	}
 
@@ -58,17 +61,17 @@ function prisonerCountCheck(%i) {
 		//Prisoners bottomprint
 		%timeLeft = $Server::PrisonEscape::currTime;
 		for (%i = 0; %i < ClientGroup.getCount(); %i++) {
-			%client = ClientGroup.getObject(%i);
-			if (%client.isGuard) {
+			%cl = ClientGroup.getObject(%i);
+			if (%cl.isGuard) {
 				continue;
 			}
 
 			%prisoners = $prisonerCount["Total"] > 1 ? "Prisoners" : "Prisoner";
-			if (!isObject(%client.player)) {
-				%client.bottomprint("<font:Arial Bold:34><just:center>\c6" @ getTimeString(%timeLeft-1) @ " <br><font:Impact:30>\c0Time to respawn: " @ getTimeString((%timeLeft - 1) % 90));
+			if (!isObject(%cl.player)) {
+				%cl.bottomprint("<font:Arial Bold:34><just:center>\c6" @ getTimeString(%timeLeft-1) @ " <br><font:Impact:30>\c0Time to respawn: " @ getTimeString((%timeLeft - 1) % 90));
 			} else {
-				%underStr = "\c6[\c1" @ %client.location @ "\c6] <br>\c3" @ $prisonerCount[%client.location] @ "/" @ $prisonerCount["Total"] SPC %prisoners;
-				%client.bottomprint("<font:Arial Bold:34><just:center>\c6" @ getTimeString(%timeLeft-1) @ " <br><font:Arial Bold:24>" @ %underStr, 2, 1);
+				%underStr = "\c6[\c1" @ %cl.location @ "\c6] <br>\c3" @ $prisonerCount[%cl.location] @ "/" @ $prisonerCount["Total"] SPC %prisoners;
+				%cl.bottomprint("<font:Arial Bold:34><just:center>\c6" @ getTimeString(%timeLeft-1) @ " <br><font:Arial Bold:24>" @ %underStr, 2, 1);
 			}
 		}
 		return $prisonerCount["Total"];
@@ -550,7 +553,7 @@ function popCenterprint(%cl) {
 	%cl.pushedCenterprint = 0;
 }
 
-function pushCenterprintAll(%cl, %msg, %time) {
+function pushCenterprintAll(%msg, %time) {
 	for (%i = 0; %i < ClientGroup.getCount(); %i++) {
 		%cl = ClientGroup.getObject(%i);
 		%cl.pushedCenterprint = 1;
@@ -559,6 +562,9 @@ function pushCenterprintAll(%cl, %msg, %time) {
 	}
 }
 
-function popCenterprint(%cl) {
-	%cl.pushedCenterprint = 0;
+function popCenterprintAll(%cl) {
+	for (%i = 0; %i < ClientGroup.getCount(); %i++) {
+		%cl = ClientGroup.getObject(%i);
+		popCenterprint(%cl);
+	}
 }

@@ -447,13 +447,14 @@ package SniperRifleSpotlight
 		}
 
 		//track player if hit player directly
+		if (%col.getClassName() $= "Player") {
+			setStatistic("SniperShotsHit", getStatistic("SniperShotsHit", %obj.client) + 1, %obj.client);
+			setStatistic("SniperShotsHit", getStatistic("SniperShotsHit") + 1);
+		}
+
 		if (%col.getClassName() $= "Player" && !%col.isGuard && isObject($Server::PrisonEscape::CommDish)) {
 			%target.spotLightTarget = %col;
 			%target.spotLightTargetLocation = "";
-
-			//statistics: increment %client.shotsHit
-			setStatistic("SniperShotsHit", getStatistic("SniperShotsHit", %obj.client) + 1, %obj.client);
-			setStatistic("SniperShotsHit", getStatistic("SniperShotsHit") + 1);
 		} else {
 			if (!isObject($Server::PrisonEscape::CommDish)) {
 				%target.spotLightTarget = 0;
@@ -479,7 +480,7 @@ package SniperRifleSpotlight
 			}	
 		}
 
-		parent::onCollision(%data, %obj, %col, %fade, %pos, %normal);
+		return parent::onCollision(%data, %obj, %col, %fade, %pos, %normal);
 	}
 };
 activatePackage(SniperRifleSpotlight);

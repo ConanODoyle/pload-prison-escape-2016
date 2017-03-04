@@ -86,12 +86,22 @@ function doLogoFadeIn(%item, %alpha) {
     schedule(10, %item, doLogoFadeIn, %item, %alpha + 0.01);
 }
 
+
+$tilt = 0.1;
+
 function displayLogo(%camPos, %targetPos, %logo, %bg) {
-    if (isObject($LogoShape)) {
-        $LogoShape.delete();
-    } else if (!isObject(%logo)) {
+    if (!isObject(%logo)) {
         return;
     }
+
+    if (isObject($LogoShape)) {
+        $LogoShape.delete();
+    }
+    
+    if (isObject($LogoDish) && %bg) {
+        $LogoDish.delete();
+    } 
+
     %pos = %targetPos;
     %delta = vectorSub(%camPos, %pos);
     %deltaX = getWord(%delta, 0);
@@ -100,15 +110,15 @@ function displayLogo(%camPos, %targetPos, %logo, %bg) {
     %deltaXYHyp = vectorLen(%deltaX SPC %deltaY SPC 0);
 
     %rotZ = mAtan(%deltaX, %deltaY) * -1; 
-    %rotX = mAtan(%deltaZ, %deltaXYHyp) - 0.2;
+    %rotX = mAtan(%deltaZ, %deltaXYHyp) - $tilt;
 
     %aa = eulerRadToMatrix(%rotX SPC 0 SPC %rotZ); //this function should be called eulerToAngleAxis...
     %camTransform = %pos SPC %aa;
-    %dishTransform = vectorSub(%pos, vectorScale(vectorNormalize(%delta), 2)) SPC %aa;
+    %dishTransform = vectorSub(%pos, vectorScale(vectorNormalize(%delta), 1.5)) SPC %aa;
 
     $LogoShape = new StaticShape(Logo) {
         datablock = %logo;
-        scale = "0.9 0.9 0.9";
+        scale = "2.0 2.0 2.0";
     };
     if (%bg) {
         if (isObject($LogoDish)) {
@@ -116,7 +126,7 @@ function displayLogo(%camPos, %targetPos, %logo, %bg) {
         }
         $LogoDish = new StaticShape(Logo) {
             datablock = LogoDishShape;
-            scale = "2 2 2";
+            scale = "0.7 0.7 0.7";
         };
         MissionCleanup.add($LogoDish);
         $LogoDish.startFade(0, 0, 1);

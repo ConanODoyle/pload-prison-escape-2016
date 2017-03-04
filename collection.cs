@@ -20,6 +20,10 @@ if (!isObject($Server::PrisonEscape::Cameras)) {
 	$Server::PrisonEscape::Cameras = new SimSet() {};
 }
 
+if (!isObject($Server::PrisonEscape::LobbySpawnPoints)) {
+	$Server::PrisonEscape::LobbySpawnPoints = new SimSet() {};
+}
+
 $buildBLID = 4928;
 
 function assignBricks() {
@@ -40,6 +44,7 @@ function assignBricks() {
 	}
 	$Server::PrisonEscape::PrisonerSpawnPoints.clear();
 	$Server::PrisonEscape::InfirmarySpawnPoints.clear();
+	$Server::PrisonEscape::LobbySpawnPoints.clear();
 	$Server::PrisonEscape::InfoBricks.clear();
 	$Server::PrisonEscape::Cameras.clear();
 	$Server::PrisonEscape::Generator = 0;
@@ -112,14 +117,14 @@ function prisonEscape_saveBricks(%brickgroup, %i) {									//would make it easi
 	//talk(%brickgroup.getName() SPC %i);
 	//look for bricks with the name of tower#
 	if (%i >= %brickgroup.getCount()) {
-		PPE_messageAdmins("!!! \c5Tower Bricks saved to Towers from " @ %brickgroup);
-		PPE_messageAdmins("!!! \c5--T1 bc: " @ $Server::PrisonEscape::Towers.tower1.getCount());
-		PPE_messageAdmins("!!! \c5--T2 bc: " @ $Server::PrisonEscape::Towers.tower2.getCount());
-		PPE_messageAdmins("!!! \c5--T3 bc: " @ $Server::PrisonEscape::Towers.tower3.getCount());
-		PPE_messageAdmins("!!! \c5--T4 bc: " @ $Server::PrisonEscape::Towers.tower4.getCount());
-		PPE_messageAdmins("!!! \c5Generator: " @ $Server::PrisonEscape::Generator SPC "CommDish: " @ $Server::PrisonEscape::CommDish);
-		PPE_messageAdmins("!!! \c5# Prisoner Spawns: " @ $Server::PrisonEscape::PrisonerSpawnPoints.getcount());
-		PPE_messageAdmins("!!! \c5# Infirmary Spawns: " @ $Server::PrisonEscape::InfirmarySpawnPoints.getcount());
+		PPE_messageAdmins("<font:Palatino Linotype:18>!!! \c5Tower Bricks saved to Towers from " @ %brickgroup);
+		PPE_messageAdmins("<font:Palatino Linotype:18>!!! \c5--T1 bc: " @ $Server::PrisonEscape::Towers.tower1.getCount());
+		PPE_messageAdmins("<font:Palatino Linotype:18>!!! \c5--T2 bc: " @ $Server::PrisonEscape::Towers.tower2.getCount());
+		PPE_messageAdmins("<font:Palatino Linotype:18>!!! \c5--T3 bc: " @ $Server::PrisonEscape::Towers.tower3.getCount());
+		PPE_messageAdmins("<font:Palatino Linotype:18>!!! \c5--T4 bc: " @ $Server::PrisonEscape::Towers.tower4.getCount());
+		PPE_messageAdmins("<font:Palatino Linotype:18>!!! \c5Generator: " @ $Server::PrisonEscape::Generator SPC "CommDish: " @ $Server::PrisonEscape::CommDish);
+		PPE_messageAdmins("<font:Palatino Linotype:18>!!! \c5# Prisoner Spawns: " @ $Server::PrisonEscape::PrisonerSpawnPoints.getcount());
+		PPE_messageAdmins("<font:Palatino Linotype:18>!!! \c5# Infirmary Spawns: " @ $Server::PrisonEscape::InfirmarySpawnPoints.getcount());
 
 		$Server::PrisonEscape::Towers.tower1.origCount = $Server::PrisonEscape::Towers.tower1.getCount();
 		$Server::PrisonEscape::Towers.tower2.origCount = $Server::PrisonEscape::Towers.tower2.getCount();
@@ -156,12 +161,24 @@ function prisonEscape_saveBricks(%brickgroup, %i) {									//would make it easi
 	%brick.numViewers = 0;
 	%brick.endLoopToggle();
 	if (%name $= "LoadingCamBrick") {
+		if (isObject($Server::PrisonEscape::LoadingCamBrick) && $Server::PrisonEscape::LoadingCamBrick != %brick) {
+			PPE_messageAdmins("!!! \c5Dectected two LoadingCamBricks! " @ %brick SPC $Server::PrisonEscape::LoadingCamBrick);
+		}
 		$Server::PrisonEscape::LoadingCamBrick = %brick;
 	} else if (%name $= "LoadingCamBrickTarget") {
+		if (isObject($Server::PrisonEscape::LoadingCamBrickTarget) && $Server::PrisonEscape::LoadingCamBrickTarget != %brick) {
+			PPE_messageAdmins("!!! \c5Dectected two LoadingCamBrickTargets! " @ %brick SPC $Server::PrisonEscape::LoadingCamBrickTarget);
+		}
 		$Server::PrisonEscape::LoadingCamBrickTarget = %brick;
 	} else if (%name $= "PrisonPreview") {
+		if (isObject($Server::PrisonEscape::PrisonPreview) && $Server::PrisonEscape::PrisonPreview != %brick) {
+			PPE_messageAdmins("!!! \c5Dectected two PrisonPreviews! " @ %brick SPC $Server::PrisonEscape::PrisonPreview);
+		}
 		$Server::PrisonEscape::PrisonPreview = %brick;
 	} else if (%name $= "PrisonPreviewTarget") {
+		if (isObject($Server::PrisonEscape::PrisonPreviewTarget) && $Server::PrisonEscape::PrisonPreviewTarget != %brick) {
+			PPE_messageAdmins("!!! \c5Dectected two PrisonPreviewTargets! " @ %brick SPC $Server::PrisonEscape::PrisonPreviewTarget);
+		}
 		$Server::PrisonEscape::PrisonPreviewTarget = %brick;
 	} else if (strPos(%name, "tower") >= 0) {
 		%subName = getSubStr(%name, 0, 6);
@@ -229,6 +246,8 @@ function prisonEscape_saveBricks(%brickgroup, %i) {									//would make it easi
 			$Server::PrisonEscape::PrisonerSpawnPoints.add(%brick);
 		} else if (%name $= "infirmarySpawn") {
 			$Server::PrisonEscape::InfirmarySpawnPoints.add(%brick);
+		} else if (%name $= "lobbySpawn") {
+			$Server::PrisonEscape::LobbySpawnPoints.add(%brick);
 		} else {
 			PPE_messageAdmins("!!! \c5Out of place spawnpoint found! ID: " @ %brick);
 		}

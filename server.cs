@@ -8,6 +8,7 @@ exec("./stun.cs");
 exec("./globalcams.cs");
 exec("./rounds.cs");
 exec("./collection.cs");
+exec("./customization.cs");
 exec("./vip.cs");
 exec("./audio.cs");
 

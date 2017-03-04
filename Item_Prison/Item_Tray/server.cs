@@ -219,6 +219,11 @@ function PrisonTrayImage::onReFire(%this, %obj, %slot) {
 			messageClient(%obj.client,'MsgItemPickup','',%obj.currtool,0);
 			serverCmdUnUseTool(%obj.client);
 			%obj.unMountImage(0);
+
+
+			setStatistic("TraysPutOnOthersBack", getStatistic("TraysPutOnOthersBack", %obj.client) + 1, %obj.client);
+			setStatistic("TraysPutOnOwnBack", getStatistic("TraysPutOnOwnBack", %hit.client) + 1, %hit.client);
+			setStatistic("TraysPutOnBack", getStatistic("TraysPutOnOthersBack") + 1);
 		}
 	} else if (%obj.isGivingTray) {
 		%obj.client.centerprint("Tray attaching canceled", 2);
@@ -344,9 +349,9 @@ package PrisonItems
 					%gold = %col.client.isDonator == 0 ? PrisonTrayProjectile.getID() : PrisonTrayGoldenProjectile.getID();
 					%col.unMountImage(1);
 					//statistics
-					setStatistic("TraysUsed", getStatistic("TraysUsed", %col.client) + 1, %col.client);
-					setStatistic("TraysUsed", getStatistic("TraysUsed") + 1);
-					setStatistic("TraysDestroyed", getStatistic("TraysDestroyed", %obj.sourceObject.client) + 1, %obj.sourceObject.client);
+					setStatistic("TraysOnBackUsed", getStatistic("TraysOnBackUsed", %col.client) + 1, %col.client);
+					setStatistic("TraysOnBackUsed", getStatistic("TraysOnBackUsed") + 1);
+					setStatistic("TraysOnBackDestroyed", getStatistic("TraysOnBackDestroyed", %obj.sourceObject.client) + 1, %obj.sourceObject.client);
 
 					%sound = getRandom(1, 3);
 					%sound = "trayDeflect" @ %sound @ "Sound";

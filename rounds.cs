@@ -12,7 +12,7 @@ if (!isObject($fakeClient)) {
 		isSuperAdmin = 1;
 		isAdmin = 1;
 		name = "Dummy Client";
-		blid = "80085";
+		bl_id = "80085";
 	};
 }
 
@@ -26,9 +26,9 @@ function despawnAll()
 {
 	for (%i = 0; %i < ClientGroup.getCount(); %i++)
 	{
-		if (isObject(%player = (%cl = ClientGroup.getObject(%i)).player))
+		if (isObject(%pl = (%cl = ClientGroup.getObject(%i)).player))
 		{
-			%player.delete();
+			%pl.delete();
 			%cl.setControlObject(%cl.camera);
 			%cl.camera.setControlObject(%cl.dummyCamera);
 		}
@@ -44,9 +44,9 @@ function PPE_messageAdmins(%msg)
 	}
 }
 
-function serverCmdSetPhase(%client, %phase) 
+function serverCmdSetPhase(%cl, %phase) 
 {
-	if (!%client.isSuperAdmin)
+	if (!%cl.isSuperAdmin)
 		return;
 
 	%mg = $DefaultMini;
@@ -58,12 +58,16 @@ function serverCmdSetPhase(%client, %phase)
 		return;
 	}
 
+	cancel($nextRoundPhaseSchedule);
+
 	if (isObject($DefaultMini)) {
 		$DefaultMini.vehicleRespawnTime = 660000;
 	}
 
 	if (%phase == 0) //pre round phase: display statistics, pick guards, load bricks
 	{
+		$Server::PrisonEscape::roundPhase = 0;
+		despawnAll();
 		if (isEventPending($Server::PrisonEscape::timerSchedule))
 			cancel($Server::PrisonEscape::timerSchedule);
 
@@ -71,16 +75,16 @@ function serverCmdSetPhase(%client, %phase)
 		$Server::PrisonEscape::Guards = "";
 		$Server::PrisonEscape::haveAssignedBricks = "";
 		//despawn everyone
-		despawnAll();
 		displayLogo($Server::PrisonEscape::LoadingCamBrick.getPosition(), $Server::PrisonEscape::LoadingCamBrickTarget.getPosition(), LogoClosedShape, 1);
-		setAllCamerasView($Server::PrisonEscape::LoadingCamBrick.getPosition(), $Server::PrisonEscape::LoadingCamBrickTarget.getPosition());
+		//setAllCamerasView($Server::PrisonEscape::LoadingCamBrick.getPosition(), $Server::PrisonEscape::LoadingCamBrickTarget.getPosition());
+		spawnDeadLobby();
 
 		for (%i = 0; %i < ClientGroup.getCount(); %i++)
 		{
-			%client = ClientGroup.getObject(%i);
-			%client.isGuard = 0; %client.tower = "";
-			%client.setScore(0);
-			commandToClient(%client, 'showBricks', 0);
+			%t = ClientGroup.getObject(%i);
+			%t.isGuard = 0; %t.tower = "";
+			%t.setScore(0);
+			commandToClient(%t, 'showBricks', 0);
 		}
 		//reload bricks
 		//serverDirectSaveFileLoad("saves/Prison Escape.bls", 3, "", 0, 1); //1 for silent
@@ -95,40 +99,57 @@ function serverCmdSetPhase(%client, %phase)
 		$Server::PrisonEscape::Guards = "";
 
 		//start statistics display loop
-		calculateStatistics();
+		giveRandomHair(findClientByBL_ID($bestPrisoner));
+		giveRandomHair(findClientByBL_ID($bestGuard));
+		if (getStatistic("Winner") $= "Guards") {
+			for (%i = 1; %i < 5; %i++) {
+				%guards = getStatistic("Tower" @ %i @ "Guard");
+				for (%j = 0; %j < getWordCount(%guards); %j++) {
+					giveRandomHair(findClientByBL_ID(getWord(%guards, %j)));
+				}
+			}
+		}
 		swapStatistics();
 		displayRoundLoadingInfo();
-		$Server::PrisonEscape::roundPhase = 0;
 	} 
 	else if (%phase == 1) //start the round caminations and spawn everyone but dont give them control of their bodies yet
 	{
-		displayLogo($Server::PrisonEscape::LoadingCamBrick.getPosition(), $Server::PrisonEscape::LoadingCamBrickTarget.getPosition(), LogoOpenShape);
-		$LogoShape.setScale("1.2 1.2 1.2");
-		$LogoShape.schedule(100, setScale, "1 1 1");
-		cancel($Server::PrisonEscape::statisticLoop);
-		clearStatistics();
-		clearCenterprintAll();
-		clearBottomprintAll();
+		despawnAll();
+		for (%i = 0; %i < ClientGroup.getCount(); %i++)
+		{
+			%t = ClientGroup.getObject(%i);
+			if (%t.isCustomizing) {
+				stopPlayerHairCustomization(%t.player);
+			}
+		}
+		setAllCamerasView($Server::PrisonEscape::LoadingCamBrick.getPosition(), $Server::PrisonEscape::LoadingCamBrickTarget.getPosition(), 50);
+		displayLogo($Server::PrisonEscape::LoadingCamBrick.getPosition(), $Server::PrisonEscape::LoadingCamBrickTarget.getPosition(), LogoOpenShape, 0);
+		$LogoShape.setScale("2.2 2.2 2.2");
+		$LogoShape.schedule(100, setScale, "2 2 2");
 		serverPlay3d(Beep_Siren_Sound, $LogoDish.getPosition());
 		serverPlay3d(BrickBreakSound, $LogoDish.getPosition());
 		schedule(50, 0, serverPlay3d, BrickBreakSound, $LogoDish.getPosition());
 		schedule(100, 0, serverPlay3d, BrickBreakSound, $LogoDish.getPosition());
 
+		cancel($Server::PrisonEscape::statisticLoop);
+		clearStatistics();
+		clearCenterprintAll();
+		clearBottomprintAll();
+
 		schedule(2000, 0, displayIntroCenterprint);
-		schedule(5000, 0, serverCmdSetPhase, %client, 1.5);
+		$nextRoundPhaseSchedule = schedule(5000, 0, serverCmdSetPhase, $fakeClient, 1.5);
 	}
 	else if (%phase == 1.5)
 	{
+		$Server::PrisonEscape::roundPhase = 2;
 		for (%i = 0; %i < ClientGroup.getCount(); %i++) {
 			%cl = ClientGroup.getObject(%i);
 			%cl.camera.setWhiteOut(0.5);
 		}
-		$LogoShape.delete();
-		$LogoDish.delete();
 		setRiotMusic(3);
 		if (!isObject($Server::PrisonEscape::commDish) || !isObject($Server::PrisonEscape::generator) || $Server::PrisonEscape::PrisonerSpawnPoints.getCount() <= 0) {
 			PPE_messageAdmins("!!! \c5Cannot start round: Bricks missing!");
-			return;
+			return;	
 		} else if (!$Server::PrisonEscape::haveAssignedBricks) {
 			PPE_messageAdmins("!!! \c5Cannot start round: bricks have not been assigned!");
 			return;
@@ -156,13 +177,17 @@ function serverCmdSetPhase(%client, %phase)
 
 		//autocall phase 2
 		//call through the caminations, when they're done
-		$nextRoundPhaseSchedule = schedule(10000, %client, serverCmdSetPhase, %client, 2);
+		$nextRoundPhaseSchedule = schedule(10000, $fakeClient, serverCmdSetPhase, $fakeClient, 2);
 
 		startSpotlights();
-		$Server::PrisonEscape::roundPhase = 1;
 	}
 	else if (%phase == 2) //start round loops, like timer + win conditions check
 	{
+		if (isEventPending($Server::PrisonEscape::timerSchedule))
+			cancel($Server::PrisonEscape::timerSchedule);
+		if (isEventPending($Server::PrisonEscape::statisticLoop))
+			cancel($Server::PrisonEscape::statisticLoop);
+
 		$Server::PrisonEscape::roundPhase = 2;
 		bottomprintTimerLoop($Server::PrisonEscape::timePerRound * 60 + 1);
 
@@ -188,7 +213,7 @@ function serverCmdSetPhase(%client, %phase)
 		$Server::PrisonEscape::roundPhase = 3;
 
 		returnAllPlayerControlCamera();
-		schedule(15000, 0, serverCmdSetPhase, $fakeClient, 0);
+		$nextRoundPhaseSchedule = schedule(15000, 0, serverCmdSetPhase, $fakeClient, 0);
 		collectStatistics();
 		//clearStatistics();
 		if (isObject(SM_Music)) {

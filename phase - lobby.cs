@@ -98,3 +98,51 @@ function swapStatistics()
 	$Server::PrisonEscape::statisticLoop = schedule(6000, 0, swapStatistics);
 	displayRoundLoadingInfo();
 }
+
+
+function pickLobbySpawnPoint() {
+	%start = getRandom(0, $Server::PrisonEscape::LobbySpawnPoints.getCount() - 1);
+	%count = $Server::PrisonEscape::LobbySpawnPoints.getCount();
+	for (%i = 0; %i < %count; %i++)	{
+		%index = (%i + %start) % %count;
+		%brick = $Server::PrisonEscape::LobbySpawnPoints.getObject(%index);
+		if (%brick.spawnCount < 2) {
+			break;
+		}
+		%brick = "";
+	}
+	if (isObject(%brick)) {
+		%brick.spawnCount++;
+		return %brick.getPosition() SPC getWords(%brick.getSpawnPoint(), 3, 6);
+	} else {
+		echo("Can't find an Lobby spawnpoint with less than 1 spawn! Resetting...");
+		resetLobbySpawnPointCounts();
+		return $Server::PrisonEscape::LobbySpawnPoints.getObject(%start).getSpawnPoint();
+	}
+}
+
+function resetLobbySpawnPointCounts() {
+	for (%i = 0; %i < $Server::PrisonEscape::LobbySpawnPoints.getCount(); %i++) {
+		$Server::PrisonEscape::LobbySpawnPoints.getObject(%i).spawnCount = 0;
+	}
+}
+
+function spawnDeadLobby() {
+	for (%i = 0; %i < ClientGroup.getCount(); %i++) {
+		%client = ClientGroup.getObject(%i);
+
+		if (!isObject(%client.player)) {
+			%spawn = pickLobbySpawnPoint();
+			%client.createPlayer(%spawn);
+			if (!%client.pushedCenterprint) {
+				%client.centerprint("");
+			}
+			%client.spawnTime = getSimTime();
+		}
+		// else if (isObject(%client.player) && %client.getControlObject() != %client.player) {
+		// 	%client.setControlObject(%client.player);
+		// }
+		commandToClient(%client, 'showBricks', 0);
+	}
+	resetLobbySpawnPointCounts();
+}

@@ -284,6 +284,10 @@ function FxDTSBrick::damage(%brick, %damage, %player)
 		setStatistic("CommDishHit", getStatistic("CommDishHit", %player.client) + 1, %player.client);
 		setStatistic("CommDishHit", getStatistic("CommDishHit") + 1);
 		%brick.playSound(trayDeflect1Sound);
+	} else if (%brick.getDatablock().uiname $= "4x4f Glass Pane") {
+		setStatistic("GeneratorWindowsHit", getStatistic("GeneratorWindowsHit", %player.client) + 1, %player.client);
+		setStatistic("GeneratorWindowsHit", getStatistic("GeneratorWindowsHit") + 1);
+		%brick.playSound("glassChip" @ getRandom(1, 3) @ "Sound");
 	} else if (strPos(%brick.getName(), "tower") < 0) {
 		setStatistic("WindowsHit", getStatistic("WindowsHit", %player.client) + 1, %player.client);
 		setStatistic("WindowsHit", getStatistic("WindowsHit") + 1);
@@ -293,7 +297,7 @@ function FxDTSBrick::damage(%brick, %damage, %player)
 		setStatistic("TowerSupportsHit", getStatistic("TowerSupportsHit") + 1);
 	}
 	if (%brick == $Server::PrisonEscape::CommDish) {
-		if (getRandom() > 0.7) {
+		if (getRandom() > 0.8) {
 			%player.electrocute(2);
 		}
 	}
@@ -309,10 +313,8 @@ function FxDTSBrick::damage(%brick, %damage, %player)
 	}
 
 	if (%brick.isTowerSupport) {
-		if (%brick.damage % $towerDamage == 0) {
-			%brick.colorStage++;
-			%brick.origColorID = $towerColor[%brick.colorStage];
-		}
+		%brick.colorStage = mFloor(%brick.damage / $towerDamage);
+		%brick.origColorID = $towerColor[%brick.colorStage];
 	}
 
 	%brick.setColor($damageFlashColor);
