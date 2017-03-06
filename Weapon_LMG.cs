@@ -2,7 +2,7 @@
 datablock AudioProfile(LightMachinegunFire1Sound)
 {
    filename    = "./LMG_fire.wav";
-   description = AudioClose3d;
+   description = AudioClosest3d;
    preload = true;
 };
 
@@ -17,7 +17,7 @@ AddDamageType("LMG",   '<bitmap:add-ons/Weapon_Package_Tier2/ci_lmg1> %1',    '%
 datablock ProjectileData(LightMachinegunProjectile)
 {
    projectileShapeName = "add-ons/Weapon_Gun/bullet.dts";
-   directDamage        = 20;
+   directDamage        = 15;
    directDamageType    = $DamageType::LMG;
    radiusDamageType    = $DamageType::LMG;
 
@@ -151,7 +151,7 @@ datablock ShapeBaseImageData(LightMachinegunImage)
 
 	stateName[2]                    = "Fire";
 	stateTransitionOnTimeout[2]     = "FireLoadCheckA";
-	stateTimeoutValue[2]            = 0.09;
+	stateTimeoutValue[2]            = 0.04;
 	stateSound[2]				= LightMachinegunfire1Sound;
 	stateFire[2]                    = true;
 	stateAllowImageChange[2]        = false;
@@ -284,11 +284,11 @@ function LightMachinegunImage::onFire(%this,%obj,%slot)
 	
 	if(vectorLen(%obj.getVelocity()) < 0.1 && (getSimTime() - %obj.lastShotTime) > 1000)
 	{
-		%spread = 0.00056 * (%obj.LMGHeat / $LMGMaxHeat) * (%obj.LMGHeat / $LMGMaxHeat);
+		%spread = 0.00056 * (%obj.LMGHeat / $LMGMaxHeat);
 	}
 	else
 	{
-		%spread = 0.00085 * (%obj.LMGHeat / $LMGMaxHeat) * (%obj.LMGHeat / $LMGMaxHeat);
+		%spread = 0.00085 * (%obj.LMGHeat / $LMGMaxHeat);
 	}
 
 	%projectile = LightMachinegunProjectile;
@@ -408,7 +408,7 @@ function LightMachinegunImage::onLoadCheck(%this,%obj,%slot)
 }
 
 if ($LMGMaxHeat $= "") {
-	$LMGMaxHeat = 50;
+	$LMGMaxHeat = 60;
 }
 
 function releaseHeat(%obj) {
@@ -421,3 +421,27 @@ function releaseHeat(%obj) {
 		%obj.heatSchedule = schedule(1000, %obj, releaseHeat, %obj);
 	}
 }
+
+function LightMachinegunProjectile::Damage(%this, %obj, %col, %fade, %pos, %normal)
+{
+	if (%this.directDamage <= 0.0)
+	{
+		return;
+	}
+	%damageType = $DamageType::Direct;
+	if (%this.DirectDamageType)
+	{
+		%damageType = %this.DirectDamageType;
+	}
+	%scale = getWord(%obj.getScale(), 2);
+	%directDamage = mClampF(%this.directDamage, -100.0, 100) * %scale;
+	if (%col.getDatablock().getName() $= "BuffArmor")
+	{
+		%col.Damage(%obj, %pos, 2, %damageType);
+	}
+	else
+	{
+		%col.Damage(%obj, %pos, %directDamage, %damageType);
+	}
+}
+

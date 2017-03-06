@@ -41,13 +41,14 @@ function posToolImage::onUnMount(%this, %obj, %slot) {
     %obj.currPos = "";
 }
 
-function posToolImage::onActivate(%this, %obj, %slot) {
+function posToolImage::onMount(%this, %obj, %slot) {
     if (!isObject(%cl = %obj.client) || !%cl.isAdmin) {
         %obj.unMountImage(0);
         %cl.centerPrint("You are not allowed to use this item");
         return;
     }
     %obj.currPos = "";
+    return parent::onMount(%this, %obj, %slot);
 }
 
 function posToolImage::onReady(%this, %obj, %slot) {

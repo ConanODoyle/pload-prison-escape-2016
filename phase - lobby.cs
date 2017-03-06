@@ -23,8 +23,8 @@ function serverCmdAddGuard(%client, %name)
 		return;
 	}
 	$Server::PrisonEscape::Guards = trim($Server::PrisonEscape::Guards SPC findclientbyname(%name));
-	messageAll('', "\c3" @ %client.name @ " added " @ findclientbyname(%name).name @ " to the guard list.");
-	displayRoundLoadingInfo();
+	messageAll('', "\c2!!! \c6- " @ %client.name @ " added " @ findclientbyname(%name).name @ " to the guard list.");
+	displayRoundLoadingInfo(0);
 }
 
 function serverCmdRemoveGuard(%client, %name)
@@ -49,8 +49,8 @@ function serverCmdRemoveGuard(%client, %name)
 		$Server::PrisonEscape::Guards = strReplace($Server::PrisonEscape::Guards, "  ", " ");
 		$Server::PrisonEscape::Guarsd = trim($Server::PrisonEscape::Guards);
 	}
-	messageAll('', "\c2" @ %client.name @ " removed " @ %guard.name @ " from the guard list.");
-	displayRoundLoadingInfo();
+	messageAll('', "\c0!!! \c6- " @ %client.name @ " removed " @ %guard.name @ " from the guard list.");
+	displayRoundLoadingInfo(0);
 }
 
 function getGuardNames()
@@ -69,7 +69,7 @@ function getGuardNames()
 	return %list;
 }
 
-function displayRoundLoadingInfo() 
+function displayRoundLoadingInfo(%clear) 
 {
 	// %guards1 = getGuardNames();
 	// %guards2 = getSubStr(%guards1, strPos(%guards1, "Guard 2 <br>") + 12, strLen(%guards1));
@@ -81,36 +81,38 @@ function displayRoundLoadingInfo()
 		$PrisonEscape::TextGroup = new ScriptGroup(TextGroup) { };
 	}
 
-	%line0 = 	"<color:ffffff>        ROUND " @ $Statistics::round;
+
+	//31 chars per lower line, 23 per upper line
+	%line0 = 	"<color:ffffff>            ROUND " @ $Statistics::round;
 	if (getStatistic("Winner") !$= "Guards") {
-		%line1 =	"<color:ff8724>     PRISONERS WIN";
+		%line1 =	"<color:ff8724>         PRISONERS WIN";
 	} else {
-		%line1 =	"<color:8AD88D>        GUARDS WIN";
+		%line1 =	"<color:8AD88D>            GUARDS WIN";
 	}
 	%line2 =	" ";
-	%line3 = 	"<color:8AD88D>MVP Guard<color:ffffff>: " @ $bestGuardname;
-	%line4 =	"<color:ff8724>MVP Prisoner<color:ffffff>: " @ $bestPrisonername;
-	%line5 =	"<color:ffff00>Trays Used<color:ffffff>: " @ getStatistic("TraysPickedUp") + 0;
-	%line6 =	"<color:ffff00>Buckets Used<color:ffffff>: " @ getStatistic("BucketsPickedUp") + 0;
-	%line7 =	"<color:ffff00>Bricks Destroyed<color:ffffff>: " @ getStatistic("BricksDestroyed") + 0;
-	%line8 =	"<color:ffff00>Prisoners Killed<color:ffffff>: " @ getStatistic("Deaths") + 0;
-	%line9 =	" ";
-	%line10 =	" <color:aaaaaa>---------------------";
-	%line11 =	"<color:ffff00>Guard 1";
-	%line12 =	"<color:ffffff>" @ getWord($Server::PrisonEscape::Guards, 0).name;
-	%line13 =	"<color:ffff00>Guard 2";
-	%line14 =	"<color:ffffff>" @ getWord($Server::PrisonEscape::Guards, 1).name;
-	%line15 =	"<color:ffff00>Guard 3";
-	%line16 =	"<color:ffffff>" @ getWord($Server::PrisonEscape::Guards, 2).name;
-	%line17 =	"<color:ffff00>Guard 4";
-	%line18 =	"<color:ffffff>" @ getWord($Server::PrisonEscape::Guards, 3).name;
+	%line3 =	" ";
+	%line4 = 	"<color:8AD88D>MVP Guard<color:ffffff>: " @ $bestGuardname;
+	%line5 =	"<color:ff8724>MVP Prisoner<color:ffffff>: " @ $bestPrisonername;
+	%line6 =	"<color:ffff00>Trays Used<color:ffffff>: " @ getStatistic("TraysPickedUp") + 0;
+	%line7 =	"<color:ffff00>Buckets Used<color:ffffff>: " @ getStatistic("BucketsPickedUp") + 0;
+	%line8 =	"<color:ffff00>Bricks Destroyed<color:ffffff>: " @ getStatistic("BricksDestroyed") + 0;
+	%line9 =	"<color:ffff00>Prisoners Killed<color:ffffff>: " @ getStatistic("Deaths") + 0;
+	%line10 =	" ";
+	%line11 =	" ";
+	%line12 =	" ";
+	%line13 =	" ";
+	%line14 =	"<color:ffff00>            -Guards-";
+	%line15 =	"<color:ffffff>    " @ getWord($Server::PrisonEscape::Guards, 0).name;
+	%line16 =	"<color:ffffff>    " @ getWord($Server::PrisonEscape::Guards, 1).name;
+	%line17 =	"<color:ffffff>    " @ getWord($Server::PrisonEscape::Guards, 2).name;
+	%line18 =	"<color:ffffff>    " @ getWord($Server::PrisonEscape::Guards, 3).name;
 
 	%str = %line0;
 	for (%i = 1; %i < 19; %i++) {
 		%str = %str TAB %line[%i];
 	}
 
-	displayTextOnBoard(_board1.getPosition(), 2, %str, 0);
+	displayTextOnBoard(_board1.getPosition(), 2, %str, %clear);
 	bottomprintAll(generateBottomPrint(), -1, 1);
 }
 
@@ -200,6 +202,7 @@ function displayTextOnBoard(%pos, %rot, %str, %clear) {
 	%offset = -0.31;
 
 	if (%clear) {
+		PPE_MessageAdmins("!!! - \c6Resetting board contents");
 		deleteVariables("$displayStr*");
 	}
 
@@ -218,28 +221,6 @@ function displayTextOnBoard(%pos, %rot, %str, %clear) {
 	}
 }
 
-displayTextOnBoard(_board1.getPosition(), 2,
-	"<color:ffffff>Testing" TAB
-	"<color:ff0000>Up to 23 letters a line" TAB
-	" " TAB
-	"<color:ffff00>Empty line above" TAB
-	"<color:ffff00>16 lines max" TAB
-	"<color:00ff00>Line 6" TAB
-	"<color:00ff00>Line 7" TAB
-	"<color:00ff00>Line 8" TAB
-	"<color:00ff00>Line 9" TAB
-	"<color:00ff00>Line 10" TAB
-	"<color:00ff00>Line 11" TAB
-	"<color:00ff00>Line 12" TAB
-	"<color:00ff00>Line 13 EDITED" TAB
-	"<color:00ff00>Line 14" TAB
-	"<color:00ff00>Line 15" TAB
-	"<color:00ff00>Line 16 EDITED" TAB
-	"<color:00ff00>17EDITED" TAB
-	"<color:00ff00>Line 18" TAB
-	"<color:00ff00>Line 19", 1
-	);
-
 function generateBottomPrint() 
 {
 	%header = "<just:center><font:Arial Black:48><shadowcolor:555555><shadow:0:4><color:E65714>Conan's Prison Break <br><font:Arial Bold:30>\c7-      - <br>";
@@ -252,7 +233,7 @@ function swapStatistics()
 	if (isEventPending($Server::PrisonEscape::statisticLoop))
 		return;
 
-	displayRoundLoadingInfo();
+	displayRoundLoadingInfo(1);
 }
 
 

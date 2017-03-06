@@ -278,3 +278,16 @@ function displayScoreBoard(%stat) {
 
 	}
 }
+
+// Stat 				Condition                          						Requires Condition
+// =================================================================================================================
+// Burgers Eaten 		if above average burders eaten                			1
+// Legendary Burgers 	if above normal legendary burgers eaten            		1
+// Bronson Smashes 		if bronson has above average damage done to things      1
+// Generator Uptime 	if generator is up for a long time              		0
+// Towers Destroyed 	random if 3-4 towers are destroyed              		0
+// Dog Victims 			if dog gets an above average amount of kills        	1
+// LMG Kills 			if LMGs cause above averge amount of kills          	1
+// Windows Destroyed 	Above average windows destroyed                			0
+// Soap Slides 			Above average soap slides                  				0
+// Prisoner Rushes 		Above average prisoner rushes                			1

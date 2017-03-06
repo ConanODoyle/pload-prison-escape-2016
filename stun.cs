@@ -33,7 +33,7 @@ function stun(%player, %time) {
 	if (!isObject(%client = %player.client))
 		return;
 
-	if (isEventPending(%player.stunLoop))
+	if (isEventPending(%player.stunLoop)) 
 		cancel(%player.stunLoop);
 	if (%time <= 0)
 	{

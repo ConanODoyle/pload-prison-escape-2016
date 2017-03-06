@@ -141,6 +141,19 @@ package PrisonEscape_Base
 				setStatistic("Deaths", getStatistic("Deaths", %cl) + 1, %cl);
 				setStatistic("Deaths", getStatistic("Deaths") + 1);
 
+				if ($DamageType::SniperRifleSpotlight == %damageType) {
+					%type = "Sniper";
+				} else if ($DamageType::LMG == %damageType) {
+					%type = "LMG";
+				} else if ($DamageType::Default == %damageType) {
+					%type = "TearGas";
+				}
+				setStatistic("DeathsTo" @ %type, getStatistic("DeathsTo" @ %type, %cl) + 1, %cl);
+				setStatistic("DeathsTo" @ %type, getStatistic("DeathsTo" @ %type) + 1);
+
+				setStatistic("Deaths", getStatistic("Deaths", %cl) + 1, %cl);
+				setStatistic("Deaths", getStatistic("Deaths") + 1);
+
 				%killer.setScore(%killer.score + 1);
 			}
 			if (%killer == %cl) {
@@ -155,6 +168,12 @@ package PrisonEscape_Base
 		} else {
 			return parent::onDeath(%cl, %obj, %killer, %pos, %part);
 		}
+	}
+
+	function burgerImage::eatEffect(%this, %obj, %slot) {
+		setStatistic("BurgersEaten", getStatistic("BurgersEaten", %cl) + 1, %cl);
+		setStatistic("BurgersEaten", getStatistic("BurgersEaten") + 1);
+		return parent::eatEffect(%this, %obj, %slot);
 	}
 
 	function respawnCountDownTick(%val) {
@@ -558,8 +577,11 @@ function giveItems(%client) {
 	if (%client.isGuard) {
 		%player.addItem(SniperRifleSpotlightItem, %client);
 		//%player.addItem(WhistleItem, %client);
-		%player.addItem(SteakItem, %client);
 		%player.addItem(LightMachineGunItem, %client);
+		%player.addItem(tearGasGrenadeItem, %client);
+		%player.addItem(tearGasGrenadeItem, %client);
+		%player.addItem(tearGasGrenadeItem, %client);
+		%player.addItem(SteakItem, %client);
 	} else if (%client.isJanitor) {
 		%player.addItem(PushBroomItem, %client);
 	} else {

@@ -102,7 +102,7 @@ function serverCmdSetPhase(%cl, %phase)
 		giveRandomHair(findClientByBL_ID($bestPrisoner));
 		messageAll('', "\c3" @ findClientByBL_ID($bestPrisoner).name @ "\c6 unlocked a hairdo for being the <color:ff8724>MVP Prisoner\c6!");
 		giveRandomHair(findClientByBL_ID($bestGuard));
-		messageAll('', "\c3" @ findClientByBL_ID($bestPrisoner).name @ "\c6 unlocked a hairdo for being the \c1MVP Guard\c6!");
+		messageAll('', "\c3" @ findClientByBL_ID($bestGuard).name @ "\c6 unlocked a hairdo for being the \c1MVP Guard\c6!");
 
 		if (getStatistic("Winner") $= "Guards") {
 			for (%i = 1; %i < 5; %i++) {
@@ -118,6 +118,7 @@ function serverCmdSetPhase(%cl, %phase)
 	} 
 	else if (%phase == 1) //start the round caminations and spawn everyone but dont give them control of their bodies yet
 	{
+		spawnKillGround();
 		despawnAll();
 		for (%i = 0; %i < ClientGroup.getCount(); %i++)
 		{

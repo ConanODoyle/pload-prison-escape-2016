@@ -224,6 +224,8 @@ function prisonEscape_saveBricks(%brickgroup, %i) {									//would make it easi
 	} else if (strPos(%name, "generatorDoor") >= 0) {
 		%brick.setEventEnabled("2", 0);
 		%brick.setEventEnabled("0 1", 1);
+	} else if (strPos(%name, "generatorDoorWall") >= 0) {
+		%brick.setColliding(1);
 	} else if (strPos(%name, "garageDoor") >= 0) {
 		%brick.door(4);
 	} else if (strPos(%name, "garageDoorSwitch") >= 0) {
@@ -239,7 +241,7 @@ function prisonEscape_saveBricks(%brickgroup, %i) {									//would make it easi
 		%brick.respawnBot();
 	} else if (strPos(%name, "CommDish") >= 0) {
 		$Server::PrisonEscape::CommDish = %brick; 
-	} else if (strPos(%name, "camera") >= 0) {
+	} else if (strPos(strLwr(%name), "camera") >= 0) {
 		$Server::PrisonEscape::Cameras.add(%brick);
 	} else if (strPos(strlwr(%name), "spawn") >= 0) {
 		if (%name $= "Spawn") {

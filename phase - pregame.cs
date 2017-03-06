@@ -17,7 +17,8 @@ function spawnGuard(%towerNum, %suppress) {
 		PPE_messageAdmins("\c3!!! \c6Warning: guard not found for tower "@ %towerNum);
 	}
 	%tower.guard.createPlayer(%spawnpoint);
-	setStatistic("Tower" @ %towerNum @ "Guard", trim(getStatistic("Tower" @ %towerNum @ "Guard") SPC %tower.guard.bl_id));
+	%guards = getStatistic("Tower" @ %towerNum @ "Guard");
+	setStatistic("Tower" @ %towerNum @ "Guard", trim(strReplace(strReplace(%guards, %tower.guard.bl_id, "") SPC %tower.guard.bl_id, "  ", " ")));
 	if (!%suppress) {
 		messageAll('', "\c3" @ %tower.guard.name @ "\c4 has been deployed at tower " @ %towerNum @ "!");
 	}
@@ -63,4 +64,39 @@ function startSpotlights() {
 		startLightBeamLoop($Server::PrisonEscape::Towers.tower[%i].spotlight);
 		$Server::PrisonEscape::Towers.tower[%i].spotlight.spotlightTargetLocation = %pos;
 	}
+}
+
+datablock TriggerData(swol_killTrigger){tickPeriodMS = 100;};
+
+function swol_killTrigger::onEnterTrigger(%db,%trig,%pl)
+{
+	if($Server::PrisonEscape::RoundPhase != 0)
+	{
+		if(!isObject(%cl = %pl.client))
+			return;
+		if(!%cl.minigame)
+			return;
+		if(%cl.isGuard)
+		{
+			spawnGuard(%cl.tower);
+		}
+		else
+		{
+			%pl.kill();
+		}
+	}
+}
+
+function spawnKillGround()
+{
+	if(isObject($Swol_KillGround))
+		$Swol_KillGround.delete();
+	$Swol_KillGround = new Trigger()
+	{
+		datablock = swol_killTrigger;
+		scale = "300 300 1";
+		polyhedron = "-0.5 -0.5 -0.5 1 0 0 0 1 0 0 0 1";
+		position = "0 0 1";
+		rotation = "0 0 0 0";
+	};
 }

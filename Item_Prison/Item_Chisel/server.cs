@@ -183,6 +183,8 @@ function isBreakableBrick(%brick, %player)
 	%towerSupport = "support";
 	if ((%db $= %pole || %db $= %pole2) && (%brick.getColorID() >= 44 && %brick.getColorID() <= 53))
 		return 2;
+	if (strPos(strLwr(%brick.getNTName()), "vent") > 0 && ((%region = getRegion(%brick)) $= "Storage Vent" || %region $= "Laundry"))
+		return 2;
 	if (%db $= %plate && getRegion(%brick) $= "Outside")
 		return 1;
 	if ((strPos(%db, %window) >= 0 && strPos(%db, "Door") < 0) || strPos(%db, %window2) >= 0 || strPos(%brick.getName(), %towerSupport) >= 0)
@@ -265,7 +267,7 @@ function FxDTSBrick::damage(%brick, %damage, %player)
 	{
 		%db = %brick.getDatablock().getName();
 		if (%brick == $Server::PrisonEscape::CommDish) {
-			%brick.maxDamage = 20;
+			%brick.maxDamage = 18;
 		} else if (strPos(%brick.getName(), "tower") >= 0) {
 			%brick.maxDamage = $towerDamage * $towerStages;
 			%brick.isTowerSupport = 1;
@@ -273,7 +275,7 @@ function FxDTSBrick::damage(%brick, %damage, %player)
 		} else if (%brick == $Server::PrisonEscape::Generator) {
 			%brick.maxDamage = 10;
 		} else if (%brick.getDatablock().uiname $= "4x4f Glass Pane") {
-			%brick.maxDamage = 35;
+			%brick.maxDamage = 25;
 		} else if (strPos(%brick.getName(), "tower") < 0) {
 			%brick.maxDamage = $windowDamage;
 		}

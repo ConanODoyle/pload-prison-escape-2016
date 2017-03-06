@@ -85,7 +85,7 @@ datablock ShapeBaseImageData(PrisonTrayGoldenImage)
 
 	stateName[2]					= "Fire";
 	stateScript[2]					= "onFire";
-	stateTimeoutValue[2]			= 1;
+	stateTimeoutValue[2]			= 0.4;
 	stateTransitionOnTimeout[2]		= "PostFire";
 	stateEmitter[1]					= GoldenEmitter;
 	stateEmitterNode[1]				= "emitterPoint";
@@ -101,7 +101,7 @@ datablock ShapeBaseImageData(PrisonTrayGoldenImage)
 
 	stateName[4]					= "ReFire";
 	stateScript[4]					= "onReFire";
-	stateTimeoutValue[4]			= 0.5;
+	stateTimeoutValue[4]			= 0.4;
 	stateTransitionOnTimeout[4]		= "PostFire";
 	stateEmitter[1]					= GoldenEmitter;
 	stateEmitterNode[1]				= "emitterPoint";
