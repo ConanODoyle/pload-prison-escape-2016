@@ -317,7 +317,7 @@ datablock ShapeBaseImageData(tearGasGrenadeImage)
 
 	stateName[8]			= "Reload";
 	stateSequence[8]		= "Reload";
-	stateTimeoutValue[8]	= 1.1;
+	stateTimeoutValue[8]	= 1.0;
 	stateSound[8]			= tearGasGrenadeLoadSound;
 	stateTransitionOnTimeout[8]	= "Charge";
 
@@ -329,7 +329,7 @@ datablock ShapeBaseImageData(tearGasGrenadeImage)
 
 function tearGasGrenadeImage::onMount(%this, %obj, %slot) {
 	if (!%obj.hasSeenTearGasMessage) {
-		messageClient(%obj.client, '', "<font:Arial Bold:24>\c3Use tear gas to blind and slow prisoners who walk through it! Lasts 20 seconds.");
+		messageClient(%obj.client, '', "<font:Arial Bold:24>\c3Use tear gas to blind, hurt, and slow prisoners who walk through it! Lasts 20 seconds.");
 	}
 	%obj.hasSeenTearGasMessage = 1;
 	return parent::onMount(%this, %obj, %slot);
@@ -432,10 +432,15 @@ function tearGasDamageLoop(%emitter, %killer) {
 		}
 
 		%eyePos = getWords(%pl.getEyeTransform(), 0, 2);
+		%pos = vectorAdd(%emitter.getPosition(), "0 0 0.2");
 
 		%dist = vectorLen(vectorSub(%eyePos, %pos));
 		if (%dist < $tearGasRadius) {
-			applyTearGas(%pl, %emitter);
+			if (getRegion(%pl) $= "Outside" || getRegion(%pl) $= "Yard") {
+				applyTearGas(%pl, %emitter);
+			} else if (!isObject(getWord(containerRaycast(%eyePos, %pos, $TypeMasks::FxBrickObjectType), 0))) {
+				applyTearGas(%pl, %emitter);
+			}
 		}
 	}
 

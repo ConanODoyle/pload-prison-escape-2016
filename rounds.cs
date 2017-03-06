@@ -118,8 +118,6 @@ function serverCmdSetPhase(%cl, %phase)
 	} 
 	else if (%phase == 1) //start the round caminations and spawn everyone but dont give them control of their bodies yet
 	{
-		spawnKillGround();
-		despawnAll();
 		for (%i = 0; %i < ClientGroup.getCount(); %i++)
 		{
 			%t = ClientGroup.getObject(%i);
@@ -127,6 +125,9 @@ function serverCmdSetPhase(%cl, %phase)
 				stopPlayerHairCustomization(%t.player);
 			}
 		}
+		spawnKillGround();
+		despawnAll();
+		
 		setAllCamerasView($Server::PrisonEscape::LoadingCamBrick.getPosition(), $Server::PrisonEscape::LoadingCamBrickTarget.getPosition(), 50);
 		displayLogo($Server::PrisonEscape::LoadingCamBrick.getPosition(), $Server::PrisonEscape::LoadingCamBrickTarget.getPosition(), LogoOpenShape, 0);
 		$LogoShape.setScale("2.2 2.2 2.2");

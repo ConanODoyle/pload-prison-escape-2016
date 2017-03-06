@@ -1,5 +1,18 @@
 exec("./hair.cs");
 
+function serverCmdBarber(%cl) {
+	if (!isObject(%pl = %cl.player)) {
+		return;
+	} else if ($Server::PrisonEscape::roundPhase > 0 && getRegion(%pl) !$= "Infirmary") {
+		return;
+	} else if (vectorLen(%pl.getVelocity()) > 0.1) {
+		messageClient(%cl, '', "You need to stop moving to use the barber!");
+		return;
+	}
+	%pl.setVelocity("0 0 0");
+	schedule(1, %pl, startPlayerHairCustomization, %pl);
+}
+
 function startPlayerHairCustomization(%pl, %brick) {
 	if (!isObject(%cl = %pl.client)) {
 		return;
@@ -9,15 +22,22 @@ function startPlayerHairCustomization(%pl, %brick) {
 		datablock = EmptyHoleBot;
 	};
 	MissionCleanup.add(%mount);
-	%mount.setTransform(%brick.getTransform());
+	if (isObject(%brick)) {
+		%mount.setTransform(%brick.getTransform());
+	} else {
+		%mount.setTransform(%pl.getTransform());
+	}
 	%pl.customizationMount = %mount;
 	%pl.setTransform("0 0 0");
 
 	%mount.mountObject(%pl, 0);
 	%pl.isCustomizing = 1;
 	%cl.isCustomizing = 1;
+	%cl.lastCustomizeTime = getSimTime();
 	%pl.canDismount = 0;
-	%brick.customizingClient = %cl;
+	if (isObject(%brick)) {
+		%brick.customizingClient = %cl;
+	}
 
 	%cl.camera.setMode("Observer");
 	%cl.camera.setTransform(getHairCamPosition(%brick, %pl));
@@ -34,26 +54,29 @@ function startPlayerHairCustomization(%pl, %brick) {
 		giveRandomHair(%cl);
 	}
 
-	%index = $PrisonEscape::Hair::currentHair[%cl.bl_id] = $PrisonEscape::Hair::savedHair[%cl.bl_id] + 1;
+	%index = $PrisonEscape::Hair::currentHair[%cl.bl_id] = $PrisonEscape::Hair::savedHair[%cl.bl_id];
 	centerPrint(%cl, "<br><br><br><br><br>\c6Plant Brick: Confirm \c7||\c6 Light: Exit" @ getFormattedHairCenterprint(%cl, $PrisonEscape::Hair::Unlocked[%cl.bl_id], %index));
 
 	%pl.playThread(0, sit);
 	serverCmdUnUseTool(%cl);
 }
 
-function getHairCamPosition(%brick, %pl) {
-	%winString = "<font:Palatino Linotype:24>\c6Testing cams ";
-	%id = %brick.getAngleID();
-	switch (%id) {
-		case 0: %vec = "0 2 2.2";
-		case 1: %vec = "-2 0 2.2";
-		case 2: %vec = "0 -2 2.2";
-		case 3: %vec = "2 0 2.2";
+function getHairCamPosition(%obj, %pl) {
+	if (%obj.getClassName() $= "fxDTSBrick") {
+		%id = %obj.getAngleID();
+		switch (%id) {
+			case 0: %vec = "0 2 2.2";
+			case 1: %vec = "-2 0 2.2";
+			case 2: %vec = "0 -2 2.2";
+			case 3: %vec = "2 0 2.2";
+		}
+		%start = %obj.getPosition();
+		%end = vectorAdd(%vec, %start);
+		
+		%pos = vectorAdd(%obj.getPosition(), %vec);
+	} else if (!isObject(%obj)) {
+		%pos = vectorAdd(%pl.getEyeTransform(), vectorAdd(%pl.getForwardVector(), "0 0 0.5"));
 	}
-	%start = %brick.getPosition();
-	%end = vectorAdd(%vec, %start);
-	
-	%pos = vectorAdd(%brick.getPosition(), %vec);
 	%delta = vectorSub(getWords(vectorAdd(%pl.getEyeTransform(), "0 0 -0.4"), 0, 2), %pos);
 	%deltaX = getWord(%delta, 0);
 	%deltaY = getWord(%delta, 1);
@@ -66,7 +89,6 @@ function getHairCamPosition(%brick, %pl) {
 	%aa = eulerRadToMatrix(%rotX SPC 0 SPC %rotZ); //this function should be called eulerToAngleAxis...
 	return %pos SPC %aa;
 }
-
 
 function stopPlayerHairCustomization(%pl) {
 	if (!isObject(%cl = %pl.client) || !%cl.isCustomizing) {
@@ -90,7 +112,6 @@ function stopPlayerHairCustomization(%pl) {
 
 	if (isObject(%pl.customizingBrick)) {
 		%pl.customizingBrick.customizingClient = "";
-		%pl.customizingBrick.setRaycasting(1);
 	}
 
 	centerPrint(%cl, "");
@@ -120,7 +141,7 @@ function getHairName(%cl, %id) {
 package PrisonCustomization {
 	function Observer::onTrigger(%this, %obj, %trig, %state) {
 		%cl = %obj.getControllingClient();
-		if (%cl.isCustomizing) {
+		if (%cl.isCustomizing && getSimTime() - %cl.lastCustomizeTime > 100) {
 			eval("toggle" @ %cl.customizingMode @ "Mode(" @ %cl @ ", " @ %trig @ ", " @ %state @ ");");
 			return;
 		}
