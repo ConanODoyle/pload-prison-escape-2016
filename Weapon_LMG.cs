@@ -410,7 +410,7 @@ function LightMachinegunImage::onLoadCheck(%this,%obj,%slot)
 }
 
 if ($LMGMaxHeat $= "") {
-	$LMGMaxHeat = 60;
+	$LMGMaxHeat = 40;
 }
 
 function releaseHeat(%obj) {

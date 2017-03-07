@@ -270,7 +270,7 @@ function PrisonTrayImage::onReFire(%this, %obj, %slot) {
 $timeToAttachTray = 10;
 
 function checkTrayAttached(%player, %target) {
-	%target.client.centerprint("\c6" @ %player.client.name @ "is attaching a tray to you...<br>" @ getColoredBars(%player.progress, $timeToAttachTray), 2);
+	%target.client.centerprint("\c6" @ %player.client.name @ " is attaching a tray to you...<br>" @ getColoredBars(%player.progress, $timeToAttachTray), 2);
 	%player.client.centerprint("\c6Attaching tray to " @ %target.client.name @ "...<br>" @ getColoredBars(%player.progress, $timeToAttachTray), 2);
 	return %player.progress/$timeToAttachTray;
 }

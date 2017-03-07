@@ -63,7 +63,7 @@ function startPlayerHairCustomization(%pl, %brick) {
 }
 
 function getHairCamPosition(%obj, %pl) {
-	if (%obj.getClassName() $= "fxDTSBrick") {
+	if (isObject(%obj) && %obj.getClassName() $= "fxDTSBrick") {
 		%id = %obj.getAngleID();
 		switch (%id) {
 			case 0: %vec = "0 2 2.2";
@@ -76,7 +76,7 @@ function getHairCamPosition(%obj, %pl) {
 		
 		%pos = vectorAdd(%obj.getPosition(), %vec);
 	} else if (!isObject(%obj)) {
-		%pos = vectorAdd(%pl.getEyeTransform(), vectorAdd(%pl.getForwardVector(), "0 0 0.5"));
+		%pos = vectorAdd(%pl.getEyeTransform(), vectorAdd(vectorScale(%pl.getForwardVector(), 1.2), "0 0 0.5"));
 	}
 	%delta = vectorSub(getWords(vectorAdd(%pl.getEyeTransform(), "0 0 -0.4"), 0, 2), %pos);
 	%deltaX = getWord(%delta, 0);
@@ -98,8 +98,7 @@ function stopPlayerHairCustomization(%pl) {
 
 	%pl.canDismount = 1;
 	%pl.dismount();
-	%pl.setTransform(%pl.customizationMount.getTransform());
-	%pl.setTransform(%pl.customizationMount.getPosition() SPC rotFromTransform(%pl.getTransform()));
+	%pl.schedule(10, setTransform, %pl.customizationMount.getPosition() SPC rotFromTransform(%pl.getTransform()));
 
 	%pl.customizationMount.delete();
 	%pl.isCustomizing = 0;

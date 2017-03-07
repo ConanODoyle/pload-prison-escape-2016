@@ -288,3 +288,26 @@ datablock ProjectileData(InfoSoapProjectile : InfoBronsonProjectile) {
 	explosion = InfoSoapExplosion;
 	explodeOnDeath = 1;
 };
+
+
+
+datablock ParticleData(InfoBurgerParticle : InfoBronsonParticle)
+{
+	textureName			 = "./Burger";
+};
+
+datablock ParticleEmitterData(InfoBurgerEmitter : InfoBronsonEmitter)
+{
+	particles = "InfoBurgerParticle";	
+
+	uiName = "Info - Burger";
+};
+
+datablock ExplosionData(InfoBurgerExplosion : InfoBronsonExplosion) {
+	particleEmitter = InfoBurgerEmitter;
+};
+
+datablock ProjectileData(InfoBurgerProjectile : InfoBronsonProjectile) {
+	explosion = InfoBurgerExplosion;
+	explodeOnDeath = 1;
+};

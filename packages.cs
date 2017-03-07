@@ -80,12 +80,12 @@ package PrisonEscape_Base
 	function Player::ChangeDatablock(%this, %db) {
 		%ret = parent::ChangeDatablock(%this, %db);
 		if (%this.client.isDonator && %db.getName() $= "BuffArmor") {
-			%this.mountImage(CrocHatImage, 1);
-			%this.mountImage(PrisonSoapGoldenPickupImage, 2);
+			%this.mountImage(CrocHatImage, 2);
+			%this.mountImage(PrisonSoapGoldenPickupImage, 1);
 		} else if (isObject(%this.client)) {
 			%hairUnlocked = $PrisonEscape::Hair::Unlocked[%this.client.bl_id];
 			%currentHair = $PrisonEscape::Hair::currentHair[%this.client.bl_id];
-			putOnHair(%player, $Hair[getWord(%hairUnlocked, %currentHair)]);
+			putOnHair(%this, $Hair[getWord(%hairUnlocked, %currentHair)]);
 		}
 		setStatistic("BronsonUnlocked", $Server::PrisonEscape::currTime);
 		return %ret;
@@ -291,7 +291,7 @@ package PrisonEscape_Base
 			return;
 		} else if (isObject(%mnt = %obj.getObjectMount()) && %mnt.getDatablock().getName() $= "LaundryCartArmor" && %obj.getMountNode() $= 0) {
 			if (isObject(%cl = %obj.client)) {
-				%cl.centerPrint("\c6You can't equip items as while pushing a cart!", 1);
+				%cl.centerPrint("\c6You can't equip items while pushing a cart!", 1);
 				%obj.unMountImage(%slot);
 			}
 			return;

@@ -197,6 +197,9 @@ function isBreakableBrick(%brick, %player)
 }
 
 function FxDTSBrick::killDelete(%this) {
+	if (%this.getDatablock().getName() $= "4x4F_GlassPane") {
+		$Server::PrisonEscape::GeneratorOpened = 1;
+	}
 	%this.fakeKillBrick((getRandom()-0.5)*20 SPC (getRandom()-0.5)*20 SPC -1, 2);
 	%this.schedule(2000, delete);
 	serverPlay3D("brickBreakSound", %this.getPosition());

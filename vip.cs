@@ -145,3 +145,18 @@ function serverCmdSetPlayerCount(%cl, %count) {
 	updateServerPlayerCount();
 	PPE_MessageAdmins("!!! - \c3" @ %cl.name @ "\c6 set the max playercount to \c4" @ %count);
 }
+
+function serverCmdCrocHat(%cl) {
+	if (!%cl.isDonator) {
+		messageClient(%cl, '', "You have to be a donator to wear the Croc Hat!");
+		return;
+	} else if (!isObject(%pl = %cl.player)) {
+		return;
+	}
+
+	if (isObject(%pl.getMountedImage(2)) && %pl.getMountedImage(2).getName() $= "CrocHatImage") {
+		%pl.unMountImage(2);
+	} else {
+		%pl.mountImage(CrocHatImage, 2);
+	}
+}

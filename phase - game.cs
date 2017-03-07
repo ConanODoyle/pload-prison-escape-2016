@@ -455,6 +455,7 @@ function spawnEmittersLoop(%i) {
 		case "SmokeGrenade": %data = InfoSmokeGrenadeProjectile;
 		case "SatDish": %data = InfoSatDishProjectile;
 		case "Soap": %data = InfoSoapProjectile;
+		case "Burger": %data = InfoSoapProjectile;
 		default: %data = "";
 	}
 	if (isObject(%data)) {

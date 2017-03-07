@@ -66,6 +66,7 @@ function serverCmdSetPhase(%cl, %phase)
 
 	if (%phase == 0) //pre round phase: display statistics, pick guards, load bricks
 	{
+		$Server::PrisonEscape::GeneratorOpened = 0;
 		$Server::PrisonEscape::roundPhase = 0;
 		despawnAll();
 		if (isEventPending($Server::PrisonEscape::timerSchedule))
@@ -118,6 +119,7 @@ function serverCmdSetPhase(%cl, %phase)
 	} 
 	else if (%phase == 1) 
 	{
+		$Server::PrisonEscape::roundPhase = 1;
 		for (%i = 0; %i < ClientGroup.getCount(); %i++)
 		{
 			%t = ClientGroup.getObject(%i);
@@ -129,7 +131,6 @@ function serverCmdSetPhase(%cl, %phase)
 		despawnAll();
 
 		setAllCamerasView($Server::PrisonEscape::LoadingCamBrick.getPosition(), $Server::PrisonEscape::LoadingCamBrickTarget.getPosition(), 50);
-		talk(%cl SPC %phase);
 		$nextRoundPhaseSchedule = schedule(100, 0, serverCmdSetPhase, %cl, 11);
 	}
 	else if (%phase == 11) //start the round caminations and spawn everyone but dont give them control of their bodies yet
@@ -148,7 +149,6 @@ function serverCmdSetPhase(%cl, %phase)
 		clearBottomprintAll();
 
 		schedule(2000, 0, displayIntroCenterprint);
-		talk(%cl SPC %phase);
 		$nextRoundPhaseSchedule = schedule(5000, 0, serverCmdSetPhase, $fakeClient, 15);
 	}
 	else if (%phase == 15)

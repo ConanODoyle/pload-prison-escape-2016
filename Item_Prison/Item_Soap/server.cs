@@ -321,7 +321,7 @@ package SoapItem {
 	function Armor::onCollision(%this, %obj, %col, %vel, %speed) {
 		%name = %col.getDatablock().getName();
 		if (strPos(%name, "Soap") && %col.getDatablock().isSlidingItem && %this.getName() !$= "LaundryCartArmor" && %this.getName() !$= "EmptyHoleBot" && %this.getName() !$= "SpotlightArmor") {
-			if (getSimTime() - %col.spawnTime < 500 || isObject(%obj.getObjectMount()) || isObject(%obj.getMountedObject(0)) || %obj.isSliding) {
+			if (getSimTime() - %col.spawnTime < 100 || isObject(%obj.getObjectMount()) || isObject(%obj.getMountedObject(0)) || %obj.isSliding) {
 				return;
 			}
 			if (strPos(%name, "Golden") >= 0) {
