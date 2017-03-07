@@ -125,5 +125,7 @@ exec("./Item_Tray/golden/server.cs");
 exec("./Item_Bucket/golden/server.cs");
 exec("./Item_Soap/golden/server.cs");
 exec("./Weapon_Sniper_Rifle_Spotlight/golden/server.cs");
+exec("./Weapon_LMG/golden/server.cs");
 exec("./Item_Smoke_Grenade/golden/server.cs");
+exec("./Item_Tear_Gas/golden/server.cs");
 exec("./Item_Chisel/golden/server.cs");

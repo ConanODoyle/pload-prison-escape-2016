@@ -1,11 +1,11 @@
-
+$timeBetweenSpawns = 90;
 function bottomprintTimerLoop(%timeLeft) {
 	if (isEventPending($Server::PrisonEscape::timerSchedule)) {
 		cancel($Server::PrisonEscape::timerSchedule);
 	}
 	if (%timeleft == $Server::PrisonEscape::timePerRound * 60 + 1) {
 		spawnDeadPrisoners();
-	} else if (%timeLeft % 90 == 0 && %timeleft) {
+	} else if (%timeLeft % $timeBetweenSpawns == 0 && %timeleft) {
 		spawnDeadInfirmary();
 	}
 	//display timeleft to everyone
@@ -26,7 +26,7 @@ function bottomprintTimerLoop(%timeLeft) {
 		}
 
 		if (!isObject(%cl.player)){
-			%cl.bottomprint("<font:Arial Bold:34><just:center>\c6" @ getTimeString(%timeLeft-1) @ " <br><font:Impact:30>\c0Respawn wave in: " @ getTimeString((%timeLeft - 1) % 90));
+			%cl.bottomprint("<font:Arial Bold:34><just:center>\c6" @ getTimeString(%timeLeft-1) @ " <br><font:Impact:30>\c0Respawn wave in: " @ getTimeString((%timeLeft - 1) % $timeBetweenSpawns));
 		} else {
 			%underStr = "\c6[\c1" @ %cl.location @ "\c6] <br>\c3" @ $prisonerCount[%cl.location] @ "/" @ $prisonerCount["Total"] SPC %prisoners;
 			%cl.bottomprint("<font:Arial Bold:34><just:center>\c6" @ getTimeString(%timeLeft-1) @ " <br><font:Arial Bold:24>" @ %underStr, 2, 1);
@@ -68,7 +68,7 @@ function prisonerCountCheck(%i) {
 
 			%prisoners = $prisonerCount["Total"] > 1 ? "Prisoners" : "Prisoner";
 			if (!isObject(%cl.player)) {
-				%cl.bottomprint("<font:Arial Bold:34><just:center>\c6" @ getTimeString(%timeLeft-1) @ " <br><font:Impact:30>\c0Respawn wave in: " @ getTimeString((%timeLeft - 1) % 90));
+				%cl.bottomprint("<font:Arial Bold:34><just:center>\c6" @ getTimeString(%timeLeft-1) @ " <br><font:Impact:30>\c0Respawn wave in: " @ getTimeString((%timeLeft - 1) % $timeBetweenSpawns));
 			} else {
 				%underStr = "\c6[\c1" @ %cl.location @ "\c6] <br>\c3" @ $prisonerCount[%cl.location] @ "/" @ $prisonerCount["Total"] SPC %prisoners;
 				%cl.bottomprint("<font:Arial Bold:34><just:center>\c6" @ getTimeString(%timeLeft-1) @ " <br><font:Arial Bold:24>" @ %underStr, 2, 1);
@@ -80,6 +80,7 @@ function prisonerCountCheck(%i) {
 	$countCheckInProgress = 1;
 	//talk("Count Check " @ %i);
 	%cl = ClientGroup.getObject(%i);
+	setStatistic("LocationAtTime" @ $Server::PrisonEscape::currTime-1, getRegion(%cl.player), %cl);
 	if (!isObject(%pl = %cl.player) || %cl.isGuard) {
 		schedule(1, 0, prisonerCountCheck, %i + 1);
 		return;
@@ -151,11 +152,11 @@ function pushCenterprintGuards(%msg, %time) {
 
 registerOutputEvent("fxDTSBrick", "prisonersWin", "", 1);
 
-function fxDTSBrick::prisonersWin(%this, %client) {
-	if (%client.isGuard || $Server::PrisonEscape::roundPhase != 2 || $prisonersHaveWon)
+function fxDTSBrick::prisonersWin(%this, %cl) {
+	if (%cl.isGuard || $Server::PrisonEscape::roundPhase != 2 || $prisonersHaveWon)
 		return;
 	
-	$Server::PrisonEscape::firstPrisonerOut = %client;
+	$Server::PrisonEscape::firstPrisonerOut = %cl;
 	prisonersWin(%this);
 }
 
@@ -472,14 +473,15 @@ function spawnEmittersLoop(%i) {
 function killTower(%id) {
 	%tower = $Server::PrisonEscape::Towers.tower[%id];
 	%tower.isDestroyed = 1;
-	%client = %tower.guard;
+	%cl = %tower.guard;
 
 	setStatistic("Tower" @ %id @ "Destroyed", $Server::PrisonEscape::currTime);
 
 	//remove the guard's items
-	if (isObject(%client.player))
-		%client.player.kill();
+	if (isObject(%cl.player))
+		%cl.player.kill();
 
+	%cl.isGuard = 0;
 	//destroy the bricks but sequentially as to not lag everyone to death
 	%tower.destroy();
 	pushCenterPrintAll("<font:Impact:40>\c4Tower \c3" @ %id @ "\c4 has fallen!", 20);

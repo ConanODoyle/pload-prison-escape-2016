@@ -209,6 +209,8 @@ function prisonEscape_saveBricks(%brickgroup, %i) {									//would make it easi
 		%brick.tower = %tower;
 	} else if (strPos(%name, "info") >= 0) {
 		$Server::PrisonEscape::InfoBricks.add(%brick);
+	} else if (strPos(strlwr(%name), "camera") >= 0) {
+		$Server::PrisonEscape::Cameras.add(%brick);
 	} else if (strPos(%name, "dogSpawn") >= 0) {
 		$Server::PrisonEscape::DogSpawn = %brick;
 	} else if (strPos(%name, "Generator") >= 0) {
@@ -219,13 +221,13 @@ function prisonEscape_saveBricks(%brickgroup, %i) {									//would make it easi
 		%brick.setColor(4);
 	} else if (%name $= "BronsonDoor") {
 		%brick.setRaycasting(1);
+	} else if (strPos(%name, "generatorDoorWall") >= 0) {
+		%brick.setColliding(1);
 	} else if (strPos(%name, "generatorDoors") >= 0) {
 		%brick.setRaycasting(1);
 	} else if (strPos(%name, "generatorDoor") >= 0) {
 		%brick.setEventEnabled("2", 0);
 		%brick.setEventEnabled("0 1", 1);
-	} else if (strPos(%name, "generatorDoorWall") >= 0) {
-		%brick.setColliding(1);
 	} else if (strPos(%name, "garageDoor") >= 0) {
 		%brick.door(4);
 	} else if (strPos(%name, "garageDoorSwitch") >= 0) {
@@ -241,8 +243,6 @@ function prisonEscape_saveBricks(%brickgroup, %i) {									//would make it easi
 		%brick.respawnBot();
 	} else if (strPos(%name, "CommDish") >= 0) {
 		$Server::PrisonEscape::CommDish = %brick; 
-	} else if (strPos(strLwr(%name), "camera") >= 0) {
-		$Server::PrisonEscape::Cameras.add(%brick);
 	} else if (strPos(strlwr(%name), "spawn") >= 0) {
 		if (%name $= "Spawn") {
 			$Server::PrisonEscape::PrisonerSpawnPoints.add(%brick);

@@ -1,25 +1,3 @@
-datablock ItemData(LogoClosedItem : printGun) {
-    shapeFile = "./logoClosed.dts";
-	image = "";
-
-    canPickup = false;
-
-	uiname = "LogoClosedItem";
-    doColorShift = false;
-	colorShiftColor = "0 1 0 1";
-};
-
-datablock ItemData(LogoOpenItem : printGun) {
-    shapeFile = "./logoOpen.dts";
-    image = "";
-
-    canPickup = false;
-
-    uiname = "LogoOpenItem";
-    doColorShift = false;
-    colorShiftColor = "0 1 0 1";
-};
-
 datablock StaticShapeData(LogoClosedShape)
 {
     shapeFile = "./LogoClosed.dts";
@@ -34,27 +12,6 @@ datablock StaticShapeData(LogoDishShape)
 {
     shapeFile = "./LogoDish.dts";
 };
-
-package PrisonEscape_Logo {
-    function ItemData::onAdd(%this, %obj) {
-        
-        if (strPos(%this.getName(), "Logo") >= 0) {
-            %obj.startFade(0, 0, 1);
-            %obj.canPickup = false;
-
-            %alpha = 1;
-            %obj.hideNode("ALL");
-            %obj.setNodeColor("outline", "0 0 0 " @ %alpha);
-            %obj.setNodeColor("clothing", "1 0.479 0 " @ %alpha);
-            %obj.setNodeColor("skin", "0.8 0.612 0.356 " @ %alpha);
-            %obj.setNodeColor("bars", "0.359 0.359 0.359 " @ %alpha);
-            %obj.setNodeColor("beams", "0.168 0.168 0.168 " @ %alpha);
-            doLogoFadeIn(%obj, 0);
-        }
-        return parent::onAdd(%this, %obj);
-    }
-};
-activatePackage(PrisonEscape_Logo);
 
 function doLogoFadeOut(%item, %alpha) {
     if (%alpha <= 0 || !isObject(%item)) {
@@ -85,7 +42,6 @@ function doLogoFadeIn(%item, %alpha) {
 
     schedule(10, %item, doLogoFadeIn, %item, %alpha + 0.01);
 }
-
 
 $tilt = 0.1;
 

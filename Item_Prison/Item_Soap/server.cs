@@ -159,7 +159,7 @@ datablock ShapeBaseImageData(PrisonSoapImage)
 	// Projectile && Ammo.
 	item = PrisonSoapItem;
 	ammo = " ";
-	projectile = PrisonSoapProjectile;
+	projectile = "";
 	projectileType = Projectile;
 
 	//melee particles shoot from eye node for consistancy
@@ -332,7 +332,7 @@ package SoapItem {
 				if (isObject(%cl = %obj.client) && %cl.isGuard) {
 					setStatistic("GuardsSoaped", getStatistic("GuardsSoaped") + 1);
 					%obj.setWhiteOut(0.8);
-					stun(%obj, 3);
+					stun(%obj, 10);
 					removeUniform(%obj);
 				} else {
 					setStatistic("SoapUsed", getStatistic("SoapUsed", %obj.client) + 1, %obj.client);
@@ -346,6 +346,7 @@ package SoapItem {
 					%soap.mountObject(%obj, 1);
 					%soap.doSoapSlide(0, vectorLen(%vel) + 3, %golden);
 					%obj.playThread(0, sit);
+					removeUniform(%obj);
 				}
 			}
 			return;

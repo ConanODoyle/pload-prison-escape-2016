@@ -1,58 +1,7 @@
-//audio
-datablock AudioProfile(LightMachinegunFire1Sound)
-{
-   filename    = "./LMG_fire.wav";
-   description = AudioClosest3d;
-   preload = true;
-};
-
-datablock AudioProfile(LightMachinegunClickSound)
-{
-   filename    = "./LMG_clickofdeath.wav";
-   description = AudioClose3d;
-   preload = true;
-};
-
-AddDamageType("LMG",   '<bitmap:add-ons/Weapon_Package_Tier2/ci_lmg1> %1',    '%2 <bitmap:add-ons/Weapon_Package_Tier2/ci_lmg1> %1',0.75,1);
-datablock ProjectileData(LightMachinegunProjectile)
-{
-   projectileShapeName = "add-ons/Weapon_Gun/bullet.dts";
-   directDamage        = 15;
-   directDamageType    = $DamageType::LMG;
-   radiusDamageType    = $DamageType::LMG;
-
-   brickExplosionRadius = 0;
-   brickExplosionImpact = true;          //destroy a brick if we hit it directly?
-   brickExplosionForce  = 0;
-   brickExplosionMaxVolume = 0;          //max volume of bricks that we can destroy
-   brickExplosionMaxVolumeFloating = 0;  //max volume of bricks that we can destroy if they aren't connected to the ground
-
-   impactImpulse	     = 0;
-   verticalImpulse     = 20;
-   explosion           = gunExplosion;
-
-   muzzleVelocity      = 200;
-   velInheritFactor    = 1;
-
-   armingDelay         = 0;
-   lifetime            = 4000;
-   fadeDelay           = 3500;
-   bounceElasticity    = 0.0;
-   bounceFriction      = 0.0;
-   isBallistic         = false;
-   gravityMod = 0.1;
-   explodeOnDeath = true;
-   explodeOnPlayerImpact = false;
-
-   hasLight    = false;
-   lightRadius = 3.0;
-   lightColor  = "0 0 0.5";
-};
-
 //////////
 // item //
 //////////
-datablock ItemData(LightMachinegunItem)
+datablock ItemData(LightMachinegunGoldenItem)
 {
 	category = "Weapon";  // Mission editor category
 	className = "Weapon"; // For inventory system
@@ -67,13 +16,13 @@ datablock ItemData(LightMachinegunItem)
 	emap = true;
 
 	//gui stuff
-	uiName = "Light MG";
-	iconName = "./lightmg";
+	uiName = "Light MG Golden";
+	iconName = "";
 	doColorShift = true;
-	colorShiftColor = "0.4 0.4 0.42 1.000";
+	colorShiftColor = "0.96 0.89 0.08 1.000";
 
 	 // Dynamic properties defined by the scripts
-	image = LightMachinegunImage;
+	image = LightMachinegunGoldenImage;
 	canDrop = true;
 	
 	maxAmmo = 70;
@@ -83,7 +32,7 @@ datablock ItemData(LightMachinegunItem)
 ////////////////
 //weapon image//
 ////////////////
-datablock ShapeBaseImageData(LightMachinegunImage)
+datablock ShapeBaseImageData(LightMachinegunGoldenImage)
 {
     // Basic Item properties
     shapeFile = "./lmg.dts";
@@ -107,7 +56,7 @@ datablock ShapeBaseImageData(LightMachinegunImage)
     className = "WeaponImage";
 
     // Projectile && Ammo.
-    item = LightMachinegunItem;
+    item = LightMachinegunGoldenItem;
     ammo = " ";
     projectile = LightMachinegunProjectile;
     projectileType = Projectile;
@@ -124,9 +73,7 @@ datablock ShapeBaseImageData(LightMachinegunImage)
     armReady = true;
 
     doColorShift = true;
-    colorShiftColor = LightMachinegunItem.colorShiftColor;
-
-    goldenImage = LightMachinegunGoldenImage;
+    colorShiftColor = LightMachinegunGoldenItem.colorShiftColor;
 
     // Images have a state system which controls how the animations
     // are run, which sounds are played, script callbacks, etc. This
@@ -140,6 +87,9 @@ datablock ShapeBaseImageData(LightMachinegunImage)
 	stateTimeoutValue[0]             = 0.05;
 	stateTransitionOnTimeout[0]       = "LoadCheckA";
 	stateSound[0]					= weaponSwitchSound;
+	stateEmitter[0]					= GoldenEmitter;
+	stateEmitterNode[0]				= "mountPoint";
+	stateEmitterTime[0]				= 1000;
 
 	stateName[1]                     = "Ready";
 	stateTransitionOnNoAmmo[1]       = "LoadCheckA";
@@ -150,6 +100,9 @@ datablock ShapeBaseImageData(LightMachinegunImage)
 	stateScript[1]                   = "onReady";
 	stateSequence[1]                = "Ready";
 	stateAllowImageChange[1]         = true;
+	stateEmitter[1]					= GoldenEmitter;
+	stateEmitterNode[1]				= "mountPoint";
+	stateEmitterTime[1]				= 1000;
 
 	stateName[2]                    = "Fire";
 	stateTransitionOnTimeout[2]     = "FireLoadCheckA";
@@ -168,35 +121,56 @@ datablock ShapeBaseImageData(LightMachinegunImage)
 	stateName[3]			= "Delay";
 	stateTransitionOnTimeout[3]     = "FireLoadCheckA";
 	stateTimeoutValue[3]            = 0.01;
+	stateEmitter[3]					= GoldenEmitter;
+	stateEmitterNode[3]				= "mountPoint";
+	stateEmitterTime[3]				= 1000;
 	
 	stateName[4]				= "LoadCheckA";
 	stateScript[4]				= "onLoadCheck";
 	stateTimeoutValue[4]			= 0.01;
 	stateTransitionOnTimeout[4]		= "LoadCheckB";
+	stateEmitter[4]					= GoldenEmitter;
+	stateEmitterNode[4]				= "mountPoint";
+	stateEmitterTime[4]				= 1000;
 	
 	stateName[5]				= "LoadCheckB";
 	stateTransitionOnAmmo[5]		= "Ready";
 	stateTransitionOnNoAmmo[5]		= "Reload";
+	stateEmitter[5]					= GoldenEmitter;
+	stateEmitterNode[5]				= "mountPoint";
+	stateEmitterTime[5]				= 1000;
 
 	stateName[6]				= "Reload";
 	stateTimeoutValue[6]			= 0.1;
 	stateScript[6]				= "onReloadStart";
 	stateTransitionOnTimeout[6]		= "Wait";
 	stateWaitForTimeout[6]			= true;
+	stateEmitter[6]					= GoldenEmitter;
+	stateEmitterNode[6]				= "mountPoint";
+	stateEmitterTime[6]				= 1000;
 	
 	stateName[7]				= "Wait";
 	stateTimeoutValue[7]			= 0.1;
 	stateScript[7]				= "onReloadWait";
 	stateTransitionOnTimeout[7]		= "Reloaded";
+	stateEmitter[7]					= GoldenEmitter;
+	stateEmitterNode[7]				= "mountPoint";
+	stateEmitterTime[7]				= 1000;
 	
 	stateName[8]				= "FireLoadCheckA";
 	stateScript[8]				= "onLoadCheck";
 	stateTimeoutValue[8]			= 0.01;
 	stateTransitionOnTimeout[8]		= "FireLoadCheckB";
+	stateEmitter[8]					= GoldenEmitter;
+	stateEmitterNode[8]				= "mountPoint";
+	stateEmitterTime[8]				= 1000;
 	
 	stateName[9]				= "FireLoadCheckB";
 	stateTransitionOnAmmo[9]		= "Smoke";
 	stateTransitionOnNoAmmo[9]		= "ReloadSmoke";
+	stateEmitter[9]					= GoldenEmitter;
+	stateEmitterNode[9]				= "mountPoint";
+	stateEmitterTime[9]				= 1000;
 	
 	stateName[10] 				= "Smoke";
 	stateEmitter[10]			= gunSmokeEmitter;
@@ -217,6 +191,9 @@ datablock ShapeBaseImageData(LightMachinegunImage)
 	stateTimeoutValue[12]			= 0.04;
 	stateScript[12]				= "onReloaded";
 	stateTransitionOnTimeout[12]		= "Ready";
+	stateEmitter[12]					= GoldenEmitter;
+	stateEmitterNode[12]				= "mountPoint";
+	stateEmitterTime[12]				= 1000;
 
 	stateName[13]			= "Halt";
 	stateTransitionOnTimeout[13]     = "Ready";
@@ -233,6 +210,9 @@ datablock ShapeBaseImageData(LightMachinegunImage)
 	stateScript[14]                   = "onClick";
 	stateAllowImageChange[14]         = true;
 	stateSound[14]				= LightMachinegunClickSound;
+	stateEmitter[14]					= GoldenEmitter;
+	stateEmitterNode[14]				= "mountPoint";
+	stateEmitterTime[14]				= 1000;
 
 	// stateName[15]                    = "Fire2";
 	// stateTransitionOnTimeout[15]     = "Delay";
@@ -250,22 +230,11 @@ datablock ShapeBaseImageData(LightMachinegunImage)
 
 };
 
-package LMGHit {
-	function LightMachinegunProjectile::onCollision(%data, %obj, %col, %fade, %pos, %normal) {
-		if (%col.getClassName() $= "Player") {
-			setStatistic("LMGShotsHit", getStatistic("LMGShotsHit", %obj.client) + 1, %obj.client);
-			setStatistic("LMGShotsHit", getStatistic("LMGShotsHit") + 1);
-		}
-		return parent::onCollision(%data, %obj, %col, %fade, %pos, %normal);
-	}
-};
-activatePackage(LMGHit);
-
 function getPrisonEscapeTime() {
 	return "<font:Arial Bold:34><just:center>\c6" @ getTimeString($Server::PrisonEscape::currTime-1);
 }
 
-function LightMachinegunImage::onFire(%this,%obj,%slot)
+function LightMachinegunGoldenImage::onFire(%this,%obj,%slot)
 { 
 	%fX = getWord(%fvec,0);
 	%fY = getWord(%fvec,1);
@@ -335,7 +304,7 @@ function LightMachinegunImage::onFire(%this,%obj,%slot)
 	return %p;
 }
 
-function LightMachinegunImage::onReloadStart(%this,%obj,%slot)
+function LightMachinegunGoldenImage::onReloadStart(%this,%obj,%slot)
 {           		
 	commandToClient(%obj.client,'bottomPrint',getPrisonEscapeTime() @ "<just:right><font:impact:24><color:fff000>Heat <font:impact:28>" @ %obj.heatColor @ %obj.LMGHeat @ "/" @ $LMGMaxHeat, 4, 2, 3, 4); 
 	if(%obj.LMGHeat >= 1 && !isEventPending(%obj.heatSchedule))
@@ -345,17 +314,17 @@ function LightMachinegunImage::onReloadStart(%this,%obj,%slot)
 	%obj.isFiring = 0;
 }
 
-function LightMachinegunImage::onReloadWait(%this,%obj,%slot)
+function LightMachinegunGoldenImage::onReloadWait(%this,%obj,%slot)
 {
 	commandToClient(%obj.client,'bottomPrint',getPrisonEscapeTime() @ "<just:right><font:impact:24><color:fff000>Heat <font:impact:28>" @ %obj.heatColor @ %obj.LMGHeat @ "/" @ $LMGMaxHeat, 4, 2, 3, 4); 
 }
 
-function LightMachinegunImage::onReloaded(%this,%obj,%slot)
+function LightMachinegunGoldenImage::onReloaded(%this,%obj,%slot)
 {
 	%obj.isFiring = 0;
 }
 
-function LightMachinegunImage::onHalt(%this,%obj,%slot)
+function LightMachinegunGoldenImage::onHalt(%this,%obj,%slot)
 {
 	if($Pref::Server::TTAmmo == 0 || $Pref::Server::TTAmmo == 1)
 	{
@@ -364,7 +333,7 @@ function LightMachinegunImage::onHalt(%this,%obj,%slot)
 	%obj.isFiring = 0;
 }
 
-function LightMachinegunImage::onMount(%this,%obj,%slot)
+function LightMachinegunGoldenImage::onMount(%this,%obj,%slot)
 {
    	Parent::onMount(%this,%obj,%slot);
 	if($Pref::Server::TTAmmo == 0 || $Pref::Server::TTAmmo == 1)
@@ -373,7 +342,7 @@ function LightMachinegunImage::onMount(%this,%obj,%slot)
 	}
 }
 
-function LightMachinegunImage::onUnMount(%this,%obj,%slot)
+function LightMachinegunGoldenImage::onUnMount(%this,%obj,%slot)
 {
 	%obj.isFiring = 0;
 	if(%obj.LMGHeat >= 1 && !isEventPending(%obj.heatSchedule))
@@ -383,7 +352,7 @@ function LightMachinegunImage::onUnMount(%this,%obj,%slot)
    	Parent::onUnMount(%this,%obj,%slot);
 }
 
-function LightMachinegunImage::onLoadCheck(%this,%obj,%slot)
+function LightMachinegunGoldenImage::onLoadCheck(%this,%obj,%slot)
 {
 	if(%obj.LMGHeat >= $LMGMaxHeat) 
 		%obj.setImageAmmo(%slot,0);

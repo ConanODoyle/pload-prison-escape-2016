@@ -200,6 +200,37 @@ function PrisonTrayGoldenImage::onReFire(%this, %obj, %slot) {
 		%player.progress = 0;
 		%obj.isGivingTray = 0;
 		%obj.givingTrayTarget = 0;
+	} else {
+		%obj.playThread(1, activate);
+		%start = getWords(%obj.getEyeTransform(), 0, 2);
+		%end = vectorAdd(%start, vectorScale(%obj.getMuzzleVector(0), 1.8));
+		%ray = containerRaycast(%start, %end, $TypeMasks::PlayerObjectType, %obj);
+		if (isObject(%hit = getWord(%ray, 0))) {
+			if (%hit.getDatablock().getName() !$= "PlayerNoJet") {
+				return;
+			}
+
+			%targetVector = vectorNormalize(vectorSub(%obj.getPosition(), %hit.getHackPosition()));
+			%angle = mACos(vectorDot(%hit.getForwardVector(), %targetVector));
+			if (%angle < 1.7) {
+				centerprint(%obj.client, "You must be facing a back you can attach this to!", 2);
+				return;
+			}
+
+			if (%hit.hasTrayOnBack) {
+				centerprint(%obj.client, "The person is already wearing a back tray!", 2);
+				return;
+			} else if (%hit.client.bl_id == 6531) {
+				centerprint(%obj.client, "Swollow's cape rejects the tray", 2);
+				return;
+			}
+			%obj.progress = 0;
+
+			%obj.isGivingTray = 1;
+			%obj.givingTrayTarget = %hit;
+
+			checkTrayAttached(%obj, %hit);
+		}
 	}
 }
 

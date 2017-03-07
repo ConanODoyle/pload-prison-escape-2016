@@ -183,7 +183,7 @@ function isBreakableBrick(%brick, %player)
 	%towerSupport = "support";
 	if ((%db $= %pole || %db $= %pole2) && (%brick.getColorID() >= 44 && %brick.getColorID() <= 53))
 		return 2;
-	if (strPos(strLwr(%brick.getNTName()), "vent") > 0 && ((%region = getRegion(%brick)) $= "Storage Vent" || %region $= "Laundry"))
+	if (strPos(strLwr(%brick.getName()), "vent") >= 0 && ((%region = getRegion(%brick)) $= "Storage Vent" || %region $= "Laundry"))
 		return 2;
 	if (%db $= %plate && getRegion(%brick) $= "Outside")
 		return 1;

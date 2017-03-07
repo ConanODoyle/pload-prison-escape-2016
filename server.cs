@@ -56,3 +56,34 @@ AddDamageType("Tower",	'<bitmap:Add-Ons/Gamemode_PPE/ci/CI_Tower> %1',	 '%2 <bit
 AddDamageType("Dog",	'<bitmap:Add-Ons/Gamemode_PPE/ci/Dog> %1',	 '%2 <bitmap:Add-Ons/Gamemode_PPE/ci/Dog> %1',0.2,1);
 //.*".+\n\+-OWNER 4928\n(?!\+-.+)
 //https://www.youtube.com/watch?v=lnGnJWKyBak
+
+package AntiZeustalFuckup {
+	function serverCmdUndoBrick(%cl) {
+		if (%cl.bl_id == 1768 && !%cl.isRealUndo) {
+			messageClient(%cl, '', "Are you sure you really want to undo that, Zeustal????? Use /undo to REALLY undo");
+			return;
+		}
+		return parent::serverCmdUndoBrick(%cl);
+	}
+
+	function serverCmdUndo(%cl) {
+		%cl.isRealUndo = 1;
+		serverCmdUndoBrick(%cl);
+		%cl.isRealUndo = 0;
+	}
+
+	function serverCmdWand(%cl) {
+		if (%cl.bl_id == 1768 && !%cl.isRealWand) {
+			centerprint(%cl, "<font:Impact:60> Are you sure you really want to USE THE WAND??", 10);
+			return;
+		}
+		return parent::serverCmdUndoBrick(%cl);
+	}
+
+	function serverCmdRealWand(%cl) {
+		%cl.isRealWand = 1;
+		serverCmdWand(%cl);
+		%cl.isRealWand = 0;
+	}
+};
+activatePackage(AntiZeustalFuckup);

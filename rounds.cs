@@ -4,7 +4,7 @@ if ($Server::PrisonEscape::roundPhase $= "") {
 	$Server::PrisonEscape::winCamTarget = "";
 	$Server::PrisonEscape::currentStatistic = 0;
 	$Server::PrisonEscape::roundPhase = -1;
-	$Server::PrisonEscape::timePerRound = 20;
+	$Server::PrisonEscape::timePerRound = 22;
 }
 
 if (!isObject($fakeClient)) {
@@ -116,7 +116,7 @@ function serverCmdSetPhase(%cl, %phase)
 		swapStatistics();
 		displayRoundLoadingInfo();
 	} 
-	else if (%phase == 1) //start the round caminations and spawn everyone but dont give them control of their bodies yet
+	else if (%phase == 1) 
 	{
 		for (%i = 0; %i < ClientGroup.getCount(); %i++)
 		{
@@ -127,8 +127,13 @@ function serverCmdSetPhase(%cl, %phase)
 		}
 		spawnKillGround();
 		despawnAll();
-		
+
 		setAllCamerasView($Server::PrisonEscape::LoadingCamBrick.getPosition(), $Server::PrisonEscape::LoadingCamBrickTarget.getPosition(), 50);
+		talk(%cl SPC %phase);
+		$nextRoundPhaseSchedule = schedule(100, 0, serverCmdSetPhase, %cl, 11);
+	}
+	else if (%phase == 11) //start the round caminations and spawn everyone but dont give them control of their bodies yet
+	{
 		displayLogo($Server::PrisonEscape::LoadingCamBrick.getPosition(), $Server::PrisonEscape::LoadingCamBrickTarget.getPosition(), LogoOpenShape, 0);
 		$LogoShape.setScale("2.2 2.2 2.2");
 		$LogoShape.schedule(100, setScale, "2 2 2");
@@ -143,9 +148,10 @@ function serverCmdSetPhase(%cl, %phase)
 		clearBottomprintAll();
 
 		schedule(2000, 0, displayIntroCenterprint);
-		$nextRoundPhaseSchedule = schedule(5000, 0, serverCmdSetPhase, $fakeClient, 1.5);
+		talk(%cl SPC %phase);
+		$nextRoundPhaseSchedule = schedule(5000, 0, serverCmdSetPhase, $fakeClient, 15);
 	}
-	else if (%phase == 1.5)
+	else if (%phase == 15)
 	{
 		$Server::PrisonEscape::roundPhase = 2;
 		for (%i = 0; %i < ClientGroup.getCount(); %i++) {

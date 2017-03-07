@@ -248,6 +248,9 @@ function isPosInBounds(%pos, %a, %b) {
 }
 
 function getRegion(%obj) {
+    if (!isObject(%obj)) {
+        return "Dead";
+    }
     %pos = %obj.getPosition();
     for (%i = 0; %i < $locationNum; %i++) {
         %pos0 = $location[%i @ "::pos0"];

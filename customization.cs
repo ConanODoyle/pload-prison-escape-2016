@@ -43,6 +43,7 @@ function startPlayerHairCustomization(%pl, %brick) {
 	%cl.camera.setTransform(getHairCamPosition(%brick, %pl));
 	%cl.setControlObject(%cl.camera);
 	%cl.camera.setControlObject(%pl);
+	%pl.setControlObject(%cl.dummyCamera);
 	%cl.customizingMode = "Hair";
 
 	putOnHair(%pl, getHairName(%cl, $PrisonEscape::Hair::savedHair[%cl.bl_id]));
@@ -107,6 +108,8 @@ function stopPlayerHairCustomization(%pl) {
 	%cl.camera.setMode("Observer");
 	%cl.setControlObject(%pl);
 	%cl.customizingMode = "";
+
+	%pl.setControlObject(%pl);
 
 	putOnHair(%pl, getHairName(%cl, $PrisonEscape::Hair::savedHair[%cl.bl_id]));
 

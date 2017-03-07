@@ -230,7 +230,7 @@ datablock ProjectileData(SniperRifleSpotlightProjectile)
 	impactImpulse		  = 0;
 	verticalImpulse	  = 0;
 	explosion			  = SniperRifleSpotlightExplosion;
-	particleEmitter	  = SniperRifleSpotlightBu0.8letTrailEmitter;
+	particleEmitter	  = SniperRifleSpotlightBulletTrailEmitter;
 
 	muzzleVelocity		= 200;
 	velInheritFactor	 = 1;

@@ -250,12 +250,14 @@ datablock ShapeBaseImageData(tearGasGrenadeImage)
 	projectile = tearGasGrenadeProjectile;
 	projectileType = Projectile;
 
+	goldenImage = tearGasGrenadeGoldenImage;
+
 	//melee particles shoot from eye node for consistancy
 	melee = false;
 	//raise your arm up or not
 	armReady = true;
 
-	maxTearGasShots = 5;
+	maxTearGasShots = 2;
 
 	//casing = " ";
 	doColorShift = true;

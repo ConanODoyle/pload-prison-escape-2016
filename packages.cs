@@ -544,7 +544,12 @@ function GameConnection::applyUniform(%this) {
 				%player.unHideNode($accent1);
 				%player.setNodeColor($accent1, "0.388235 0 0.117647 1");
 				%color = "0.5 0.5 0.5 1";
-			}
+			} else if (%this.bl_id == 6531) {
+				%this.player.unHideNode($pack[3]);
+				%this.player.setNodeColor($pack[3], "0.388 0 0.117 1");
+				%this.player.unHideNode($secondpack[6]);
+				%this.player.setNodeColor($secondpack[6], "0.388 0 0.117 1");
+			} 
 
 			%player.unHideNode(copHat);
 			%player.setNodeColor(copHat, %color);
