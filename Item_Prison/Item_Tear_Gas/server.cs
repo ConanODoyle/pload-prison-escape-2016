@@ -429,7 +429,7 @@ function tearGasDamageLoop(%emitter, %killer) {
 
 	for (%i = 0; %i < ClientGroup.getCount(); %i++) {
 		%cl = ClientGroup.getObject(%i);
-		if (%cl.isGuard || !isObject(%pl = %cl.player)) {
+		if (%cl.isGuard || !isObject(%pl = %cl.player) || %pl.isWearingGasmask) {
 			continue;
 		}
 

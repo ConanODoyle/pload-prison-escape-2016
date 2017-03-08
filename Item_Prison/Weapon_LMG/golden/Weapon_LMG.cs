@@ -16,7 +16,7 @@ datablock ItemData(LightMachinegunGoldenItem)
 	emap = true;
 
 	//gui stuff
-	uiName = "Light MG Golden";
+	uiName = "Golden Light MG";
 	iconName = "";
 	doColorShift = true;
 	colorShiftColor = "0.96 0.89 0.08 1.000";

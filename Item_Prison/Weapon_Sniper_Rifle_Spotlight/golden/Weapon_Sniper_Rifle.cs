@@ -95,7 +95,7 @@ datablock ShapeBaseImageData(SniperRifleSpotlightGoldenImage)
 	// Projectile && Ammo.
 	item = SniperRifleSpotlightGoldenItem;
 	ammo = " ";
-	projectile = SniperRifleSpotlightGoldenProjectile;
+	projectile = SniperRifleSpotlightProjectile;
 	projectileType = Projectile;
 
 	casing = SniperRifleSpotlightDebris;
