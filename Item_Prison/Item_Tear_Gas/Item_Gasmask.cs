@@ -59,10 +59,14 @@ datablock ShapeBaseImageData(GasmaskHImage)
 	stateScript[2] = "onFire";
 };
 
-function GasmaskHImage::onFire(%this,%obj,%slot)
+function GasmaskHImage::onFire(%this, %obj, %slot)
 {
-	if(isObject(%player))
+	if(isObject(%obj))
 	{
+        if (%obj.isWearingBucket) {
+            messageClient(%obj.client, '', "You can't wear a gasmask while having a bucket on!");
+            return;
+        }
 		if(%obj.getMountedImage(3) $= nametoID(GasmaskMaskImage))
 		{
 			%obj.unmountImage(3);

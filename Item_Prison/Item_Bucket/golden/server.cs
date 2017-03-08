@@ -178,6 +178,7 @@ function PrisonBucketGoldenImage::onEquip(%this, %obj, %slot)
 	}
 	else
 	{
+		%obj.unmountImage(3);
 		serverPlay3D(weaponSwitchSound, %obj.getHackPosition());
 		%obj.mountImage(PrisonBucketGoldenHatImage, 2);
 		%obj.mountImage(PrisonBucketGoldenEquippedImage, 0);

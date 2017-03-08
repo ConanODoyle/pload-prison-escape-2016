@@ -172,6 +172,7 @@ function PrisonBucketImage::onEquip(%this, %obj, %slot)
 	}
 	else
 	{
+		%obj.unmountImage(3);
 		serverPlay3D(weaponSwitchSound, %obj.getHackPosition());
 		%obj.mountImage(PrisonBucketHatImage, 2);
 		%obj.mountImage(PrisonBucketEquippedImage, 0);
