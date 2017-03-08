@@ -66,9 +66,9 @@ function serverCmdSetPhase(%cl, %phase)
 
 	if (%phase == 0) //pre round phase: display statistics, pick guards, load bricks
 	{
-		$Server::PrisonEscape::GeneratorOpened = 0;
 		$Server::PrisonEscape::roundPhase = 0;
 		despawnAll();
+		saveStatistics();
 		if (isEventPending($Server::PrisonEscape::timerSchedule))
 			cancel($Server::PrisonEscape::timerSchedule);
 
@@ -119,6 +119,7 @@ function serverCmdSetPhase(%cl, %phase)
 	} 
 	else if (%phase == 1) 
 	{
+		$Server::PrisonEscape::GeneratorOpened = 0;
 		$Server::PrisonEscape::roundPhase = 1;
 		for (%i = 0; %i < ClientGroup.getCount(); %i++)
 		{
@@ -128,6 +129,7 @@ function serverCmdSetPhase(%cl, %phase)
 			}
 		}
 		spawnKillGround();
+		spawnGenRoomKill();
 		despawnAll();
 
 		setAllCamerasView($Server::PrisonEscape::LoadingCamBrick.getPosition(), $Server::PrisonEscape::LoadingCamBrickTarget.getPosition(), 50);
@@ -145,6 +147,7 @@ function serverCmdSetPhase(%cl, %phase)
 
 		cancel($Server::PrisonEscape::statisticLoop);
 		clearStatistics();
+		createLocationsLookupTable();
 		clearCenterprintAll();
 		clearBottomprintAll();
 
@@ -231,6 +234,13 @@ function serverCmdSetPhase(%cl, %phase)
 		if (isObject(SM_Music)) {
 			SM_Music.delete();
 		}
+	}
+}
+
+function createLocationsLookupTable() {
+	for (%i = 0; %i < $locationNum; %i++) {
+		setStatistic("loc" @ %i, $location[%i @ "::name"]);
+		setStatistic("loc" @ $location[%i @ "::name"], %i);
 	}
 }
 //%this.player.setShapeName(%this.player.identity,"8564862");

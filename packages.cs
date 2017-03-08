@@ -584,8 +584,6 @@ function giveItems(%client) {
 		//%player.addItem(WhistleItem, %client);
 		%player.addItem(LightMachineGunItem, %client);
 		%player.addItem(tearGasGrenadeItem, %client);
-		%player.addItem(tearGasGrenadeItem, %client);
-		%player.addItem(tearGasGrenadeItem, %client);
 		%player.addItem(SteakItem, %client);
 	} else if (%client.isJanitor) {
 		%player.addItem(PushBroomItem, %client);
@@ -598,7 +596,7 @@ function Player::addItem(%this, %item, %client) {
 	%item = %item.getID();
 	for(%i = 0; %i < %this.getDatablock().maxTools; %i++) {
 		%tool = %this.tool[%i];
-		if(%tool == 0) {
+		if (%tool == 0) {
 			%this.tool[%i] = %item.getID();
 			%this.weaponCount++;
 			messageClient(%client, 'MsgItemPickup', '', %i, %item.getID());

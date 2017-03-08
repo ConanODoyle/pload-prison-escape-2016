@@ -72,11 +72,19 @@ function swol_killTrigger::onEnterTrigger(%db,%trig,%pl)
 {
 	if($Server::PrisonEscape::RoundPhase != 0)
 	{
+		if(%trig.genKill)
+		{
+			if($Server::PrisonEscape::GeneratorOpened)
+				return;
+			talk(%pl.client.getPlayerName() SPC "was killed for exploiting genroom");
+			%pl.kill();
+			return;
+		}
 		if(!isObject(%cl = %pl.client))
 			return;
 		if(!%cl.minigame)
 			return;
-		if(%cl.isGuard)
+		if(%cl.guard)
 		{
 			spawnGuard(%cl.tower);
 		}
@@ -86,7 +94,22 @@ function swol_killTrigger::onEnterTrigger(%db,%trig,%pl)
 		}
 	}
 }
-
+function spawnGenRoomKill()
+{
+	%pos = "-66 -123.5 34.1";
+	%scale = "16 11 6.6";
+	if(isObject($Swol_GenKill))
+		$Swol_GenKill.delete();
+	$Swol_GenKill = new Trigger()
+	{
+		datablock = swol_killTrigger;
+		scale = %scale;
+		polyhedron = "-0.5 -0.5 -0.5 1 0 0 0 1 0 0 0 1";
+		position = %pos;
+		rotation = "0 0 0 0";
+		genKill = 1;
+	};
+}
 function spawnKillGround()
 {
 	if(isObject($Swol_KillGround))

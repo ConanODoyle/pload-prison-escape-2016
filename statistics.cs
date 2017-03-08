@@ -9,7 +9,7 @@ function setStatistic(%statistic, %val, %client) {
 	if (isObject(%client)) {
 		$Statistics::round[$Statistics::round @ "_" @ %statistic @ "_" @ %client.bl_id] = %val;
 	} else {
-		$Statistics::round[$Statistics::round @ "_" @ %statistic @ "_Total"] = %val;
+		$Statistics::round[$Statistics::round @ "_" @ %statistic @ ""] = %val;
 	}
 	return %val;
 }
@@ -19,7 +19,7 @@ function getStatistic(%statistic, %client) {
 	if (isObject(%client)) {
 		return $Statistics::round[$Statistics::round @ "_" @ %statistic @ "_" @ %client.bl_id];
 	} else {
-		return $Statistics::round[$Statistics::round @ "_" @ %statistic @ "_Total"];
+		return $Statistics::round[$Statistics::round @ "_" @ %statistic @ ""];
 	}
 }
 
@@ -143,12 +143,16 @@ function getNumObjectiveHits(%cl) {
 // 	$Server::PrisonEscape::TopChisel = %mvpChisel;
 // }  
 
+function saveStatistics() {
+	export("$Statistics::round" @ $Statistics::round @ "*", "config/PPE Statistics/Round " @ $Statistics::round @ ".cs");
+	export("$Statistics::round", "Add-ons/Gamemode_PPE/roundNum.cs");
+}
+
 function clearStatistics()
 {
+	saveStatistics();
 	$Statistics::round[$Statistics::round @ "_Date"] = getDateTime();
-	export("$Statistics::round" @ $Statistics::round @ "*", "config/PPE Statistics/Round " @ $Statistics::round @ ".cs");
 	$Statistics::round++;
-	export("$Statistics::round", "Add-ons/Gamemode_PPE/roundNum.cs");
 
 	for (%i = 0; %i < ClientGroup.getCount(); %i++) {
 		ClientGroup.getObject(%i).setScore(0);

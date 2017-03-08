@@ -80,7 +80,7 @@ function prisonerCountCheck(%i) {
 	$countCheckInProgress = 1;
 	//talk("Count Check " @ %i);
 	%cl = ClientGroup.getObject(%i);
-	setStatistic("LocationAtTime" @ $Server::PrisonEscape::currTime-1, getRegion(%cl.player), %cl);
+	setStatistic("LocAt" @ $Server::PrisonEscape::currTime-1, getStatistic("loc" @ getRegion(%cl.player)), %cl);
 	if (!isObject(%pl = %cl.player) || %cl.isGuard) {
 		schedule(1, 0, prisonerCountCheck, %i + 1);
 		return;
@@ -344,7 +344,6 @@ package PrisonEscape_GamePhase {
 	}
 };
 activatePackage(PrisonEscape_GamePhase);
-
 registerOutputEvent("fxDTSBrick", "disableSpotlights", "", 1);
 
 function fxDTSBrick::disableSpotlights(%this, %client) {
@@ -455,7 +454,7 @@ function spawnEmittersLoop(%i) {
 		case "SmokeGrenade": %data = InfoSmokeGrenadeProjectile;
 		case "SatDish": %data = InfoSatDishProjectile;
 		case "Soap": %data = InfoSoapProjectile;
-		case "Burger": %data = InfoSoapProjectile;
+		case "Burger": %data = InfoBurgerProjectile;
 		default: %data = "";
 	}
 	if (isObject(%data)) {
