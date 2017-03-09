@@ -98,7 +98,9 @@ function stopPlayerHairCustomization(%pl) {
 
 	%pl.canDismount = 1;
 	%pl.dismount();
-	%pl.schedule(10, setTransform, %pl.customizationMount.getPosition() SPC rotFromTransform(%pl.getTransform()));
+	if (!isObject(%pl.customizingBrick)) {
+		%pl.schedule(10, setTransform, %pl.customizationMount.getPosition() SPC rotFromTransform(%pl.getTransform()));
+	}
 
 	%pl.customizationMount.delete();
 	%pl.isCustomizing = 0;
