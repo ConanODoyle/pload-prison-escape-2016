@@ -61,7 +61,7 @@ datablock ShapeBaseImageData(GasmaskGoldenHImage)
 
 function GasmaskGoldenHImage::onFire(%this,%obj,%slot)
 {
-	if(isObject(%player))
+	if(isObject(%obj))
 	{
 		if(%obj.getMountedImage(3) $= nametoID(GasmaskGoldenMaskImage))
 		{

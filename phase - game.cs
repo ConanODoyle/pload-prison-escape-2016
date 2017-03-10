@@ -3,14 +3,15 @@ function bottomprintTimerLoop(%timeLeft) {
 	if (isEventPending($Server::PrisonEscape::timerSchedule)) {
 		cancel($Server::PrisonEscape::timerSchedule);
 	}
-	if (%timeleft == $Server::PrisonEscape::timePerRound * 60 + 1) {
+	if (%timeLeft == $Server::PrisonEscape::timePerRound * 60 + 1) {
 		spawnDeadPrisoners();
-	} else if (%timeLeft % $timeBetweenSpawns == 0 && %timeleft) {
+	} else if (%timeLeft % $timeBetweenSpawns == 0 && %timeLeft) {
 		spawnDeadInfirmary();
 	}
-	//display timeleft to everyone
+
+	//display timeLeft to everyone
 	bottomprintAll("<font:Arial Bold:34><just:center>\c6" @ getTimeString(%timeLeft-1) @ " ", -1, 0);
-	if (%timeleft == 0) {
+	if (%timeLeft == 0) {
 		guardsWin();
 		return; 
 	}
@@ -40,7 +41,7 @@ function bottomprintTimerLoop(%timeLeft) {
 	}
 
 	$Server::PrisonEscape::currTime = %timeLeft;
-	$Server::PrisonEscape::timerSchedule = schedule(1000, 0, bottomprintTimerLoop, %timeleft-1);
+	$Server::PrisonEscape::timerSchedule = schedule(1000, 0, bottomprintTimerLoop, %timeLeft-1);
 }
 
 $alarmGuardsThreshold = 6;

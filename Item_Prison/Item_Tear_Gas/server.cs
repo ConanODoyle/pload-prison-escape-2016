@@ -257,7 +257,7 @@ datablock ShapeBaseImageData(tearGasGrenadeImage)
 	//raise your arm up or not
 	armReady = true;
 
-	maxTearGasShots = 3;
+	maxTearGasShots = 2;
 
 	//casing = " ";
 	doColorShift = true;
@@ -278,6 +278,8 @@ datablock ShapeBaseImageData(tearGasGrenadeImage)
 	stateSound[0]					= weaponSwitchSound;
 
 	stateName[1]			= "Ready";
+	stateTransitionOnTimeout[1] = "DisplayAmmo";
+	stateTimeoutValue[1]		= 0.1;
 	stateTransitionOnTriggerDown[1]	= "Fire";
 	stateAllowImageChange[1]	= true;
 	
@@ -327,6 +329,12 @@ datablock ShapeBaseImageData(tearGasGrenadeImage)
 	stateSequence[9]		= "Ready";
 	stateTimeoutValue[9]	= 0.1;
 	stateTransitionOnTimeout[9]	= "AmmoCheck";
+
+	stateName[10]			= "DisplayAmmo";
+	stateScript[10]			= "displayAmmo";
+	stateTransitionOnTimeout[7]	= "Ready";
+	stateTimeoutValue[7]		= 0.1;
+	stateTransitionOnTriggerDown[7]	= "Fire";
 };
 
 function tearGasGrenadeImage::onMount(%this, %obj, %slot) {
@@ -373,11 +381,29 @@ function tearGasGrenadeImage::onAbortCharge(%this, %obj, %slot)
 	%obj.playthread(2, activate);
 }
 
+$tearGasShotRechargeTime = 4;
+
+function rechargeTearGasShots(%obj) {
+	if (isObject(%obj)) {
+		if (%obj.totalTearGasShots > 0 && !isEventPending(%obj.tearGasRechargeSchedule)) {
+			%obj.tearGasRechargeSchedule = schedule($tearGasShotRechargeTime * 60 * 1000, %obj, messageClient, %obj.client, '', "<font:Arial Bold:26>\c3You have recharged an extra tear gas shot.");
+			schedule($tearGasShotRechargeTime * 60 * 1000, %obj, eval, %obj @ ".totalTearGasShots--;");
+			schedule($tearGasShotRechargeTime * 60 * 1000 + 1, %obj, rechargeTearGasShots, %obj);
+		}
+	}
+}
+
 function tearGasGrenadeImage::onAmmoCheck(%this, %obj, %slot)
-{
+{	
 	if (%obj.totalTearGasShots >= %this.maxTearGasShots) {
-		centerPrint(%obj.client, "<br><br><br><br><br><br><font:Arial Bold:24>\c0" @ 0 @ "/" @ %this.maxTearGasShots @ " Tear Gas Canisters Left", 5);
+		centerPrint(%obj.client, "<br><br><br><br><br><br><font:Arial Bold:24>\c0" @ 0 @ "/" @ %this.maxTearGasShots @ " Tear Gas Canisters Left. Recharging: " @ mFloor(getTimeRemaining(%obj.tearGasRechargeSchedule) / 1000) @ " s", 5);
 		%obj.setImageAmmo(%slot, 0);
+		rechargeTearGasShots(%obj);
+		return;
+	} else if (%obj.totalTearGasShots > 0) {
+		centerPrint(%obj.client, "<br><br><br><br><br><br><font:Arial Bold:24>\c3" @ %this.maxTearGasShots - %obj.totalTearGasShots @ "/" @ %this.maxTearGasShots @ " Tear Gas Canisters Left. Recharging: " @ mFloor(getTimeRemaining(%obj.tearGasRechargeSchedule) / 1000) @ " s", 5);
+		%obj.setImageAmmo(%slot, 1);
+		rechargeTearGasShots(%obj);
 		return;
 	}
 

@@ -15,7 +15,7 @@ datablock ItemData(tearGasGrenadeGoldenItem)
 	emap = true;
 
 	//gui stuff
-	uiName = "Tear Gas Launcher";
+	uiName = "Golden Tear Gas Launcher";
 	iconName = "Add-ons/Gamemode_PPE/icons/smoke";
 	doColorShift = true;
 	colorShiftColor = "0.5 0.2 0.2 1.000";
@@ -67,7 +67,7 @@ datablock ShapeBaseImageData(tearGasGrenadeGoldenImage)
 	//raise your arm up or not
 	armReady = true;
 
-	maxTearGasShots = 3;
+	maxTearGasShots = 2;
 
 	//casing = " ";
 	doColorShift = true;
@@ -92,6 +92,8 @@ datablock ShapeBaseImageData(tearGasGrenadeGoldenImage)
 
 	stateName[1]			= "Ready";
 	stateTransitionOnTriggerDown[1]	= "Fire";
+	stateTransitionOnTimeout[1] = "DisplayAmmo";
+	stateTimeoutValue[1]		= 0.01;
 	stateAllowImageChange[1]	= true;
 	stateEmitter[1]					= GoldenEmitter;
 	stateEmitterNode[1]				= "mountPoint";
@@ -167,6 +169,13 @@ datablock ShapeBaseImageData(tearGasGrenadeGoldenImage)
 	stateEmitter[9]					= GoldenEmitter;
 	stateEmitterNode[9]				= "mountPoint";
 	stateEmitterTime[9]				= 1000;
+
+	stateName[10]			= "DisplayAmmo";
+	stateScript[10]			= "onAmmoCheck";
+	stateTransitionOnTimeout[10]	= "Ready";
+	stateTimeoutValue[10]		= 0.01;
+	stateTransitionOnTriggerDown[10]	= "Fire";
+	stateTimeoutValue[10]		= 0.01;
 };
 
 function tearGasGrenadeGoldenImage::onMount(%this, %obj, %slot) {
@@ -216,8 +225,14 @@ function tearGasGrenadeGoldenImage::onAbortCharge(%this, %obj, %slot)
 function tearGasGrenadeGoldenImage::onAmmoCheck(%this, %obj, %slot)
 {
 	if (%obj.totalTearGasShots >= %this.maxTearGasShots) {
-		centerPrint(%obj.client, "<br><br><br><br><br><br><font:Arial Bold:24>\c0" @ 0 @ "/" @ %this.maxTearGasShots @ " Tear Gas Canisters Left", 5);
+		centerPrint(%obj.client, "<br><br><br><br><br><br><font:Arial Bold:24>\c0" @ 0 @ "/" @ %this.maxTearGasShots @ " Tear Gas Canisters Left. Recharging: " @ mFloor(getTimeRemaining(%obj.tearGasRechargeSchedule) / 1000) @ " s", 5);
 		%obj.setImageAmmo(%slot, 0);
+		rechargeTearGasShots(%obj);
+		return;
+	} else if (%obj.totalTearGasShots > 0) {
+		centerPrint(%obj.client, "<br><br><br><br><br><br><font:Arial Bold:24>\c3" @ %this.maxTearGasShots - %obj.totalTearGasShots @ "/" @ %this.maxTearGasShots @ " Tear Gas Canisters Left. Recharging: " @ mFloor(getTimeRemaining(%obj.tearGasRechargeSchedule) / 1000) @ " s", 5);
+		%obj.setImageAmmo(%slot, 1);
+		rechargeTearGasShots(%obj);
 		return;
 	}
 
