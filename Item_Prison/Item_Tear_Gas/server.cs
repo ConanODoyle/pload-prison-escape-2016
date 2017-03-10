@@ -331,7 +331,7 @@ datablock ShapeBaseImageData(tearGasGrenadeImage)
 	stateTransitionOnTimeout[9]	= "AmmoCheck";
 
 	stateName[10]			= "DisplayAmmo";
-	stateScript[10]			= "displayAmmo";
+	stateScript[10]			= "onAmmoCheck";
 	stateTransitionOnTimeout[7]	= "Ready";
 	stateTimeoutValue[7]		= 0.1;
 	stateTransitionOnTriggerDown[7]	= "Fire";
