@@ -332,9 +332,9 @@ datablock ShapeBaseImageData(tearGasGrenadeImage)
 
 	stateName[10]			= "DisplayAmmo";
 	stateScript[10]			= "onAmmoCheck";
-	stateTransitionOnTimeout[7]	= "Ready";
-	stateTimeoutValue[7]		= 0.1;
-	stateTransitionOnTriggerDown[7]	= "Fire";
+	stateTransitionOnTimeout[10]	= "Ready";
+	stateTimeoutValue[10]		= 0.1;
+	stateTransitionOnTriggerDown[10]	= "Fire";
 };
 
 function tearGasGrenadeImage::onMount(%this, %obj, %slot) {
