@@ -71,7 +71,7 @@ function GasmaskGoldenHImage::onFire(%this,%obj,%slot)
 		else
 		{
 			%obj.unmountImage(3);
-			%obj.mountImage(GasmaskGoldenMaskImage,3);
+			%obj.mountImage(GasmaskMaskImage,3);
 			serverPlay3D(GasmaskuseSound,%obj.getTransform());
 		}
 	}
