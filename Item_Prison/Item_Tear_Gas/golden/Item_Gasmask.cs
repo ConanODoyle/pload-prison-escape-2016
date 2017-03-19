@@ -63,7 +63,11 @@ function GasmaskGoldenHImage::onFire(%this,%obj,%slot)
 {
 	if(isObject(%obj))
 	{
-		if(%obj.getMountedImage(3) $= nametoID(GasmaskGoldenMaskImage))
+        if (%obj.isWearingBucket) {
+            messageClient(%obj.client, '', "You can't wear a gasmask while having a bucket on!");
+            return;
+        }
+		if(%obj.getMountedImage(3) $= nametoID(GasmaskGoldenMaskImage) || %obj.isWearingGasmask)
 		{
 			%obj.unmountImage(3);
 			serverPlay3D(GasmaskuseSound,%obj.getTransform());
