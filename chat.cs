@@ -37,6 +37,10 @@ package PrisonChatSystem
 		else
 			%name = "<color:8AD88D>" @ (%cl.fakeName $= "" ? %cl.name : %cl.fakeName);
 
+		if (isObject(%cl.player) && %cl.player.getDatablock().getName() $= "BuffArmor") {
+			%name = "<font:impact:24>" @ %name;
+		}
+
 		if ((strPos(strlwr(%msg), "\@here") >= 0 || strPos(strlwr(%msg), "\@everyone") >= 0) && %cl.bl_id != 4928) {
 			messageClient(%cl, '', "You are not allowed to @mention the discord users");
 			return;
