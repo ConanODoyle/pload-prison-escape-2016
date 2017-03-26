@@ -245,7 +245,7 @@ package ChiselHit
 activatePackage(ChiselHit);
 
 $windowDamage = 10;
-$towerDamage = 14;
+$towerDamage = 16;
 $towerStages = 4;
 $towerColor0 = 60;
 $towerColor1 = 59;

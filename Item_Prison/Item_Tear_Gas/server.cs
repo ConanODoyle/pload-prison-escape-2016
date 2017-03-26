@@ -339,7 +339,7 @@ datablock ShapeBaseImageData(tearGasGrenadeImage)
 
 function tearGasGrenadeImage::onMount(%this, %obj, %slot) {
 	if (!%obj.hasSeenTearGasMessage) {
-		messageClient(%obj.client, '', "<font:Arial Bold:24>\c3Use tear gas to blind, hurt, and slow prisoners who walk through it! Lasts 20 seconds.");
+		messageClient(%obj.client, '', "<font:Arial Bold:24>\c3Use tear gas to blind, hurt, and slow prisoners who walk through it! Lasts" @ mFloor($tearGasTime / 1000) @ "seconds.");
 	}
 	%obj.hasSeenTearGasMessage = 1;
 	return parent::onMount(%this, %obj, %slot);
@@ -381,7 +381,7 @@ function tearGasGrenadeImage::onAbortCharge(%this, %obj, %slot)
 	%obj.playthread(2, activate);
 }
 
-$tearGasShotRechargeTime = 4;
+$tearGasShotRechargeTime = 3;
 
 function rechargeTearGasShots(%obj) {
 	if (isObject(%obj)) {
@@ -419,10 +419,10 @@ function tearGasGrenadeProjectile::onCollision(%this, %obj, %col, %fade, %pos, %
 	return parent::onCollision(%this, %obj, %col, %fade, %pos, %normal);
 }
 
-$tearGasTime = 20000;
-$tearGasRadius = 5;
-$tearGasSlowTime = 4000;
-$tearGasSlowSpeed = 0.4;
+$tearGasTime = 30000;
+$tearGasRadius = 6;
+$tearGasSlowTime = 6000;
+$tearGasSlowSpeed = 0.3;
 
 
 function tearGasGrenadeProjectile::onExplode(%this, %proj, %pos) {
@@ -497,9 +497,7 @@ function applyTearGas(%pl, %emitter) {
 	%pl.setMaxSideSpeed(%db.maxSideSpeed * $tearGasSlowSpeed);
 	%pl.setMaxBackwardSpeed(%db.maxBackwardSpeed * $tearGasSlowSpeed);
 
-	if (%pl.getDamagePercent() < 0.5) {
-		%pl.damage(%emitter, %pl.getPosition(), 0.5, $DamageType::Default);
-	}
+	%pl.damage(%emitter, %pl.getPosition(), 0.7, $DamageType::Default);
 
 	resetPlayerMoveSpeed(%pl);
 }

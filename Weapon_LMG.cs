@@ -17,7 +17,7 @@ AddDamageType("LMG",   '<bitmap:add-ons/Weapon_Package_Tier2/ci_lmg1> %1',    '%
 datablock ProjectileData(LightMachinegunProjectile)
 {
    projectileShapeName = "add-ons/Weapon_Gun/bullet.dts";
-   directDamage        = 15;
+   directDamage        = 18;
    directDamageType    = $DamageType::LMG;
    radiusDamageType    = $DamageType::LMG;
 
@@ -410,7 +410,8 @@ function LightMachinegunImage::onLoadCheck(%this,%obj,%slot)
 }
 
 if ($LMGMaxHeat $= "") {
-	$LMGMaxHeat = 40;
+	$LMGMaxHeat = 80;
+	$LMGRechargeTime = 800;
 }
 
 function releaseHeat(%obj) {
@@ -420,7 +421,7 @@ function releaseHeat(%obj) {
 
 	if (%obj.LMGHeat > 0) {
 		%obj.LMGHeat--;
-		%obj.heatSchedule = schedule(1000, %obj, releaseHeat, %obj);
+		%obj.heatSchedule = schedule($LMGRechargeTime, %obj, releaseHeat, %obj);
 	}
 }
 
@@ -439,7 +440,7 @@ function LightMachinegunProjectile::Damage(%this, %obj, %col, %fade, %pos, %norm
 	%directDamage = mClampF(%this.directDamage, -100.0, 100) * %scale;
 	if (%col.getDatablock().getName() $= "BuffArmor")
 	{
-		%col.Damage(%obj, %pos, 2, %damageType);
+		%col.Damage(%obj, %pos, 5, %damageType);
 	}
 	else
 	{
