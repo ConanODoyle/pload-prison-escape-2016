@@ -3,12 +3,25 @@
 //////////preround//////////
 ////////////////////////////
 
+package PPE_Lobby
+{
+	function GameConnection::onDrop(%cl)
+	{
+		if (strPos(" " @ $Server::PrisonEscape::Guards @ " ", " " @ %cl @ " ") >= 0)
+		{
+			serverCmdRemoveGuard("", %cl.name);
+		}
+		return parent::onDrop(%cl);
+	}
+};
+activatePackage(PPE_Lobby);
 
-function serverCmdAddGuard(%client, %name) 
+function serverCmdAddGuard(%client, %n1, %n2, %n3, %n4, %n5, %n6, %n7, %n8) 
 {
 	if (!%client.isSuperAdmin)
 		return;
 
+	%name = trim(%n1 SPC %n2 SPC %n3 SPC %n4 SPC %n5 SPC %n6 SPC %n7 SPC %n8);
 	%targ = findclientbyname(%name);
 	if (!isObject(%targ)) {
 		messageAdmins("!!! \c5Cannot add \c3" @ %targ.name @ "\c5 to guard list - client does not exist! \c7(" @ %client.name @ ")");
@@ -27,11 +40,13 @@ function serverCmdAddGuard(%client, %name)
 	displayRoundLoadingInfo(0);
 }
 
-function serverCmdRemoveGuard(%client, %name)
+//takes index or client name
+function serverCmdRemoveGuard(%client, %n1, %n2, %n3, %n4, %n5, %n6, %n7, %n8)
 {
-	if (!%client.isSuperAdmin)
+	if (!%client.isSuperAdmin && %client !$= "")
 		return;
 
+	%name = trim(%n1 SPC %n2 SPC %n3 SPC %n4 SPC %n5 SPC %n6 SPC %n7 SPC %n8);
 	%targ = findclientbyname(%name);
 	if (strPos($Server::PrisonEscape::Guards, %targ) < 0 && !(%name > 0 && %name < 5)) {
 		messageAdmins("!!! \c5Cannot remove \c3" @ %targ.name @ "\c5 from guard list - not in list! \c7(" @ %client.name @ ")");
@@ -49,7 +64,14 @@ function serverCmdRemoveGuard(%client, %name)
 		$Server::PrisonEscape::Guards = strReplace($Server::PrisonEscape::Guards, "  ", " ");
 		$Server::PrisonEscape::Guarsd = trim($Server::PrisonEscape::Guards);
 	}
-	messageAll('', "\c0!!! \c6- " @ %client.name @ " removed " @ %guard.name @ " from the guard list.");
+	if (%client.name $= "")
+	{
+		messageAll('', "\c0!!! \c6- Automatically removed " @ %guard.name @ " from the guard list.");
+	}
+	else
+	{
+		messageAll('', "\c0!!! \c6- " @ %client.name @ " removed " @ %guard.name @ " from the guard list.");
+	}
 	displayRoundLoadingInfo(0);
 }
 

@@ -130,6 +130,7 @@ package PrisonEscape_Base
 	function GameConnection::onDeath(%cl, %proj, %killer, %damageType, %part) {
 		%cl.isBeingStunned = 0;
 		if ($Server::PrisonEscape::roundPhase == 2) {
+			%cl.isGuard = 0;
 			%cl.player.setShapeName("", "8564862");
 			%cl.player.client = "";
 			%cl.camera.setMode("Corpse", %cl.player);

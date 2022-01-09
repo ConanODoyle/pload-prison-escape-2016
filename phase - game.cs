@@ -480,9 +480,10 @@ function killTower(%id) {
 
 	//remove the guard's items
 	if (isObject(%cl.player))
-		%cl.player.kill();
+		%cl.player.clearTools();
 
-	%cl.isGuard = 0;
+	%cl.isGuard = 1;
+	%cl.player.setDamageLevel(80);
 	//destroy the bricks but sequentially as to not lag everyone to death
 	%tower.destroy();
 	pushCenterPrintAll("<font:Impact:40>\c4Tower \c3" @ %id @ "\c4 has fallen!", 20);

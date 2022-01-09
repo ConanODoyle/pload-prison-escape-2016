@@ -30,9 +30,7 @@ package PrisonEscape_VIP {
 	}
 
 	function GameConnection::onConnectRequest(%client, %netAddress, %LANname, %netName, %clanPrefix, %clanSuffix, %clientNonce) {
-		if (ClientGroup.getCount() == $Pref::Server::maxPlayers) {
-			$Pref::Server::maxPlayers++;
-		} else if (ClientGroup.getCount() > $Pref::Server::maxPlayers) {
+		if (ClientGroup.getCount() >= $Pref::Server::maxPlayers) {
 			$Pref::Server::maxPlayers = ClientGroup.getCount() + 1;
 		}
 		for (%i = 0; %i < $NameOverrideCount; %i++) {
@@ -41,30 +39,25 @@ package PrisonEscape_VIP {
 	 			%client.setPlayerName("au^timoamyo7zene", %netName);
 			}
 		}
-		messageClient(fcn(Conan), '', "\c4Attempt to join by \c3" @ %netName);
+		PPE_MessageAdmins("\c4Attempt to join by \c3" @ %netName);
 		return parent::onConnectRequest(%client, %netAddress, %LANname, %netName, %clanPrefix, %clanSuffix, %clientNonce);
 	}
 
 	function GameConnection::onDrop(%client) {
-		if ($Pref::Server::maxPlayers > $Server::PrisonEscape::maxPlayers) {
-			$Pref::Server::maxPlayers--;
-			updateServerPlayerCount();
-		} else if ($Pref::Server::maxPlayers > ClientGroup.getCount() && ClientGroup.getCount() > $Server::PrisonEscape::maxPlayers) {
-			$Pref::Server::maxPlayers = $Server::PrisonEscape::maxPlayers;
-			updateServerPlayerCount();
-		}
+		$Pref::Server::maxPlayers = getMax($Server::PrisonEscape::maxPlayers, ClientGroup.getCount() + 1);
+		updateServerPlayerCount();
 		return parent::onDrop(%client);
 	}
 
 	function servAuthTCPObj::onLine(%this, %line) {
 		%word = getWord(%line, 0);
-		if (%word $= "YES")
+		if (%word $= "SUCCESS")
 		{
 			%cl = %this.client;
 			if (%cl.hasSpawnedOnce) {
 				return parent::onLine(%this, %line);
 			}
-			%blid = getWord(%line, 1);
+			%blid = %cl.bl_id;
 			echo("PPE - Checking for VIP status (" @ %blid @ ", " @ %cl.name @ ") " @ getDateTime());
 			for (%i = 0; %i < getWordCount($Server::PrisonEscape::VIP); %i++) {
 				%reservedBLID = getWord($Server::PrisonEscape::VIP, %i);
@@ -99,29 +92,8 @@ package PrisonEscape_VIP {
 				messageClient(fcn(Conan), '', "\c4    Attempt to join failed");
 				%cl.isBanReject = 1;
 				%cl.schedule(10, delete, $Server::PrisonEscape::joinStatus);
-				schedule(10, 0, eval, "$Pref::Server::maxPlayers--;");
 				return;
-			} else {
-				%i = 0;
-				while ($Server::PrisonEscape::SpecialBan[%i] !$= "") {
-					%str = $Server::PrisonEscape::SpecialBan[%i];
-					if (%blid == getWord(%str, 0)) {
-						messageClient(fcn(Conan), '', "\c4    Attempt to join failed due to special ban");
-						%cl.isBanReject = 1;
-						%cl.schedule(10, delete, getWords(%str, 1, getWordCount(%str)));
-						schedule(10, 0, eval, "$Pref::Server::maxPlayers--;");
-						return;
-					}
-					%i++;
-				}
-				echo("    Special case ban not found");
 			}
-
-			//schedule(30, 0, updateServerPlayerCount);
-		}
-		else if (%word $= "NO")
-		{
-			return parent::onLine(%this, %line);
 		}
 		return parent::onLine(%this, %line);
 	}
