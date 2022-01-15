@@ -76,6 +76,11 @@ package PrisonEscape_Base
 
 		return %parent;
 	}
+	
+	function MiniGameSO::checkLastManStanding (%obj)
+	{
+		return 0;
+	}
 
 	function Player::ChangeDatablock(%this, %db) {
 		%ret = parent::ChangeDatablock(%this, %db);
